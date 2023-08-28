@@ -31,7 +31,7 @@ PROGRAM_website = "https://gitee.com/openeuler/secscanner"
 PROGRAM_copyright = "Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved."
 # Release version (beta or final)
 #alias vi='vim'
-#PROGRAM_SOURCE="https://github.com/BCLinux/sys-scan-fix-tool"
+PROGRAM_SOURCE="https://gitee.com/openeuler/secscanner"
 
 # Version number of report files (when format changes in future)
 REPORT_version_major = "0.1"; REPORT_version_minor = "0"
@@ -126,58 +126,6 @@ WHITE = "\033[1;37m"
 
 NORMAL = "\033[0;39m"
 
-def color_param():
-    global WARNING
-    global SECTION
-    global NOTICE
-    global OK
-    global BAD
-    global YELLOW_BLINK
-    global MAGENTA
-    global BLACK
-    global RED
-    global GREEN
-    global BROWN
-    global ORANGE
-    global BLUE
-    global PURPLE
-    global CYAN
-    global LIGHT_GRAY
-    global DARK_GRAY
-    global LIGHT_RED
-    global LIGHT_GREEN
-    global YELLOW
-    global LIGHT_BLUE
-    global LIGHT_CYAN
-    global WHITE
-    global NORMAL
-
-    WARNING = ""          # Bad (red)
-    SECTION = ""          # Section (yellow)
-    NOTICE = ""           # Notice (yellow)
-    OK = ""               # Ok (green)
-    BAD = ""              # Bad (red)
-
-    # Normal color names
-    YELLOW_BLINK = ""
-    MAGENTA = ""
-    BLACK = ""
-    RED = ""
-    GREEN = ""
-    BROWN = ""
-    ORANGE = ""
-    BLUE = ""
-    PURPLE = ""
-    CYAN = ""
-    LIGHT_GRAY = ""
-    DARK_GRAY = ""
-    LIGHT_RED = ""
-    LIGHT_GREEN = ""
-    YELLOW = ""
-    LIGHT_BLUE = ""
-    LIGHT_CYAN = ""
-    WHITE = ""
-    NORMAL = ""
 global seconf
 
 def load_config(configfile):
