@@ -102,7 +102,7 @@ elif SYSTEM == "Linux":
                 OS_REDHAT_OR_CLONE = 1
                 OS_FULLNAME = line.strip()
                 OS_VERSION = line.strip().split(" ")[-1]
-                lINUX_VERSION = "Amazon"
+                LINUX_VERSION = "Amazon"
 
     # 检查是否为Arch Linux
     if os.path.exists("/etc/arch-release"):
