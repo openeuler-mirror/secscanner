@@ -67,11 +67,11 @@ def start_service(service_name):
 # show the check result overview
 def scan_show_result():
     print(WHITE)
-    print("  ###################################################################")
-    print("  #                                                                 #")
-    print(f"  #   "+MAGENTA+"Show the checking result overview..."+WHITE+"                          #")
-    print("  #                                                                 #")
-    print("  ###################################################################")
+    print(" "*2+"#"*67)
+    print(" "*2+"#"+" "*65+"#")
+    print(f"  #   "+MAGENTA+"Show the checking result overview..."+WHITE+" "*26+"#")
+    print(" "*2+"#"+" "*65+"#")
+    print(" "*2+"#"*67)
     print(NORMAL)
 
     time.sleep(TEST_PAUSE_TIME)
