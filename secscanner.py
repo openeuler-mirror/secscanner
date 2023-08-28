@@ -33,9 +33,7 @@ def check_python_version():
     else:
         print('Invalid python version requested: %s' % python_version)
 
-if __name__ == "__main__":
-    
-
+if __name__ == "__main__":    
 
     check_python_version()
 
