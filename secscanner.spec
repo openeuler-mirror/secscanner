@@ -25,12 +25,7 @@ Source0:%{name}-%{version}.tar.gz
 
 
 %description
-The secscanner package comes with ABSOLUTELY NO WARRANTY. It's free software,
-and you are welcome to redistribute it under the terms of the GNU General
-Public License. See the LICENSE file for details about using this software.
-This is an auditing tool which tests and gathers (security) information
-from Linux based systems. The audience for this tool are security and
-system auditors, network specialists and system maintainers, etc.
+Operating System Security Scanning Tool
 
 %prep
 %setup -q
