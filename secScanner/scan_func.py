@@ -67,11 +67,11 @@ def start_service(service_name):
 # show the check result overview
 def scan_show_result():
     print(WHITE)
-    print("  ###################################################################")
-    print("  #                                                                 #")
-    print(f"  #   "+MAGENTA+"Show the checking result overview..."+WHITE+"                          #")
-    print("  #                                                                 #")
-    print("  ###################################################################")
+    print(" "*2+"#"*67)
+    print(" "*2+"#"+" "*65+"#")
+    print(f"  #   "+MAGENTA+"Show the checking result overview..."+WHITE+" "*26+"#")
+    print(" "*2+"#"+" "*65+"#")
+    print(" "*2+"#"*67)
     print(NORMAL)
 
     time.sleep(TEST_PAUSE_TIME)
@@ -82,11 +82,11 @@ def scan_check_sys():
     # clear the counter, make this function re-call-able.
     # these two counters are used for scan_show_result() function.
     print(WHITE)
-    print("  ###################################################################")
-    print("  #                                                                 #")
-    print(f"  #   {MAGENTA}Starting check the system basically...{WHITE}                        #")
-    print("  #                                                                 #")
-    print("  ###################################################################")
+    print(" "*2+"#"*67)
+    print(" "*2+"#"+" "*65+"#")
+    print(f"  #   {MAGENTA}Starting check the system basically..."+WHITE+" "*26+"#")
+    print(" "*2+"#"+" "*65+"#")
+    print(" "*2+"#"*67)
     print(NORMAL) 
 
     # sleep for TEST_PAUSE_TIME
@@ -132,11 +132,11 @@ def scan_check_rootkit():
     # these two counters are used for scan_show_result() function.
 
     print(WHITE)
-    print("  ###################################################################")
-    print("  #                                                                 #")
-    print(f"  #   {MAGENTA}Starting check the system rootkit...{WHITE}                  #")
-    print("  #                                                                 #")
-    print("  ###################################################################")
+    print(" "*2+"#"*67)
+    print(" "*2+"#"+" "*65+"#")
+    print(f"  #   {MAGENTA}Starting check the system rootkit..."+WHITE+" "*18+"#")
+    print(" "*2+"#"+" "*65+"#")
+    print(" "*2+"#"*67)
     print(NORMAL)
 
     # sleep for TEST_PAUSE_TIME
@@ -186,11 +186,11 @@ def fix_items(iFix):
 # fix the system
 def scan_fix_sys():
     print(WHITE)
-    print("  ###################################################################")
-    print("  #                                                                 #")
-    print(f"  #   {MAGENTA}Basicly fix the system...{WHITE}                                     #")
-    print("  #                                                                 #")
-    print("  ###################################################################")
+    print(" "*2+"#"*67)
+    print(" "*2+"#"+" "*65+"#")
+    print(f"  #   {MAGENTA}Basicly fix the system..."+WHITE+" "*37+"#")
+    print(" "*2+"#"+" "*65+"#")
+    print(" "*2+"#"*67)
     print(NORMAL)
 
     time.sleep(TEST_PAUSE_TIME)
@@ -342,11 +342,11 @@ def scan_restore_basic_inline():
 
 def scan_restore_basic_settings():
     print(WHITE)
-    print("  ###################################################################")
-    print("  #                                                                 #")
-    print("  #   "+MAGENTA+"Restore Basic settings..."+WHITE+"                                     #")
-    print("  #                                                                 #")
-    print("  ###################################################################")
+    print(" "*2+"#"*67)
+    print(" "*2+"#"+" "*65+"#")
+    print("  #   "+MAGENTA+"Restore Basic settings..."+WHITE+" "*37+"#")
+    print(" "*2+"#"+" "*65+"#")
+    print(" "*2+"#"*67)
     print(NORMAL)
 
     #auto do the restore

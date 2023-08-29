@@ -28,9 +28,7 @@ import platform
 
 def check_python_version():
     python_version = platform.python_version().split('.')[0]
-    if python_version == "3":
-        return
-    else:
+    if python_version != "3":
         print('Invalid python version requested: %s' % python_version)
 
 if __name__ == "__main__":    
