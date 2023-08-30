@@ -3,7 +3,8 @@ import re
 from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
-def S24_noOneSU():
+
+def S23_noOneSU():
     SET_FORBIDDEN_SU = seconf.get('advance', 'forbidden_to_su')
     logger = logging.getLogger("secscanner")
     InsertSection("No one can su to root")

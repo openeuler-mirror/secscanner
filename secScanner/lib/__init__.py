@@ -15,3 +15,4 @@
 #from .const import Const
 from .function import *
 from .osdetection import *
+from .errors import GenericError, ConfigError, RuntimeError, NoDirError

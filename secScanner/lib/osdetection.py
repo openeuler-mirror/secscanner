@@ -15,6 +15,8 @@ import platform
 import subprocess
 import os
 import pathlib
+from secScanner.gconfig import set_value, get_value, show_dict
+import re
 
 # 获取系统信息
 SYSTEM = platform.system()
@@ -23,11 +25,15 @@ MACHINE = platform.machine()
 HOMEDIRS = ['/home', '/root']
 OS_FULLNAME = platform.uname().release
 # 初始化变量
-global OS_NAME
-OS_FULLNAME = ""
-global OS_VERSION
+set_value("OS_NAME", "")
+if "OS_VERSION" in show_dict():
+    OS_VERSION = get_value("OS_VERSION")
+else:
+    OS_VERSION = ""
+#following two value is defined but not used, dont need save them in dict
 FIND_BINARIES = ""
 SYSCTL_READKEY = ""
+
 # 根据不同的系统设置变量
 if SYSTEM == "AIX":
     OS_NAME = "AIX"
@@ -102,7 +108,7 @@ elif SYSTEM == "Linux":
                 OS_REDHAT_OR_CLONE = 1
                 OS_FULLNAME = line.strip()
                 OS_VERSION = line.strip().split(" ")[-1]
-                LINUX_VERSION = "Amazon"
+                lINUX_VERSION = "Amazon"
 
     # 检查是否为Arch Linux
     if os.path.exists("/etc/arch-release"):
@@ -123,6 +129,10 @@ elif SYSTEM == "Linux":
     if os.path.exists("/etc/cobalt-release"):
         with open("/etc/cobalt-release", "r") as f:
             OS_FULLNAME = f.read().strip()
+
+    set_value("OS_NAME", OS_NAME)#save OS_NAME in dict
+
+
 # CPUBuilders Linux
 if os.path.exists("/etc/cpub-release"):
     with open("/etc/cpub-release") as file:
@@ -270,7 +280,7 @@ if pathlib.Path('/etc/slackware-version').is_file():
     with open('/etc/slackware-version', 'r') as file:
         LINUX_VERSION = "Slackware"
         OS_VERSION = re.search(r'^Slackware (\w+)', file.read(), re.MULTILINE).group(1)
-        OS_FULLNAME = f"Slackware Linux {os_version}"
+        OS_FULLNAME = f"Slackware Linux {OS_VERSION}"
 
 # SuSE
 if pathlib.Path('/etc/SuSE-release').exists():
@@ -295,9 +305,10 @@ if pathlib.Path('/etc/vmware-release').exists():
         OS_VERSION = platform.uname().release
         IS_VMWARE_ESXI = subprocess.getoutput('vmware -vl | grep "VMware ESXi"')
         if IS_VMWARE_ESXI:
-            OS_FULLNAME = f"VMware ESXi {os_version}"
+            OS_FULLNAME = f"VMware ESXi {OS_VERSION}"
 if LINUX_VERSION and OS_NAME == "Linux":
     OS_NAME = LINUX_VERSION
+    set_value("OS_NAME", OS_NAME)
 
 # If Linux version (full name) is unknown, use uname value
 if not OS_FULLNAME:
@@ -309,6 +320,7 @@ SYSCTL_READKEY = "sysctl -n"
 # NetBSD
 if SYSTEM == "NetBSD":
     OS_NAME = "NetBSD"
+    set_value("OS_NAME", OS_NAME)
     OS_FULLNAME = f"{platform.uname().system} {platform.uname().release}"
     OS_KERNELVERSION = platform.uname().version
     OS_VERSION = platform.uname().release
@@ -319,6 +331,7 @@ if SYSTEM == "NetBSD":
 # OpenBSD
 if SYSTEM == "OpenBSD":
     OS_NAME = "OpenBSD"
+    set_value("OS_NAME", OS_NAME)
     OS_FULLNAME = f"{platform.uname().system} {platform.uname().release}"
     OS_KERNELVERSION = platform.uname().version
     OS_VERSION = platform.uname().release
@@ -329,6 +342,7 @@ if SYSTEM == "OpenBSD":
 # Solaris / OpenSolaris
 if SYSTEM == "SunOS":
     OS_NAME = "Sun Solaris"
+    set_value("OS_NAME", OS_NAME)
     OS_FULLNAME = f"{platform.uname().system} {platform.uname().release}"
     OS_VERSION = platform.uname().release
     HARDWARE = platform.uname().machine
@@ -351,6 +365,7 @@ if SYSTEM == "VMkernel":
         IS_VMWARE_ESXI = subprocess.getoutput('vmware -vl | grep "VMware ESXi"')
         if IS_VMWARE_ESXI:
             OS_NAME = "VMware ESXi"
+            set_value("OS_NAME", OS_NAME)
             OS_FULLNAME = f"VMware ESXi {OS_VERSION}"
 # Unknown or unsupported systems
 if SYSTEM not in ["AIX", "Darwin", "DragonFly", "FreeBSD", "HP-UX", "NetBSD", "OpenBSD", "SunOS", "Linux", "VMkernel", "MacOS", "Solaris"]:
@@ -388,3 +403,4 @@ if pathlib.Path('/bin/busybox').exists():
         SYMLINK_PATH = pathlib.Path('/bin/ps').resolve()
         if SYMLINK_PATH == pathlib.Path('/bin/busybox'):
             SHELL_IS_BUSYBOX = 1
+            set_value("SHELL_ISBUSYBOX", "1")

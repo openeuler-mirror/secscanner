@@ -1,17 +1,18 @@
+# -*- coding: utf-8 -*-
+
 '''
    Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
    secScanner is licensed under Mulan PSL v2.
    You can use this software according to the terms and conditions of the Mulan PSL v2.
    You may obtain a copy of Mulan PSL v2 at:
             http://license.coscl.org.cn/MulanPSL2
-   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
-   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
-   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
    See the Mulan PSL v2 for more details.
 '''
 
 WRN_C01 = "No /etc/motd set"
-WRN_C02 = "No password remember times"
+WRN_C02_01 = "No password remember times"
+WRN_C02_02 = "Password Remember num is not right"
 WRN_C03_01 = "Wrong password minLen set"
 WRN_C03_02 = "No password minLen set"
 WRN_C03_03 = "Wrong Password ucredit set"
@@ -78,24 +79,24 @@ WRN_C22_01 = "The system soft core limit is not '0'"
 WRN_C22_02 = "The system has no soft core limit set"
 WRN_C22_03 = "The system hard core limit is not '0'"
 WRN_C22_04 = "The system has no hard core limit set"
-WRN_C23_01 = "The vsftpd's anonymous_enable is not 'NO'"
-WRN_C23_02 = "The vsftpd's ftp_banner is not set"
-WRN_C23_03 = "The vsftpd's userlist_enable=YES is not YES"
-WRN_C23_04 = "The vsftpd's ftpusers config file doesn't contains user:root"
-WRN_C24 = "There is no pam_wheel set"
-WRN_C25 = "There is no customer user"
-WRN_C26_01 = "No ssh syslogfacility set, need add"
-WRN_C26_02 = "Wrong ssh syslogfacility set, need change"
+WRN_C23 = "There is no pam_wheel set"
+WRN_C24 = "There is no customer user"
+WRN_C25_01 = "No ssh syslogfacility set, need add"
+WRN_C25_02 = "Wrong ssh syslogfacility set, need change"
+WRN_C26 = "One or more log file's property is not 600"
 WRN_C27 = ""
-WRN_C28 = ""
-WRN_C29_01 = "Has software need to be updated"
-WRN_C29_02 = "Can't do yum check-update, network unreacheable"
-WRN_C40 = "One or more log file's property is not 600"
-TXT_ROOTKIT_C41 = "the system maybe infected"
-WRN_C50_01 = "No ALWAYS_SET_PATH set, need add"
-WRN_C50_02 = "Wrong ALWAYS_SET_PATH set, need change"
-WRN_C51_01 = "No ssh loglevel set, need add"
-WRN_C51_02 = "Wrong ssh loglevel set, need change"
+WRN_C28_01 = "No ALWAYS_SET_PATH set, need add"
+WRN_C28_02 = "Wrong ALWAYS_SET_PATH set, need change"
+WRN_C29_01 = "No ssh loglevel set, need add"
+WRN_C29_02 = "Wrong ssh loglevel set, need change"
+WRN_C30_01 = "The vsftpd's anonymous_enable is not 'NO'"
+WRN_C30_02 = "The vsftpd's ftp_banner is not set"
+WRN_C30_03 = "The vsftpd's userlist_enable=YES is not YES"
+WRN_C30_04 = "The vsftpd's ftpusers config file doesn't contains user:root"
+
+
+TXT_ROOTKIT_R01 = "the system maybe infected"
+
 
 SUG_C01 = "1、修改文件/etc/motd的内容，如没有该文件，则创建它。</br> #echo  'Authorized users only. All activity may be monitored and reported ' > /etc/motd。</br>2、可根据实际需要修改该文件的内容。</br>补充操作说明：/etc/motd文件不为空"
 SUG_C02 = "1、执行备份：</br>#cp -p /etc/pam.d/system-auth /etc/pam.d/system-auth_bak </br> 2、创建文件/etc/security/opasswd，并设置权限：</br>#touch /etc/security/opasswd </br>#chown root:root /etc/security/opasswd </br>#chmod 600 /etc/security/opasswd </br>3、修改策略设置：</br>#vi /etc/pam.d/system-auth  </br>#在password的pam_unix.so模块所在行增加remember=5，保存退出。 </br>类似如下：password sufficient pam_unix.so md5 shadow nullok try_first_pass use_authtok remember=5 </br>或：password sufficient /lib/security/$ISA/pam_unix.so nullok use_authtok md5 shadow remember=5 </br>补充操作说明：/etc/pam.d/system-auth文件中存在passwordxxxremember=值大于等于5"
@@ -151,19 +152,18 @@ SUG_C20 = "1、执行备份：</br>#cp -p /etc/syslog.conf /etc/syslog.conf_bak 
 SUG_C21 = "1、执行备份：</br>#cp -p /etc/issue /etc/issue_bak。</br>2、删除/etc/issue。"
 SUG_C22_01 = "1、执行备份：</br>#/etc/security/limits.conf  /etc/security/limits.conf_bak </br>2、修改配置： 将'*    soft    core  0' 写入/etc/security/limits.conf。 "
 SUG_C22_02 = "1、执行备份：</br>#/etc/security/limits.conf  /etc/security/limits.conf_bak </br>2、修改配置： 将'*    hard    core  0' 写入/etc/security/limits.conf。"
-SUG_C23_01 = "1、执行备份：</br>#cp -p /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf_bak。</br>2、修改配置：</br> 禁止匿名用户登录：anonymous_enable=NO </br>3、重启vsftpd服务"
-SUG_C23_02 = "1、执行备份：</br>#cp -p /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf_bak。</br>2、修改配置：</br>#vi /etc/vsftpd.confftpd_banner=” Authorized users only. All activity may be monitored and reportedd.</br>可以根据实际需要修改该文件内容。</br>3、重启服务：# /etc/init.d/xinetd restart </br>4、补充操作说明：/etc/vsftpd/vsftpd.conf文件中存在ftpd_banner"
-SUG_C23_03 = "1、执行备份：</br>#cp -p /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf_bak。</br>2、修改配置：</br>配置vsftpd.conf文件，设定只允许特定用户通过ftp登录：vsftpd.conf文件路径一般为/etc/vsftpd.conf或者/etc/vsftpd/vsftpd.conf。修改其中内容：userlist_enable=YES此选项被激活后，VSFTPD将读取userlist_file参数所指定的文件中的用户列表。</br>3、重启服务：# /etc/init.d/xinetd restart "
-SUG_C23_04 = "1、修改ftpusers文件，增加不能通过ftp登录的用户。</br>2、首先需确定ftpusers文件位置，可以通过以下命令知道：#cat /etc/pam.d/vsftpd </br>auth       required     pam_listfile.so item=user sense=deny file=/etc/vsftpd.ftpusers onerr=succeed </br>其中file=/etc/vsftpd.ftpusers即为当前系统上的ftpusers文件。</br>3、修改文件（假设文件为/etc/ftpusers）：# vi /etc/ftpusers </br>在文件中增加以下用户，则该用户均不允许通过ftp登录：</br>root daemon bin sys adm lp uucp nuucp listen nobody noaccess nobody4"
-SUG_C24 = "修改/etc/pam.d/su文件，添加如下行：</br>auth required pam_wheel.so use_uid"
-SUG_C25 = "如果没有需要，则删除多余的用户。"
-SUG_C26 = "1、执行备份：</br>#cp -p /etc/ssh/sshd_config /etc/ssh/sshd_config_bak </br>2、在/etc/ssh/sshd_config中将SyslogFacility AUTH取消注释</br>3、重启sshd服务。"
-SUG_C27 = "1、执行备份：</br>#cp -np /etc/aliases 或 cp -np /etc/mail/aliases。</br>2、删除或注释无用别名：games ingres system toor uucp manager dumper operator decode marc</br>补充操作说明：更新后运行/usr/bin/newaliases,使改变生效 </br>"
-SUG_C28 = ""
-SUG_C29_01 = "确保考虑到业务的稳定性的前提下，使用 'yum check-update' 来查看系统软件的升级情况，在确认业务不受影响的情况下，可以使用'yum update pkg-name' 来升级相关软件。"
-SUG_C29_02 = "请确保当前系统的网络连接正常，可以访问mirrors.bclinux.org"
-SUG_C30 = "确保考虑到业务的稳定性的前提下，使用 'yum update pkg-name' 来升级相关的软件，修复软件包存在的相关CVE漏洞。"
-SUG_C40 = "请确保/var/log/下的敏感日志文件的权限为600"
-SUG_C41 = "请重新检查问题文件，或删除病毒文件，或重装系统"
-SUG_C50 = "1、执行备份：</br>#cp -np /etc/login.defs /etc/login.defs_bak </br>2、修改策略设置：</br>#vim /etc/login.defs </br>增加ALWAYS_SET_PATH=yes，保存退出。"
-SUG_C51 = "1、执行备份：</br>#cp -np /etc/ssh/sshd_config /etc/ssh/sshd_config_bak </br>2、在/etc/ssh/sshd_config中将LogLevel修改为VERBOSE，并取消注释</br>3、重启sshd服务。"
+SUG_C23 = "修改/etc/pam.d/su文件，添加如下行：</br>auth required pam_wheel.so use_uid"
+SUG_C24 = "如果没有需要，则删除多余的用户。"
+SUG_C25 = "1、执行备份：</br>#cp -p /etc/ssh/sshd_config /etc/ssh/sshd_config_bak </br>2、在/etc/ssh/sshd_config中将SyslogFacility AUTH取消注释</br>3、重启sshd服务。"
+SUG_C26 = "1、执行备份：</br>#cp -np /etc/aliases 或 cp -np /etc/mail/aliases。</br>2、删除或注释无用别名：games ingres system toor uucp manager dumper operator decode marc</br>补充操作说明：更新后运行/usr/bin/newaliases,使改变生效 </br>"
+SUG_C27 = "请确保/var/log/下的敏感日志文件的权限为600"
+SUG_C28 = "1、执行备份：</br>#cp -np /etc/login.defs /etc/login.defs_bak </br>2、修改策略设置：</br>#vim /etc/login.defs </br>增加ALWAYS_SET_PATH=yes，保存退出。"
+SUG_C29 = "1、执行备份：</br>#cp -np /etc/ssh/sshd_config /etc/ssh/sshd_config_bak </br>2、在/etc/ssh/sshd_config中将LogLevel修改为VERBOSE，并取消注释</br>3、重启sshd服务。"
+SUG_C30_01 = "1、执行备份：</br>#cp -p /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf_bak。</br>2、修改配置：</br> 禁止匿名>用户登录：anonymous_enable=NO </br>3、重启vsftpd服务"
+SUG_C30_02 = "1、执行备份：</br>#cp -p /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf_bak。</br>2、修改配置：</br>#vi /etc/vsftpd.confftpd_banner=” Authorized users only. All activity may be monitored and reportedd.</br>可以根据实际需要修改该文件内>容。</br>3、重启服务：# /etc/init.d/xinetd restart </br>4、补充操作说明：/etc/vsftpd/vsftpd.conf文件中存在ftpd_banner"
+SUG_C30_03 = "1、执行备份：</br>#cp -p /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf_bak。</br>2、修改配置：</br>配置vsftpd.conf文件，设定只允许特定用户通过ftp登录：vsftpd.conf文件路径一般为/etc/vsftpd.conf或者/etc/vsftpd/vsftpd.conf。修改其中内容>：userlist_enable=YES此选项被激活后，VSFTPD将读取userlist_file参数所指定的文件中的用户列表。</br>3、重启服务：# /etc/init.d/xinetd restart "
+SUG_C30_04 = "1、修改ftpusers文件，增加不能通过ftp登录的用户。</br>2、首先需确定ftpusers文件位置，可以通过以下命令知道：#cat /etc/pam.d/vsftpd </br>auth       required     pam_listfile.so item=user sense=deny file=/etc/vsftpd.ftpusers onerr=succeed </br>其中file=/etc/vsftpd.ftpusers即为当前系统上的ftpusers文件。</br>3、修改文件（假设文件为/etc/ftpusers）：# vi /etc/ftpusers </br>在文件中增加以下用户，则该用户均不允许通过ftp登录：</br>root daemon bin sys adm lp uucp nuucp listen nobody noaccess nobody4"
+
+
+
+SUG_R41 = "请重新检查问题文件，或删除病毒文件，或重装系统"

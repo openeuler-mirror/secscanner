@@ -18,9 +18,11 @@ def C10_sshBanner():
         if TMP_V > 0:
             logger.info("Has sshbanner set, checking ok")
             Display("- Check the sshbanner...", "OK")
+        else:
+            logger.warning("WRN_C10_01: %s", WRN_C10_01)
+            logger.warning("Suggestion: %s", SUG_C10)
     else:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC10\n")
-        logger.info("WRN_C10_02: The sshbanner is not set, please check the /etc/sshbanner and /etc/ssh/sshd_config")
-        logger.warning("Suggestion: %s", SUG_C10)
+        logger.warning("WRN_C10_02:  %s", WRN_C10_02)
         Display("- No sshbanner file...", "WARNING")

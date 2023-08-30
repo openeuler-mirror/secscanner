@@ -56,13 +56,13 @@ def C03_passComplex():
         # minlen not found or no numbers after minlen
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
-        logger.info("WRN_C03_02: %s", WRN_C03_02)
+        logger.warning("WRN_C03_02: %s", WRN_C03_02)
         logger.warning("Suggestion: %s", SUG_C03_01)
         Display("- No Password  Minlen set...", "WARNING")
     elif t_minlen <= '7': # '' < '7' but '' cant enter here
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
-        logger.info("WRN_C03_01: %s", WRN_C03_01)
+        logger.warning("WRN_C03_01: %s", WRN_C03_01)
         logger.warning("Suggestion: %s", SUG_C03_01)
         Display("- Wrong Password  Minlen set...", "WARNING")
     else:
@@ -87,13 +87,13 @@ def C03_passComplex():
     if n_ucredit == '':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
-        logger.info("WRN_C03_04: %s", WRN_C03_04)
+        logger.warning("WRN_C03_04: %s", WRN_C03_04)
         logger.warning("Suggestion: %s", SUG_C03_02)
         Display("- No Password  ucredit set...", "WARNING")
     elif n_ucredit > '-1': # '' < '7' but '' cant enter here
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
-        logger.info("WRN_C03_03: %s", WRN_C03_03)
+        logger.warning("WRN_C03_03: %s", WRN_C03_03)
         logger.warning("Suggestion: %s", SUG_C03_02)
         Display("- Wrong Password  ucredit set...", "WARNING")
     else:
@@ -106,13 +106,13 @@ def C03_passComplex():
     if n_lcredit == '':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
-        logger.info("WRN_C03_06: %s", WRN_C03_06)
+        logger.warning("WRN_C03_06: %s", WRN_C03_06)
         logger.warning("Suggestion: %s", SUG_C03_03)
         Display("- No Password  lcredit set...", "WARNING")
     elif n_lcredit > '-1': # '' < '7' but '' cant enter here
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
-        logger.info("WRN_C03_05: %s", WRN_C03_05)
+        logger.warning("WRN_C03_05: %s", WRN_C03_05)
         logger.warning("Suggestion: %s", SUG_C03_03)
         Display("- Wrong Password  lcredit set...", "WARNING")
     else:
@@ -125,13 +125,13 @@ def C03_passComplex():
     if n_dcredit == '':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
-        logger.info("WRN_C03_08: %s", WRN_C03_08)
+        logger.warning("WRN_C03_08: %s", WRN_C03_08)
         logger.warning("Suggestion: %s", SUG_C03_04)
         Display("- No Password  dcredit set...", "WARNING")
     elif n_dcredit > '-1': # '' < '7' but '' cant enter here
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
-        logger.info("WRN_C03_07: %s", WRN_C03_07)
+        logger.warning("WRN_C03_07: %s", WRN_C03_07)
         logger.warning("Suggestion: %s", SUG_C03_04)
         Display("- Wrong Password  dcredit set...", "WARNING")
     else:
@@ -144,13 +144,13 @@ def C03_passComplex():
     if n_ocredit == '':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
-        logger.info("WRN_C03_10: %s", WRN_C03_10)
+        logger.warning("WRN_C03_10: %s", WRN_C03_10)
         logger.warning("Suggestion: %s", SUG_C03_05)
         Display("- No Password  ocredit set...", "WARNING")
     elif n_ocredit > '-1': # '' < '7' but '' cant enter here
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
-        logger.info("WRN_C03_09: %s", WRN_C03_09)
+        logger.warning("WRN_C03_09: %s", WRN_C03_09)
         logger.warning("Suggestion: %s", SUG_C03_05)
         Display("- Wrong Password  ocredit set...", "WARNING")
     else:

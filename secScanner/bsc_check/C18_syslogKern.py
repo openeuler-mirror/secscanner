@@ -20,7 +20,7 @@ def C18_syslogKern():
             if count == 0:
                 with open(RESULT_FILE, "a") as file:
                     file.write("\nC18\n")
-                logger.info(f"WRN_C18: %s :", WRN_C18)
+                logger.warning(f"WRN_C18: %s :", WRN_C18)
                 logger.warning("Suggestion: %s", SUG_C18)
                 Display("- Check if there have kern.warn set...", "WARNING")
             else:

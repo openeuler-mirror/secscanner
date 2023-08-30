@@ -19,14 +19,14 @@ def C13_sshProtocol():
     if PROTOCOL_VAL == 'unset':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC13\n")
-        logger.info("WRN_C13_01: %s", WRN_C13_01)
+        logger.warning("WRN_C13_01: %s", WRN_C13_01)
         logger.warning("Suggestion: %s", SUG_C13)
         Display("- No ssh protocol config set...", "WARNING")
     elif PROTOCOL_VAL == 'right':
-        logger.info("Has ssh protocol set, checking ok")
+        logger.warning("Has ssh protocol set, checking ok")
         Display("- Check the ssh protocol...", "OK")
     else:
-        logger.info("WRN_C13_02: %s", WRN_C13_02)
+        logger.warning("WRN_C13_02: %s", WRN_C13_02)
         logger.warning("Suggestion: %s", SUG_C13)
         Display("- Wrong ssh protocol config set...", "WARNING")
 

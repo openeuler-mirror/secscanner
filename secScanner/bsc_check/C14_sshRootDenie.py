@@ -9,7 +9,7 @@ def C14_sshRootDenie():
     logger = logging.getLogger("secscanner")
     InsertSection("check the ssh loglevel")
 ### check the Telnet Denie
-    print(OS_DISTRO)
+    OS_DISTRO = get_value("OS_DISTRO")
     if OS_DISTRO == '7' or OS_DISTRO == '6':
         IS_EXIST = 0
         with open('/etc/securetty', 'r') as file:
@@ -37,7 +37,7 @@ def C14_sshRootDenie():
     if SSH_ROOT_DENIE_SET == 'unset':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC14\n")
-        logger.info(f"WRN_C14_01: %s :", WRN_C14_01)
+        logger.warning(f"WRN_C14_01: %s :", WRN_C14_01)
         logger.warning("Suggestion: %s", SUG_C14)
         Display("- No ssh Root denie set...", "WARNING")
     elif SSH_ROOT_DENIE_SET == 'right':
@@ -46,6 +46,6 @@ def C14_sshRootDenie():
     else:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC14\n")
-        logger.info(f"WRN_C14_02: %s :", WRN_C14_02)
+        logger.warning(f"WRN_C14_02: %s :", WRN_C14_02)
         logger.warning("Suggestion: %s", SUG_C14)
         Display("- Wrong ssh Root denie set...", "WARNING")

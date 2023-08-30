@@ -5,7 +5,7 @@ from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
 
-def C27_disableUnUsedaliases():
+def C26_disableUnUsedaliases():
     logger = logging.getLogger("secscanner")
     InsertSection("check disable the unused aliases")
     COUNT = 0
@@ -25,9 +25,9 @@ def C27_disableUnUsedaliases():
 
     if COUNT > 0:
         with open(RESULT_FILE, "a") as file:
-            file.write("\nC27\n")
-        logger.info(f"WRN_C27: These users: {undisabled_aliases} should disable")
-        logger.warning("Suggestion: %s", SUG_C27)
+            file.write("\nC26\n")
+        logger.warning(f"WRN_C26: These users: {undisabled_aliases} should disable")
+        logger.info("Suggestion: %s", SUG_C26)
         Display("- Check if there have unused aliases...", "WARNING")
     else:
         logger.info("All unused aliases are locked, checking ok")

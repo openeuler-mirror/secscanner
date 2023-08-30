@@ -6,7 +6,7 @@ from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
 
-def C40_syslogProperty():
+def C27_syslogProperty():
     logger = logging.getLogger("secscanner")
     InsertSection("check log file property")
     SYS_LOGFILE = []
@@ -26,9 +26,9 @@ def C40_syslogProperty():
                 Display(f"- check if {f} property is 600 or not...", "OK")
             else:
                 with open(RESULT_FILE, "a") as file:
-                    file.write("\nC40\n")
-                logger.info(f"WRN_C40: %s :", WRN_C40)
-                logger.warning("Suggestion: %s", SUG_C40)
+                    file.write("\nC27\n")
+                logger.warning(f"WRN_C27: %s :", WRN_C27)
+                logger.info("Suggestion: %s", SUG_C27)
                 Display(f"- Check if {f} property is 600 or not...", "WARNING")
 
 

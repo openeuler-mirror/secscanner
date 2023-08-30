@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 '''
    Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
    secScanner is licensed under Mulan PSL v2.
@@ -25,39 +24,6 @@ import sys
 
 logger = logging.getLogger('secscanner')
 
-def Maid():
-    print("")
-    print("Interrupt detected.")
-
-    RemovePIDFile()
-    RemoveTempFiles()
-
-    cleanup()
-
-    Display("- Cleaning up...", "DONE")
-
-    ExitFatal()
-
-# clean up the tmp file
-def cleanup():
-    if os.path.isdir(TMP_DIR):
-        # print("Clean the TMP file")
-        shutil.rmtree(TMP_DIR)
-
-# exit the proc
-def die(message):
-    print(message)
-    cleanup()
-    sys.exit(1)
-
-def log(message):
-    print("")
-    print(f"{PURPLE} {message} {NORMAL}")
-
-def error(message):
-    print(f'\033[1;5;31m{message}\033[0;39m')
-    sys.exit(1)
-
 def restart_service(service_name):
     subprocess.run(['systemctl', 'restart', service_name], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
@@ -74,9 +40,6 @@ def scan_show_result():
     print(" "*2+"#"*67)
     print(NORMAL)
 
-    time.sleep(TEST_PAUSE_TIME)
-
-
 # check the system
 def scan_check_sys():
     # clear the counter, make this function re-call-able.
@@ -87,13 +50,8 @@ def scan_check_sys():
     print(f"  #   {MAGENTA}Starting check the system basically..."+WHITE+" "*26+"#")
     print(" "*2+"#"+" "*65+"#")
     print(" "*2+"#"*67)
-    print(NORMAL) 
+    print(NORMAL)
 
-    # sleep for TEST_PAUSE_TIME
-    # Change TEST_PAUSE_TIME to the desired sleep time
-    time.sleep(TEST_PAUSE_TIME)
-
-    
     RESULT_FILE = os.path.join(LOGDIR, "check_result.relt")
 
     if os.access(RESULT_FILE, os.W_OK):
@@ -130,18 +88,13 @@ def scan_check_sys():
 def scan_check_rootkit():
     # clear the counter, make this function re-call-able.
     # these two counters are used for scan_show_result() function.
-
     print(WHITE)
-    print(" "*2+"#"*67)
-    print(" "*2+"#"+" "*65+"#")
-    print(f"  #   {MAGENTA}Starting check the system rootkit..."+WHITE+" "*18+"#")
-    print(" "*2+"#"+" "*65+"#")
-    print(" "*2+"#"*67)
+    print(" " * 2 + "#" * 67)
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(f"  #   {MAGENTA}Starting check the system rootkit..." + WHITE + " " * 18 + "#")
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(" " * 2 + "#" * 67)
     print(NORMAL)
-
-    # sleep for TEST_PAUSE_TIME
-    # Change TEST_PAUSE_TIME to the desired sleep time
-    time.sleep(TEST_PAUSE_TIME)
 
     RESULT_FILE = os.path.join(LOGDIR, "check_result.relt")
 
@@ -175,14 +128,6 @@ def scan_check_rootkit():
 
     scan_show_result()
 
-def fix_items(iFix):
-    try:
-        subprocess.run(["python3", iFix], check=True)
-        time.sleep(TEST_PAUSE_TIME)
-    except subprocess.CalledProcessError as e:
-        print(f"Failed to execute {iFix}: {e}")
-        sys.exit(1)
-
 # fix the system
 def scan_fix_sys():
     print(WHITE)
@@ -193,7 +138,7 @@ def scan_fix_sys():
     print(" "*2+"#"*67)
     print(NORMAL)
 
-    time.sleep(TEST_PAUSE_TIME)
+    OS_ID = get_value("OS_ID")
     if os.path.isfile(RESULT_FILE) and os.path.getsize(RESULT_FILE) > 0:
         CHECK_SET = sorted(glob.glob(r'./secScanner/bsc_set/*'))
         pattern = r'S([0-9]+)_.*\.py'
@@ -281,7 +226,7 @@ def scan_fix_sys():
 
 # restore unused  user
 def restore_unused_user():
-    unused_users = UNUSED_USER_VALUE.split()
+    unused_users = seconf.get('basic', 'unused_user_value').split()
     for user in unused_users:
         grep_output = subprocess.run(['grep', user, '/etc/passwd'], capture_output=True, text=True)
         is_exist = len(grep_output.stdout.split('\n')) - 1
@@ -350,6 +295,7 @@ def scan_restore_basic_settings():
     print(NORMAL)
 
     #auto do the restore
+    AUTO_BASIC_RESTORE = get_value("AUTO_BASIC_RESTORE")
     if AUTO_BASIC_RESTORE == 1:
         scan_restore_basic_inline()
     else:

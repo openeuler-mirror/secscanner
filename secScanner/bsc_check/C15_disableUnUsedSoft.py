@@ -7,20 +7,22 @@ from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
 logger = logging.getLogger("secscanner")
 
-resultServ = '' # countServ dont need
-needStopSer = seconf.get('basic', 'unused_software_value').split()
+#resultServ = '' # countServ dont need
+#needStopSer = seconf.get('basic', 'unused_software_value').split()
 def rhel6_softck():
     print('old distro, wait a second')
 
 def rhel78_softck():
-    SHELL_RUN = subprocess.run(['systemctl', 'list-units', '--type=service', '--type==socket'], stdout = PIPE)
+    resultServ = '' # countServ dont need
+    needStopSer = seconf.get('basic', 'unused_software_value').split()
+    SHELL_RUN = subprocess.run(['systemctl', 'list-units', '--type=service', '--type=socket'], stdout = PIPE)
     SHELL_RESULT = SHELL_RUN.stdout # get shell result, SHELL_RESULT is a stream of bytes
     temp = SHELL_RESULT.split(b'\n', -1) #cut the byte stream by lines
     for i in range(len(temp)):
-        line_list = temp[i].split()#delete space and split
-        if line_list[1] == b'loaded' and line_list[2] != b'failed' and line_list[3] != b'exited':
+        line_list = temp[i].decode().split()#delete space and split
+        if len(line_list) > 3 and line_list[1] == 'loaded' and line_list[2] != 'failed' and line_list[3] != 'exited':
             # make sure service or socket is 'loaded', cant be failed, cant be exited
-            SERV_SOCK = str(line_list[0])
+            SERV_SOCK = line_list[0]
             if ('.service' in SERV_SOCK) or ('.socket' in SERV_SOCK):
                 for j in needStopSer:# find if there is a needstopser in string(.service or .socket)
                     if j in SERV_SOCK:
@@ -29,7 +31,7 @@ def rhel78_softck():
     if len(resultServ) > 0:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC15\n")
-        logger.info("WRN_C15: %s", WRN_C05)
+        logger.warning("WRN_C15: %s", WRN_C05)
         logger.warning("Suggestion: %s", SUG_C15)
         Display(f"- Service {resultServ}need stop...", "WARNING")
     else:
@@ -38,7 +40,8 @@ def rhel78_softck():
 
 def C15_disableUnUsedSoft():
     InsertSection("check the unused software")
-
+    OS_ID = get_value("OS_ID")
+    OS_DISTRO = get_value("OS_DISTRO")
     if OS_ID.lower() in ['centos', 'rehl', 'redhat', 'bclinux', '\"centos\"', '\"rehl\"', '\"redhat\"', '\"bclinux\"']:
         if OS_DISTRO in ['7', '8', '\"7\"', '\"8\"']:
             rhel78_softck()

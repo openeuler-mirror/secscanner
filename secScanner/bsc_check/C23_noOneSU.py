@@ -5,7 +5,7 @@ from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
 
-def C24_noOneSU():
+def C23_noOneSU():
     logger = logging.getLogger("secscanner")
     InsertSection("check if permit user can su to root")
     # LINE_NUMBER = 0 # dont need to record line number
@@ -17,9 +17,9 @@ def C24_noOneSU():
                 IS_EXIST = 1
     if IS_EXIST == 0:
         with open(RESULT_FILE, "a") as file:
-            file.write("\nC24\n")
-        logger.info(f"WRN_C24: %s :", WRN_C24)
-        logger.warning("Suggestion: %s", SUG_C24)
+            file.write("\nC23\n")
+        logger.warning(f"WRN_C23: %s :", WRN_C23)
+        logger.info("Suggestion: %s", SUG_C23)
         Display("- Check the pam.d/su setting...", "WARNING")
         Display("- There is no pam_wheel set, check warning")
     else:

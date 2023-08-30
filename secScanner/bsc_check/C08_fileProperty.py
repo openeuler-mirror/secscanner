@@ -3,6 +3,7 @@ import re
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
+
 def C08_fileProperty():
     logger = logging.getLogger("secscanner")
     InsertSection("check file property set")
@@ -34,7 +35,7 @@ def C08_fileProperty():
                     file.write("\nC08\n")
                 warn_str = "WRN_C08_" + str(tmp_count)
                 sugs_str = "SUG_C08_" + str(tmp_count)
-                logger.info(f"{warn_str}: %s", eval(warn_str))
+                logger.warning(f"{warn_str}: %s", eval(warn_str))
                 logger.warning("Suggestion: %s", eval(sugs_str))
                 Display(f"- {i}'s property is not safe...", "WARNING")
             tmp_count = tmp_count + 1
@@ -50,7 +51,7 @@ def C08_fileProperty():
                     file.write("\nC08\n")
                 warn_str = "WRN_C08_" + str(tmp_count)
                 sugs_str = "SUG_C08_" + str(tmp_count)
-                logger.info(f"{warn_str}: %s", eval(warn_str))
+                logger.warning(f"{warn_str}: %s", eval(warn_str))
                 logger.warning("Suggestion: %s", eval(sugs_str))
                 Display(f"- {i}'s property is not safe...", "WARNING")
             tmp_count = tmp_count + 1
@@ -66,7 +67,7 @@ def C08_fileProperty():
                     file.write("\nC08\n")
                 warn_str = "WRN_C08_" + str(tmp_count)
                 sugs_str = "SUG_C08_" + str(tmp_count)
-                logger.info(f"{warn_str}: %s", eval(warn_str))
+                logger.warningf"{warn_str}: %s", eval(warn_str))
                 logger.warning("Suggestion: %s", eval(sugs_str))
                 Display(f"- {i}'s property is not safe...", "WARNING")
             tmp_count = tmp_count + 1
@@ -98,7 +99,7 @@ def C08_fileProperty():
                     file.write("\nC08\n")
                 warn_str = "WRN_C08_" + str(tmp_count)
                 sugs_str = "SUG_C08_" + str(tmp_count)
-                logger.info(f"{warn_str}: %s", eval(warn_str))
+                logger.warning(f"{warn_str}: %s", eval(warn_str))
                 logger.warning("Suggestion: %s", eval(sugs_str))
                 Display(f"- {i}'s property is not safe...", "WARNING")
             tmp_count = tmp_count + 1

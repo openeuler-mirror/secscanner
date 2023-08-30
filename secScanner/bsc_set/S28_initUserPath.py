@@ -3,7 +3,8 @@ import re
 from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
-def S50_initUserPath():
+
+def S28_initUserPath():
     SET_ALWAYS_SET_PATH = seconf.get('basic', 'set_always_set_path')
     logger = logging.getLogger("secscanner")
     InsertSection("Set the ALWAYS_SET_PATH...")

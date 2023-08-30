@@ -4,7 +4,8 @@ import re
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
-def C51_sshdLogLevel():
+
+def C29_sshdLogLevel():
     logger = logging.getLogger("secscanner")
     InsertSection("check the ssh loglevel")
     LOGLEVEL_SET = 'unset'
@@ -20,16 +21,16 @@ def C51_sshdLogLevel():
 
     if LOGLEVEL_SET == 'unset':
         with open(RESULT_FILE, "a") as file:
-            file.write("\nC51\n")
-        logger.info(f"WRN_C51_01: %s :", WRN_C51_01)
-        logger.warning("Suggestion: %s", SUG_C51)
+            file.write("\nC29\n")
+        logger.warning(f"WRN_C29_01: %s :", WRN_C29_01)
+        logger.info("Suggestion: %s", SUG_C29)
         Display("- No ssh loglevel config set...", "WARNING")
     elif LOGLEVEL_SET == 'right':
         logger.info("Has ssh loglevel set, checking OK")
         Display("- Check the ssh loglevel...", "OK")
     else:
         with open(RESULT_FILE, "a") as file:
-            file.write("\nC51\n")
-        logger.info(f"WRN_C51_02: %s :", WRN_C51_02)
-        logger.warning("Suggestion: %s", SUG_C50)
+            file.write("\nC29\n")
+        logger.warning(f"WRN_C29_02: %s :", WRN_C29_02)
+        logger.info("Suggestion: %s", SUG_C29)
         Display("- Wrong ssh loglevel config set...", "WARNING")
