@@ -3,7 +3,8 @@ import re
 from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
-def S25_addUser():
+
+def S24_addUser():
     ADV_OPTIONS = seconf.options('advance')  # search basic and show all options
     USERNAME = ''
     USERPASS = ''

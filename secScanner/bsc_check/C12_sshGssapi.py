@@ -19,14 +19,14 @@ def C12_sshGssapi():
     if GSSAPI_VAL == '':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC12\n")
-        logger.info("WRN_C12_02: %s", WRN_C12_02)
+        logger.warning("WRN_C12_02: %s", WRN_C12_02)
         logger.warning("Suggestion: %s", SUG_C12)
         Display("- No ssh gssapi config set...", "WARNING")
     elif GSSAPI_VAL.lower() == 'no':
-        logger.info("Has ssh gssapi set, checking ok")
+        logger.warning("Has ssh gssapi set, checking ok")
         Display("- Check the ssh gssapi...", "OK")
     else:
-        logger.info("WRN_C12_01: %s", WRN_C12_01)
+        logger.warning("WRN_C12_01: %s", WRN_C12_01)
         logger.warning("Suggestion: %s", SUG_C12)
         Display("- Wrong ssh gssapi config set...", "WARNING")
 

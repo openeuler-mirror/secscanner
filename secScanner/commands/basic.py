@@ -17,27 +17,26 @@ import glob
 import re
 import importlib
 import getpass
-from .check_outprint import *
+from secScanner.commands.check_outprint import *
 parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0,parentdir)
-from gconfig import *
-from scan_func import scan_fix_sys, scan_check_sys, scan_restore_basic_settings
+from secScanner.gconfig import *
+from secScanner.scan_func import scan_fix_sys, scan_check_sys, scan_restore_basic_settings
 
 
 #FIX_ITEMS = ""   #if user want to fix the specify items
 AUTO_ADV_FIX = 0 # auto adv fix 
-AUTO_BASIC_RESTORE = 0 #auto basic restore
+
 AUTO_ADV_RESTORE = 0   #auto advance restore
+
+def quiet_output(args):
+    QUIET = 1
+    QUIET = set_value("QUIET", QUIET)
 
 def fix_basic(args):
     display_info()
     check_isvirtualmachine()
     scan_fix_sys()
-
-def fix_items(args):
-    display_info()
-    check_isvirtualmachine()
-    scan_fix_sys_by_items(fix_items)
 
 def auto(args):
     display_info()
@@ -54,6 +53,7 @@ def restore_basic(args):
     display_info()
     check_isvirtualmachine()
     AUTO_BASIC_RESTORE = 1 if args.yes else 0
+    AUTO_BASIC_RESTORE = set_value("AUTO_BASIC_RESTORE", AUTO_BASIC_RESTORE)  # auto basic restore
     scan_restore_basic_settings()
 
 def fix_item(args):
@@ -158,9 +158,12 @@ def scan_command():
 
     if args.config:
         #SHOW_SETTINGS_FILE = 1
+        PROFILE = get_value("PROFILE")
         print("#######################################")
         print("#                                     #")
         print(f"#   Default config: {PROFILE}   #")
         print("#                                     #")
         print("#######################################")
 
+    if args.quiet:
+        quiet_output(args)

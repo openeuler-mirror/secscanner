@@ -5,6 +5,7 @@ from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
 logger = logging.getLogger("secscanner")
 from secScanner.commands.check_outprint import *
+
 def rhel67_check_deny():
     InsertSection("check User login lock deny times and unlock time")
     regex = r'(?<=deny=).[0-9]*'
@@ -20,13 +21,13 @@ def rhel67_check_deny():
     if DENY == '':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC04\n")
-        logger.info("WRN_C04_02: %s", WRN_C04_02)
+        logger.warning("WRN_C04_02: %s", WRN_C04_02)
         logger.warning("Suggestion: %s", SUG_C04)
         Display("- No user login lock Deny set...", "WARNING")
     elif DENY > '5':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC04\n")
-        logger.info("WRN_C04_01: %s", WRN_C04_01)
+        logger.warning("WRN_C04_01: %s", WRN_C04_01)
         logger.warning("Suggestion: %s", SUG_C04)
         Display("- Wrong user login lock Deny set...", "WARNING")
     else:
@@ -56,7 +57,7 @@ def oe_rhel8_check_deny():
     if DENY1 == '' and DENY2 == '':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC04\n")
-        logger.info("WRN_C04_02: %s", WRN_C04_02)
+        logger.warning("WRN_C04_02: %s", WRN_C04_02)
         logger.warning("Suggestion: %s", SUG_C04)
         Display("- No user login lock Deny set...", "WARNING")
     elif DENY1 <= '5' or DENY2 <= '5':
@@ -66,12 +67,14 @@ def oe_rhel8_check_deny():
     else:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC04\n")
-        logger.info("WRN_C04_01: %s", WRN_C04_01)
+        logger.warning("WRN_C04_01: %s", WRN_C04_01)
         logger.warning("Suggestion: %s", SUG_C04)
         Display("- Wrong user login lock Deny set...", "WARNING")
 
 
 def C04_loginLock():
+    OS_ID = get_value("OS_ID")
+    OS_DISTRO = get_value("OS_DISTRO")
     if OS_ID.lower() in ["centos", "rhel", "redhat", "openeuler", "bclinux"]:
         if OS_DISTRO in ["7", "6"]:
             rhel67_check_deny()

@@ -4,7 +4,8 @@ from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
 import pathlib
-def S40_syslogProperty():
+
+def S27_syslogProperty():
     SET_LOG_FILE_PROPERTY = seconf.get('advance', 'set_log_file_property')
     InsertSection("Change the log property...")
     if SET_LOG_FILE_PROPERTY == 'yes':

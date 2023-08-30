@@ -3,7 +3,7 @@ import re
 from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
-def S23_vsftpSecure():
+def S30_vsftpSecure():
     SET_VSFTP_SECURITY = seconf.get('basic', 'set_vsftp_security')
     logger = logging.getLogger("secscanner")
     InsertSection("Set the vsftp...")

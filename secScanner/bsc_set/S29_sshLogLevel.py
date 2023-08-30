@@ -3,7 +3,8 @@ import re
 from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
-def S51_sshLogLevel():
+
+def S29_sshLogLevel():
     SET_SSH_LOGLEVEL = seconf.get('basic', 'set_ssh_loglevel')
     logger = logging.getLogger("secscanner")
     InsertSection("Set the sshloglevel...")

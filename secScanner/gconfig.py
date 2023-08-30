@@ -17,26 +17,46 @@ import os
 from pathlib import Path
 import configparser
 
-#from secScanner.lib import Const
+'''
+The following functions is a dict to save global values
+'''
+def g_init():  # initiation
+    global _global_dict
+    _global_dict = {}
 
+def set_value(key, value):
+    # this function can save key/value in global dict
+    # u can use this function after import
+    _global_dict[key] = value
+
+def get_value(key):
+    # this function can use key to get value in global dict
+    # u can use this function after import
+    try:
+        return _global_dict[key]
+    except:
+        print('there is no ' + key + ' in global dict\r\n')
+
+def show_dict():
+    # when u need to check if there is a key in global dict or something else
+    # this function will return global dict
+    # use :  if "key" in show_dict():
+    return _global_dict
+'''
+The above functions is a dict to save global values
+'''
 # Program information
-PROGRAM_version = "0.1.0"
-PROGRAM_releasetype = "v0.1.0"
+PROGRAM_VERSION = "0.1.0"
+PROGRAM_RELEASE = "v0.1.0"
 PROGRAM_NAME = "secScanner"
-PROGRAM_name = PROGRAM_NAME
-PROGRAM_releasedate = "2023-6-29"
-PROGRAM_author = "Yuan Peng"
-PROGRAM_author_contact = "pengyuan_yewu@cmss.chinamobile.com"
-PROGRAM_website = "https://gitee.com/openeuler/secscanner"
-PROGRAM_copyright = "Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved."
+PROGRAM_UPDATEDATE = "2023-6-29"
+PROGRAM_AUTHOR = "Yuan Peng"
+PROGRAM_CONTACTEMAIL = "pengyuan_yewu@cmss.chinamobile.com"
+PROGRAM_WEBSITE = "https://gitee.com/openeuler/secscanner"
+PROGRAM_COPYRIGHT = "Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved."
 # Release version (beta or final)
 #alias vi='vim'
 PROGRAM_SOURCE="https://gitee.com/openeuler/secscanner"
-
-# Version number of report files (when format changes in future)
-REPORT_version_major = "0.1"; REPORT_version_minor = "0"
-REPORT_version = f"{REPORT_version_major}.{REPORT_version_minor}"
-
 
 # Script Info
 VER_ID = "SecurityHarden, by pengyuan, 2023-6-29"
@@ -47,46 +67,7 @@ if not os.path.exists("/var/log/secScanner"):
 LOGDIR = "/var/log/secScanner/"
 LOGFILE = os.path.join(LOGDIR, "secscanner.log")
 
-TMP_DIR=""
 RESULT_FILE = os.path.join(LOGDIR, "check_result.relt")
-
-PLANTFORM = ""
-MachineType = "" #virtual or physical
-
-scan_HPPOINTS = 0
-scan_HPTOTAL = 0
-
-
-OS_ID = ""
-OS_DISTRO = ""
-OS_VERSION = ""
-
-BAK_LIST = []
-
-AUTO_ADV_FIX = 0
-
-FIX_SPECIFY_ITEMS = 0 #Flag Value, 1: just fix the specify items. 0: do nothing
-FIX_ITEMS = ""   #if user want to fix the specify items
-
-AUTO_BASIC_RESTORE = 0 #auto basic restore
-AUTO_ADV_RESTORE = 0   #auto advance restore
-
-UPDATE_INFO = 0  #if user want to see the update info.
-UPDATE_CHANGELOG = 0
-
-TEST_PAUSE_TIME = 0
-TOTAL_WARNINGS = 0
-PIDFILE = ""
-TEMP_FILES=""
-UNUSED_USER_VALUE = "adm lp sync shutdown halt news uucp operator games nobody rpm smmsp nfsnobody"
-#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-
-def auto_param():
-    global AUTO_ADV_FIX
-    global FIX_ITEMS
-    global AUTO_BASIC_RESTORE
-    global AUTO_ADV_RESTORE
 
 #
 #################################################################################
@@ -126,8 +107,8 @@ WHITE = "\033[1;37m"
 
 NORMAL = "\033[0;39m"
 
-global seconf
 
+global seconf
 def load_config(configfile):
     config = configparser.ConfigParser()
     # read default config from default ditct

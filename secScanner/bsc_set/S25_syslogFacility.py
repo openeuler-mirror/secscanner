@@ -3,7 +3,8 @@ import re
 from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
-def S26_syslogFacility():
+
+def S25_syslogFacility():
     SET_SSH_SYSLOGFACILITY = seconf.get('basic', 'set_ssh_syslogfacility')
     logger = logging.getLogger("secscanner")
     InsertSection("Set the syslogfacility...")

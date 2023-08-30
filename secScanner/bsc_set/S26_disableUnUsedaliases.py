@@ -3,7 +3,8 @@ import re
 from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
-def S27_disableUnUsedaliases():
+
+def S26_disableUnUsedaliases():
     SET_DISABLE_UNUSED_ALIASES = seconf.get('advance', 'disable_unused_aliases')
     UNUSED_ALIASES_VALUE = seconf.get('advance', 'unused_aliases_value').split()
     InsertSection("Disable the unused aliases")

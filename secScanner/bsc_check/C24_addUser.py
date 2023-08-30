@@ -4,7 +4,7 @@ from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
 
-def C25_addUser():
+def C24_addUser():
     logger = logging.getLogger("secscanner")
     InsertSection("check whether have the customer user")
     count_user = 0
@@ -25,9 +25,9 @@ def C25_addUser():
     else:
         if count_user == 0:
             with open(RESULT_FILE, "a") as file:
-                file.write("\nC25\n")
-            logger.info(f"WRN_C25: %s :", WRN_C25)
-            logger.warning("Suggestion: %s", SUG_C25)
+                file.write("\nC24\n")
+            logger.warning(f"WRN_C24: %s :", WRN_C24)
+            logger.info("Suggestion: %s", SUG_C24)
             Display("- Check whether have additional user..." "WARNING")
             Display("- No additional user found, check warning")
         else:

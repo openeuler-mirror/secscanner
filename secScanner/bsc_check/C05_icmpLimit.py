@@ -3,6 +3,7 @@ import re
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
+
 def C05_icmpLimit():
     logger = logging.getLogger("secscanner")
     InsertSection("check icmp redirect limit")
@@ -16,7 +17,7 @@ def C05_icmpLimit():
     if ICMP_EXIST == 0:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC05\n")
-        logger.info("WRN_C05: %s", WRN_C05)
+        logger.warning("WRN_C05: %s", WRN_C05)
         logger.warning("Suggestion: %s", SUG_C05)
         Display("- Wrong icmp limit set...", "WARNING")
     else:

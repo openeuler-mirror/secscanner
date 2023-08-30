@@ -3,6 +3,7 @@ import re
 from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
+
 def S22_resourceLimit():
     SET_CORE_DUMP= seconf.get('basic', 'set_core_dump')
     InsertSection("Set the coredump...")

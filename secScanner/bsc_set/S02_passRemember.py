@@ -1,3 +1,4 @@
+import os
 import shutil
 from secScanner.lib import *
 from secScanner.gconfig import *
