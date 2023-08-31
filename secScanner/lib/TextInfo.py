@@ -95,7 +95,7 @@ WRN_C30_03 = "The vsftpd's userlist_enable=YES is not YES"
 WRN_C30_04 = "The vsftpd's ftpusers config file doesn't contains user:root"
 
 
-TXT_ROOTKIT_R01 = "the system maybe infected"
+ROOTKIT_R01 = "the system maybe infected"
 
 
 SUG_C01 = "1、修改文件/etc/motd的内容，如没有该文件，则创建它。</br> #echo  'Authorized users only. All activity may be monitored and reported ' > /etc/motd。</br>2、可根据实际需要修改该文件的内容。</br>补充操作说明：/etc/motd文件不为空"
@@ -166,4 +166,4 @@ SUG_C30_04 = "1、修改ftpusers文件，增加不能通过ftp登录的用户。
 
 
 
-SUG_R41 = "请重新检查问题文件，或删除病毒文件，或重装系统"
+SUG_R01 = "请重新检查问题文件，或删除病毒文件，或重装系统"
