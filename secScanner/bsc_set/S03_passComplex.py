@@ -73,6 +73,7 @@ def S03_passComplex():
     FILE_NAME = '/etc/pam.d/system-auth'
     PASSWD_CPX_SET = 'unset'
     PASSWD_CPX_SET2 = 'unset'
+    OS_DISTRO = get_value("OS_DISTRO")
     if SET_PASSWD_CPX == 'yes':
         if not os.path.exists('/etc/pam.d/system-auth_bak'):
             shutil.copy2('/etc/pam.d/system-auth', '/etc/pam.d/system-auth_bak')

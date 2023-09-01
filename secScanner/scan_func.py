@@ -21,6 +21,8 @@ import ast
 import shutil
 import getpass
 import sys
+import gen_report.report as report
+from datetime import datetime
 
 logger = logging.getLogger('secscanner')
 
@@ -39,6 +41,9 @@ def scan_show_result():
     print(" "*2+"#"+" "*65+"#")
     print(" "*2+"#"*67)
     print(NORMAL)
+    report_datetime_end = datetime.now()
+    set_value("report_datetime_end",report_datetime_end)
+    report.main()
 
 # check the system
 def scan_check_sys():
@@ -47,7 +52,7 @@ def scan_check_sys():
     print(WHITE)
     print(" "*2+"#"*67)
     print(" "*2+"#"+" "*65+"#")
-    print(f"  #   {MAGENTA}Starting check the system basically..."+WHITE+" "*26+"#")
+    print(f"  #   {MAGENTA}Starting check the system basically..."+WHITE+" "*24+"#")
     print(" "*2+"#"+" "*65+"#")
     print(" "*2+"#"*67)
     print(NORMAL)
@@ -58,9 +63,12 @@ def scan_check_sys():
         open(RESULT_FILE, "w").close()
     else:
         open(RESULT_FILE, "a").close()
-
     pattern = r'C([0-9]+)_.*\.py'
-    CHECK_ITEMS = sorted(glob.glob(r'./secScanner/bsc_check/*'))
+
+    dir = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(dir, "bsc_check")
+    CHECK_ITEMS = sorted(glob.glob( path + '/*' ))
+
     for i in CHECK_ITEMS:
         match = re.search(pattern, i)
         if match:
@@ -81,7 +89,6 @@ def scan_check_sys():
                     print(f"Module {module_name} does not have the required function: {e}")
                     sys.exit(1)
                 logger.info("===---------------------------------------------------------------===\n")
-
     scan_show_result()
 
 # check the system rootkit
@@ -104,7 +111,9 @@ def scan_check_rootkit():
         open(RESULT_FILE, "a").close()
 
     pattern = r'R([0-9]+)_.*\.py'
-    CHECK_ITEMS = sorted(glob.glob(r'./secScanner/intrusion_check/*'))
+    dir = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(dir, "intrusion_check")
+    CHECK_ITEMS = sorted(glob.glob(path + '/*'))
     for i in CHECK_ITEMS:
         match = re.match(pattern, i)
         if match:
@@ -139,9 +148,12 @@ def scan_fix_sys():
     print(NORMAL)
 
     OS_ID = get_value("OS_ID")
+
+    dir = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(dir, "bsc_set")
+    CHECK_SET = sorted(glob.glob(path + '/*'))
+    pattern = r'S([0-9]+)_.*\.py'
     if os.path.isfile(RESULT_FILE) and os.path.getsize(RESULT_FILE) > 0:
-        CHECK_SET = sorted(glob.glob(r'./secScanner/bsc_set/*'))
-        pattern = r'S([0-9]+)_.*\.py'
         print(f"Begin to fix the {OS_ID} system warnings, according to checking-result...")
         for line in open(RESULT_FILE):
             if not line.strip().startswith('#') and not line.strip() == "":
@@ -167,11 +179,9 @@ def scan_fix_sys():
 
                     else:
                         logger.info(f"Can't fix items {iFix} in this status, try {SET_ITEM[0]} to fix.")
-        open(RESULT_FILE, 'w').close()
-        os.remove(RESULT_FILE)
+            open(RESULT_FILE, 'w').close()
+            os.remove(RESULT_FILE)
     else:
-        pattern = r'S([0-9]+)_.*\.py'
-        CHECK_SET = sorted(glob.glob(r'./secScanner/bsc_set/*'))
         print(f"Begin to fix the {OS_ID} system warnings, without checking-result...")
         for iFix in CHECK_SET:
             match = re.search(pattern, iFix)

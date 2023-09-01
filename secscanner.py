@@ -12,32 +12,24 @@
    MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
    See the Mulan PSL v2 for more details.
 '''
-
-import logging
-from logging.handlers import RotatingFileHandler
-import os
-import sys
-import argparse
-import secScanner as scan
-from secScanner.commands import *
-import secScanner.lib as slib
-import pwd
-import subprocess
 import platform
 
+from secScanner.gconfig import *
+g_init()
+from secScanner.commands.basic import *
 
 def check_python_version():
     python_version = platform.python_version().split('.')[0]
-    if python_version != "3":
+    if python_version == "3":
+        return
+    else:
         print('Invalid python version requested: %s' % python_version)
 
-if __name__ == "__main__":    
-
+if __name__ == "__main__":
     check_python_version()
 
     logger = logging.getLogger("secscanner")
-
-    seconf.LOGFILE = seconf.get('main','LOGFILE')
+    seconf.LOGFILE = seconf.get('main', 'LOGFILE')
     seconf.LOG_LEVEL = seconf.get('main', 'LOG_LEVEL')
     
     if 'debug' == seconf.LOG_LEVEL:
@@ -56,6 +48,4 @@ if __name__ == "__main__":
             filemode = 'w',
             format = '[%(asctime)s] [%(levelname)s] [%(name)s] >>>  %(message)s',
             datefmt = '%Y-%m-%d %H:%M')
-
     scan_command()
-

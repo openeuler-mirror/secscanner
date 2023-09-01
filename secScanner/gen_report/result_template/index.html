@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" " http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=" http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="generator"
+    content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+    <title> 系统安全评估报告 </title>
+    <link rel="stylesheet" href="reportfiles/css/ns_report.css" />
+    <link rel="stylesheet" href="reportfiles/css/ns_report_rsas.css" />
+    <link rel="stylesheet" href="reportfiles/js/datepicker/skin/WdatePicker.css" />
+    <script src="reportfiles/js/jquery.js"></script>
+    <script src="reportfiles/js/common.js"></script>
+    <script src="reportfiles/js/datepicker/WdatePicker.js"></script>
+  </head>
+  <body>
+    <div id="report" class="wrapper_w800">
+      <div class="report_tip"></div>
+      <div id="head" class="report_title">
+        <h1>&quot; 系统 &quot;安全评估报告</h1>
+      </div>
+      <!--head end,catalog start-->
+      <div id="catalog">
+        <div class="report_h1">目录</div>
+      </div>
+      <div id="content">
+        <div class="report_h report_h1">1.综述信息</div>
+        <div class="report_content">
+          <div class="report_h report_h2" id="title01">1.1任务信息</div>
+          <div>
+            <table width="100%">
+              <tr>
+                <td width="50%" valign='top'>
+                  <table class="report_table plumb">
+                    <tbody>
+                      <tr class="odd">
+                        <th width="120">任务名称</th>
+                        <td>BC-Linux 系统安全评估报告</td>
+                      </tr>
+                      <tr class="even">
+                        <th>任务类型</th>
+                        <td>漏洞扫描</td>
+                      </tr>
+                      <tr class="odd">
+                        <th width="120">任务状态</th>
+                        <td>扫描完成</td>
+                      </tr>
+                      <tr class="even">
+                        <th>漏洞扫描模板</th>
+                        <td>全部漏洞扫描</td>
+                      </tr>
+                      <tr class="odd">
+                        <th>下达任务用户</th>
+                        <td>admin</td>
+                      </tr>
+                      <tr class="even">
+                        <th>任务数据来源</th>
+                        <td>本地扫描</td>
+                      </tr>
+                      <tr class="odd">
+                        <th>任务说明</th>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td width="20px"></td>
+                <td width="50%" valign='top'>
+                  <table class="report_table plumb">
+                    <tbody>
+                      <tr class="odd">
+                        <th width="120px">时间统计</th>
+                        <td>开始：2017-06-13 08:28:24
+                        <br />结束：2017-06-13 08:30:31</td>
+                      </tr>
+                      <tr class="even">
+                        <th>主机信息</th>
+                            <td>HOSTNAME：localhost.localdomain
+                            <br />IP：192.168.19.153
+                            <br />USER：root
+                            <br />内核版本：3.10.0-514.el7.x86_64
+                            </td>
+                      </tr>
+                      <tr class="odd">
+                        <th>扫描工具版本信息</th>
+                        <td>1.2.1</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="report_h report_h1">2.风险类别</div>
+          <div class="report_content">
+            <div class="report_h report_h2" id="vuln_risk_category">2.1漏洞风险类别</div>
+            <div>
+              <div class="report_h report_h">2.1.1服务</div>
+              <table class="report_table">
+                <thead>
+                  <tr class="first_title">
+                    <td width="130px" rowspan="2">IP地址</td>
+                    <td rowspan="2">主机名</td>
+                    <td rowspan="2">操作系统</td>
+                    <td colspan="4" width="40px">漏洞风险（个）</td>
+                    <th rowspan='2' width="40px" style="white-space:pre-wrap;">主机 风险值</th>
+                  </tr>
+                  <tr class="second_title">
+                    <td width="40px">高</td>
+                    <td width="40px">中</td>
+                    <td width="40px">低</td>
+                    <td width="40px">总计</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="cursor:pointer;" class="odd" onclick="no_toggle(&#39;3_1_1&#39;,&#39;3_1_1_1&#39;)">
+                    <td>
+                    <img align='absmiddle' src='reportfiles/images/d_high.gif' title='非常危险' /> 
+                    <a href="host/10.254.28.119.html" target="_blank">10.254.28.119</a></td>
+                    <td></td>
+                    <td>Linux 3.2 - 4.4</td>
+                    <td>
+                      <span class="font_high">3</span>
+                    </td>
+                    <td>7</td>
+                    <td>8</td>
+                    <td>18</td>
+                    <td>
+                      <span class="font_bold">9.2</span>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr class="second_title">
+                    <td colspan="3">合计</td>
+                    <td>
+                      <span class="font_high">12</span>
+                    </td>
+                    <td>28</td>
+                    <td>37</td>
+                    <td>77</td>
+                    <td>9.3</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <div class="report_h report_h1">3.主机信息</div>
+          <div class="report_content">
+            <div class="report_h report_h2" id="title02">3.1主机风险等级列表</div>
+            <div>
+              <table class="report_table">
+                <thead>
+                  <tr class="first_title">
+                    <td width="130px" rowspan="2">IP地址</td>
+                    <td rowspan="2">主机名</td>
+                    <td rowspan="2">操作系统</td>
+                    <td colspan="4" width="40px">漏洞风险（个）</td>
+                    <th rowspan='2' width="40px" style="white-space:pre-wrap;">主机 风险值</th>
+                  </tr>
+                  <tr class="second_title">
+                    <td width="40px">高</td>
+                    <td width="40px">中</td>
+                    <td width="40px">低</td>
+                    <td width="40px">总计</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="cursor:pointer;" class="odd" onclick="no_toggle(&#39;3_1_1&#39;,&#39;3_1_1_1&#39;)">
+                    <td>
+                    <img align='absmiddle' src='reportfiles/images/d_high.gif' title='非常危险' /> 
+                    <a href="host/10.254.28.119.html" target="_blank">10.254.28.119</a></td>
+                    <td></td>
+                    <td>Linux 3.2 - 4.4</td>
+                    <td>
+                      <span class="font_high">3</span>
+                    </td>
+                    <td>7</td>
+                    <td>8</td>
+                    <td>18</td>
+                    <td>
+                      <span class="font_bold">9.2</span>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr class="second_title">
+                    <td colspan="3">合计</td>
+                    <td>
+                      <span class="font_high">12</span>
+                    </td>
+                    <td>28</td>
+                    <td>37</td>
+                    <td>77</td>
+                    <td>9.3</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <div class="report_h report_h1">4.漏洞信息</div>
+          <div class="report_content">
+            <div class="report_h report_h2" id="title03">4.1漏洞分布</div>
+            <div>
+              <div style="text-align:rightvertical-align:middle;">漏洞类别： 
+              <img align="absbottom" src="reportfiles/images/vuln_high.gif" />高风险[3] 
+              <img align="absbottom" src="reportfiles/images/vuln_middle.gif" />中危险[7] 
+              <img align="absbottom" src="reportfiles/images/vuln_low.gif" />低风险[10]</div>
+              <table class="report_table">
+                <thead>
+                  <tr class="first_title">
+                    <td style='width:40px'>序号</td>
+                    <td style='width:400px'>CVE描述</td>
+                    <td>CVE号</td>
+                    <td>设计软件包名</td>
+                    <td>当前软件版本</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="cursor:pointer;" class="odd">
+                    <td>
+                      <span class="font_high">3</span>
+                    </td>
+                    <td>7</td>
+                    <td>8</td>
+                    <td>18</td>
+                    <td>
+                      <span class="font_bold">9.2</span>
+                    </td>
+                  </tr>
+                </tbody>
+
+                <tfoot>
+                  <tr class="first_title">
+                    <td colspan="4">合计</td>
+                    <td>77</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+  </html>
+

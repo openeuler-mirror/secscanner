@@ -23,6 +23,7 @@ import importlib.util
 from secScanner.lib.function import *
 #from secScanner.gconfig import * 
 from secScanner.lib.errors import *
+from datetime import datetime
 
 logger = logging.getLogger('secscanner')
 
@@ -95,7 +96,8 @@ def find_profile():
 def display_info():
 
     InsertSection("Initializing program")
-
+    report_datetime_start = datetime.now()
+    set_value("report_datetime_start",report_datetime_start)
     current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     lib_dir = os.path.join(current_dir, 'lib')
 
@@ -112,19 +114,19 @@ def display_info():
     distro_detection()
     OS_NAME = get_value("OS_NAME")
     OS_VERSION = get_value("OS_VERSION")
-    OS_KERNELVERSION = platform.uname().release
     HARDWARE = platform.machine()
     HOSTNAME = platform.node()
     PROFILE = "/etc/secScanner/secscanner.cfg"
     PYTHON_VERSION = platform.python_version()
-
+    set_value("HOSTNAME",HOSTNAME)
+    OS_KERNELVERSION_FULL = get_value("OS_KERNELVERSION_FULL")
     print("")
     print(f"  ---------------------------------------------------")
     print(f"  Program version:            {PROGRAM_VERSION}")
     print(f"  Operating system:           {OS}")
     print(f"  Operating system name:      {OS_NAME}")
     print(f"  Operating system version:   {OS_VERSION}")
-    print(f"  Kernel version:             {OS_KERNELVERSION}")
+    print(f"  Kernel version:             {OS_KERNELVERSION_FULL}")
     print(f"  Hardware platform:          {HARDWARE}")
     print(f"  Hostname:                   {HOSTNAME}")
     print(f"  Profile:                    {PROFILE}")
@@ -137,7 +139,7 @@ def display_info():
     logger.info(f"Operating system:          {OS}")
     logger.info(f"Operating system name:     {OS_NAME}")
     logger.info(f"Operating system version:  {OS_VERSION}")
-    logger.info(f"Kernel version:            {OS_KERNELVERSION}")
+    logger.info(f"Kernel version:            {OS_KERNELVERSION_FULL}")
     logger.info(f"Hardware platform:         {HARDWARE}")
     logger.info("-----------------------------------------------------")
     logger.info(f"Hostname:                  {HOSTNAME}")

@@ -43,7 +43,7 @@ cp -a %{_builddir}/%{name}-%{version}/* %{buildroot}/opt/secScanner/
 #keep the bse file in /usr/bin
 mkdir -p %{buildroot}/usr/bin
 #create symbolic links
-ln -snf /opt/secScanner/secscanner.py %{buildroot}/usr/bin/
+ln -snf /opt/secScanner/secscanner.py %{buildroot}/usr/bin/secscanner
 #create man file
 gzip -c %{buildroot}/opt/secScanner/secscanner.8 > %{buildroot}/opt/secScanner/secscanner.8.gz
 mkdir -p %{buildroot}/usr/share/man/man8/

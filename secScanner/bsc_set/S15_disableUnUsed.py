@@ -42,6 +42,8 @@ def rhel6_dis():
             logger.info(f"Disable the unused software: {i}, you can use chkconfig {i} on to enable it...")
 
 def S15_disableUnUsed():
+    OS_ID = get_value("OS_ID")
+    OS_DISTRO = get_value("OS_DISTRO")
     InsertSection("Disable the UnUsed software")
     if DISABLE_UNUSED_SOFTWARE == 'yes':
         if OS_ID.lower() in ['centos', 'rehl', 'redhat', 'bclinux', '\"centos\"', '\"rehl\"', '\"redhat\"', '\"bclinux\"']:
