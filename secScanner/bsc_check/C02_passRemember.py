@@ -18,13 +18,14 @@ def C02_passRemember():
         with open(RESULT_FILE, "a") as file:
             file.write("\nC02\n")
         logger.warning("WRN_C02: %s", WRN_C02_01)
-        logger.warning("Suggestion: %s", SUG_C02)
+        logger.warning("SUG_C02: %s", SUG_C02)
         Display("- No Password Remember set...", "WARNING")
     elif SET_VAL[0] > '4':
         logger.info("has passwd Remember times set, checking ok")
         Display("- Has Password Remember set...", "OK")
     elif SET_VAL[0] <= '4' and SET_VAL[0] >= '0':
         logger.warning("WRN_C02: %s", WRN_C02_02)
+        logger.warning("SUG_C02: %s", SUG_C02)
         Display("- Password Remember times is not right...", "WARNING")
     else:
         Display("- Password Remember times is invalid...", "WARNING")

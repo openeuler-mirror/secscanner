@@ -148,37 +148,32 @@ def scan_fix_sys():
     print(NORMAL)
 
     OS_ID = get_value("OS_ID")
-
     dir = os.path.dirname(os.path.abspath(__file__))
     path = os.path.join(dir, "bsc_set")
     CHECK_SET = sorted(glob.glob(path + '/*'))
     pattern = r'S([0-9]+)_.*\.py'
-    if os.path.isfile(RESULT_FILE) and os.path.getsize(RESULT_FILE) > 0:
-        print(f"Begin to fix the {OS_ID} system warnings, according to checking-result...")
-        for line in open(RESULT_FILE):
-            if not line.strip().startswith('#') and not line.strip() == "":
-                iFix = line.split()[0].split('C')[-1]
-                match = re.search(pattern, iFix)
-                if match:
-                    SET_ITEM = [f for f in CHECK_SET if match.group(0) in f]
-                    s_num = int(match.group(1))
-                    if len(SET_ITEM) > 0 and 1 <= s_num <= 60 and os.path.isfile(SET_ITEM[0]):
-                        module_name = os.path.splitext(os.path.basename(iFix))[0]
-                        module_path = os.path.dirname(iFix)
-                        sys.path.append(module_path)
-                        print(f"Fixing items {iFix} using {SET_ITEM[0]}...")
-                        try:
-                            module = __import__(module_name)
-                            getattr(module, module_name)()
-                        except ImportError as e:
-                            print(f"Failed to import module {module_name}: {e}")
-                            sys.exit(1)
-                        except AttributeError as e:
-                            print(f"Module {module_name} does not have the required function: {e}")
-                            sys.exit(1)
 
-                    else:
-                        logger.info(f"Can't fix items {iFix} in this status, try {SET_ITEM[0]} to fix.")
+    if os.path.isfile(RESULT_FILE) and os.path.getsize(RESULT_FILE) > 0:
+        print(f"Begin to fix the system warnings, according to checking-result...")
+        with open(RESULT_FILE) as result_file:
+
+            for line in result_file:
+                if not line.strip().startswith('#') and not line.strip() == "":
+                    ifix = line.split()[0].split('C')[-1]
+                    s_pattern = r'S' + ifix + r'_.*\.py'
+                    for i in CHECK_SET:
+                        match = re.search(s_pattern, i )
+                        if match:
+                            module_name = os.path.splitext(os.path.basename(i))[0]
+                            module_path = os.path.dirname(i)
+                            sys.path.append(module_path)
+                            try:
+                                module = __import__(module_name)
+                                getattr(module, module_name)()
+                                break
+                            except:
+                                pass
+
             open(RESULT_FILE, 'w').close()
             os.remove(RESULT_FILE)
     else:
@@ -191,7 +186,7 @@ def scan_fix_sys():
                     module_name = os.path.splitext(os.path.basename(iFix))[0]
                     module_path = os.path.dirname(iFix)
                     sys.path.append(module_path)
-                    print(f"Fixing items using {iFix}...")
+                    #print(f"Fixing items using {iFix}...")
                     try:
                         module = __import__(module_name)
                         getattr(module, module_name)()
