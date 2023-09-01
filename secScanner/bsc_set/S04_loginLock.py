@@ -197,6 +197,8 @@ def set_deny():
         Display("- Skip lock system-attacking-user due to config file...", "SKIPPING")
 
 def S04_loginLock():
+    OS_ID = get_value("OS_ID")
+    OS_DISTRO = get_value("OS_DISTRO")
     if OS_ID.lower() in ['centos', 'rehl', 'redhat', 'bclinux', '\"centos\"', '\"rehl\"', '\"redhat\"',
                              '\"bclinux\"', '\"openEuler\"']:
         if OS_DISTRO in ['7', '6', '\"7\"', '\"6\"']:

@@ -21,17 +21,11 @@ from secScanner.commands.check_outprint import *
 parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0,parentdir)
 from secScanner.gconfig import *
-from secScanner.scan_func import scan_fix_sys, scan_check_sys, scan_restore_basic_settings
-
-
-#FIX_ITEMS = ""   #if user want to fix the specify items
-AUTO_ADV_FIX = 0 # auto adv fix 
-
-AUTO_ADV_RESTORE = 0   #auto advance restore
+from secScanner.scan_func import scan_fix_sys, scan_check_sys, scan_restore_basic_settings, scan_check_rootkit
 
 def quiet_output(args):
     QUIET = 1
-    QUIET = set_value("QUIET", QUIET)
+    set_value("QUIET", QUIET)
 
 def fix_basic(args):
     display_info()
@@ -49,11 +43,14 @@ def check_basic(args):
     check_isvirtualmachine()
     scan_check_sys()
 
+def check_rootkit(args):
+    scan_check_rootkit()
+
 def restore_basic(args):
     display_info()
     check_isvirtualmachine()
     AUTO_BASIC_RESTORE = 1 if args.yes else 0
-    AUTO_BASIC_RESTORE = set_value("AUTO_BASIC_RESTORE", AUTO_BASIC_RESTORE)  # auto basic restore
+    set_value("AUTO_BASIC_RESTORE", AUTO_BASIC_RESTORE)  # auto basic restore
     scan_restore_basic_settings()
 
 def fix_item(args):
@@ -106,7 +103,6 @@ def scan_command():
 
     parser = argparse.ArgumentParser(description='SecScanner command')
 
-    parser.add_argument('--auditor', action='store_true',  help='Assign auditor to report')
     parser.add_argument('--config', action='store_true',  help='Show settings file path')
 
     parser.add_argument('-q', '--quiet', dest='quiet', action='store_true',default=False, help='Quiet mode')
@@ -134,6 +130,9 @@ def scan_command():
     check_basic_parser = check_subparsers.add_parser('basic', help="Check the system basicly")
     check_basic_parser.set_defaults(func=check_basic)
 
+    check_rootkit_parser = check_subparsers.add_parser('rootkit', help="Check the system rootkit")
+    check_rootkit_parser.set_defaults(func=check_rootkit)
+
     restore_parser = subparsers.add_parser('restore', help="Restore command")
     restore_subparsers = restore_parser.add_subparsers(dest='mode')
 
@@ -149,21 +148,10 @@ def scan_command():
     if hasattr(args, 'func'):
         args.func(args)
 
-    if args.auditor:
-        print("#######################################")
-        print("#                                     #")
-        print("#     Default auditor: Unknown        #")
-        print("#                                     #")
-        print("#######################################")
-
     if args.config:
-        #SHOW_SETTINGS_FILE = 1
         PROFILE = get_value("PROFILE")
-        print("#######################################")
-        print("#                                     #")
-        print(f"#   Default config: {PROFILE}   #")
-        print("#                                     #")
-        print("#######################################")
+        print("")
+        print(f"Default config: {PROFILE}")
 
     if args.quiet:
         quiet_output(args)

@@ -38,7 +38,6 @@ def Display(text, result=''):
     print(text.ljust(60) + result_part)
 
 def InsertSection(section_name):
-    #if Const.QUIET == 0:
     print("")
     print(f"[+] {section_name} {NORMAL}")
     print("------------------------------------")

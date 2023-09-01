@@ -8,6 +8,7 @@ def S24_addUser():
     ADV_OPTIONS = seconf.options('advance')  # search basic and show all options
     USERNAME = ''
     USERPASS = ''
+    PROFILE = get_value("PROFILE")
     if ('username' in ADV_OPTIONS):
         USERNAME = seconf.get('advance', 'username')
     if ('userpass' in ADV_OPTIONS):

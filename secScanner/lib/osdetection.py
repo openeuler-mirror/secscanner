@@ -98,7 +98,7 @@ elif SYSTEM == "Linux":
     FIND_BINARIES = "whereis -b"
     OS_KERNELVERSION_FULL = subprocess.check_output(["uname", "-r"]).strip().decode()
     OS_KERNELVERSION = OS_KERNELVERSION_FULL.split("-")[0]
-
+    set_value("OS_KERNELVERSION_FULL",OS_KERNELVERSION_FULL)
     # 检查是否为Amazon
     if os.path.exists("/etc/system-release"):
         with open("/etc/system-release", "r") as f:

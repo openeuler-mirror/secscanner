@@ -21,6 +21,7 @@ def C10_sshBanner():
         else:
             logger.warning("WRN_C10_01: %s", WRN_C10_01)
             logger.warning("Suggestion: %s", SUG_C10)
+            Display("- No ssh banner config set...", "WARNING")
     else:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC10\n")

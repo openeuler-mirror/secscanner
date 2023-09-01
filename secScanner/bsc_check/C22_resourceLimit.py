@@ -19,7 +19,7 @@ def C22_resourceLimit():
                 VALUE = temp[3]
                 if VALUE == '0':
                     logger.info("The system soft core limit is '0, checking ok")
-                    Display("--indent 2 --text - Check if the soft core limits is ok...  --result OK --color GREEN")
+                    Display("- Check if the soft core limits is ok...", "OK")
                 else:
                     with open(RESULT_FILE, "a") as file:
                         file.write("\nC22\n")

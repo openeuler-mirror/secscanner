@@ -7,6 +7,7 @@ from secScanner.gconfig import *
 import shutil
 def S21_issueRemove():
     HIDE_ISSUE_INFO = seconf.get('advance', 'hide_issue_info')
+    ISVIRTUALMACHINE = get_value("ISVIRTUALMACHINE")
     logger = logging.getLogger("secscanner")
     InsertSection("Remove the issue.net and issue file")
     if HIDE_ISSUE_INFO == 'yes':

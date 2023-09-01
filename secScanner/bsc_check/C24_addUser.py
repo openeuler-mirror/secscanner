@@ -21,15 +21,15 @@ def C24_addUser():
                 count_user = count_user + 1
     if USER_NAME == '':
         logger.info("No vaild userName found, please check config file...")
-        Display("--indent 2 --text - No vaild userName found, please check config file...  --result FAILED --color RED")
+        Display("- No vaild userName found, please check config file...",  "FAILED")
     else:
         if count_user == 0:
             with open(RESULT_FILE, "a") as file:
                 file.write("\nC24\n")
-            logger.warning(f"WRN_C24: %s :", WRN_C24)
+            logger.warning(f"WRN_C24: %s", WRN_C24)
             logger.info("Suggestion: %s", SUG_C24)
-            Display("- Check whether have additional user..." "WARNING")
-            Display("- No additional user found, check warning")
+            Display("- Check whether have additional user...", "WARNING")
+            Display("- No additional user found, check warning", "WARNING")
         else:
             logger.info(f"Already have {USER_NAME}, no need to add")
             Display(f"- Already have {USER_NAME}...", "OK")
