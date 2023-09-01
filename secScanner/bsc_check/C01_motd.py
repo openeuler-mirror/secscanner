@@ -14,5 +14,5 @@ def C01_motd():
         with open(RESULT_FILE, "a") as file:
             file.write("\nC01\n")
         logger.warning("WRN_C01: %s", WRN_C01)
-        logger.warning("Suggestion: %s", SUG_C01)
+        logger.warning("SUG_C01: %s", SUG_C01)
         Display("- No /etc/motd set...", "WARNING")
