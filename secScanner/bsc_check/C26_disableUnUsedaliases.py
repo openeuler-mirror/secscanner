@@ -26,8 +26,8 @@ def C26_disableUnUsedaliases():
     if COUNT > 0:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC26\n")
-        logger.warning(f"WRN_C26: These users: {undisabled_aliases} should disable")
-        logger.info("Suggestion: %s", SUG_C26)
+        logger.warning(f"WRN_C26: These users {undisabled_aliases} should disable")
+        logger.warning("SUG_C26: %s", SUG_C26)
         Display("- Check if there have unused aliases...", "WARNING")
     else:
         logger.info("All unused aliases are locked, checking ok")

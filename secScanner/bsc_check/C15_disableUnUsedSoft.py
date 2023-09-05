@@ -32,11 +32,11 @@ def rhel78_softck():
         with open(RESULT_FILE, "a") as file:
             file.write("\nC15\n")
         logger.warning("WRN_C15: %s", WRN_C05)
-        logger.warning("Suggestion: %s", SUG_C15)
+        logger.warning("SUG_C15: %s", SUG_C15)
         Display(f"- Service {resultServ}need stop...", "WARNING")
     else:
         logger.info("No service need to stop, checking ok")
-        Display(f"- No service need stop...", "OK")
+        Display("- No service need stop...", "OK")
 
 def C15_disableUnUsedSoft():
     InsertSection("check the unused software")
@@ -49,7 +49,7 @@ def C15_disableUnUsedSoft():
             rhel6_softck()
         else:
             logger.warning(f"WRN_C15_01: Detected this system is {OS_ID}-{OS_DISTRO} , and not check the unused software")
-            Display(f"- No match items...", "WARNING")
+            Display("- No match items...", "WARNING")
     else:
         logger.warning(f"WRN_C15_02: This is not RHEL Distro, we do not support ${OS_ID}-${OS_DISTRO} at this moment")
         Display(f"- We do not support {OS_ID}-{OS_DISTRO} at this moment...", "WARNING")

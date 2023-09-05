@@ -18,7 +18,7 @@ def C11_sshCipher():
         with open(RESULT_FILE, "a") as file:
             file.write("\nC11\n")
         logger.warning("WRN_C11: %s", WRN_C11)
-        logger.warning("Suggestion: %s", SUG_C11)
+        logger.warning("SUG_C11: %s", SUG_C11)
         Display("- No ssh cipher config set...", "WARNING")
     else:
         logger.info("Has ssh cipher set, checking ok")

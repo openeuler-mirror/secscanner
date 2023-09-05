@@ -27,8 +27,8 @@ def C27_syslogProperty():
             else:
                 with open(RESULT_FILE, "a") as file:
                     file.write("\nC27\n")
-                logger.warning(f"WRN_C27: %s :", WRN_C27)
-                logger.info("Suggestion: %s", SUG_C27)
+                logger.warning("WRN_C27: %s", WRN_C27)
+                logger.warning("SUG_C27: %s", SUG_C27)
                 Display(f"- Check if {f} property is 600 or not...", "WARNING")
 
 

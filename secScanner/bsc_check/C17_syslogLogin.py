@@ -20,8 +20,8 @@ def C17_syslogLogin():
             if count == 0:
                 with open(RESULT_FILE, "a") as file:
                     file.write("\nC17\n")
-                logger.warning(f"WRN_C17: %s", WRN_C17)
-                logger.warning("Suggestion: %s", SUG_C17)
+                logger.warning("WRN_C17: %s", WRN_C17)
+                logger.warning("SUG_C17: %s", SUG_C17)
                 Display("- Check if there have authpriv.info set...", "WARNING")
             else:
                 logger.info("The security audit modle authpriv.info is set, checking OK")

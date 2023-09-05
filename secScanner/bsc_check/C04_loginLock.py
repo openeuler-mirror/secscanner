@@ -22,13 +22,13 @@ def rhel67_check_deny():
         with open(RESULT_FILE, "a") as file:
             file.write("\nC04\n")
         logger.warning("WRN_C04_02: %s", WRN_C04_02)
-        logger.warning("Suggestion: %s", SUG_C04)
+        logger.warning("SUG_C04: %s", SUG_C04)
         Display("- No user login lock Deny set...", "WARNING")
     elif DENY > '5':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC04\n")
         logger.warning("WRN_C04_01: %s", WRN_C04_01)
-        logger.warning("Suggestion: %s", SUG_C04)
+        logger.warning("SUG_C04: %s", SUG_C04)
         Display("- Wrong user login lock Deny set...", "WARNING")
     else:
         logger.info("Has user login lock Deny set, checking OK")
@@ -58,7 +58,7 @@ def oe_rhel8_check_deny():
         with open(RESULT_FILE, "a") as file:
             file.write("\nC04\n")
         logger.warning("WRN_C04_02: %s", WRN_C04_02)
-        logger.warning("Suggestion: %s", SUG_C04)
+        logger.warning("SUG_C04: %s", SUG_C04)
         Display("- No user login lock Deny set...", "WARNING")
     elif DENY1 <= '5' or DENY2 <= '5':
         logger.info("Has user login lock Deny set, checking OK")
@@ -68,7 +68,7 @@ def oe_rhel8_check_deny():
         with open(RESULT_FILE, "a") as file:
             file.write("\nC04\n")
         logger.warning("WRN_C04_01: %s", WRN_C04_01)
-        logger.warning("Suggestion: %s", SUG_C04)
+        logger.warning("SUG_C04: %s", SUG_C04)
         Display("- Wrong user login lock Deny set...", "WARNING")
 
 

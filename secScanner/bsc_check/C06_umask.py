@@ -20,13 +20,13 @@ def C06_umask():
         with open(RESULT_FILE, "a") as file:
             file.write("\nC06\n")
         logger.warning("WRN_C06: %s", WRN_C06)
-        logger.warning("Suggestion: %s", SUG_C06)
+        logger.warning("SUG_C06: %s", SUG_C06)
         Display("- No umask set...", "WARNING")
     elif UMASK_VAL < '027':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC06\n")
         logger.warning("WRN_C06: %s", WRN_C06)
-        logger.warning("Suggestion: %s", SUG_C06)
+        logger.warning("SUG_C06: %s", SUG_C06)
         Display("- Wrong umask set...", "WARNING")
     else:
         logger.info("Has right umask set, checking ok")

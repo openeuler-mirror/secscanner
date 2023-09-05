@@ -21,12 +21,12 @@ def C25_syslogFacility():
     if SYSLOG_FACILITY == 'unset':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC25\n")
-        logger.warning(f"WRN_C25_01 %s:", WRN_C25_01)
-        logger.info("Suggestion: %s", SUG_C25)
+        logger.warning("WRN_C25_01: %s", WRN_C25_01)
+        logger.warning("SUG_C25: %s", SUG_C25)
         Display("- No ssh syslogfacility config set...", "WARNING")
     elif SYSLOG_FACILITY == 'wrong':
         logger.warning("WRN_C25_02: %s", WRN_C25_02)
-        logger.info("Suggestion: %s", SUG_C25)
+        logger.warning("SUG_C25: %s", SUG_C25)
         Display("- Wrong ssh syslogfacility config set...", "WARNING")
     else:
         logger.info("Has ssh syslogfacility set, checking ok")

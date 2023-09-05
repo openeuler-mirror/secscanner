@@ -20,8 +20,8 @@ def C18_syslogKern():
             if count == 0:
                 with open(RESULT_FILE, "a") as file:
                     file.write("\nC18\n")
-                logger.warning(f"WRN_C18: %s", WRN_C18)
-                logger.warning("Suggestion: %s", SUG_C18)
+                logger.warning("WRN_C18: %s", WRN_C18)
+                logger.warning("SUG_C18: %s", SUG_C18)
                 Display("- Check if there have kern.warn set...", "WARNING")
             else:
                 logger.info("The security audit modle kern.warn is set, checking OK")

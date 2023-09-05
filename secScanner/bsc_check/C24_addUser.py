@@ -26,8 +26,8 @@ def C24_addUser():
         if count_user == 0:
             with open(RESULT_FILE, "a") as file:
                 file.write("\nC24\n")
-            logger.warning(f"WRN_C24: %s", WRN_C24)
-            logger.info("Suggestion: %s", SUG_C24)
+            logger.warning("WRN_C24: %s", WRN_C24)
+            logger.warning("SUG_C24: %s", SUG_C24)
             Display("- Check whether have additional user...", "WARNING")
             Display("- No additional user found, check warning", "WARNING")
         else:

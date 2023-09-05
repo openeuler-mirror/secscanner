@@ -21,8 +21,8 @@ def C28_initUserPath():
     if ALWAYS_SET == 'unset':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC28\n")
-        logger.warning(f"WRN_C28_01: %s :", WRN_C28_01)
-        logger.warning("Suggestion: %s", SUG_C28)
+        logger.warning(f"WRN_C28_01: %s", WRN_C28_01)
+        logger.warning("SUG_C28: %s", SUG_C28)
         Display("- No ALWAYS_SET_PATH config set...", "WARNING")
     elif ALWAYS_SET == 'right':
         logger.info("Has ALWAYS_SET_PATH set, checking OK")
@@ -30,6 +30,6 @@ def C28_initUserPath():
     else:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC28\n")
-        logger.warning(f"WRN_C28_02: %s :", WRN_C28_02)
-        logger.warning("Suggestion: %s", SUG_C28)
+        logger.warning("WRN_C28_02: %s", WRN_C28_02)
+        logger.warning("SUG_C28: %s", SUG_C28)
         Display("- Wrong ALWAYS_SET_PATH config set...", "WARNING")

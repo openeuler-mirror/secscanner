@@ -20,8 +20,8 @@ def C20_syslogAuth():
             if count == 0:
                 with open(RESULT_FILE, "a") as file:
                     file.write("\nC20\n")
-                logger.warning(f"WRN_C20: %s", WRN_C20)
-                logger.warning("Suggestion: %s", SUG_C20)
+                logger.warning("WRN_C20: %s", WRN_C20)
+                logger.warning("SUG_C20: %s", SUG_C20)
                 Display("- Check if there have auth.none set...", "WARNING")
             else:
                 logger.info("The security audit modle auth.none is set, checking OK")

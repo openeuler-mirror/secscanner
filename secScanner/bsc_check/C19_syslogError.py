@@ -20,8 +20,8 @@ def C19_syslogError():
             if count == 0:
                 with open(RESULT_FILE, "a") as file:
                     file.write("\nC19\n")
-                logger.warning(f"WRN_C19: %s", WRN_C19)
-                logger.warning("Suggestion: %s", SUG_C19)
+                logger.warning("WRN_C19: %s", WRN_C19)
+                logger.warning("SUG_C19: %s", SUG_C19)
                 Display("- Check if there have *.err set...", "WARNING")
             else:
                 logger.info("The security audit modle *.err is set, checking OK")

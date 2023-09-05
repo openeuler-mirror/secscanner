@@ -36,7 +36,7 @@ def C08_fileProperty():
                 warn_str = "WRN_C08_" + str(tmp_count)
                 sugs_str = "SUG_C08_" + str(tmp_count)
                 logger.warning(f"{warn_str}: %s", eval(warn_str))
-                logger.warning("Suggestion: %s", eval(sugs_str))
+                logger.warning(f"{sugs_str}: %s", eval(sugs_str))
                 Display(f"- {i}'s property is not safe...", "WARNING")
             tmp_count = tmp_count + 1
 
@@ -52,7 +52,7 @@ def C08_fileProperty():
                 warn_str = "WRN_C08_" + str(tmp_count)
                 sugs_str = "SUG_C08_" + str(tmp_count)
                 logger.warning(f"{warn_str}: %s", eval(warn_str))
-                logger.warning("Suggestion: %s", eval(sugs_str))
+                logger.warning(f"{sugs_str}: %s", eval(sugs_str))
                 Display(f"- {i}'s property is not safe...", "WARNING")
             tmp_count = tmp_count + 1
 
@@ -68,7 +68,7 @@ def C08_fileProperty():
                 warn_str = "WRN_C08_" + str(tmp_count)
                 sugs_str = "SUG_C08_" + str(tmp_count)
                 logger.warning(f"{warn_str}: %s", eval(warn_str))
-                logger.warning("Suggestion: %s", eval(sugs_str))
+                logger.warning(f"{sugs_str}: %s", eval(sugs_str))
                 Display(f"- {i}'s property is not safe...", "WARNING")
             tmp_count = tmp_count + 1
 
@@ -83,8 +83,8 @@ def C08_fileProperty():
                     file.write("\nC08\n")
                 warn_str = "WRN_C08_" + str(tmp_count)
                 sugs_str = "SUG_C08_" + str(tmp_count)
-                logger.info(f"{warn_str}: %s", eval(warn_str))
-                logger.warning("Suggestion: %s", eval(sugs_str))
+                logger.warning(f"{warn_str}: %s", eval(warn_str))
+                logger.warning(f"{sugs_str}: %s", eval(sugs_str))
                 Display(f"- {i}'s property is not safe...", "WARNING")
             tmp_count = tmp_count + 1
 
@@ -100,7 +100,7 @@ def C08_fileProperty():
                 warn_str = "WRN_C08_" + str(tmp_count)
                 sugs_str = "SUG_C08_" + str(tmp_count)
                 logger.warning(f"{warn_str}: %s", eval(warn_str))
-                logger.warning("Suggestion: %s", eval(sugs_str))
+                logger.warning(f"{sugs_str}: %s", eval(sugs_str))
                 Display(f"- {i}'s property is not safe...", "WARNING")
             tmp_count = tmp_count + 1
 

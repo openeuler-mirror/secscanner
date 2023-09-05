@@ -17,8 +17,8 @@ def C16_lockUnUsedUser():
     if len(ERROR_USER) > 0:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC16\n")
-        logger.warning(f"WRN_C16: These users: {ERROR_USER}should lock")
-        logger.warning("Suggestion: %s", SUG_C16)
+        logger.warning(f"WRN_C16: These users: {ERROR_USER} should lock")
+        logger.warning("SUG_C16: %s", SUG_C16)
         Display("- Check if there have unused user...", "WARNING")
     else:
         logger.info("All unused user is locked, checking ok")
