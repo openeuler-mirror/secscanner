@@ -37,8 +37,8 @@ def C14_sshRootDenie():
     if SSH_ROOT_DENIE_SET == 'unset':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC14\n")
-        logger.warning(f"WRN_C14_01: %s :", WRN_C14_01)
-        logger.warning("Suggestion: %s", SUG_C14)
+        logger.warning("WRN_C14_01: %s", WRN_C14_01)
+        logger.warning("SUG_C14: %s", SUG_C14)
         Display("- No ssh Root denie set...", "WARNING")
     elif SSH_ROOT_DENIE_SET == 'right':
         logger.info("Has ssh Root denie set, checking OK")
@@ -47,5 +47,5 @@ def C14_sshRootDenie():
         with open(RESULT_FILE, "a") as file:
             file.write("\nC14\n")
         logger.warning(f"WRN_C14_02: %s :", WRN_C14_02)
-        logger.warning("Suggestion: %s", SUG_C14)
+        logger.warning("SUG_C14: %s", SUG_C14)
         Display("- Wrong ssh Root denie set...", "WARNING")

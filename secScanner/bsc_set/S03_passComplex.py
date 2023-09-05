@@ -5,6 +5,7 @@ from secScanner.gconfig import *
 import pathlib
 from secScanner.commands.check_outprint import *
 
+
 def check_complex_set(keyword, minclass_val, minlen_val, ucredit_val, lcredit_val, dcredit_val, ocredit_val):
     #this function recheck /etc/pam.d/system-auth and show the results
     result = [0, 0, 0, 0, 0, 0]#return a list as result

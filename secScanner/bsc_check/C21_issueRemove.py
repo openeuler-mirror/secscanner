@@ -12,7 +12,7 @@ def C21_issueRemove():
             with open(RESULT_FILE, "a") as file:
                 file.write("\nC21\n")
             logger.warning("WRN_C21 :%s",WRN_C21)
-            logger.info("Suggestion: %s", SUG_C21)
+            logger.warning("SUG_C21: %s", SUG_C21)
             Display("- Check if there is issue file...", "WARNING")
         else:
             logger.info("There is no issue file remain, check ok")

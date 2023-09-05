@@ -24,7 +24,7 @@ def C22_resourceLimit():
                     with open(RESULT_FILE, "a") as file:
                         file.write("\nC22\n")
                     logger.warning("WRN_C22_01: %s", WRN_C22_01)
-                    logger.info("Suggestion: %s", SUG_C22_01)
+                    logger.warning("SUG_C22_01: %s", SUG_C22_01)
                     Display("- Check if the soft core limits is ok...", "WARNING")
 
 
@@ -39,19 +39,19 @@ def C22_resourceLimit():
                     with open(RESULT_FILE, "a") as file:
                         file.write("\nC22\n")
                     logger.warning("WRN_C22_03: %s", WRN_C22_03)
-                    logger.info("Suggestion: %s", SUG_C22_02)
+                    logger.warning("SUG_C22_02: %s", SUG_C22_02)
                     Display("- Check if the hard core limits is ok...", "WARNING")
     if SOFT_CORE == 0:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC22\n")
         logger.warning("WRN_C22_02: %s", WRN_C22_02)
-        logger.info("Suggestion: %s", SUG_C22_01)
+        logger.warning("SUG_C22_01: %s", SUG_C22_01)
         Display("- Check if the soft core limits is ok...", "WARNING")
         Display("- This system has no soft core limit set...")
     if HARD_CORE == 0:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC22\n")
         logger.warning("WRN_C22_04: %s", WRN_C22_04)
-        logger.info("Suggestion: %s", SUG_C22_02)
+        logger.warning("SUG_C22_02: %s", SUG_C22_02)
         Display("- Check if the hard core limits is ok...", "WARNING")
         Display("- This system has no hard core limit set...")

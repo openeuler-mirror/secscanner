@@ -24,7 +24,7 @@ def warning_results():
 
         for line in lines:
             wrn_match = re.search(r'WRN_C\d{2}:', line)
-            suggestion_match = re.search(r'Suggestion:', line)
+            suggestion_match = re.search(r'SUG_C\d{2}:', line)
 
             if wrn_match:
                 wrn = line.split(wrn_match.group(0))[1].strip()
@@ -36,7 +36,7 @@ def warning_results():
 
         TMP_COUNT = 0
 
-        for wrn, suggestion in zip(WRNS, SUGS):
+        for wrn, sug in zip(WRNS, SUGS):
             print(f"{RED}- {wrn} {NORMAL}")
             TMP_COUNT += 1
             baseline_info += f"""

@@ -18,7 +18,7 @@ def C05_icmpLimit():
         with open(RESULT_FILE, "a") as file:
             file.write("\nC05\n")
         logger.warning("WRN_C05: %s", WRN_C05)
-        logger.warning("Suggestion: %s", SUG_C05)
+        logger.warning("SUG_C05: %s", SUG_C05)
         Display("- Wrong icmp limit set...", "WARNING")
     else:
         logger.info("Has icmp redirect limit set, checking ok")

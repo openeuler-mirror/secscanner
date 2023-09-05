@@ -16,7 +16,7 @@ def C07_TMOUT():
         with open(RESULT_FILE, "a") as file:
             file.write("\nC07\n")
         logger.warning("WRN_C07_01: %s", WRN_C07_01)
-        logger.warning("Suggestion: %s", SUG_C07)
+        logger.warning("SUG_C07: %s", SUG_C07)
         Display("- No TMOUT set...", "WARNING")
     else:
         for line in lines:
@@ -29,7 +29,7 @@ def C07_TMOUT():
                     with open(RESULT_FILE, "a") as file:
                         file.write("\nC07\n")
                     logger.warning("WRN_C07_02: %s", WRN_C07_02)
-                    logger.warning("Suggestion: %s", SUG_C07)
+                    logger.warning("SUG_C07: %s", SUG_C07)
                     Display("- Wrong TMOUT set, must less than 300...", "WARNING")
                 else:
                     logger.info("Has right TMOUT set, checking ok")
