@@ -4,10 +4,12 @@ import re
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
-SYSLOG_CONF = ['/etc/rsyslog.conf', '/etc/syslog.conf']
+logger = logging.getLogger("secscanner")
+
+
 def C17_syslogLogin():
-    logger = logging.getLogger("secscanner")
     InsertSection("check if record the user login events")
+    SYSLOG_CONF = ['/etc/rsyslog.conf']
     count = 0
     for i in SYSLOG_CONF:
         if os.path.isfile(i) and os.path.getsize(i) > 0:

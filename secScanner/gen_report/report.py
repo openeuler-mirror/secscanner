@@ -4,12 +4,13 @@ import subprocess
 import re
 import os
 import shutil
-import secScanner.gen_report.gen_html_report as gen_report
+import gen_html_report as gen_report
 
 logger = logging.getLogger('secscanner')
 
 
 def warning_results():
+    QUIET = get_value("QUIET")
 
     def show_warnings():
         print("")
@@ -23,20 +24,19 @@ def warning_results():
             lines = file.readlines()
 
         for line in lines:
-            wrn_match = re.search(r'WRN_C\d{2}:', line)
-            suggestion_match = re.search(r'SUG_C\d{2}:', line)
-
-            if wrn_match:
-                wrn = line.split(wrn_match.group(0))[1].strip()
+            if line.startswith("WRN_"):
+                wrn = line.split(": ")[0]
                 WRNS.append(wrn)
-            if suggestion_match:
-                sug = line.split(suggestion_match.group(0))[1].strip()
-                SUGS.append(sug)            
-
+            elif line.startswith("Suggestion:"):
+                sug = line.split("Suggestion: ")[1].strip()
+                SUGS.append(sug)
+            else:
+                print("No warnings")
+                print("")
 
         TMP_COUNT = 0
 
-        for wrn, sug in zip(WRNS, SUGS):
+        for wrn, suggestion in zip(WRNS, SUGS):
             print(f"{RED}- {wrn} {NORMAL}")
             TMP_COUNT += 1
             baseline_info += f"""
@@ -47,14 +47,9 @@ def warning_results():
                 <td>{sug}</td>
                 </tr>
             """
-        set_value("baseline_info", baseline_info)
+        baseline_info = set_value("baseline_info", baseline_info)
         TOTAL_WARNINGS = TMP_COUNT
-        set_value("TOTAL_WARNINGS", TOTAL_WARNINGS)
-        
-        if TOTAL_WARNINGS ==0:
-            print("NO warnings")
-            print("")
-
+        TOTAL_WARNINGS = set_value("TOTAL_WARNINGS", TOTAL_WARNINGS)
         return baseline_info
 
     if QUIET == 0:
@@ -100,9 +95,9 @@ def rootkit_result():
             <td>{suggestion}</td>
             </tr>
             """
-    set_value("html_rootkit_content", html_rootkit_content)
+    html_rootkit_content = set_value("html_rootkit_content", html_rootkit_content)
     TOTAL_INFECTED = infected_count
-    set_value("TOTAL_INFECTED", TOTAL_INFECTED)
+    TOTAL_INFECTED = set_value("TOTAL_INFECTED", TOTAL_INFECTED)
 
     return html_rootkit_content
 
@@ -164,29 +159,25 @@ def cve_result():
                     tmp_cve_count += 1
             vulne_info += "</table>\n"
 
-        set_value("vulne_info", vulne_info)
+        vulne_info = set_value("vulne_info", vulne_info)
         TOTAL_CVES = tmp_cve_count
-        set_value("TOTAL_CVES", TOTAL_CVES)
+        TOTAL_CVES = set_value("TOTAL_CVES", TOTAL_CVES)
     return vulne_info
 
 def main():
-
     warning_results()
     rootkit_result()
     #cve_result()
     HTML_REPORT_DIRNAME = "html_report"
-    set_value("HTML_REPORT_DIRNAME",HTML_REPORT_DIRNAME)
+    HTML_REPORT_DIRNAME = set_value("HTML_REPORT_DIRNAME",HTML_REPORT_DIRNAME)
     html_report_dir = os.path.join(LOGDIR, HTML_REPORT_DIRNAME)
-    if os.path.exists(html_report_dir):
-        shutil.rmtree(html_report_dir)
+    if not os.path.exists(html_report_dir):
+        os.makedirs(html_report_dir)
 
+    # get currnent_dir
     current_dir = os.path.dirname(os.path.abspath(__file__))
     # target_file
     target_file = os.path.join(current_dir, 'result_template')
-
-
-    #os.makedirs(html_report_dir)
-    shutil.copytree(target_file, html_report_dir)
-
+    shutil.copy(target_file, html_report_dir)
 
     gen_report.gen_html_report()

@@ -5,12 +5,15 @@ from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
 from secScanner.commands.check_outprint import *
+logger = logging.getLogger("secscanner")
+
+
 def C14_sshRootDenie():
-    logger = logging.getLogger("secscanner")
+
     InsertSection("check the ssh loglevel")
 ### check the Telnet Denie
     OS_DISTRO = get_value("OS_DISTRO")
-    if OS_DISTRO == '7' or OS_DISTRO == '6':
+    if OS_DISTRO == '7':
         IS_EXIST = 0
         with open('/etc/securetty', 'r') as file:
             lines = file.readlines()
@@ -46,6 +49,6 @@ def C14_sshRootDenie():
     else:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC14\n")
-        logger.warning(f"WRN_C14_02: %s :", WRN_C14_02)
+        logger.warning(f"WRN_C14_02: %s", WRN_C14_02)
         logger.warning("SUG_C14: %s", SUG_C14)
         Display("- Wrong ssh Root denie set...", "WARNING")

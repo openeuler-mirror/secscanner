@@ -1,13 +1,13 @@
 import logging
 import os
 import re
-
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
+logger = logging.getLogger("secscanner")
+
 
 def C25_syslogFacility():
-    logger = logging.getLogger("secscanner")
     InsertSection("check the ssh syslogfacility")
     SYSLOG_FACILITY = 'unset'
     with open("/etc/ssh/sshd_config", "r") as file:

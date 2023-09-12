@@ -4,10 +4,12 @@ from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
 import pathlib
+logger = logging.getLogger("secscanner")
+
 
 def S27_syslogProperty():
-    SET_LOG_FILE_PROPERTY = seconf.get('advance', 'set_log_file_property')
     InsertSection("Change the log property...")
+    SET_LOG_FILE_PROPERTY = seconf.get('advance', 'set_log_file_property')
     if SET_LOG_FILE_PROPERTY == 'yes':
         if not os.path.exists('/etc/rsyslog.conf_bak'):
             shutil.copy2('/etc/rsyslog.conf', '/etc/rsyslog.conf_bak')
@@ -31,18 +33,14 @@ def S27_syslogProperty():
                     pro_val = SHELL_OUT.strip().decode()
                     with open(logfile_pro, 'a') as add_file:
                         add_file.write(f"\n{i}={pro_val}\n")
-        # restart the syslog service
-        logger.info("restart the rsyslog service...")
-        subprocess.run(['systemctl', 'restart', 'rsyslog'])
 
         # --------------change the log property--------------
         for ilog in SYS_LOGFILE:
             if os.path.exists(ilog):
                 print(f"chmod {ilog} to 600")
                 os.chmod(ilog, 600)
-        # restart the syslog service
-        logger.info("restart the rsyslog service...")
-        subprocess.run(['systemctl', 'restart', 'rsyslog'])
+
+        logger.info("change the log file property successfully")
         Display(f"- Change the log file property...", "FINISHED")
     else:
         Display(f"- Skip change log file property due to config file...", "SKIPPING")

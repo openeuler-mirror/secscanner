@@ -3,11 +3,10 @@ from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import WRN_C07_01, WRN_C07_02, SUG_C07
 import re
 from secScanner.gconfig import *
+logger = logging.getLogger("secscanner")
 
 def C07_TMOUT():
-    logger = logging.getLogger("secscanner")
-    InsertSection("check TMOUT set")
-
+    InsertSection("check the TMOUT set")
     with open("/etc/profile", "r") as file:
         lines = file.readlines()
         IS_EXIST = sum(1 for line in lines if not re.match('^#|^$', line) and "TMOUT=" in line)

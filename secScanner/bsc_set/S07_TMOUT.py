@@ -4,9 +4,11 @@ import shutil
 from secScanner.lib import *
 from secScanner.gconfig import *
 import logging
+logger = logging.getLogger("secscanner")
+
+
 def S07_TMOUT():
     InsertSection("Set the TMOUT...")
-    logger = logging.getLogger("secscanner")
     SET_TMOUT = seconf.get('basic', 'set_tmout')
     TMOUT_VALUE = seconf.get('basic', 'tmout_value')
     if SET_TMOUT == 'yes':

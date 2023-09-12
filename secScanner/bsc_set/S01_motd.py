@@ -1,25 +1,25 @@
 import shutil
 from secScanner.lib import *
 from secScanner.gconfig import *
+logger = logging.getLogger("secscanner")
 
 
 def S01_motd():
     InsertSection("set /etc/motd banner")
-
     set_motd = seconf.get('basic', 'set_motd')
     motd = seconf.get('basic', 'motd')
     if set_motd == 'yes':
         if os.path.exists('/etc/motd') and not os.path.exists('/etc/motd_bak'):
             shutil.copy2('/etc/motd', '/etc/motd_bak')
-        elif os.path.exists('/etc/motd'):
-            with open('/etc/motd', "w") as write_file: #overwrite ;if /etc/motd not exsit, this line will build a new motd
+        if not os.path.exists('/etc/motd'):
+            pathlib.Path('/etc/motd').touch()
+            os.chmod('/etc/motd', 600)
+        if os.path.exists('/etc/motd'):
+            with open('/etc/motd', "w") as write_file:
                 write_file.write(motd)
             if os.path.getsize('/etc/motd'):
+                logger.info("set the motd banner successfully")
                 Display("- Set motd banner finished...", "FINISHED")
-            else:
-                Display("- Set motd banner failed...", "FAILED")
-        else:
-            Display("- filepath /etc/motd not exist...", "SKIPPING")
     else:
         Display("- Skip set motd banner due to config file...", "SKIPPING")
 

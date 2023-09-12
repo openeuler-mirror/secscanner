@@ -4,9 +4,10 @@ import re
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
+logger = logging.getLogger("secscanner")
+
 
 def C22_resourceLimit():
-    logger = logging.getLogger("secscanner")
     InsertSection("check the resource limit")
     SOFT_CORE = 0
     HARD_CORE = 0
@@ -46,12 +47,10 @@ def C22_resourceLimit():
             file.write("\nC22\n")
         logger.warning("WRN_C22_02: %s", WRN_C22_02)
         logger.warning("SUG_C22_01: %s", SUG_C22_01)
-        Display("- Check if the soft core limits is ok...", "WARNING")
-        Display("- This system has no soft core limit set...")
+        Display("- This system has no soft core limit set...", "WARNING")
     if HARD_CORE == 0:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC22\n")
         logger.warning("WRN_C22_04: %s", WRN_C22_04)
         logger.warning("SUG_C22_02: %s", SUG_C22_02)
-        Display("- Check if the hard core limits is ok...", "WARNING")
-        Display("- This system has no hard core limit set...")
+        Display("- This system has no hard core limit set...", "WARNING")

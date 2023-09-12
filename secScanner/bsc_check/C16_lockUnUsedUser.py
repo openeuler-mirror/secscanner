@@ -3,10 +3,12 @@ import os
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
-UnUsed=['adm', 'lp', 'sync', 'shutdown', 'halt', 'news', 'uucp', 'operator', 'games', 'nobody', 'rpm', 'smmsp']
+
+logger = logging.getLogger("secscanner")
+
 def C16_lockUnUsedUser():
-    logger = logging.getLogger("secscanner")
     InsertSection("check the unused user")
+    UnUsed = ['adm', 'lp', 'sync', 'shutdown', 'halt', 'news', 'uucp', 'operator', 'games', 'nobody', 'rpm', 'smmsp']
     ERROR_USER = ''
     with open("/etc/shadow", "r") as file:
         lines = file.readlines()

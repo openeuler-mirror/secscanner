@@ -3,9 +3,10 @@ import re
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
+logger = logging.getLogger("secscanner")
+
 
 def C05_icmpLimit():
-    logger = logging.getLogger("secscanner")
     InsertSection("check icmp redirect limit")
     ICMP_EXIST = 0
     with open("/etc/sysctl.conf", "r") as file:

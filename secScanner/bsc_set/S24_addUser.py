@@ -42,9 +42,6 @@ def S24_addUser():
                     logger.info(f"Adding user: {USERNAME} and Password: {USERPASS}...")
                     subprocess.run(['useradd', '-p', USERPASS, USERNAME])
                     subprocess.run(['usermod', '-G', '10','-a', USERNAME])
-                    ##useradd username
-                    ##echo userpass | passwd --stdin username
-                    ##usermod -G 10 -a username
                     Display(f"--indent 2 --text - Add user:{USERNAME} and Password: {USERPASS}...  --result FINISHED --color GREEN")
             else:
                 logger.info(f"Has {PROFILE} file, but no username/userpass params...")

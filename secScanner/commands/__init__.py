@@ -12,4 +12,4 @@
 
 
 from .basic import *
-from .check_outprint import *
+from .check_outprint import check_myid, check_param, display_info, find_profile, check_isvirtualmachine, end_parase

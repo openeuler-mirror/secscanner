@@ -3,10 +3,11 @@ import re
 from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
+logger = logging.getLogger("secscanner")
+
 
 def S29_sshLogLevel():
     SET_SSH_LOGLEVEL = seconf.get('basic', 'set_ssh_loglevel')
-    logger = logging.getLogger("secscanner")
     InsertSection("Set the sshloglevel...")
     if SET_SSH_LOGLEVEL == 'yes':
         if not os.path.exists('/etc/ssh/sshd_config_bak'):
@@ -28,7 +29,7 @@ def S29_sshLogLevel():
                         write_file.write('LogLevel VERBOSE\n')
                     else:
                         write_file.write(line)
-        IS_EXIST = 0
+
         CHECK_EXIST = 0
         with open('/etc/ssh/sshd_config', 'r') as read_file:
             lines = read_file.readlines()
