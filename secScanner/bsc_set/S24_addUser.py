@@ -3,25 +3,27 @@ import re
 from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
+logger = logging.getLogger("secscanner")
+
 
 def S24_addUser():
     ADV_OPTIONS = seconf.options('advance')  # search basic and show all options
     USERNAME = ''
     USERPASS = ''
     PROFILE = get_value("PROFILE")
-    if ('username' in ADV_OPTIONS):
+    InsertSection(f"Add the customer user by {PROFILE}")
+    if 'username' in ADV_OPTIONS:
         USERNAME = seconf.get('advance', 'username')
-    if ('userpass' in ADV_OPTIONS):
+    if 'userpass' in ADV_OPTIONS:
         USERPASS = seconf.get('advance', 'userpass')
     SET_ADD_ADTIONAL_USER = seconf.get('advance', 'add_adtional_user')
-    logger = logging.getLogger("secscanner")
     PASSWD_USER = []
     with open('/etc/passwd', 'r') as read_file:
         lines = read_file.readlines()
         for line in lines:
             temp = line.split(':', -1)
             PASSWD_USER.append(temp[0])
-    InsertSection(f"Add the customer user by {PROFILE}")
+
     if SET_ADD_ADTIONAL_USER == 'yes':
         if os.path.exists(PROFILE):
             if USERNAME != '':
@@ -51,3 +53,4 @@ def S24_addUser():
             Display(f"- No {PROFILE} file, can not get params...", "FAILED")
     else:
         Display(f"- Skip add additional user due to config file...", "SKIPPING")
+

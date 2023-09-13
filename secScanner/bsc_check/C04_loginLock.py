@@ -3,6 +3,7 @@ import re
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
+
 logger = logging.getLogger("secscanner")
 from secScanner.commands.check_outprint import *
 
@@ -16,7 +17,7 @@ def el67_check_deny():
         for line in lines:
             if re.match('auth', line) and re.search('deny', line) and (not re.match('#', line)):
                 temp = re.findall(regex, line)
-                if temp != []:
+                if temp:
                     DENY = temp[0]
 
     if DENY == '':
@@ -35,6 +36,7 @@ def el67_check_deny():
         logger.info("Has user login lock Deny set, checking OK")
         Display("- Has user login lock Deny set...", "OK")
 
+
 def oe_el8_check_deny():
     InsertSection("check User login lock deny times and unlock time")
     regex = r'(?<=deny=).[0-9]*'
@@ -43,16 +45,18 @@ def oe_el8_check_deny():
     with open("/etc/pam.d/system-auth", "r") as file:
         lines = file.readlines()
         for line in lines:
-            if re.match('auth', line) and re.search('required', line) and re.search('pam_faillock.so', line) and (not re.match('#', line)):
+            if re.match('auth', line) and re.search('required', line) and re.search('pam_faillock.so', line) and (
+            not re.match('#', line)):
                 temp = re.findall(regex, line)
-                if temp != []:
+                if temp:
                     DENY1 = temp[0]
     with open("/etc/pam.d/password-auth", "r") as file:
         lines = file.readlines()
         for line in lines:
-            if re.match('auth', line) and re.search('required', line) and re.search('pam_faillock.so', line) and (not re.match('#', line)):
+            if re.match('auth', line) and re.search('required', line) and re.search('pam_faillock.so', line) and (
+            not re.match('#', line)):
                 temp = re.findall(regex, line)
-                if temp != []:
+                if temp:
                     DENY2 = temp[0]
 
     if DENY1 == '' and DENY2 == '':

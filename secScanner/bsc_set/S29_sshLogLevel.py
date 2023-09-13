@@ -13,23 +13,23 @@ def S29_sshLogLevel():
         if not os.path.exists('/etc/ssh/sshd_config_bak'):
             shutil.copy2('/etc/ssh/sshd_config', '/etc/ssh/sshd_config_bak')
         # -----------------set the loglevel----------------
-        IS_EXIST = 0
-        with open('/etc/ssh/sshd_config', 'r') as read_file:
-            lines = read_file.readlines()
-            for line in lines:
-                if (not re.match('#|$', line)) and re.search('LogLevel', line):
-                    IS_EXIST = 1
-        if IS_EXIST == 0:
-            with open('/etc/ssh/sshd_config', 'a') as add_file:
-                add_file.write('\nLogLevel VERBOSE\n')
-        else:
-            with open('/etc/ssh/sshd_config', 'w') as write_file:
-                for line in lines:
-                    if re.search('LogLevel', line):
-                        write_file.write('LogLevel VERBOSE\n')
-                    else:
-                        write_file.write(line)
-
+        with open('/etc/ssh/sshd_config', 'r+') as f:
+            lines = f.readlines()
+            loglevel_exists = False
+            for i, line in enumerate(lines):
+                if line.strip().startswith("#LogLevel"):
+                    loglevel_exists = True
+                    lines[i] = lines[i].replace("#", "")
+                elif line.strip().startswith("LogLevel"):
+                    loglevel_exists = True
+                    if not re.search('YES', line):
+                        lines[i] = "LogLevel VERBOSE\n"
+                    break
+            if not loglevel_exists:
+                lines.append("LogLevel VERBOSE\n")
+            f.seek(0)
+            f.writelines(lines)
+            f.truncate()
         CHECK_EXIST = 0
         with open('/etc/ssh/sshd_config', 'r') as read_file:
             lines = read_file.readlines()
@@ -39,7 +39,7 @@ def S29_sshLogLevel():
                     temp = line.split()
                     if temp[0] == 'LogLevel' and temp[1] == 'VERBOSE':
                         CHECK_EXIST = 1
-        if IS_EXIST == 0:
+        if not loglevel_exists:
             logger.info("set the ssh loglevel failed,no set option")
             Display(f"- Set the ssh loglevel...", "FAILED")
         elif CHECK_EXIST == 0:

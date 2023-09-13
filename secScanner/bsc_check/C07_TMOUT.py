@@ -22,7 +22,7 @@ def C07_TMOUT():
             if (not re.match('^#|^$', line)) and "TMOUT=" in line:
                 regex = r'(?<=TMOUT=).[0-9]*'
                 TMO = re.findall(regex, line)
-                if TMO == []:
+                if not TMO:
                     Display("--indent 2 --text - No TMOUT set...  --result WARNING --color RED")
                 elif TMO[0] > str(300):
                     with open(RESULT_FILE, "a") as file:

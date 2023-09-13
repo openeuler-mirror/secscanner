@@ -6,6 +6,7 @@ from secScanner.lib.TextInfo import *
 
 logger = logging.getLogger("secscanner")
 
+
 def C16_lockUnUsedUser():
     InsertSection("check the unused user")
     UnUsed = ['adm', 'lp', 'sync', 'shutdown', 'halt', 'news', 'uucp', 'operator', 'games', 'nobody', 'rpm', 'smmsp']

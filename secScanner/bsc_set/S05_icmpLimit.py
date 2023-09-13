@@ -11,7 +11,7 @@ def S05_icmpLimit():
     if disable_icmp_redirect == 'yes':
         if os.path.exists('/etc/sysctl.conf') and not os.path.exists('/etc/sysctl.conf_bak'):
             shutil.copy2('/etc/sysctl.conf', '/etc/sysctl.conf_bak')
-        elif os.path.exists('/etc/sysctl.conf'):
+        if os.path.exists('/etc/sysctl.conf'):
             ACCEPT_REDIRECT_SET = 0
             with open('/etc/sysctl.conf', 'r') as read_file:
                 lines = read_file.readlines()

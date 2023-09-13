@@ -2,34 +2,31 @@ import os
 import re
 from secScanner.lib import *
 from secScanner.gconfig import *
-import logging
 import shutil
-import subprocess
 logger = logging.getLogger("secscanner")
 
-
-def S13_restrictFTPdir():
-    set_ftp_restrictdir = seconf.get('advance', 'set_ftp_restrictdir')
-    InsertSection("Set the restrict directories of ftp...")
-    if set_ftp_restrictdir == 'yes':
+def S31_disanonymousFTP():
+    set_ftp_anonymous = seconf.get('advance', 'set_ftp_anonymous')
+    InsertSection("Set the prohibit anonymous FTP...")
+    if set_ftp_anonymous == 'yes':
         if os.path.exists('/etc/vsftpd/vsftpd.conf') and not os.path.exists('/etc/vsftpd/vsftpd.conf_bak'):
             shutil.copy2('/etc/vsftpd/vsftpd.conf', '/etc/vsftpd/vsftpd.conf_bak')
             # -----------------set the restrictFTPdir----------------
         if os.path.exists('/etc/vsftpd/vsftpd.conf'):
             with open('/etc/vsftpd/vsftpd.conf', 'r+') as f:
                 lines = f.readlines()
-                chroot_exists = False
+                anonymous_exists = False
                 for i, line in enumerate(lines):
-                    if line.strip().startswith("#chroot_local_user"):
-                        chroot_exists = True
+                    if line.strip().startswith("#anonymous_enable"):
+                        anonymous_exists = True
                         lines[i] = lines[i].replace("#", "")
-                    elif line.strip().startswith("chroot_local_user"):
-                        chroot_exists = True
+                    elif line.strip().startswith("anonymous_enable"):
+                        anonymous_exists = True
                         if not re.search('YES', line):
-                            lines[i] = "chroot_local_user=YES\n"
+                            lines[i] = "anonymous_enable=NO\n"
                         break
-                if not chroot_exists:
-                    lines.append("chroot_local_user=YES\n")
+                if not anonymous_exists:
+                    lines.append("anonymous_enable=NO\n")
                 f.seek(0)
                 f.writelines(lines)
                 f.truncate()
@@ -38,18 +35,18 @@ def S13_restrictFTPdir():
             with open('/etc/vsftpd/vsftpd.conf', 'r') as read_file:
                 lines = read_file.readlines()
                 for line in lines:
-                    if (not re.match('#|$', line)) and re.search('chroot_local_user', line):
+                    if (not re.match('#|$', line)) and re.search('anonymous_enable', line):
                         IS_EXIST = 1
                         temp = line.strip('\n').split('=')
-                        if temp[0] == 'chroot_local_user' and temp[1] == 'YES':
+                        if temp[0] == 'anonymous_enable' and temp[1] == 'NO':
                             CHECK_EXIST = 1
 
-            if not chroot_exists:
-                logger.info("set the restrict directories of ftp failed, no set option")
-                Display(f"- Set the restrict directories of ftp...", "FAILED")
+            if not anonymous_exists:
+                logger.info("set the prohibit anonymous FTP failed, no set option")
+                Display(f"- Set the prohibit anonymous FTP...", "FAILED")
             elif CHECK_EXIST == 0:
-                logger.info("set the restrict directories of ftp failed, wrong setting")
-                Display(f"- Set the restrict directories of ftp...", "FAILED")
+                logger.info("set the prohibit anonymous FTP failed, wrong setting")
+                Display(f"- Set the prohibit anonymous FTP...", "FAILED")
             else:
                 result = subprocess.run(['systemctl', 'is-active', 'vsftpd'], stdout=subprocess.DEVNULL,
                                         stderr=subprocess.STDOUT)
@@ -57,9 +54,9 @@ def S13_restrictFTPdir():
                     subprocess.run(['systemctl', 'restart', 'vsftpd'])
                 else:
                     subprocess.run(['systemctl', 'start', 'vsftpd'])
-                logger.info("set the restrict directories of ftp successfully")
-                Display(f"- Set the restrict directories of ftp...", "FINISHED")
+                logger.info("set the prohibit anonymous FTP successfully")
+                Display(f"- Set the prohibit anonymous FTP...", "FINISHED")
         else:
             Display("- filepath /etc/vsftpd/vsftpd.conf not exist...", "SKIPPING")
     else:
-        Display(f"- Skip set restrict directories of ftp due to config file...", "SKIPPING")
+        Display(f"- Skip set prohibit anonymous FTP due to config file...", "SKIPPING")
