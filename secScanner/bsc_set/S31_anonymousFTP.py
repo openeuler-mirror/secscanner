@@ -5,7 +5,7 @@ from secScanner.gconfig import *
 import shutil
 logger = logging.getLogger("secscanner")
 
-def S31_disanonymousFTP():
+def S31_anonymousFTP():
     set_ftp_anonymous = seconf.get('advance', 'set_ftp_anonymous')
     InsertSection("Set the prohibit anonymous FTP...")
     if set_ftp_anonymous == 'yes':
@@ -22,7 +22,7 @@ def S31_disanonymousFTP():
                         lines[i] = lines[i].replace("#", "")
                     elif line.strip().startswith("anonymous_enable"):
                         anonymous_exists = True
-                        if not re.search('YES', line):
+                        if not re.search('NO', line):
                             lines[i] = "anonymous_enable=NO\n"
                         break
                 if not anonymous_exists:

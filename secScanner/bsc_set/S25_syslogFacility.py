@@ -22,7 +22,7 @@ def S25_syslogFacility():
                     lines[i] = lines[i].replace("#", "")
                 elif line.strip().startswith("SyslogFacility"):
                     facility_exists = True
-                    if not re.search('YES', line):
+                    if not re.search('AUTH', line):
                         lines[i] = "SyslogFacility AUTH\n"
                     break
             if not facility_exists:

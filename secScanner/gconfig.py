@@ -65,7 +65,7 @@ LOGDIR = "/var/log/secScanner/"
 LOGFILE = os.path.join(LOGDIR, "secscanner.log")
 
 RESULT_FILE = os.path.join(LOGDIR, "check_result.relt")
-
+QUIET = 0
 #
 #################################################################################
 #

@@ -84,7 +84,7 @@ def S03_passComplex():
     if set_password_rem == 'yes':
         if os.path.exists('/etc/pam.d/system-auth') and not os.path.exists('/etc/pam.d/system-auth_bak'):
             shutil.copy2('/etc/pam.d/system-auth', '/etc/pam.d/system-auth_bak')
-        elif os.path.exists('/etc/pam.d/system-auth'):
+        if os.path.exists('/etc/pam.d/system-auth'):
             with open(file_name, 'r') as read_file:
                 lines = read_file.readlines()
                 for line in lines:

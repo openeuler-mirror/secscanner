@@ -8,7 +8,7 @@ logger = logging.getLogger("secscanner")
 
 def S29_sshLogLevel():
     SET_SSH_LOGLEVEL = seconf.get('basic', 'set_ssh_loglevel')
-    InsertSection("Set the sshloglevel...")
+    InsertSection("Set the ssh loglevel...")
     if SET_SSH_LOGLEVEL == 'yes':
         if not os.path.exists('/etc/ssh/sshd_config_bak'):
             shutil.copy2('/etc/ssh/sshd_config', '/etc/ssh/sshd_config_bak')
@@ -22,7 +22,7 @@ def S29_sshLogLevel():
                     lines[i] = lines[i].replace("#", "")
                 elif line.strip().startswith("LogLevel"):
                     loglevel_exists = True
-                    if not re.search('YES', line):
+                    if not re.search('VERBOSE', line):
                         lines[i] = "LogLevel VERBOSE\n"
                     break
             if not loglevel_exists:
