@@ -6,7 +6,8 @@ from secScanner.lib.TextInfo import *
 logger = logging.getLogger("secscanner")
 from secScanner.commands.check_outprint import *
 
-def rhel67_check_deny():
+
+def el67_check_deny():
     InsertSection("check User login lock deny times and unlock time")
     regex = r'(?<=deny=).[0-9]*'
     DENY = ''
@@ -34,7 +35,7 @@ def rhel67_check_deny():
         logger.info("Has user login lock Deny set, checking OK")
         Display("- Has user login lock Deny set...", "OK")
 
-def oe_rhel8_check_deny():
+def oe_el8_check_deny():
     InsertSection("check User login lock deny times and unlock time")
     regex = r'(?<=deny=).[0-9]*'
     DENY1 = ''
@@ -75,16 +76,15 @@ def oe_rhel8_check_deny():
 def C04_loginLock():
     OS_ID = get_value("OS_ID")
     OS_DISTRO = get_value("OS_DISTRO")
+    InsertSection("check User login lock deny times and unlock time")
     if OS_ID.lower() in ["centos", "rhel", "redhat", "openeuler", "bclinux"]:
         if OS_DISTRO in ["7", "6"]:
-            rhel67_check_deny()
+            el67_check_deny()
         elif OS_DISTRO in ["21.10", "20.12", "8"]:
-            oe_rhel8_check_deny()
+            oe_el8_check_deny()
         else:
-            InsertSection("check User login lock deny times and unlock time")
             logger.warning(f"We do not support {OS_ID}-{OS_DISTRO} at this moment")
             Display(f"- We do not support {OS_ID}-{OS_DISTRO} at this moment...", "WARNING")
     else:
-        InsertSection("check User login lock deny times and unlock time")
         logger.warning(f"We do not support {OS_ID}-{OS_DISTRO} at this moment")
         Display(f"- We do not support {OS_ID}-{OS_DISTRO} at this moment...", "WARNING")

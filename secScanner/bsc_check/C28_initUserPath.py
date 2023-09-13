@@ -4,9 +4,10 @@ import re
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
+logger = logging.getLogger("secscanner")
+
 
 def C28_initUserPath():
-    logger = logging.getLogger("secscanner")
     InsertSection("check the ALWAYS_SET_PATH set in /etc/login.defs")
     ALWAYS_SET = 'unset'
     with open('/etc/login.defs', 'r') as file:

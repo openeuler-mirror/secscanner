@@ -3,10 +3,11 @@ import re
 from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
+logger = logging.getLogger("secscanner")
+
 
 def S28_initUserPath():
     SET_ALWAYS_SET_PATH = seconf.get('basic', 'set_always_set_path')
-    logger = logging.getLogger("secscanner")
     InsertSection("Set the ALWAYS_SET_PATH...")
     if SET_ALWAYS_SET_PATH == 'yes':
         if not os.path.exists('/etc/login.defs_bak'):
@@ -28,7 +29,6 @@ def S28_initUserPath():
                     else:
                         write_file.write(line)
 
-        IS_EXIST = 0
         CHECK_EXIST = 0
         with open('/etc/login.defs', 'r') as read_file:
             lines = read_file.readlines()

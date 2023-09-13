@@ -3,10 +3,10 @@ import re
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
+logger = logging.getLogger("secscanner")
+
 
 def C10_sshBanner():
-    logger = logging.getLogger("secscanner")
-
     InsertSection("check the ssh_banner")
     TMP_V = 0
     if os.path.exists("/etc/sshbanner"):

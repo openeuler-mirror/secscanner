@@ -36,7 +36,11 @@ def distro_detection():
                     OS_ID = line.split("=")[1].strip().strip("\"'")
                     set_value("OS_ID", OS_ID)
                 elif line.startswith("VERSION_ID"):
-                    OS_DISTRO = line.split("=")[1].strip().strip("\"'").split('.')[0] # like VERSION_ID = "7"
+                    tmp_distro = line.split("=")[1].strip().strip("\"'")
+                    if tmp_distro.startswith("7") or tmp_distro.startswith("8"):
+                        OS_DISTRO = tmp_distro[0] # 7，8系列
+                    elif tmp_distro.startswith("2"): # 欧拉系列
+                        OS_DISTRO = tmp_distro
                     set_value("OS_DISTRO", OS_DISTRO)
         if OS_ID and OS_DISTRO:
             if OS_ID.lower() in ["centos", "rhel", "redhat", "openeuler", "bclinux"]:
@@ -97,7 +101,7 @@ def display_info():
 
     InsertSection("Initializing program")
     report_datetime_start = datetime.now()
-    set_value("report_datetime_start",report_datetime_start)
+    report_datetime_start = set_value("report_datetime_start",report_datetime_start)
     current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     lib_dir = os.path.join(current_dir, 'lib')
 
@@ -114,12 +118,13 @@ def display_info():
     distro_detection()
     OS_NAME = get_value("OS_NAME")
     OS_VERSION = get_value("OS_VERSION")
+    OS_KERNELVERSION_FULL = platform.uname().release
     HARDWARE = platform.machine()
     HOSTNAME = platform.node()
     PROFILE = "/etc/secScanner/secscanner.cfg"
     PYTHON_VERSION = platform.python_version()
-    set_value("HOSTNAME",HOSTNAME)
-    OS_KERNELVERSION_FULL = get_value("OS_KERNELVERSION_FULL")
+    HOSTNAME = set_value("HOSTNAME",HOSTNAME)
+    OS_KERNELVERSION_FULL = set_value("OS_KERNELVERSION_FULL",OS_KERNELVERSION_FULL)
     print("")
     print(f"  ---------------------------------------------------")
     print(f"  Program version:            {PROGRAM_VERSION}")

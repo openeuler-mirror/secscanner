@@ -4,10 +4,11 @@ from secScanner.lib import *
 from secScanner.gconfig import *
 import logging
 import shutil
+logger = logging.getLogger("secscanner")
+
+
 def S09_loginDefs():
-    if not os.path.exists('/etc/login.defs_bak'):
-        shutil.copy2('/etc/login.defs', '/etc/login.defs_bak')
-    logger = logging.getLogger("secscanner")
+    InsertSection("Set the Password lifetime /etc/login.defs...")
     SET_PASS_MAX_DAYS = seconf.get('basic', 'set_pass_max_days')
     PASS_MAX_DAYS_VALUE = seconf.get('basic', 'pass_max_days_value')
     SET_PASS_MIN_DAYS = seconf.get('basic', 'set_pass_min_days')
@@ -17,7 +18,8 @@ def S09_loginDefs():
     SET_PASS_WARN_AGE = seconf.get('basic', 'set_pass_warn_age')
     PASS_WARN_AGE_VALUE = seconf.get('basic', 'pass_warn_age_value')
 
-    InsertSection("Set the PASS_MAX_DAYS in /etc/login.defs...")
+    if not os.path.exists('/etc/login.defs_bak'):
+        shutil.copy2('/etc/login.defs', '/etc/login.defs_bak')
     if SET_PASS_MAX_DAYS == 'yes':
         IS_EXIST = 0
         with open('/etc/login.defs', 'r') as read_file:
@@ -52,7 +54,6 @@ def S09_loginDefs():
     else:
         Display("- Skip set PASS_MAX_DAYS due to config file...", "SKIPPING")
 
-    InsertSection("Set the PASS_MIN_DAYS in /etc/login.defs...")
     if SET_PASS_MIN_DAYS == 'yes':
         IS_EXIST = 0
         with open('/etc/login.defs', 'r') as read_file:
@@ -87,7 +88,6 @@ def S09_loginDefs():
     else:
         Display("- Skip set PASS_MIN_DAYS due to config file...", "SKIPPING")
 
-    InsertSection("Set the PASS_MIN_LEN in /etc/login.defs...")
     if SET_PASS_MIN_LEN == 'yes':
         IS_EXIST = 0
         with open('/etc/login.defs', 'r') as read_file:
@@ -122,7 +122,6 @@ def S09_loginDefs():
     else:
         Display("- Skip set PASS_MIN_LEN due to config file...", "SKIPPING")
 
-    InsertSection("Set the PASS_WARN_AGE in /etc/login.defs...")
     if SET_PASS_WARN_AGE == 'yes':
         IS_EXIST = 0
         with open('/etc/login.defs', 'r') as read_file:

@@ -3,10 +3,10 @@ import re
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
+logger = logging.getLogger("secscanner")
+
 
 def C12_sshGssapi():
-    logger = logging.getLogger("secscanner")
-
     InsertSection("check the ssh gssapi")
     GSSAPI_VAL = ''
     with open("/etc/ssh/sshd_config", "r") as file:

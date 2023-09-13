@@ -4,9 +4,10 @@ import re
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
+logger = logging.getLogger("secscanner")
+
 
 def C26_disableUnUsedaliases():
-    logger = logging.getLogger("secscanner")
     InsertSection("check disable the unused aliases")
     COUNT = 0
     UNUSED_ALIASES_VAL = seconf.get('advance', 'unused_aliases_value').split()

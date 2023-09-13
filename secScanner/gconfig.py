@@ -54,9 +54,6 @@ PROGRAM_AUTHOR = "Yuan Peng"
 PROGRAM_CONTACTEMAIL = "pengyuan_yewu@cmss.chinamobile.com"
 PROGRAM_WEBSITE = "https://gitee.com/openeuler/secscanner"
 PROGRAM_COPYRIGHT = "Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved."
-# Release version (beta or final)
-#alias vi='vim'
-PROGRAM_SOURCE="https://gitee.com/openeuler/secscanner"
 
 # Script Info
 VER_ID = "SecurityHarden, by pengyuan, 2023-6-29"
@@ -68,7 +65,7 @@ LOGDIR = "/var/log/secScanner/"
 LOGFILE = os.path.join(LOGDIR, "secscanner.log")
 
 RESULT_FILE = os.path.join(LOGDIR, "check_result.relt")
-QUIET = 0
+
 #
 #################################################################################
 #

@@ -4,6 +4,7 @@ from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
 
+
 def S26_disableUnUsedaliases():
     SET_DISABLE_UNUSED_ALIASES = seconf.get('advance', 'disable_unused_aliases')
     UNUSED_ALIASES_VALUE = seconf.get('advance', 'unused_aliases_value').split()
@@ -44,6 +45,8 @@ def S26_disableUnUsedaliases():
                         write_file.write(line)
 
             subprocess.run(['newaliases'])
+
+            logger.info("disable the unused aliases in /etc/mail/aliases successfully")
             Display(f"- Disable the unused aliases in /etc/mail/aliases...", "FINISHED")
         else:
             Display(f"- Skip disable the unused aliases, due to config file...", "SKIPPING")

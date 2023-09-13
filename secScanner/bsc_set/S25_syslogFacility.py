@@ -3,10 +3,11 @@ import re
 from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
+logger = logging.getLogger("secscanner")
+
 
 def S25_syslogFacility():
     SET_SSH_SYSLOGFACILITY = seconf.get('basic', 'set_ssh_syslogfacility')
-    logger = logging.getLogger("secscanner")
     InsertSection("Set the syslogfacility...")
     if SET_SSH_SYSLOGFACILITY == 'yes':
         if not os.path.exists('/etc/ssh/sshd_config_bak'):
@@ -28,8 +29,7 @@ def S25_syslogFacility():
                         write_file.write("SyslogFacility AUTH\n")
                     else:
                         write_file.write(line)
-        ##sed -i 's/^SyslogFacility[[:space:]]AUTHPRIV/#&/g' /etc/ssh/sshd_config ???????
-        IS_EXIST = 0
+
         CHECK_EXIST = 0
         with open('/etc/ssh/sshd_config', 'r') as read_file:
             lines = read_file.readlines()
@@ -50,6 +50,3 @@ def S25_syslogFacility():
             Display(f"- Set the ssh syslogfacility...", "FINISHED")
     else:
         Display(f"- Skip set ssh syslogfacility due to config file...", "SKIPPING")
-
-
-

@@ -28,7 +28,6 @@ def C24_addUser():
                 file.write("\nC24\n")
             logger.warning("WRN_C24: %s", WRN_C24)
             logger.warning("SUG_C24: %s", SUG_C24)
-            Display("- Check whether have additional user...", "WARNING")
             Display("- No additional user found, check warning", "WARNING")
         else:
             logger.info(f"Already have {USER_NAME}, no need to add")

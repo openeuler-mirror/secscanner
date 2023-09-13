@@ -14,7 +14,7 @@ def gen_html_report():
     HOSTNAME = get_value("HOSTNAME")
     MY_IP = get_ip_address()
     users = psutil.users()
-    USER = users[0].name
+    USER = users.name
     OS_KERNELVERSION_FULL = get_value("OS_KERNELVERSION_FULL")
     OS_ID = get_value("OS_ID")
     OS_DISTRO = get_value("OS_DISTRO")
@@ -79,7 +79,7 @@ def gen_html_report():
                           </tr>
                           <tr class="odd">
                             <th>下达任务用户</th>
-                            <td>{USER}</td>
+                            <td>USER：root</td>
                           </tr>
                           <tr class="even">
                             <th>任务数据来源</th>

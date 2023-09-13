@@ -3,11 +3,11 @@ import os
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
+logger = logging.getLogger("secscanner")
 
 def C01_motd():
-    logger = logging.getLogger("secscanner")
     InsertSection("check /etc/motd banner")
-    if (os.path.exists("/etc/motd") and os.path.getsize("/etc/motd")):
+    if os.path.exists("/etc/motd") and os.path.getsize("/etc/motd"):
         logger.info("Has /etc/motd set, checking ok")
         Display("- Has /etc/motd set...",  "OK")
     else:

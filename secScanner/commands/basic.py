@@ -25,7 +25,7 @@ from secScanner.scan_func import scan_fix_sys, scan_check_sys, scan_restore_basi
 
 def quiet_output(args):
     QUIET = 1
-    set_value("QUIET", QUIET)
+    QUIET = set_value("QUIET", QUIET)
 
 def fix_basic(args):
     display_info()
@@ -50,7 +50,7 @@ def restore_basic(args):
     display_info()
     check_isvirtualmachine()
     AUTO_BASIC_RESTORE = 1 if args.yes else 0
-    set_value("AUTO_BASIC_RESTORE", AUTO_BASIC_RESTORE)  # auto basic restore
+    AUTO_BASIC_RESTORE = set_value("AUTO_BASIC_RESTORE", AUTO_BASIC_RESTORE)  # auto basic restore
     scan_restore_basic_settings()
 
 def fix_item(args):

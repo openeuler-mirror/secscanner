@@ -5,10 +5,12 @@ import re
 from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil
+logger = logging.getLogger("secscanner")
+
+
 def S21_issueRemove():
     HIDE_ISSUE_INFO = seconf.get('advance', 'hide_issue_info')
     ISVIRTUALMACHINE = get_value("ISVIRTUALMACHINE")
-    logger = logging.getLogger("secscanner")
     InsertSection("Remove the issue.net and issue file")
     if HIDE_ISSUE_INFO == 'yes':
         if ISVIRTUALMACHINE != 1:
@@ -29,7 +31,6 @@ def S21_issueRemove():
 
         else:
             logger.info("This is virtual machine, can't remove the issue file")
-            Display("- Remove the issue file...", "SKIPPED")
-            Display("- This is virtual machine, can't remove the issue file")
+            Display("- This is virtual machine, can't remove the issue file", "SKIPPED")
     else:
         Display("- Skip hide issue file due to config file...", "SKIPPING")

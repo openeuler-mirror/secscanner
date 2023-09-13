@@ -5,9 +5,10 @@ import subprocess
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
+logger = logging.getLogger("secscanner")
+
 
 def C27_syslogProperty():
-    logger = logging.getLogger("secscanner")
     InsertSection("check log file property")
     SYS_LOGFILE = []
     with open('/etc/rsyslog.conf', 'r') as file:
@@ -20,9 +21,9 @@ def C27_syslogProperty():
 
     for f in SYS_LOGFILE:
         if os.path.exists(f):
-            ilog_perm = subprocess.run(['ls', '-al', f], stdout = subprocess.PIPE)
+            ilog_perm = subprocess.run(['ls', '-al', f], stdout=subprocess.PIPE)
             result = ilog_perm.stdout.split()
-            if(b'rw-------' in result[0]):
+            if (b'rw-------' in result[0]):
                 Display(f"- check if {f} property is 600 or not...", "OK")
             else:
                 with open(RESULT_FILE, "a") as file:
@@ -30,5 +31,3 @@ def C27_syslogProperty():
                 logger.warning("WRN_C27: %s", WRN_C27)
                 logger.warning("SUG_C27: %s", SUG_C27)
                 Display(f"- Check if {f} property is 600 or not...", "WARNING")
-
-

@@ -3,9 +3,10 @@ import re
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
+logger = logging.getLogger("secscanner")
+
 
 def C08_fileProperty():
-    logger = logging.getLogger("secscanner")
     InsertSection("check file property set")
     BASIC_OPTIONS = seconf.options('basic')#search basic and show all options
     CHMOD_644_FILE = []
@@ -77,7 +78,7 @@ def C08_fileProperty():
             file_permission = oct(os.stat(i).st_mode)[-3:]
             if file_permission == '751':
                 logger.info(f"{i} is safe, checking ok")
-                Display(f"- Check {i} property...", "result OK")
+                Display(f"- Check {i} property...", "OK")
             else:
                 with open(RESULT_FILE, "a") as file:
                     file.write("\nC08\n")

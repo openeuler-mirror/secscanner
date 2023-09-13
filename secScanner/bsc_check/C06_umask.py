@@ -3,10 +3,10 @@ import re
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
+logger = logging.getLogger("secscanner")
 
 def C06_umask():
-    logger = logging.getLogger("secscanner")
-    InsertSection("check umask")
+    InsertSection("check the file umask value ")
     UMASK_VAL = ''
     with open("/etc/profile", "r") as file:
         lines = file.readlines()

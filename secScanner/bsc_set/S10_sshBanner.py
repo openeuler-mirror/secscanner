@@ -5,12 +5,14 @@ from secScanner.gconfig import *
 import logging
 import shutil
 import pathlib
+logger = logging.getLogger("secscanner")
+
+
 def S10_sshBanner():
-    logger = logging.getLogger("secscanner")
+    InsertSection("Set the sshbanner...")
     SET_SSH_LOGIN_BANNER = seconf.get('basic', 'set_ssh_login_banner')
     SSH_LOGIN_BANNER_VALUE = seconf.get('basic', 'ssh_login_banner_value')
 
-    InsertSection("Set the sshbanner...")
     if SET_SSH_LOGIN_BANNER == 'yes':
         if not os.path.exists('/etc/ssh/sshd_config_bak'):
             shutil.copy2('/etc/ssh/sshd_config', '/etc/ssh/sshd_config_bak')
