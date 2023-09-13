@@ -11,7 +11,6 @@ logger = logging.getLogger("secscanner")
 def C14_sshRootDenie():
 
     InsertSection("check the ssh loglevel")
-### check the Telnet Denie
     OS_DISTRO = get_value("OS_DISTRO")
     if OS_DISTRO == '7':
         IS_EXIST = 0

@@ -4,6 +4,7 @@ import re
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
+
 logger = logging.getLogger("secscanner")
 
 
@@ -18,7 +19,6 @@ def C29_sshdLogLevel():
                 temp = line.split()
                 if len(temp) == 2 and temp[1] == 'VERBOSE':
                     LOGLEVEL_SET = 'right'
-
 
     if LOGLEVEL_SET == 'unset':
         with open(RESULT_FILE, "a") as file:

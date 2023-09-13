@@ -12,7 +12,7 @@ def C05_icmpLimit():
     with open("/etc/sysctl.conf", "r") as file:
         lines = file.readlines()
         for line in lines:
-            if re.match('net.ipv4.conf.all.accept_redirects=0', line) and (not re.match('#', line)) and (not re.match('$', line)):
+            if re.match('net.ipv4.conf.all.accept_redirects=0', line) and (not re.match('#|$', line)):
                 ICMP_EXIST = 1
 
     if ICMP_EXIST == 0:

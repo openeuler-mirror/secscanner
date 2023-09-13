@@ -118,6 +118,19 @@ WRN_C29_02 = "Wrong ssh loglevel set, need change"
 WRN_C30_01 = "No ftp banner set, need add"
 WRN_C30_02 = "Wrong ftp banner set, need change"
 
+WRN_C31_01 = "No prohibit anonymous FTP set, need add"
+WRN_C31_02 = "Wrong prohibit anonymous FTP set, need change"
+
+WRN_C32_01 = "No reverse path filtering set, need add"
+WRN_C32_02 = "Wrong reverse path filtering set, need change"
+
+WRN_C33_01 = "No syslog size set, need add"
+WRN_C33_02 = "Wrong syslog size set, need change"
+
+WRN_C34_01 = "No syslog rotate set, need add"
+WRN_C34_02 = "Wrong syslog rotate set, need change"
+
+
 ROOTKIT_R01 = "the system maybe infected"
 
 
@@ -410,6 +423,34 @@ SUG_C30 = ("1、执行备份："
            "reported.，并取消注释"
            "</br>3、重启vsftpd服务:"
            "</br>#systemctl restart vsftpd")
-
+SUG_C31 = ("1、执行备份："
+           "</br>#cp -np /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf_bak "
+           "</br>2、在/etc/vsftpd/vsftpd.conf中将anonymous_enable=修改为NO"
+           "reported.，并取消注释"
+           "</br>3、重启vsftpd服务:"
+           "</br>#systemctl restart vsftpd")
+SUG_C32 = ("1、执行备份："
+           "</br>#cp -np /etc/sysctl.conf /etc/sysctl.conf_bak "
+           "</br>2、修改配置"
+           "</br>#vi /etc/sysctl.conf"
+           "</br>net.ipv4.conf.all.rp_filter=1 "
+           "</br>net.ipv4.conf.default.rp_filter=1 "
+           "</br>使得配置生效：sysctl -p ")
+SUG_C33 = ("1、执行备份："
+           "</br>#cp -np /etc/logrotate.d/syslog /etc/logrotate.d/syslog_bak "
+           "</br>或#cp -np /etc/logrotate.d/rsyslog /etc/logrotate.d/rsyslog_bak"
+           "</br>2、修改配置"
+           "</br>#vi /etc/logrotate.d/rsyslog或/etc/logrotate.d/syslog"
+           "</br>若未配置size，则在{}内配置size 10M"
+           "</br>3、重启rsyslog服务:"
+           "</br>#systemctl restart rsyslog")
+SUG_C34 = ("1、执行备份："
+           "</br>#cp -np /etc/logrotate.d/syslog /etc/logrotate.d/syslog_bak "
+           "</br>或#cp -np /etc/logrotate.d/rsyslog /etc/logrotate.d/rsyslog_bak"
+           "</br>2、修改配置"
+           "</br>#vi /etc/logrotate.d/rsyslog或/etc/logrotate.d/syslog"
+           "</br>若未配置size，则在{}内配置rotate 3"
+           "</br>3、重启rsyslog服务:"
+           "</br>#systemctl restart rsyslog")
 
 SUG_R01 = "请重新检查问题文件，或删除病毒文件，或重装系统"

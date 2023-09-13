@@ -8,6 +8,7 @@ logger = logging.getLogger("secscanner")
 
 
 def C30_ftpBanner():
+    InsertSection("check the ftp banner")
     ftpBanner_set = 'unset'
     with open('/etc/vsftpd/vsftpd.conf', 'r') as file:
         lines = file.readlines()

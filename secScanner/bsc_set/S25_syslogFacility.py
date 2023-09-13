@@ -13,22 +13,23 @@ def S25_syslogFacility():
         if not os.path.exists('/etc/ssh/sshd_config_bak'):
             shutil.copy2('/etc/ssh/sshd_config', '/etc/ssh/sshd_config_bak')
         # -----------------set the syslogfacility----------------
-        IS_EXIST = 0
-        with open('/etc/ssh/sshd_config', 'r') as read_file:
-            lines = read_file.readlines()
-            for line in lines:
-                if (not re.match('#|$', line)) and re.search('SyslogFacility', line) and re.search('AUTH', line):
-                    IS_EXIST = 1
-        if IS_EXIST == 0:
-            with open('/etc/ssh/sshd_config', 'a') as add_file:
-                add_file.write('\nSyslogFacility AUTH\n')
-        else:
-            with open('/etc/ssh/sshd_config', 'w') as write_file:
-                for line in lines:
-                    if re.match('SyslogFacility', line):
-                        write_file.write("SyslogFacility AUTH\n")
-                    else:
-                        write_file.write(line)
+        with open('/etc/ssh/sshd_config', 'r+') as f:
+            lines = f.readlines()
+            facility_exists = False
+            for i, line in enumerate(lines):
+                if line.strip().startswith("#SyslogFacility"):
+                    facility_exists = True
+                    lines[i] = lines[i].replace("#", "")
+                elif line.strip().startswith("SyslogFacility"):
+                    facility_exists = True
+                    if not re.search('YES', line):
+                        lines[i] = "SyslogFacility AUTH\n"
+                    break
+            if not facility_exists:
+                lines.append("SyslogFacility AUTH\n")
+            f.seek(0)
+            f.writelines(lines)
+            f.truncate()
 
         CHECK_EXIST = 0
         with open('/etc/ssh/sshd_config', 'r') as read_file:
@@ -39,7 +40,7 @@ def S25_syslogFacility():
                     temp = line.strip('\n').split()
                     if temp[0] == 'SyslogFacility' and temp[1] == 'AUTH':
                         CHECK_EXIST = 1
-        if IS_EXIST == 0:
+        if not facility_exists:
             logger.info("set the ssh syslogfacility failed, no set option")
             Display(f"- Set the ssh syslogfacility...", "FAILED")
         elif CHECK_EXIST == 0:

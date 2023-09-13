@@ -8,8 +8,8 @@ import pathlib
 logger = logging.getLogger("secscanner")
 
 def S30_ftpBanner():
-    InsertSection("Set the ftpbanner...")
-    set_ftp_banner = seconf.get('basic', 'set_ftp_banner')
+    InsertSection("Set the ftp banner...")
+    set_ftp_banner = seconf.get('advance', 'set_ftp_banner')
     if set_ftp_banner == 'yes':
         if os.path.exists('/etc/vsftpd/vsftpd.conf') and not os.path.exists('/etc/vsftpd/vsftpd.conf_bak'):
             shutil.copy2('/etc/vsftpd/vsftpd.conf', '/etc/vsftpd/vsftpd.conf_bak')
@@ -54,8 +54,8 @@ def S30_ftpBanner():
                     subprocess.run(['systemctl', 'restart', 'vsftpd'])
                 else:
                     subprocess.run(['systemctl', 'start', 'vsftpd'])
-                logger.info("set the ssh restrictFTPdir successfully")
-                Display(f"- Set the ssh restrictFTPdir...", "FINISHED")
+                logger.info("set the ftp banner successfully")
+                Display(f"- Set the ftp banner...", "FINISHED")
         else:
             Display("- filepath /etc/vsftpd/vsftpd.conf not exist...", "SKIPPING")
     else:
