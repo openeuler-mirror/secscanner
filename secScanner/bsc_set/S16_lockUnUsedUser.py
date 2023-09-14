@@ -17,9 +17,9 @@ def S16_lockUnUsedUser():
         if not os.path.exists('/etc/ssh/sshd_config_bak'):
             shutil.copy2('/etc/ssh/sshd_config', '/etc/ssh/sshd_config_bak')
         for i in UNUSED_USER_VALUE:
-            print(f"lock user: {i}")
-            subprocess.run(['passwd', '-l', i])
+            #print(f"lock user: {i}")
+            subprocess.run(['passwd', '-l', i], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         logger.info("lock the unused user successfully")
-        Display("- Use 'passwd -l' to lock the unused user, and change the shell...", "FINISHED")
+        Display("- lock the unused user ...", "FINISHED")
     else:
         Display("- Skip lock the unused users, due to config file...", "SKIPPING")

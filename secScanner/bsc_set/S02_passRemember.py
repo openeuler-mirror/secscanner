@@ -19,10 +19,10 @@ def S02_passRemember():
             os.chmod('/etc/security/opasswd', 600)
         if os.path.exists('/etc/security/opasswd') and os.access('/etc/security/opasswd', os.W_OK):
             logger.info("create the opasswd file finished successfully")
-            Display("- create the opasswd file finished...", "FINISHED")
+            #Display("- create the opasswd file finished...", "FINISHED")
         else:
             logger.info("create the opasswd file failed")
-            Display("- create the opasswd file failed...", "FAILED")
+            #Display("- create the opasswd file failed...", "FAILED")
 
         PASSWD_REM_SET = 'unset'
         with open('/etc/pam.d/system-auth', 'r') as read_file:
@@ -54,16 +54,15 @@ def S02_passRemember():
                     SET_VAL = re.findall(regex, line)[0]
                     if SET_VAL == PASSWD_REM:
                         CHECK_SET = 'right'
-
-        if CHECK_SET == 'right':
+        if os.path.exists('/etc/security/opasswd') and CHECK_SET == 'right':
             logger.info("set password remember times successfully")
             Display("- Set password remember times...", "FINISHED")
-        elif CHECK_SET == 'set':
+        elif os.path.exists('/etc/security/opasswd') and CHECK_SET == 'set':
             logger.info("set password remember times failed, wrong setting")
             Display("- Set password remember times...", "FAILED")
         else:
-            logger.info("set the ssh loglevel failed,no set option")
-            Display("- No pam_unix.so set, please check...", "FAILED")
+            logger.info("set the password remember times failed, no set option")
+            Display("- No password remember times set, please check...", "FAILED")
 
     else:
         Display("- Skip set opasswd rem times due to config file...", "SKIPPING")

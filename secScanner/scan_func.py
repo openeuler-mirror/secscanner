@@ -41,9 +41,9 @@ def scan_show_result():
     print(" "*2+"#"+" "*65+"#")
     print(" "*2+"#"*67)
     print(NORMAL)
-    report.main()
     report_datetime_end = datetime.now()
-    report_datetime_end = set_value("report_datetime_end",report_datetime_end)
+    set_value("report_datetime_end",report_datetime_end)
+    report.main()
 
 # check the system
 def scan_check_sys():
@@ -52,7 +52,7 @@ def scan_check_sys():
     print(WHITE)
     print(" "*2+"#"*67)
     print(" "*2+"#"+" "*65+"#")
-    print(f"  #   {MAGENTA}Starting check the system basically..."+WHITE+" "*26+"#")
+    print(f"  #   {MAGENTA}Starting check the system basically..."+WHITE+" "*24+"#")
     print(" "*2+"#"+" "*65+"#")
     print(" "*2+"#"*67)
     print(NORMAL)
@@ -63,9 +63,12 @@ def scan_check_sys():
         open(RESULT_FILE, "w").close()
     else:
         open(RESULT_FILE, "a").close()
-
     pattern = r'C([0-9]+)_.*\.py'
-    CHECK_ITEMS = sorted(glob.glob(r'./secScanner/bsc_check/*'))
+
+    dir = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(dir, "bsc_check")
+    CHECK_ITEMS = sorted(glob.glob( path + '/*' ))
+
     for i in CHECK_ITEMS:
         match = re.search(pattern, i)
         if match:
@@ -86,7 +89,6 @@ def scan_check_sys():
                     print(f"Module {module_name} does not have the required function: {e}")
                     sys.exit(1)
                 logger.info("===---------------------------------------------------------------===\n")
-
     scan_show_result()
 
 # check the system rootkit
@@ -109,7 +111,9 @@ def scan_check_rootkit():
         open(RESULT_FILE, "a").close()
 
     pattern = r'R([0-9]+)_.*\.py'
-    CHECK_ITEMS = sorted(glob.glob(r'./secScanner/intrusion_check/*'))
+    dir = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(dir, "intrusion_check")
+    CHECK_ITEMS = sorted(glob.glob(path + '/*'))
     for i in CHECK_ITEMS:
         match = re.match(pattern, i)
         if match:
@@ -144,39 +148,35 @@ def scan_fix_sys():
     print(NORMAL)
 
     OS_ID = get_value("OS_ID")
-    if os.path.isfile(RESULT_FILE) and os.path.getsize(RESULT_FILE) > 0:
-        CHECK_SET = sorted(glob.glob(r'./secScanner/bsc_set/*'))
-        pattern = r'S([0-9]+)_.*\.py'
-        print(f"Begin to fix the {OS_ID} system warnings, according to checking-result...")
-        for line in open(RESULT_FILE):
-            if not line.strip().startswith('#') and not line.strip() == "":
-                iFix = line.split()[0].split('C')[-1]
-                match = re.search(pattern, iFix)
-                if match:
-                    SET_ITEM = [f for f in CHECK_SET if match.group(0) in f]
-                    s_num = int(match.group(1))
-                    if len(SET_ITEM) > 0 and 1 <= s_num <= 60 and os.path.isfile(SET_ITEM[0]):
-                        module_name = os.path.splitext(os.path.basename(iFix))[0]
-                        module_path = os.path.dirname(iFix)
-                        sys.path.append(module_path)
-                        print(f"Fixing items {iFix} using {SET_ITEM[0]}...")
-                        try:
-                            module = __import__(module_name)
-                            getattr(module, module_name)()
-                        except ImportError as e:
-                            print(f"Failed to import module {module_name}: {e}")
-                            sys.exit(1)
-                        except AttributeError as e:
-                            print(f"Module {module_name} does not have the required function: {e}")
-                            sys.exit(1)
+    dir = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(dir, "bsc_set")
+    CHECK_SET = sorted(glob.glob(path + '/*'))
+    pattern = r'S([0-9]+)_.*\.py'
 
-                    else:
-                        logger.info(f"Can't fix items {iFix} in this status, try {SET_ITEM[0]} to fix.")
-        open(RESULT_FILE, 'w').close()
-        os.remove(RESULT_FILE)
+    if os.path.isfile(RESULT_FILE) and os.path.getsize(RESULT_FILE) > 0:
+        print(f"Begin to fix the system warnings, according to checking-result...")
+        with open(RESULT_FILE) as result_file:
+
+            for line in result_file:
+                if not line.strip().startswith('#') and not line.strip() == "":
+                    ifix = line.split()[0].split('C')[-1]
+                    s_pattern = r'S' + ifix + r'_.*\.py'
+                    for i in CHECK_SET:
+                        match = re.search(s_pattern, i )
+                        if match:
+                            module_name = os.path.splitext(os.path.basename(i))[0]
+                            module_path = os.path.dirname(i)
+                            sys.path.append(module_path)
+                            try:
+                                module = __import__(module_name)
+                                getattr(module, module_name)()
+                                break
+                            except:
+                                pass
+
+            open(RESULT_FILE, 'w').close()
+            os.remove(RESULT_FILE)
     else:
-        pattern = r'S([0-9]+)_.*\.py'
-        CHECK_SET = sorted(glob.glob(r'./secScanner/bsc_set/*'))
         print(f"Begin to fix the {OS_ID} system warnings, without checking-result...")
         for iFix in CHECK_SET:
             match = re.search(pattern, iFix)
@@ -186,7 +186,7 @@ def scan_fix_sys():
                     module_name = os.path.splitext(os.path.basename(iFix))[0]
                     module_path = os.path.dirname(iFix)
                     sys.path.append(module_path)
-                    print(f"Fixing items using {iFix}...")
+                    #print(f"Fixing items using {iFix}...")
                     try:
                         module = __import__(module_name)
                         getattr(module, module_name)()
@@ -234,10 +234,10 @@ def restore_unused_user():
     unused_users = seconf.get('basic', 'unused_user_value').split()
     for user in unused_users:
         grep_output = subprocess.run(['grep', user, '/etc/passwd'], capture_output=True, text=True)
-        is_exist = len(grep_output.stdout.split('\n')) - 1
-        if is_exist != 0:
-            subprocess.run(['usermod', '-U', '-s', '/sbin/nologin', user])
-            Display("- Restoring unused user...", "FINISHED")
+        if grep_output.returncode == 0:
+            usermod_process = subprocess.run(['usermod', '-U', '-s', '/sbin/nologin', user])
+            if usermod_process.returncode == 0:
+                Display(f"- Restoring unused {user}...", "FINISHED")
 
 # restore the basic settings
 def scan_restore_basic_inline():
@@ -251,8 +251,8 @@ def scan_restore_basic_inline():
     for i in BAK_FILES:
         dest_path = i
         source_path = dest_path.strip("_bak")
-        print(dest_path)
-        print(source_path)
+        #print(dest_path)
+        #print(source_path)
         if os.path.isfile(dest_path):
             logger.info(f'Found bak file: {source_path}, starting restore')
             Display(f"- Restoring cfg file: {source_path}...", "FINISHED")
@@ -261,7 +261,7 @@ def scan_restore_basic_inline():
             shutil.move(dest_path, source_path)
         else:
             logger.warning(f'No {source_path} bak config file was found')
-            Display(f"- Restoring cfg file:$i...", "SKIPPED")
+            Display(f"- Restoring cfg file:{i}...", "SKIPPED")
 
     # restart service
 

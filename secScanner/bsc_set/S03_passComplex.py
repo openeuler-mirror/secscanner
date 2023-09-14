@@ -27,48 +27,8 @@ def check_complex_set(keyword, minclass_val, minlen_val, ucredit_val, lcredit_va
                 if re.search(f'ocredit={ocredit_val}', line):
                     result[5] = 1
 
-    if result[0] == 1:
-        logger.info("set password minclass successfully")
-        Display("- Set password minclass finished...", "FINISHED")
-    else:
-        logger.info("set password minclass failed, no set option")
-        Display("- Set password minclass failed...", "FAILED")
-
-    if result[1] == 1:
-        logger.info("set password minlen successfully")
-        Display("- Set password minlen finished...", "FINISHED")
-    else:
-        logger.info("set password minlen failed, no set option")
-        Display("- Set password minlen failed...", "FAILED")
-
-    if result[2] == 1:
-        logger.info("set password ucredit successfully")
-        Display("- Set password ucredit finished...", "FINISHED")
-    else:
-        logger.info("set password ucredit failed, no set option")
-        Display("- Set password ucredit failed...", "FAILED")
-
-    if result[3] == 1:
-        logger.info("set password lcredit successfully")
-        Display("- Set password lcredit finished...", "FINISHED")
-    else:
-        logger.info("set password lcredit failed, no set option")
-        Display("- Set password lcredit failed...", "FAILED")
-
-    if result[4] == 1:
-        logger.info("set password dcredit successfully")
-        Display("- Set password dcredit finished...", "FINISHED")
-    else:
-        logger.info("set password dcredit failed, no set option")
-        Display("- Set password dcredit failed...", "FAILED")
-
-    if result[5] == 1:
-        logger.info("set password ocredit successfully")
-        Display("- Set password ocredit finished...", "FINISHED")
-    else:
-        logger.info("set password ocredit failed, no set option")
-        Display("- Set password ocredit failed...", "FAILED")
-
+    if result[0] == 1 and result[1] == 1 and result[2] == 1 and result[3] == 1 and result[4] == 1 and result[5] == 1:
+        Display("- Set password complex...", "FINISHED")
 
 def S03_passComplex():
     InsertSection("set password complex")
@@ -84,7 +44,7 @@ def S03_passComplex():
     if set_password_rem == 'yes':
         if os.path.exists('/etc/pam.d/system-auth') and not os.path.exists('/etc/pam.d/system-auth_bak'):
             shutil.copy2('/etc/pam.d/system-auth', '/etc/pam.d/system-auth_bak')
-        elif os.path.exists('/etc/pam.d/system-auth'):
+        if os.path.exists('/etc/pam.d/system-auth'):
             with open(file_name, 'r') as read_file:
                 lines = read_file.readlines()
                 for line in lines:
@@ -112,6 +72,7 @@ def S03_passComplex():
                         else:
                             write_file.write(line)
             check_complex_set('pam_pwquality.so', minclass, minlen, ucredit, lcredit, dcredit, ocredit)
+
         else:
             Display("- Skip set password complex due to config file...", "SKIPPING")
 
