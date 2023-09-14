@@ -9,7 +9,6 @@ from secScanner.commands.check_outprint import *
 
 
 def el67_check_deny():
-    InsertSection("check User login lock deny times and unlock time")
     regex = r'(?<=deny=).[0-9]*'
     DENY = ''
     with open("/etc/pam.d/system-auth", "r") as file:
@@ -38,7 +37,6 @@ def el67_check_deny():
 
 
 def oe_el8_check_deny():
-    InsertSection("check User login lock deny times and unlock time")
     regex = r'(?<=deny=).[0-9]*'
     DENY1 = ''
     DENY2 = ''
@@ -81,10 +79,10 @@ def C04_loginLock():
     OS_ID = get_value("OS_ID")
     OS_DISTRO = get_value("OS_DISTRO")
     InsertSection("check User login lock deny times and unlock time")
-    if OS_ID.lower() in ["centos", "rhel", "redhat", "openeuler", "bclinux"]:
+    if OS_ID.lower() in ["centos", "rhel", "redhat", "openEuler", "bclinux"]:
         if OS_DISTRO in ["7", "6"]:
             el67_check_deny()
-        elif OS_DISTRO in ["21.10", "20.12", "8"]:
+        elif OS_DISTRO in ["21.10", "20.12", "8", "22.10U1", "22.10", "22.10U2", "22.03"]:
             oe_el8_check_deny()
         else:
             logger.warning(f"We do not support {OS_ID}-{OS_DISTRO} at this moment")

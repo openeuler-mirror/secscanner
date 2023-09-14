@@ -20,7 +20,7 @@ def S29_sshLogLevel():
                 if line.strip().startswith("#LogLevel"):
                     loglevel_exists = True
                     lines[i] = lines[i].replace("#", "")
-                elif line.strip().startswith("LogLevel"):
+                if line.strip().startswith("LogLevel"):
                     loglevel_exists = True
                     if not re.search('VERBOSE', line):
                         lines[i] = "LogLevel VERBOSE\n"

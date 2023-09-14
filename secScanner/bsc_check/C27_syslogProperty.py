@@ -24,10 +24,10 @@ def C27_syslogProperty():
             ilog_perm = subprocess.run(['ls', '-al', f], stdout=subprocess.PIPE)
             result = ilog_perm.stdout.split()
             if (b'rw-------' in result[0]):
-                Display(f"- check if {f} property is 600 or not...", "OK")
+                Display(f"- check if {f} property is 600 ...", "OK")
             else:
                 with open(RESULT_FILE, "a") as file:
                     file.write("\nC27\n")
                 logger.warning("WRN_C27: %s", WRN_C27)
                 logger.warning("SUG_C27: %s", SUG_C27)
-                Display(f"- Check if {f} property is 600 or not...", "WARNING")
+                Display(f"- Check if {f} property is not 600...", "WARNING")

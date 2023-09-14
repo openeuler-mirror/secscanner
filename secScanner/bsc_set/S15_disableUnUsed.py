@@ -9,36 +9,28 @@ DISABLE_UNUSED_SOFTWARE = seconf.get('basic', 'disable_unused_software')
 UNUSED_SOFTWARE_VALUE = seconf.get('basic', 'unused_software_value').split()
 
 def dis():
-    SHELL_RUN = subprocess.run(['systemctl', 'list-units', '--type=service', '--type=socket'], stdout=subprocess.PIPE)
-    SHELL_RESULT = SHELL_RUN.stdout  # get shell result, SHELL_RESULT is a stream of bytes
-    temp = SHELL_RESULT.split(b'\n', -1)  # cut the byte stream by lines
-    for i in range(len(temp)):
-        line_list = temp[i].decode().split()  # delete space and split
-        if len(line_list) > 3 and line_list[1] == 'loaded' and line_list[2] != 'failed' and line_list[3] != 'exited':
-            # make sure service or socket is 'loaded', cant be failed, cant be exited
-            SERV_SOCK = line_list[0]
-            if ('.service' in SERV_SOCK) or ('.socket' in SERV_SOCK):
-                for j in UNUSED_SOFTWARE_VALUE:  # find if there is a needstopser in string(.service or .socket)
-                    if j in SERV_SOCK:
-                        SYSTEMCTL_RUN = subprocess.run(['systemctl', 'is-active', j], stdout=subprocess.PIPE,
-                                                       stderr=subprocess.PIPE)
-                        RUN_OUT = len(SYSTEMCTL_RUN.stdout)
-                        RUN_ERR = len(SYSTEMCTL_RUN.stderr)
-                        if RUN_ERR == 0 and RUN_OUT != 0:
-                            print(f"stop {j}")
+    command1 = ['systemctl', '-l']
+    command2 = ['grep', 'running']
+    output1 = subprocess.run(command1, stdout=subprocess.PIPE)
+    output2 = subprocess.run(command2, input=output1.stdout, stdout=subprocess.PIPE)
+    result = output2.stdout.decode().split('\n')
+    if len(result) > 0:
+        for line in result:
+            if line:
+                SERV_SOCK = line.split()[0]
+                if ('.service' in SERV_SOCK) or ('.socket' in SERV_SOCK):
+                    for j in UNUSED_SOFTWARE_VALUE:
+                        if j == SERV_SOCK:
                             subprocess.run(['systemctl', 'stop', j])
-                            logger.info(
-                                f"Stop the unused software: {j}, you can use systemctl start {j} to enable it...")
+                            logger.info(f"Stop the unused software: {j}, you can use systemctl start {j} to enable it...")
 
-                        SYSTEMCTL_RUN = subprocess.run(['systemctl', 'is-enabled', j], stdout=subprocess.PIPE,
+                            enable_ser = subprocess.run(['systemctl', 'is-enabled', j], stdout=subprocess.PIPE,
                                                        stderr=subprocess.PIPE)
-                        RUN_OUT = len(SYSTEMCTL_RUN.stdout)
-                        RUN_ERR = len(SYSTEMCTL_RUN.stderr)
-                        if RUN_ERR == 0 and RUN_OUT != 0:
-                            print(f"diable {j}")
-                            subprocess.run(['systemctl', 'disable', j])
-                            logger.info(
-                                f"Disable the unused software: {j}, you can use systemctl enable {j} to enable it...")
+                            run_out = len(enable_ser.stdout)
+                            run_err = len(enable_ser.stderr)
+                            if RUN_ERR == 0 and RUN_OUT != 0:
+                                subprocess.run(['systemctl', 'disable', j])
+                                logger.info(f"Disable the unused software: {j}, you can use systemctl enable {j} to enable it...")
 
 
 def S15_disableUnUsed():

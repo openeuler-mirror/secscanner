@@ -234,10 +234,10 @@ def restore_unused_user():
     unused_users = seconf.get('basic', 'unused_user_value').split()
     for user in unused_users:
         grep_output = subprocess.run(['grep', user, '/etc/passwd'], capture_output=True, text=True)
-        is_exist = len(grep_output.stdout.split('\n')) - 1
-        if is_exist != 0:
-            subprocess.run(['usermod', '-U', '-s', '/sbin/nologin', user])
-            Display("- Restoring unused user...", "FINISHED")
+        if grep_output.returncode == 0:
+            usermod_process = subprocess.run(['usermod', '-U', '-s', '/sbin/nologin', user])
+            if usermod_process.returncode == 0:
+                Display(f"- Restoring unused {user}...", "FINISHED")
 
 # restore the basic settings
 def scan_restore_basic_inline():
@@ -251,8 +251,8 @@ def scan_restore_basic_inline():
     for i in BAK_FILES:
         dest_path = i
         source_path = dest_path.strip("_bak")
-        print(dest_path)
-        print(source_path)
+        #print(dest_path)
+        #print(source_path)
         if os.path.isfile(dest_path):
             logger.info(f'Found bak file: {source_path}, starting restore')
             Display(f"- Restoring cfg file: {source_path}...", "FINISHED")
@@ -261,7 +261,7 @@ def scan_restore_basic_inline():
             shutil.move(dest_path, source_path)
         else:
             logger.warning(f'No {source_path} bak config file was found')
-            Display(f"- Restoring cfg file:$i...", "SKIPPED")
+            Display(f"- Restoring cfg file:{i}...", "SKIPPED")
 
     # restart service
 

@@ -21,7 +21,7 @@ def S30_ftpBanner():
                     if line.strip().startswith("ftpd_banner"):
                         lines[i] = "ftpd_banner=Authorized users only. All activity may be monitored and reported.\n"
                         found_banner = True
-                    elif line.strip().startswith("#ftpd_banner=Welcome to blah FTP service."):
+                    if line.strip().startswith("#ftpd_banner=Welcome to blah FTP service."):
                         lines[i] = line.replace("#", "")
                         found_banner = True
                 if not found_banner:

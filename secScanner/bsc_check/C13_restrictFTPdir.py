@@ -8,6 +8,7 @@ logger = logging.getLogger("secscanner")
 
 
 def C13_restrictFTPdir():
+    InsertSection("check the ftp restrict directories")
     restrictFTPdir_set = 'unset'
     with open('/etc/vsftpd/vsftpd.conf', 'r') as file:
         lines = file.readlines()
