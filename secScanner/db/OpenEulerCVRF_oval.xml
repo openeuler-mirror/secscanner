@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oval_definitions 
+xsi:schemaLocation="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux linux-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#unix unix-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5 oval-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd"
+xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5"
+xmlns:oval-def="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+<generator>
+<oval:product_name>Marcus Updateinfo to OVAL Converter</oval:product_name>
+<oval:schema_version>5.5</oval:schema_version>
+<oval:timestamp>2023-09-14T13:17:41</oval:timestamp>
+</generator>
+<definitions>
+<definition id="oval:org.bclinux.security:def:31" version="1" class="security advisory">
+<metadata>
+<cveThreat>Medium;High;</cveThreat>
+<affectedComponent>freeradius</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1031</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>31</id>
+<cveId>CVE-2019-13456;CVE-2019-17185;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['freeradius-3.0.15-21.oe1.src.rpm'], 'aarch64': ['freeradius-ldap-3.0.15-21.oe1.aarch64.rpm', 'freeradius-postgresql-3.0.15-21.oe1.aarch64.rpm', 'freeradius-devel-3.0.15-21.oe1.aarch64.rpm', 'freeradius-help-3.0.15-21.oe1.aarch64.rpm', 'freeradius-debuginfo-3.0.15-21.oe1.aarch64.rpm', 'freeradius-perl-3.0.15-21.oe1.aarch64.rpm', 'freeradius-mysql-3.0.15-21.oe1.aarch64.rpm', 'freeradius-sqlite-3.0.15-21.oe1.aarch64.rpm', 'freeradius-krb5-3.0.15-21.oe1.aarch64.rpm', 'freeradius-utils-3.0.15-21.oe1.aarch64.rpm', 'python2-freeradius-3.0.15-21.oe1.aarch64.rpm', 'freeradius-3.0.15-21.oe1.aarch64.rpm', 'freeradius-debugsource-3.0.15-21.oe1.aarch64.rpm'], 'x86_64': ['freeradius-utils-3.0.15-21.oe1.x86_64.rpm', 'freeradius-ldap-3.0.15-21.oe1.x86_64.rpm', 'freeradius-mysql-3.0.15-21.oe1.x86_64.rpm', 'freeradius-debugsource-3.0.15-21.oe1.x86_64.rpm', 'freeradius-postgresql-3.0.15-21.oe1.x86_64.rpm', 'freeradius-help-3.0.15-21.oe1.x86_64.rpm', 'freeradius-debuginfo-3.0.15-21.oe1.x86_64.rpm', 'freeradius-perl-3.0.15-21.oe1.x86_64.rpm', 'freeradius-sqlite-3.0.15-21.oe1.x86_64.rpm', 'freeradius-devel-3.0.15-21.oe1.x86_64.rpm', 'freeradius-krb5-3.0.15-21.oe1.x86_64.rpm', 'python2-freeradius-3.0.15-21.oe1.x86_64.rpm', 'freeradius-3.0.15-21.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['freeradius-3.0.15-22.oe1.src.rpm'], 'aarch64': ['freeradius-postgresql-3.0.15-22.oe1.aarch64.rpm', 'freeradius-debuginfo-3.0.15-22.oe1.aarch64.rpm', 'freeradius-mysql-3.0.15-22.oe1.aarch64.rpm', 'freeradius-utils-3.0.15-22.oe1.aarch64.rpm', 'freeradius-debugsource-3.0.15-22.oe1.aarch64.rpm', 'freeradius-help-3.0.15-22.oe1.aarch64.rpm', 'freeradius-ldap-3.0.15-22.oe1.aarch64.rpm', 'freeradius-krb5-3.0.15-22.oe1.aarch64.rpm', 'freeradius-sqlite-3.0.15-22.oe1.aarch64.rpm', 'freeradius-devel-3.0.15-22.oe1.aarch64.rpm', 'freeradius-3.0.15-22.oe1.aarch64.rpm', 'freeradius-perl-3.0.15-22.oe1.aarch64.rpm'], 'x86_64': ['freeradius-perl-3.0.15-22.oe1.x86_64.rpm', 'freeradius-help-3.0.15-22.oe1.x86_64.rpm', 'freeradius-postgresql-3.0.15-22.oe1.x86_64.rpm', 'freeradius-krb5-3.0.15-22.oe1.x86_64.rpm', 'freeradius-sqlite-3.0.15-22.oe1.x86_64.rpm', 'freeradius-debuginfo-3.0.15-22.oe1.x86_64.rpm', 'freeradius-ldap-3.0.15-22.oe1.x86_64.rpm', 'freeradius-utils-3.0.15-22.oe1.x86_64.rpm', 'freeradius-mysql-3.0.15-22.oe1.x86_64.rpm', 'freeradius-debugsource-3.0.15-22.oe1.x86_64.rpm', 'freeradius-3.0.15-22.oe1.x86_64.rpm', 'freeradius-devel-3.0.15-22.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:30" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;</cveThreat>
+<affectedComponent>wireshark</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1030</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>30</id>
+<cveId>CVE-2019-16319;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['wireshark-2.6.2-16.oe1.src.rpm'], 'aarch64': ['wireshark-help-2.6.2-16.oe1.aarch64.rpm', 'wireshark-debuginfo-2.6.2-16.oe1.aarch64.rpm', 'wireshark-2.6.2-16.oe1.aarch64.rpm', 'wireshark-debugsource-2.6.2-16.oe1.aarch64.rpm', 'wireshark-devel-2.6.2-16.oe1.aarch64.rpm'], 'x86_64': ['wireshark-debugsource-2.6.2-16.oe1.x86_64.rpm', 'wireshark-2.6.2-16.oe1.x86_64.rpm', 'wireshark-help-2.6.2-16.oe1.x86_64.rpm', 'wireshark-devel-2.6.2-16.oe1.x86_64.rpm', 'wireshark-debuginfo-2.6.2-16.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['wireshark-2.6.2-17.oe1.src.rpm'], 'aarch64': ['wireshark-devel-2.6.2-17.oe1.aarch64.rpm', 'wireshark-debuginfo-2.6.2-17.oe1.aarch64.rpm', 'wireshark-help-2.6.2-17.oe1.aarch64.rpm', 'wireshark-debugsource-2.6.2-17.oe1.aarch64.rpm', 'wireshark-2.6.2-17.oe1.aarch64.rpm'], 'x86_64': ['wireshark-debugsource-2.6.2-17.oe1.x86_64.rpm', 'wireshark-devel-2.6.2-17.oe1.x86_64.rpm', 'wireshark-2.6.2-17.oe1.x86_64.rpm', 'wireshark-help-2.6.2-17.oe1.x86_64.rpm', 'wireshark-debuginfo-2.6.2-17.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:29" version="1" class="security advisory">
+<metadata>
+<cveThreat>Critical;</cveThreat>
+<affectedComponent>libtomcrypt</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1029</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>29</id>
+<cveId>CVE-2019-17362;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['libtomcrypt-1.18.2-4.oe1.src.rpm'], 'aarch64': ['libtomcrypt-debuginfo-1.18.2-4.oe1.aarch64.rpm', 'libtomcrypt-debugsource-1.18.2-4.oe1.aarch64.rpm', 'libtomcrypt-1.18.2-4.oe1.aarch64.rpm', 'libtomcrypt-devel-1.18.2-4.oe1.aarch64.rpm'], 'x86_64': ['libtomcrypt-debugsource-1.18.2-4.oe1.x86_64.rpm', 'libtomcrypt-debuginfo-1.18.2-4.oe1.x86_64.rpm', 'libtomcrypt-1.18.2-4.oe1.x86_64.rpm', 'libtomcrypt-devel-1.18.2-4.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['libtomcrypt-1.18.2-4.oe1.src.rpm'], 'aarch64': ['libtomcrypt-debuginfo-1.18.2-4.oe1.aarch64.rpm', 'libtomcrypt-debugsource-1.18.2-4.oe1.aarch64.rpm', 'libtomcrypt-1.18.2-4.oe1.aarch64.rpm', 'libtomcrypt-devel-1.18.2-4.oe1.aarch64.rpm'], 'x86_64': ['libtomcrypt-debugsource-1.18.2-4.oe1.x86_64.rpm', 'libtomcrypt-debuginfo-1.18.2-4.oe1.x86_64.rpm', 'libtomcrypt-1.18.2-4.oe1.x86_64.rpm', 'libtomcrypt-devel-1.18.2-4.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:28" version="1" class="security advisory">
+<metadata>
+<cveThreat>Medium;</cveThreat>
+<affectedComponent>vorbis-tools</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1028</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>28</id>
+<cveId>CVE-2014-9640;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['vorbis-tools-1.4.0-31.oe1.src.rpm'], 'aarch64': ['vorbis-tools-debuginfo-1.4.0-31.oe1.aarch64.rpm', 'vorbis-tools-debugsource-1.4.0-31.oe1.aarch64.rpm', 'vorbis-tools-1.4.0-31.oe1.aarch64.rpm'], 'x86_64': ['vorbis-tools-1.4.0-31.oe1.x86_64.rpm', 'vorbis-tools-debuginfo-1.4.0-31.oe1.x86_64.rpm', 'vorbis-tools-debugsource-1.4.0-31.oe1.x86_64.rpm'], 'noarch': ['vorbis-tools-help-1.4.0-31.oe1.noarch.rpm']}, 'openEuler-20.03-LTS-SP1': {'src': ['vorbis-tools-1.4.0-31.oe1.src.rpm'], 'aarch64': ['vorbis-tools-debuginfo-1.4.0-31.oe1.aarch64.rpm', 'vorbis-tools-debugsource-1.4.0-31.oe1.aarch64.rpm', 'vorbis-tools-1.4.0-31.oe1.aarch64.rpm'], 'x86_64': ['vorbis-tools-1.4.0-31.oe1.x86_64.rpm', 'vorbis-tools-debuginfo-1.4.0-31.oe1.x86_64.rpm', 'vorbis-tools-debugsource-1.4.0-31.oe1.x86_64.rpm'], 'noarch': ['vorbis-tools-help-1.4.0-31.oe1.noarch.rpm']}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:27" version="1" class="security advisory">
+<metadata>
+<cveThreat>Medium;</cveThreat>
+<affectedComponent>openssl</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1027</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>27</id>
+<cveId>CVE-2020-1971;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['openssl-1.1.1f-3.oe1.src.rpm'], 'aarch64': ['openssl-libs-1.1.1f-3.oe1.aarch64.rpm', 'openssl-devel-1.1.1f-3.oe1.aarch64.rpm', 'openssl-debuginfo-1.1.1f-3.oe1.aarch64.rpm', 'openssl-1.1.1f-3.oe1.aarch64.rpm', 'openssl-debugsource-1.1.1f-3.oe1.aarch64.rpm', 'openssl-help-1.1.1f-3.oe1.aarch64.rpm'], 'x86_64': ['openssl-1.1.1f-3.oe1.x86_64.rpm', 'openssl-devel-1.1.1f-3.oe1.x86_64.rpm', 'openssl-libs-1.1.1f-3.oe1.x86_64.rpm', 'openssl-help-1.1.1f-3.oe1.x86_64.rpm', 'openssl-debuginfo-1.1.1f-3.oe1.x86_64.rpm', 'openssl-debugsource-1.1.1f-3.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['openssl-1.1.1f-3.oe1.src.rpm'], 'aarch64': ['openssl-libs-1.1.1f-3.oe1.aarch64.rpm', 'openssl-devel-1.1.1f-3.oe1.aarch64.rpm', 'openssl-debuginfo-1.1.1f-3.oe1.aarch64.rpm', 'openssl-1.1.1f-3.oe1.aarch64.rpm', 'openssl-debugsource-1.1.1f-3.oe1.aarch64.rpm', 'openssl-help-1.1.1f-3.oe1.aarch64.rpm'], 'x86_64': ['openssl-1.1.1f-3.oe1.x86_64.rpm', 'openssl-devel-1.1.1f-3.oe1.x86_64.rpm', 'openssl-libs-1.1.1f-3.oe1.x86_64.rpm', 'openssl-help-1.1.1f-3.oe1.x86_64.rpm', 'openssl-debuginfo-1.1.1f-3.oe1.x86_64.rpm', 'openssl-debugsource-1.1.1f-3.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:26" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;</cveThreat>
+<affectedComponent>krb5</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1026</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>26</id>
+<cveId>CVE-2020-28196;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['krb5-1.18.2-2.oe1.src.rpm'], 'aarch64': ['krb5-debuginfo-1.18.2-2.oe1.aarch64.rpm', 'krb5-libs-1.18.2-2.oe1.aarch64.rpm', 'krb5-help-1.18.2-2.oe1.aarch64.rpm', 'krb5-devel-1.18.2-2.oe1.aarch64.rpm', 'krb5-server-1.18.2-2.oe1.aarch64.rpm', 'krb5-1.18.2-2.oe1.aarch64.rpm', 'krb5-debugsource-1.18.2-2.oe1.aarch64.rpm', 'krb5-client-1.18.2-2.oe1.aarch64.rpm'], 'x86_64': ['krb5-debugsource-1.18.2-2.oe1.x86_64.rpm', 'krb5-server-1.18.2-2.oe1.x86_64.rpm', 'krb5-1.18.2-2.oe1.x86_64.rpm', 'krb5-help-1.18.2-2.oe1.x86_64.rpm', 'krb5-debuginfo-1.18.2-2.oe1.x86_64.rpm', 'krb5-libs-1.18.2-2.oe1.x86_64.rpm', 'krb5-devel-1.18.2-2.oe1.x86_64.rpm', 'krb5-client-1.18.2-2.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['krb5-1.18.2-2.oe1.src.rpm'], 'aarch64': ['krb5-debuginfo-1.18.2-2.oe1.aarch64.rpm', 'krb5-libs-1.18.2-2.oe1.aarch64.rpm', 'krb5-help-1.18.2-2.oe1.aarch64.rpm', 'krb5-devel-1.18.2-2.oe1.aarch64.rpm', 'krb5-server-1.18.2-2.oe1.aarch64.rpm', 'krb5-1.18.2-2.oe1.aarch64.rpm', 'krb5-debugsource-1.18.2-2.oe1.aarch64.rpm', 'krb5-client-1.18.2-2.oe1.aarch64.rpm'], 'x86_64': ['krb5-debugsource-1.18.2-2.oe1.x86_64.rpm', 'krb5-server-1.18.2-2.oe1.x86_64.rpm', 'krb5-1.18.2-2.oe1.x86_64.rpm', 'krb5-help-1.18.2-2.oe1.x86_64.rpm', 'krb5-debuginfo-1.18.2-2.oe1.x86_64.rpm', 'krb5-libs-1.18.2-2.oe1.x86_64.rpm', 'krb5-devel-1.18.2-2.oe1.x86_64.rpm', 'krb5-client-1.18.2-2.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:25" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;</cveThreat>
+<affectedComponent>luajit</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1025</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>25</id>
+<cveId>CVE-2020-15890;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['luajit-2.1.0-1.oe1.src.rpm'], 'aarch64': ['luajit-debuginfo-2.1.0-1.oe1.aarch64.rpm', 'luajit-help-2.1.0-1.oe1.aarch64.rpm', 'luajit-devel-2.1.0-1.oe1.aarch64.rpm', 'luajit-debugsource-2.1.0-1.oe1.aarch64.rpm', 'luajit-2.1.0-1.oe1.aarch64.rpm'], 'x86_64': ['luajit-debugsource-2.1.0-1.oe1.x86_64.rpm', 'luajit-help-2.1.0-1.oe1.x86_64.rpm', 'luajit-devel-2.1.0-1.oe1.x86_64.rpm', 'luajit-debuginfo-2.1.0-1.oe1.x86_64.rpm', 'luajit-2.1.0-1.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['luajit-2.1.0-1.oe1.src.rpm'], 'aarch64': ['luajit-debuginfo-2.1.0-1.oe1.aarch64.rpm', 'luajit-help-2.1.0-1.oe1.aarch64.rpm', 'luajit-devel-2.1.0-1.oe1.aarch64.rpm', 'luajit-debugsource-2.1.0-1.oe1.aarch64.rpm', 'luajit-2.1.0-1.oe1.aarch64.rpm'], 'x86_64': ['luajit-debugsource-2.1.0-1.oe1.x86_64.rpm', 'luajit-help-2.1.0-1.oe1.x86_64.rpm', 'luajit-devel-2.1.0-1.oe1.x86_64.rpm', 'luajit-debuginfo-2.1.0-1.oe1.x86_64.rpm', 'luajit-2.1.0-1.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:24" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;Medium;High;</cveThreat>
+<affectedComponent>p11-kit</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1024</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>24</id>
+<cveId>CVE-2020-29361;CVE-2020-29362;CVE-2020-29363;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['p11-kit-0.23.20-2.oe1.src.rpm'], 'aarch64': ['p11-kit-debugsource-0.23.20-2.oe1.aarch64.rpm', 'p11-kit-trust-0.23.20-2.oe1.aarch64.rpm', 'p11-kit-0.23.20-2.oe1.aarch64.rpm', 'p11-kit-devel-0.23.20-2.oe1.aarch64.rpm', 'p11-kit-debuginfo-0.23.20-2.oe1.aarch64.rpm', 'p11-kit-help-0.23.20-2.oe1.aarch64.rpm'], 'x86_64': ['p11-kit-help-0.23.20-2.oe1.x86_64.rpm', 'p11-kit-debugsource-0.23.20-2.oe1.x86_64.rpm', 'p11-kit-devel-0.23.20-2.oe1.x86_64.rpm', 'p11-kit-debuginfo-0.23.20-2.oe1.x86_64.rpm', 'p11-kit-trust-0.23.20-2.oe1.x86_64.rpm', 'p11-kit-0.23.20-2.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['p11-kit-0.23.20-2.oe1.src.rpm'], 'aarch64': ['p11-kit-debugsource-0.23.20-2.oe1.aarch64.rpm', 'p11-kit-trust-0.23.20-2.oe1.aarch64.rpm', 'p11-kit-0.23.20-2.oe1.aarch64.rpm', 'p11-kit-devel-0.23.20-2.oe1.aarch64.rpm', 'p11-kit-debuginfo-0.23.20-2.oe1.aarch64.rpm', 'p11-kit-help-0.23.20-2.oe1.aarch64.rpm'], 'x86_64': ['p11-kit-help-0.23.20-2.oe1.x86_64.rpm', 'p11-kit-debugsource-0.23.20-2.oe1.x86_64.rpm', 'p11-kit-devel-0.23.20-2.oe1.x86_64.rpm', 'p11-kit-debuginfo-0.23.20-2.oe1.x86_64.rpm', 'p11-kit-trust-0.23.20-2.oe1.x86_64.rpm', 'p11-kit-0.23.20-2.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:23" version="1" class="security advisory">
+<metadata>
+<cveThreat>Medium;</cveThreat>
+<affectedComponent>hunspell</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1023</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>23</id>
+<cveId>CVE-2019-16707;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['hunspell-1.7.0-7.oe1.src.rpm'], 'aarch64': ['hunspell-debugsource-1.7.0-7.oe1.aarch64.rpm', 'hunspell-debuginfo-1.7.0-7.oe1.aarch64.rpm', 'hunspell-1.7.0-7.oe1.aarch64.rpm', 'hunspell-devel-1.7.0-7.oe1.aarch64.rpm'], 'x86_64': ['hunspell-devel-1.7.0-7.oe1.x86_64.rpm', 'hunspell-debuginfo-1.7.0-7.oe1.x86_64.rpm', 'hunspell-debugsource-1.7.0-7.oe1.x86_64.rpm', 'hunspell-1.7.0-7.oe1.x86_64.rpm'], 'noarch': ['hunspell-help-1.7.0-7.oe1.noarch.rpm']}, 'openEuler-20.03-LTS-SP1': {'src': ['hunspell-1.7.0-6.oe1.src.rpm'], 'aarch64': ['hunspell-devel-1.7.0-6.oe1.aarch64.rpm', 'hunspell-debugsource-1.7.0-6.oe1.aarch64.rpm', 'hunspell-debuginfo-1.7.0-6.oe1.aarch64.rpm', 'hunspell-1.7.0-6.oe1.aarch64.rpm'], 'x86_64': ['hunspell-1.7.0-6.oe1.x86_64.rpm', 'hunspell-debuginfo-1.7.0-6.oe1.x86_64.rpm', 'hunspell-devel-1.7.0-6.oe1.x86_64.rpm', 'hunspell-debugsource-1.7.0-6.oe1.x86_64.rpm'], 'noarch': ['hunspell-help-1.7.0-6.oe1.noarch.rpm']}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:22" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;Medium;</cveThreat>
+<affectedComponent>nasm</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1022</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>22</id>
+<cveId>CVE-2019-20352;CVE-2020-24241;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['nasm-2.15.03-2.oe1.src.rpm'], 'aarch64': ['nasm-debugsource-2.15.03-2.oe1.aarch64.rpm', 'nasm-2.15.03-2.oe1.aarch64.rpm', 'nasm-debuginfo-2.15.03-2.oe1.aarch64.rpm'], 'x86_64': ['nasm-debuginfo-2.15.03-2.oe1.x86_64.rpm', 'nasm-2.15.03-2.oe1.x86_64.rpm', 'nasm-debugsource-2.15.03-2.oe1.x86_64.rpm'], 'noarch': ['nasm-help-2.15.03-2.oe1.noarch.rpm']}, 'openEuler-20.03-LTS-SP1': {'src': ['nasm-2.15.03-2.oe1.src.rpm'], 'aarch64': ['nasm-debugsource-2.15.03-2.oe1.aarch64.rpm', 'nasm-2.15.03-2.oe1.aarch64.rpm', 'nasm-debuginfo-2.15.03-2.oe1.aarch64.rpm'], 'x86_64': ['nasm-debuginfo-2.15.03-2.oe1.x86_64.rpm', 'nasm-2.15.03-2.oe1.x86_64.rpm', 'nasm-debugsource-2.15.03-2.oe1.x86_64.rpm'], 'noarch': ['nasm-help-2.15.03-2.oe1.noarch.rpm']}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:21" version="1" class="security advisory">
+<metadata>
+<cveThreat>Medium;</cveThreat>
+<affectedComponent>opensc</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1021</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>21</id>
+<cveId>CVE-2020-26570;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['opensc-0.20.0-4.oe1.src.rpm'], 'aarch64': ['opensc-debugsource-0.20.0-4.oe1.aarch64.rpm', 'opensc-debuginfo-0.20.0-4.oe1.aarch64.rpm', 'opensc-0.20.0-4.oe1.aarch64.rpm'], 'x86_64': ['opensc-0.20.0-4.oe1.x86_64.rpm', 'opensc-debuginfo-0.20.0-4.oe1.x86_64.rpm', 'opensc-debugsource-0.20.0-4.oe1.x86_64.rpm'], 'noarch': ['opensc-help-0.20.0-4.oe1.noarch.rpm']}, 'openEuler-20.03-LTS-SP1': {'src': ['opensc-0.20.0-5.oe1.src.rpm'], 'aarch64': ['opensc-0.20.0-5.oe1.aarch64.rpm', 'opensc-debuginfo-0.20.0-5.oe1.aarch64.rpm', 'opensc-debugsource-0.20.0-5.oe1.aarch64.rpm'], 'x86_64': ['opensc-debugsource-0.20.0-5.oe1.x86_64.rpm', 'opensc-debuginfo-0.20.0-5.oe1.x86_64.rpm', 'opensc-0.20.0-5.oe1.x86_64.rpm'], 'noarch': ['opensc-help-0.20.0-5.oe1.noarch.rpm']}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:20" version="1" class="security advisory">
+<metadata>
+<cveThreat>Critical;</cveThreat>
+<affectedComponent>squid</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1020</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>20</id>
+<cveId>CVE-2019-12519;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['squid-4.9-3.oe1.src.rpm'], 'aarch64': ['squid-debuginfo-4.9-3.oe1.aarch64.rpm', 'squid-4.9-3.oe1.aarch64.rpm', 'squid-debugsource-4.9-3.oe1.aarch64.rpm'], 'x86_64': ['squid-debugsource-4.9-3.oe1.x86_64.rpm', 'squid-4.9-3.oe1.x86_64.rpm', 'squid-debuginfo-4.9-3.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['squid-4.9-3.oe1.src.rpm'], 'aarch64': ['squid-debuginfo-4.9-3.oe1.aarch64.rpm', 'squid-4.9-3.oe1.aarch64.rpm', 'squid-debugsource-4.9-3.oe1.aarch64.rpm'], 'x86_64': ['squid-debugsource-4.9-3.oe1.x86_64.rpm', 'squid-4.9-3.oe1.x86_64.rpm', 'squid-debuginfo-4.9-3.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:19" version="1" class="security advisory">
+<metadata>
+<cveThreat>Medium;</cveThreat>
+<affectedComponent>wpa_supplicant</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1019</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>19</id>
+<cveId>CVE-2019-13377;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['wpa_supplicant-2.6-27.oe1.src.rpm'], 'aarch64': ['wpa_supplicant-2.6-27.oe1.aarch64.rpm', 'wpa_supplicant-help-2.6-27.oe1.aarch64.rpm', 'wpa_supplicant-debuginfo-2.6-27.oe1.aarch64.rpm', 'wpa_supplicant-gui-2.6-27.oe1.aarch64.rpm', 'wpa_supplicant-debugsource-2.6-27.oe1.aarch64.rpm'], 'x86_64': ['wpa_supplicant-2.6-27.oe1.x86_64.rpm', 'wpa_supplicant-gui-2.6-27.oe1.x86_64.rpm', 'wpa_supplicant-help-2.6-27.oe1.x86_64.rpm', 'wpa_supplicant-debuginfo-2.6-27.oe1.x86_64.rpm', 'wpa_supplicant-debugsource-2.6-27.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['wpa_supplicant-2.6-27.oe1.src.rpm'], 'aarch64': ['wpa_supplicant-2.6-27.oe1.aarch64.rpm', 'wpa_supplicant-help-2.6-27.oe1.aarch64.rpm', 'wpa_supplicant-debuginfo-2.6-27.oe1.aarch64.rpm', 'wpa_supplicant-gui-2.6-27.oe1.aarch64.rpm', 'wpa_supplicant-debugsource-2.6-27.oe1.aarch64.rpm'], 'x86_64': ['wpa_supplicant-2.6-27.oe1.x86_64.rpm', 'wpa_supplicant-gui-2.6-27.oe1.x86_64.rpm', 'wpa_supplicant-help-2.6-27.oe1.x86_64.rpm', 'wpa_supplicant-debuginfo-2.6-27.oe1.x86_64.rpm', 'wpa_supplicant-debugsource-2.6-27.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:18" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;Medium;High;</cveThreat>
+<affectedComponent>php</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1018</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>18</id>
+<cveId>CVE-2020-7071;CVE-2020-7059;CVE-2020-7062;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['php-7.2.10-10.oe1.src.rpm'], 'aarch64': ['php-enchant-7.2.10-10.oe1.aarch64.rpm', 'php-soap-7.2.10-10.oe1.aarch64.rpm', 'php-xmlrpc-7.2.10-10.oe1.aarch64.rpm', 'php-gd-7.2.10-10.oe1.aarch64.rpm', 'php-intl-7.2.10-10.oe1.aarch64.rpm', 'php-pgsql-7.2.10-10.oe1.aarch64.rpm', 'php-odbc-7.2.10-10.oe1.aarch64.rpm', 'php-pdo-7.2.10-10.oe1.aarch64.rpm', 'php-devel-7.2.10-10.oe1.aarch64.rpm', 'php-fpm-7.2.10-10.oe1.aarch64.rpm', 'php-ldap-7.2.10-10.oe1.aarch64.rpm', 'php-process-7.2.10-10.oe1.aarch64.rpm', 'php-embedded-7.2.10-10.oe1.aarch64.rpm', 'php-cli-7.2.10-10.oe1.aarch64.rpm', 'php-gmp-7.2.10-10.oe1.aarch64.rpm', 'php-tidy-7.2.10-10.oe1.aarch64.rpm', 'php-json-7.2.10-10.oe1.aarch64.rpm', 'php-snmp-7.2.10-10.oe1.aarch64.rpm', 'php-recode-7.2.10-10.oe1.aarch64.rpm', 'php-mysqlnd-7.2.10-10.oe1.aarch64.rpm', 'php-xml-7.2.10-10.oe1.aarch64.rpm', 'php-opcache-7.2.10-10.oe1.aarch64.rpm', 'php-dba-7.2.10-10.oe1.aarch64.rpm', 'php-debuginfo-7.2.10-10.oe1.aarch64.rpm', 'php-bcmath-7.2.10-10.oe1.aarch64.rpm', 'php-7.2.10-10.oe1.aarch64.rpm', 'php-help-7.2.10-10.oe1.aarch64.rpm', 'php-common-7.2.10-10.oe1.aarch64.rpm', 'php-dbg-7.2.10-10.oe1.aarch64.rpm', 'php-debugsource-7.2.10-10.oe1.aarch64.rpm', 'php-mbstring-7.2.10-10.oe1.aarch64.rpm'], 'x86_64': ['php-enchant-7.2.10-10.oe1.x86_64.rpm', 'php-pdo-7.2.10-10.oe1.x86_64.rpm', 'php-dba-7.2.10-10.oe1.x86_64.rpm', 'php-help-7.2.10-10.oe1.x86_64.rpm', 'php-process-7.2.10-10.oe1.x86_64.rpm', 'php-cli-7.2.10-10.oe1.x86_64.rpm', 'php-ldap-7.2.10-10.oe1.x86_64.rpm', 'php-pgsql-7.2.10-10.oe1.x86_64.rpm', 'php-dbg-7.2.10-10.oe1.x86_64.rpm', 'php-xml-7.2.10-10.oe1.x86_64.rpm', 'php-bcmath-7.2.10-10.oe1.x86_64.rpm', 'php-debuginfo-7.2.10-10.oe1.x86_64.rpm', 'php-fpm-7.2.10-10.oe1.x86_64.rpm', 'php-debugsource-7.2.10-10.oe1.x86_64.rpm', 'php-embedded-7.2.10-10.oe1.x86_64.rpm', 'php-json-7.2.10-10.oe1.x86_64.rpm', 'php-common-7.2.10-10.oe1.x86_64.rpm', 'php-mbstring-7.2.10-10.oe1.x86_64.rpm', 'php-intl-7.2.10-10.oe1.x86_64.rpm', 'php-devel-7.2.10-10.oe1.x86_64.rpm', 'php-tidy-7.2.10-10.oe1.x86_64.rpm', 'php-7.2.10-10.oe1.x86_64.rpm', 'php-xmlrpc-7.2.10-10.oe1.x86_64.rpm', 'php-snmp-7.2.10-10.oe1.x86_64.rpm', 'php-odbc-7.2.10-10.oe1.x86_64.rpm', 'php-mysqlnd-7.2.10-10.oe1.x86_64.rpm', 'php-recode-7.2.10-10.oe1.x86_64.rpm', 'php-gd-7.2.10-10.oe1.x86_64.rpm', 'php-soap-7.2.10-10.oe1.x86_64.rpm', 'php-gmp-7.2.10-10.oe1.x86_64.rpm', 'php-opcache-7.2.10-10.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['php-7.2.10-11.oe1.src.rpm'], 'aarch64': ['php-soap-7.2.10-11.oe1.aarch64.rpm', 'php-json-7.2.10-11.oe1.aarch64.rpm', 'php-dba-7.2.10-11.oe1.aarch64.rpm', 'php-dbg-7.2.10-11.oe1.aarch64.rpm', 'php-tidy-7.2.10-11.oe1.aarch64.rpm', 'php-ldap-7.2.10-11.oe1.aarch64.rpm', 'php-bcmath-7.2.10-11.oe1.aarch64.rpm', 'php-common-7.2.10-11.oe1.aarch64.rpm', 'php-mbstring-7.2.10-11.oe1.aarch64.rpm', 'php-pgsql-7.2.10-11.oe1.aarch64.rpm', 'php-gmp-7.2.10-11.oe1.aarch64.rpm', 'php-gd-7.2.10-11.oe1.aarch64.rpm', 'php-odbc-7.2.10-11.oe1.aarch64.rpm', 'php-fpm-7.2.10-11.oe1.aarch64.rpm', 'php-opcache-7.2.10-11.oe1.aarch64.rpm', 'php-xml-7.2.10-11.oe1.aarch64.rpm', 'php-snmp-7.2.10-11.oe1.aarch64.rpm', 'php-debuginfo-7.2.10-11.oe1.aarch64.rpm', 'php-cli-7.2.10-11.oe1.aarch64.rpm', 'php-help-7.2.10-11.oe1.aarch64.rpm', 'php-intl-7.2.10-11.oe1.aarch64.rpm', 'php-pdo-7.2.10-11.oe1.aarch64.rpm', 'php-devel-7.2.10-11.oe1.aarch64.rpm', 'php-recode-7.2.10-11.oe1.aarch64.rpm', 'php-enchant-7.2.10-11.oe1.aarch64.rpm', 'php-embedded-7.2.10-11.oe1.aarch64.rpm', 'php-xmlrpc-7.2.10-11.oe1.aarch64.rpm', 'php-mysqlnd-7.2.10-11.oe1.aarch64.rpm', 'php-7.2.10-11.oe1.aarch64.rpm', 'php-debugsource-7.2.10-11.oe1.aarch64.rpm', 'php-process-7.2.10-11.oe1.aarch64.rpm'], 'x86_64': ['php-pdo-7.2.10-11.oe1.x86_64.rpm', 'php-tidy-7.2.10-11.oe1.x86_64.rpm', 'php-recode-7.2.10-11.oe1.x86_64.rpm', 'php-pgsql-7.2.10-11.oe1.x86_64.rpm', 'php-xml-7.2.10-11.oe1.x86_64.rpm', 'php-debuginfo-7.2.10-11.oe1.x86_64.rpm', 'php-dbg-7.2.10-11.oe1.x86_64.rpm', 'php-enchant-7.2.10-11.oe1.x86_64.rpm', 'php-mysqlnd-7.2.10-11.oe1.x86_64.rpm', 'php-gd-7.2.10-11.oe1.x86_64.rpm', 'php-gmp-7.2.10-11.oe1.x86_64.rpm', 'php-dba-7.2.10-11.oe1.x86_64.rpm', 'php-intl-7.2.10-11.oe1.x86_64.rpm', 'php-help-7.2.10-11.oe1.x86_64.rpm', 'php-debugsource-7.2.10-11.oe1.x86_64.rpm', 'php-devel-7.2.10-11.oe1.x86_64.rpm', 'php-process-7.2.10-11.oe1.x86_64.rpm', 'php-bcmath-7.2.10-11.oe1.x86_64.rpm', 'php-snmp-7.2.10-11.oe1.x86_64.rpm', 'php-soap-7.2.10-11.oe1.x86_64.rpm', 'php-json-7.2.10-11.oe1.x86_64.rpm', 'php-cli-7.2.10-11.oe1.x86_64.rpm', 'php-fpm-7.2.10-11.oe1.x86_64.rpm', 'php-ldap-7.2.10-11.oe1.x86_64.rpm', 'php-common-7.2.10-11.oe1.x86_64.rpm', 'php-opcache-7.2.10-11.oe1.x86_64.rpm', 'php-7.2.10-11.oe1.x86_64.rpm', 'php-xmlrpc-7.2.10-11.oe1.x86_64.rpm', 'php-mbstring-7.2.10-11.oe1.x86_64.rpm', 'php-odbc-7.2.10-11.oe1.x86_64.rpm', 'php-embedded-7.2.10-11.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:17" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;High;</cveThreat>
+<affectedComponent>thrift</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1017</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>17</id>
+<cveId>CVE-2019-0205;CVE-2019-0210;</cveId>
+<packageName>{'openEuler-20.03-LTS-SP1': {'src': ['thrift-0.10.0-3.oe1.src.rpm'], 'aarch64': ['fb303-devel-0.10.0-3.oe1.aarch64.rpm', 'thrift-0.10.0-3.oe1.aarch64.rpm', 'thrift-devel-0.10.0-3.oe1.aarch64.rpm', 'fb303-0.10.0-3.oe1.aarch64.rpm', 'thrift-debuginfo-0.10.0-3.oe1.aarch64.rpm', 'thrift-glib-0.10.0-3.oe1.aarch64.rpm', 'thrift-qt-0.10.0-3.oe1.aarch64.rpm', 'thrift-debugsource-0.10.0-3.oe1.aarch64.rpm', 'python3-thrift-0.10.0-3.oe1.aarch64.rpm', 'python3-fb303-0.10.0-3.oe1.aarch64.rpm'], 'x86_64': ['python3-fb303-0.10.0-3.oe1.x86_64.rpm', 'thrift-0.10.0-3.oe1.x86_64.rpm', 'python3-thrift-0.10.0-3.oe1.x86_64.rpm', 'fb303-0.10.0-3.oe1.x86_64.rpm', 'thrift-debuginfo-0.10.0-3.oe1.x86_64.rpm', 'thrift-debugsource-0.10.0-3.oe1.x86_64.rpm', 'thrift-devel-0.10.0-3.oe1.x86_64.rpm', 'fb303-devel-0.10.0-3.oe1.x86_64.rpm', 'thrift-qt-0.10.0-3.oe1.x86_64.rpm', 'thrift-glib-0.10.0-3.oe1.x86_64.rpm'], 'noarch': ['perl-thrift-0.10.0-3.oe1.noarch.rpm', 'libthrift-javadoc-0.10.0-3.oe1.noarch.rpm', 'fb303-java-0.10.0-3.oe1.noarch.rpm', 'libthrift-java-0.10.0-3.oe1.noarch.rpm']}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:16" version="1" class="security advisory">
+<metadata>
+<cveThreat>Medium;</cveThreat>
+<affectedComponent>tpm2-tss</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1016</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>16</id>
+<cveId>CVE-2020-24455;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['tpm2-tss-2.4.1-2.oe1.src.rpm'], 'aarch64': ['tpm2-tss-2.4.1-2.oe1.aarch64.rpm', 'tpm2-tss-debugsource-2.4.1-2.oe1.aarch64.rpm', 'tpm2-tss-debuginfo-2.4.1-2.oe1.aarch64.rpm', 'tpm2-tss-devel-2.4.1-2.oe1.aarch64.rpm'], 'x86_64': ['tpm2-tss-debugsource-2.4.1-2.oe1.x86_64.rpm', 'tpm2-tss-2.4.1-2.oe1.x86_64.rpm', 'tpm2-tss-devel-2.4.1-2.oe1.x86_64.rpm', 'tpm2-tss-debuginfo-2.4.1-2.oe1.x86_64.rpm'], 'noarch': ['tpm2-tss-help-2.4.1-2.oe1.noarch.rpm']}, 'openEuler-20.03-LTS-SP1': {'src': ['tpm2-tss-2.4.1-2.oe1.src.rpm'], 'aarch64': ['tpm2-tss-2.4.1-2.oe1.aarch64.rpm', 'tpm2-tss-debugsource-2.4.1-2.oe1.aarch64.rpm', 'tpm2-tss-debuginfo-2.4.1-2.oe1.aarch64.rpm', 'tpm2-tss-devel-2.4.1-2.oe1.aarch64.rpm'], 'x86_64': ['tpm2-tss-debugsource-2.4.1-2.oe1.x86_64.rpm', 'tpm2-tss-2.4.1-2.oe1.x86_64.rpm', 'tpm2-tss-devel-2.4.1-2.oe1.x86_64.rpm', 'tpm2-tss-debuginfo-2.4.1-2.oe1.x86_64.rpm'], 'noarch': ['tpm2-tss-help-2.4.1-2.oe1.noarch.rpm']}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:15" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;Medium;</cveThreat>
+<affectedComponent>xstream</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1015</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>15</id>
+<cveId>CVE-2020-26258;CVE-2020-26259;</cveId>
+<packageName>{'openEuler-20.03-LTS-SP1': {'src': ['xstream-1.4.11.1-3.oe1.src.rpm'], 'aarch64': [], 'x86_64': [], 'noarch': ['xstream-hibernate-1.4.11.1-3.oe1.noarch.rpm', 'xstream-benchmark-1.4.11.1-3.oe1.noarch.rpm', 'xstream-parent-1.4.11.1-3.oe1.noarch.rpm', 'xstream-javadoc-1.4.11.1-3.oe1.noarch.rpm', 'xstream-1.4.11.1-3.oe1.noarch.rpm']}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:14" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;High;High;High;</cveThreat>
+<affectedComponent>jackson-databind</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1014</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>14</id>
+<cveId>CVE-2020-35490;CVE-2020-35491;CVE-2020-35728;CVE-2020-36185;</cveId>
+<packageName>{'openEuler-20.03-LTS-SP1': {'src': ['jackson-databind-2.9.8-6.oe1.src.rpm'], 'aarch64': [], 'x86_64': [], 'noarch': ['jackson-databind-2.9.8-6.oe1.noarch.rpm', 'jackson-databind-javadoc-2.9.8-6.oe1.noarch.rpm']}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:13" version="1" class="security advisory">
+<metadata>
+<cveThreat>Medium;</cveThreat>
+<affectedComponent>glibc</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1013</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>13</id>
+<cveId>CVE-2019-25013;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['glibc-2.28-52.oe1.src.rpm'], 'aarch64': ['libnsl-2.28-52.oe1.aarch64.rpm', 'glibc-all-langpacks-2.28-52.oe1.aarch64.rpm', 'nscd-2.28-52.oe1.aarch64.rpm', 'glibc-debuginfo-2.28-52.oe1.aarch64.rpm', 'glibc-debugsource-2.28-52.oe1.aarch64.rpm', 'glibc-debugutils-2.28-52.oe1.aarch64.rpm', 'glibc-benchtests-2.28-52.oe1.aarch64.rpm', 'glibc-common-2.28-52.oe1.aarch64.rpm', 'nss_modules-2.28-52.oe1.aarch64.rpm', 'glibc-nss-devel-2.28-52.oe1.aarch64.rpm', 'glibc-locale-source-2.28-52.oe1.aarch64.rpm', 'glibc-devel-2.28-52.oe1.aarch64.rpm', 'glibc-2.28-52.oe1.aarch64.rpm'], 'x86_64': ['glibc-common-2.28-52.oe1.x86_64.rpm', 'glibc-devel-2.28-52.oe1.x86_64.rpm', 'nss_modules-2.28-52.oe1.x86_64.rpm', 'glibc-all-langpacks-2.28-52.oe1.x86_64.rpm', 'glibc-nss-devel-2.28-52.oe1.x86_64.rpm', 'glibc-debugsource-2.28-52.oe1.x86_64.rpm', 'nscd-2.28-52.oe1.x86_64.rpm', 'glibc-2.28-52.oe1.x86_64.rpm', 'glibc-debugutils-2.28-52.oe1.x86_64.rpm', 'glibc-locale-source-2.28-52.oe1.x86_64.rpm', 'glibc-debuginfo-2.28-52.oe1.x86_64.rpm', 'glibc-benchtests-2.28-52.oe1.x86_64.rpm', 'libnsl-2.28-52.oe1.x86_64.rpm'], 'noarch': ['glibc-help-2.28-52.oe1.noarch.rpm']}, 'openEuler-20.03-LTS-SP1': {'src': ['glibc-2.28-52.oe1.src.rpm'], 'aarch64': ['libnsl-2.28-52.oe1.aarch64.rpm', 'glibc-all-langpacks-2.28-52.oe1.aarch64.rpm', 'nscd-2.28-52.oe1.aarch64.rpm', 'glibc-debuginfo-2.28-52.oe1.aarch64.rpm', 'glibc-debugsource-2.28-52.oe1.aarch64.rpm', 'glibc-debugutils-2.28-52.oe1.aarch64.rpm', 'glibc-benchtests-2.28-52.oe1.aarch64.rpm', 'glibc-common-2.28-52.oe1.aarch64.rpm', 'nss_modules-2.28-52.oe1.aarch64.rpm', 'glibc-nss-devel-2.28-52.oe1.aarch64.rpm', 'glibc-locale-source-2.28-52.oe1.aarch64.rpm', 'glibc-devel-2.28-52.oe1.aarch64.rpm', 'glibc-2.28-52.oe1.aarch64.rpm'], 'x86_64': ['glibc-common-2.28-52.oe1.x86_64.rpm', 'glibc-devel-2.28-52.oe1.x86_64.rpm', 'nss_modules-2.28-52.oe1.x86_64.rpm', 'glibc-all-langpacks-2.28-52.oe1.x86_64.rpm', 'glibc-nss-devel-2.28-52.oe1.x86_64.rpm', 'glibc-debugsource-2.28-52.oe1.x86_64.rpm', 'nscd-2.28-52.oe1.x86_64.rpm', 'glibc-2.28-52.oe1.x86_64.rpm', 'glibc-debugutils-2.28-52.oe1.x86_64.rpm', 'glibc-locale-source-2.28-52.oe1.x86_64.rpm', 'glibc-debuginfo-2.28-52.oe1.x86_64.rpm', 'glibc-benchtests-2.28-52.oe1.x86_64.rpm', 'libnsl-2.28-52.oe1.x86_64.rpm'], 'noarch': ['glibc-help-2.28-52.oe1.noarch.rpm']}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:12" version="1" class="security advisory">
+<metadata>
+<cveThreat>Medium;</cveThreat>
+<affectedComponent>qemu</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1012</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>12</id>
+<cveId>CVE-2020-27821;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['qemu-4.1.0-32.oe1.src.rpm'], 'aarch64': ['qemu-debugsource-4.1.0-32.oe1.aarch64.rpm', 'qemu-guest-agent-4.1.0-32.oe1.aarch64.rpm', 'qemu-img-4.1.0-32.oe1.aarch64.rpm', 'qemu-debuginfo-4.1.0-32.oe1.aarch64.rpm', 'qemu-4.1.0-32.oe1.aarch64.rpm'], 'x86_64': ['qemu-img-4.1.0-32.oe1.x86_64.rpm', 'qemu-debugsource-4.1.0-32.oe1.x86_64.rpm', 'qemu-debuginfo-4.1.0-32.oe1.x86_64.rpm', 'qemu-4.1.0-32.oe1.x86_64.rpm', 'qemu-guest-agent-4.1.0-32.oe1.x86_64.rpm', 'qemu-seabios-4.1.0-32.oe1.x86_64.rpm'], 'noarch': ['qemu-help-4.1.0-32.oe1.noarch.rpm']}, 'openEuler-20.03-LTS-SP1': {'src': ['qemu-4.1.0-32.oe1.src.rpm'], 'aarch64': ['qemu-debugsource-4.1.0-32.oe1.aarch64.rpm', 'qemu-guest-agent-4.1.0-32.oe1.aarch64.rpm', 'qemu-img-4.1.0-32.oe1.aarch64.rpm', 'qemu-debuginfo-4.1.0-32.oe1.aarch64.rpm', 'qemu-4.1.0-32.oe1.aarch64.rpm'], 'x86_64': ['qemu-img-4.1.0-32.oe1.x86_64.rpm', 'qemu-debugsource-4.1.0-32.oe1.x86_64.rpm', 'qemu-debuginfo-4.1.0-32.oe1.x86_64.rpm', 'qemu-4.1.0-32.oe1.x86_64.rpm', 'qemu-guest-agent-4.1.0-32.oe1.x86_64.rpm', 'qemu-seabios-4.1.0-32.oe1.x86_64.rpm'], 'noarch': ['qemu-help-4.1.0-32.oe1.noarch.rpm']}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:11" version="1" class="security advisory">
+<metadata>
+<cveThreat>Medium;</cveThreat>
+<affectedComponent>golang</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1011</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>11</id>
+<cveId>CVE-2020-29509;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['golang-1.13.15-2.oe1.src.rpm'], 'aarch64': ['golang-1.13.15-2.oe1.aarch64.rpm'], 'x86_64': ['golang-1.13.15-2.oe1.x86_64.rpm'], 'noarch': ['golang-devel-1.13.15-2.oe1.noarch.rpm', 'golang-help-1.13.15-2.oe1.noarch.rpm']}, 'openEuler-20.03-LTS-SP1': {'src': ['golang-1.13.15-2.oe1.src.rpm'], 'aarch64': ['golang-1.13.15-2.oe1.aarch64.rpm'], 'x86_64': ['golang-1.13.15-2.oe1.x86_64.rpm'], 'noarch': ['golang-devel-1.13.15-2.oe1.noarch.rpm', 'golang-help-1.13.15-2.oe1.noarch.rpm']}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:10" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;</cveThreat>
+<affectedComponent>libvirt</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1010</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>10</id>
+<cveId>CVE-2020-14339;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['libvirt-6.2.0-10.oe1.src.rpm'], 'aarch64': ['libvirt-admin-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-disk-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-iscsi-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-network-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-nodedev-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-config-nwfilter-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-iscsi-direct-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-gluster-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-config-network-6.2.0-10.oe1.aarch64.rpm', 'libvirt-lock-sanlock-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-kvm-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-qemu-6.2.0-10.oe1.aarch64.rpm', 'libvirt-bash-completion-6.2.0-10.oe1.aarch64.rpm', 'libvirt-6.2.0-10.oe1.aarch64.rpm', 'libvirt-debugsource-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-logical-6.2.0-10.oe1.aarch64.rpm', 'libvirt-nss-6.2.0-10.oe1.aarch64.rpm', 'libvirt-wireshark-6.2.0-10.oe1.aarch64.rpm', 'libvirt-devel-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-scsi-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-rbd-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-qemu-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-secret-6.2.0-10.oe1.aarch64.rpm', 'libvirt-libs-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-core-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-interface-6.2.0-10.oe1.aarch64.rpm', 'libvirt-debuginfo-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-nwfilter-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-mpath-6.2.0-10.oe1.aarch64.rpm', 'libvirt-client-6.2.0-10.oe1.aarch64.rpm', 'libvirt-docs-6.2.0-10.oe1.aarch64.rpm'], 'x86_64': ['libvirt-6.2.0-10.oe1.x86_64.rpm', 'libvirt-debuginfo-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-secret-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-network-6.2.0-10.oe1.x86_64.rpm', 'libvirt-debugsource-6.2.0-10.oe1.x86_64.rpm', 'libvirt-client-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-logical-6.2.0-10.oe1.x86_64.rpm', 'libvirt-lock-sanlock-6.2.0-10.oe1.x86_64.rpm', 'libvirt-libs-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-iscsi-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-gluster-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-rbd-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-6.2.0-10.oe1.x86_64.rpm', 'libvirt-admin-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-qemu-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-mpath-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-config-network-6.2.0-10.oe1.x86_64.rpm', 'libvirt-nss-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-qemu-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-disk-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-interface-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-kvm-6.2.0-10.oe1.x86_64.rpm', 'libvirt-bash-completion-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-nwfilter-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-nodedev-6.2.0-10.oe1.x86_64.rpm', 'libvirt-devel-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-scsi-6.2.0-10.oe1.x86_64.rpm', 'libvirt-docs-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-core-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-config-nwfilter-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-iscsi-direct-6.2.0-10.oe1.x86_64.rpm', 'libvirt-wireshark-6.2.0-10.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['libvirt-6.2.0-10.oe1.src.rpm'], 'aarch64': ['libvirt-admin-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-disk-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-iscsi-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-network-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-nodedev-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-config-nwfilter-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-iscsi-direct-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-gluster-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-config-network-6.2.0-10.oe1.aarch64.rpm', 'libvirt-lock-sanlock-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-kvm-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-qemu-6.2.0-10.oe1.aarch64.rpm', 'libvirt-bash-completion-6.2.0-10.oe1.aarch64.rpm', 'libvirt-6.2.0-10.oe1.aarch64.rpm', 'libvirt-debugsource-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-logical-6.2.0-10.oe1.aarch64.rpm', 'libvirt-nss-6.2.0-10.oe1.aarch64.rpm', 'libvirt-wireshark-6.2.0-10.oe1.aarch64.rpm', 'libvirt-devel-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-scsi-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-rbd-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-qemu-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-secret-6.2.0-10.oe1.aarch64.rpm', 'libvirt-libs-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-core-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-interface-6.2.0-10.oe1.aarch64.rpm', 'libvirt-debuginfo-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-nwfilter-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-6.2.0-10.oe1.aarch64.rpm', 'libvirt-daemon-driver-storage-mpath-6.2.0-10.oe1.aarch64.rpm', 'libvirt-client-6.2.0-10.oe1.aarch64.rpm', 'libvirt-docs-6.2.0-10.oe1.aarch64.rpm'], 'x86_64': ['libvirt-6.2.0-10.oe1.x86_64.rpm', 'libvirt-debuginfo-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-secret-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-network-6.2.0-10.oe1.x86_64.rpm', 'libvirt-debugsource-6.2.0-10.oe1.x86_64.rpm', 'libvirt-client-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-logical-6.2.0-10.oe1.x86_64.rpm', 'libvirt-lock-sanlock-6.2.0-10.oe1.x86_64.rpm', 'libvirt-libs-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-iscsi-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-gluster-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-rbd-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-6.2.0-10.oe1.x86_64.rpm', 'libvirt-admin-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-qemu-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-mpath-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-config-network-6.2.0-10.oe1.x86_64.rpm', 'libvirt-nss-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-qemu-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-disk-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-interface-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-kvm-6.2.0-10.oe1.x86_64.rpm', 'libvirt-bash-completion-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-nwfilter-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-nodedev-6.2.0-10.oe1.x86_64.rpm', 'libvirt-devel-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-scsi-6.2.0-10.oe1.x86_64.rpm', 'libvirt-docs-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-core-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-config-nwfilter-6.2.0-10.oe1.x86_64.rpm', 'libvirt-daemon-driver-storage-iscsi-direct-6.2.0-10.oe1.x86_64.rpm', 'libvirt-wireshark-6.2.0-10.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:9" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;</cveThreat>
+<affectedComponent>ceph</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1009</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>9</id>
+<cveId>CVE-2020-12059;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['ceph-12.2.8-10.oe1.src.rpm'], 'aarch64': ['librbd-devel-12.2.8-10.oe1.aarch64.rpm', 'ceph-common-12.2.8-10.oe1.aarch64.rpm', 'rbd-fuse-12.2.8-10.oe1.aarch64.rpm', 'ceph-mgr-12.2.8-10.oe1.aarch64.rpm', 'ceph-12.2.8-10.oe1.aarch64.rpm', 'librados-devel-12.2.8-10.oe1.aarch64.rpm', 'ceph-resource-agents-12.2.8-10.oe1.aarch64.rpm', 'python3-rgw-12.2.8-10.oe1.aarch64.rpm', 'ceph-base-12.2.8-10.oe1.aarch64.rpm', 'ceph-mon-12.2.8-10.oe1.aarch64.rpm', 'python3-rbd-12.2.8-10.oe1.aarch64.rpm', 'ceph-fuse-12.2.8-10.oe1.aarch64.rpm', 'librbd1-12.2.8-10.oe1.aarch64.rpm', 'ceph-selinux-12.2.8-10.oe1.aarch64.rpm', 'python-ceph-compat-12.2.8-10.oe1.aarch64.rpm', 'python3-rados-12.2.8-10.oe1.aarch64.rpm', 'python-rados-12.2.8-10.oe1.aarch64.rpm', 'rbd-nbd-12.2.8-10.oe1.aarch64.rpm', 'python3-cephfs-12.2.8-10.oe1.aarch64.rpm', 'libcephfs2-12.2.8-10.oe1.aarch64.rpm', 'python-cephfs-12.2.8-10.oe1.aarch64.rpm', 'python3-ceph-argparse-12.2.8-10.oe1.aarch64.rpm', 'ceph-debuginfo-12.2.8-10.oe1.aarch64.rpm', 'python-rbd-12.2.8-10.oe1.aarch64.rpm', 'libradosstriper-devel-12.2.8-10.oe1.aarch64.rpm', 'python-rgw-12.2.8-10.oe1.aarch64.rpm', 'ceph-test-12.2.8-10.oe1.aarch64.rpm', 'ceph-debugsource-12.2.8-10.oe1.aarch64.rpm', 'rados-objclass-devel-12.2.8-10.oe1.aarch64.rpm', 'ceph-osd-12.2.8-10.oe1.aarch64.rpm', 'rbd-mirror-12.2.8-10.oe1.aarch64.rpm', 'ceph-radosgw-12.2.8-10.oe1.aarch64.rpm', 'librgw-devel-12.2.8-10.oe1.aarch64.rpm', 'ceph-mds-12.2.8-10.oe1.aarch64.rpm', 'librgw2-12.2.8-10.oe1.aarch64.rpm', 'libradosstriper1-12.2.8-10.oe1.aarch64.rpm', 'librados2-12.2.8-10.oe1.aarch64.rpm', 'libcephfs-devel-12.2.8-10.oe1.aarch64.rpm'], 'x86_64': ['python-ceph-compat-12.2.8-10.oe1.x86_64.rpm', 'ceph-mds-12.2.8-10.oe1.x86_64.rpm', 'librbd1-12.2.8-10.oe1.x86_64.rpm', 'python3-rados-12.2.8-10.oe1.x86_64.rpm', 'python3-cephfs-12.2.8-10.oe1.x86_64.rpm', 'ceph-mon-12.2.8-10.oe1.x86_64.rpm', 'rbd-fuse-12.2.8-10.oe1.x86_64.rpm', 'ceph-12.2.8-10.oe1.x86_64.rpm', 'ceph-osd-12.2.8-10.oe1.x86_64.rpm', 'librbd-devel-12.2.8-10.oe1.x86_64.rpm', 'librados2-12.2.8-10.oe1.x86_64.rpm', 'librgw2-12.2.8-10.oe1.x86_64.rpm', 'rados-objclass-devel-12.2.8-10.oe1.x86_64.rpm', 'ceph-common-12.2.8-10.oe1.x86_64.rpm', 'rbd-mirror-12.2.8-10.oe1.x86_64.rpm', 'libradosstriper-devel-12.2.8-10.oe1.x86_64.rpm', 'librados-devel-12.2.8-10.oe1.x86_64.rpm', 'ceph-debugsource-12.2.8-10.oe1.x86_64.rpm', 'python-rbd-12.2.8-10.oe1.x86_64.rpm', 'python-rgw-12.2.8-10.oe1.x86_64.rpm', 'libcephfs-devel-12.2.8-10.oe1.x86_64.rpm', 'ceph-fuse-12.2.8-10.oe1.x86_64.rpm', 'python-cephfs-12.2.8-10.oe1.x86_64.rpm', 'python3-rbd-12.2.8-10.oe1.x86_64.rpm', 'ceph-selinux-12.2.8-10.oe1.x86_64.rpm', 'librgw-devel-12.2.8-10.oe1.x86_64.rpm', 'libradosstriper1-12.2.8-10.oe1.x86_64.rpm', 'python3-rgw-12.2.8-10.oe1.x86_64.rpm', 'libcephfs2-12.2.8-10.oe1.x86_64.rpm', 'python-rados-12.2.8-10.oe1.x86_64.rpm', 'ceph-debuginfo-12.2.8-10.oe1.x86_64.rpm', 'python3-ceph-argparse-12.2.8-10.oe1.x86_64.rpm', 'ceph-base-12.2.8-10.oe1.x86_64.rpm', 'ceph-mgr-12.2.8-10.oe1.x86_64.rpm', 'rbd-nbd-12.2.8-10.oe1.x86_64.rpm', 'ceph-radosgw-12.2.8-10.oe1.x86_64.rpm', 'ceph-resource-agents-12.2.8-10.oe1.x86_64.rpm', 'ceph-test-12.2.8-10.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['ceph-12.2.8-10.oe1.src.rpm'], 'aarch64': ['librbd-devel-12.2.8-10.oe1.aarch64.rpm', 'ceph-common-12.2.8-10.oe1.aarch64.rpm', 'rbd-fuse-12.2.8-10.oe1.aarch64.rpm', 'ceph-mgr-12.2.8-10.oe1.aarch64.rpm', 'ceph-12.2.8-10.oe1.aarch64.rpm', 'librados-devel-12.2.8-10.oe1.aarch64.rpm', 'ceph-resource-agents-12.2.8-10.oe1.aarch64.rpm', 'python3-rgw-12.2.8-10.oe1.aarch64.rpm', 'ceph-base-12.2.8-10.oe1.aarch64.rpm', 'ceph-mon-12.2.8-10.oe1.aarch64.rpm', 'python3-rbd-12.2.8-10.oe1.aarch64.rpm', 'ceph-fuse-12.2.8-10.oe1.aarch64.rpm', 'librbd1-12.2.8-10.oe1.aarch64.rpm', 'ceph-selinux-12.2.8-10.oe1.aarch64.rpm', 'python-ceph-compat-12.2.8-10.oe1.aarch64.rpm', 'python3-rados-12.2.8-10.oe1.aarch64.rpm', 'python-rados-12.2.8-10.oe1.aarch64.rpm', 'rbd-nbd-12.2.8-10.oe1.aarch64.rpm', 'python3-cephfs-12.2.8-10.oe1.aarch64.rpm', 'libcephfs2-12.2.8-10.oe1.aarch64.rpm', 'python-cephfs-12.2.8-10.oe1.aarch64.rpm', 'python3-ceph-argparse-12.2.8-10.oe1.aarch64.rpm', 'ceph-debuginfo-12.2.8-10.oe1.aarch64.rpm', 'python-rbd-12.2.8-10.oe1.aarch64.rpm', 'libradosstriper-devel-12.2.8-10.oe1.aarch64.rpm', 'python-rgw-12.2.8-10.oe1.aarch64.rpm', 'ceph-test-12.2.8-10.oe1.aarch64.rpm', 'ceph-debugsource-12.2.8-10.oe1.aarch64.rpm', 'rados-objclass-devel-12.2.8-10.oe1.aarch64.rpm', 'ceph-osd-12.2.8-10.oe1.aarch64.rpm', 'rbd-mirror-12.2.8-10.oe1.aarch64.rpm', 'ceph-radosgw-12.2.8-10.oe1.aarch64.rpm', 'librgw-devel-12.2.8-10.oe1.aarch64.rpm', 'ceph-mds-12.2.8-10.oe1.aarch64.rpm', 'librgw2-12.2.8-10.oe1.aarch64.rpm', 'libradosstriper1-12.2.8-10.oe1.aarch64.rpm', 'librados2-12.2.8-10.oe1.aarch64.rpm', 'libcephfs-devel-12.2.8-10.oe1.aarch64.rpm'], 'x86_64': [], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:8" version="1" class="security advisory">
+<metadata>
+<cveThreat>Low;Low;Medium;Medium;Low;Medium;Medium;Medium;Low;Medium;High;</cveThreat>
+<affectedComponent>freerdp</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1008</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>8</id>
+<cveId>CVE-2020-11526;CVE-2020-11044;CVE-2020-11042;CVE-2020-11095;CVE-2020-11045;CVE-2020-11522;CVE-2020-11524;CVE-2020-11523;CVE-2020-11525;CVE-2020-11521;CVE-2019-17177;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['freerdp-2.2.0-2.oe1.src.rpm'], 'aarch64': ['freerdp-2.2.0-2.oe1.aarch64.rpm', 'libwinpr-devel-2.2.0-2.oe1.aarch64.rpm', 'freerdp-devel-2.2.0-2.oe1.aarch64.rpm', 'libwinpr-2.2.0-2.oe1.aarch64.rpm', 'freerdp-debugsource-2.2.0-2.oe1.aarch64.rpm', 'freerdp-debuginfo-2.2.0-2.oe1.aarch64.rpm', 'freerdp-help-2.2.0-2.oe1.aarch64.rpm'], 'x86_64': ['freerdp-debuginfo-2.2.0-2.oe1.x86_64.rpm', 'freerdp-help-2.2.0-2.oe1.x86_64.rpm', 'freerdp-2.2.0-2.oe1.x86_64.rpm', 'freerdp-debugsource-2.2.0-2.oe1.x86_64.rpm', 'libwinpr-2.2.0-2.oe1.x86_64.rpm', 'libwinpr-devel-2.2.0-2.oe1.x86_64.rpm', 'freerdp-devel-2.2.0-2.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['freerdp-2.2.0-2.oe1.src.rpm'], 'aarch64': ['freerdp-2.2.0-2.oe1.aarch64.rpm', 'libwinpr-devel-2.2.0-2.oe1.aarch64.rpm', 'freerdp-devel-2.2.0-2.oe1.aarch64.rpm', 'libwinpr-2.2.0-2.oe1.aarch64.rpm', 'freerdp-debugsource-2.2.0-2.oe1.aarch64.rpm', 'freerdp-debuginfo-2.2.0-2.oe1.aarch64.rpm', 'freerdp-help-2.2.0-2.oe1.aarch64.rpm'], 'x86_64': ['freerdp-debuginfo-2.2.0-2.oe1.x86_64.rpm', 'freerdp-help-2.2.0-2.oe1.x86_64.rpm', 'freerdp-2.2.0-2.oe1.x86_64.rpm', 'freerdp-debugsource-2.2.0-2.oe1.x86_64.rpm', 'libwinpr-2.2.0-2.oe1.x86_64.rpm', 'libwinpr-devel-2.2.0-2.oe1.x86_64.rpm', 'freerdp-devel-2.2.0-2.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:7" version="1" class="security advisory">
+<metadata>
+<cveThreat>Medium;High;Low;Low;Medium;Low;Medium;Low;High;Low;</cveThreat>
+<affectedComponent>ImageMagick</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1007</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>7</id>
+<cveId>CVE-2020-27762;CVE-2020-27766;CVE-2020-27761;CVE-2020-27767;CVE-2020-27770;CVE-2020-27759;CVE-2020-27760;CVE-2020-27765;CVE-2020-29599;CVE-2020-27764;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['ImageMagick-6.9.10.67-9.oe1.src.rpm'], 'aarch64': ['ImageMagick-debuginfo-6.9.10.67-9.oe1.aarch64.rpm', 'ImageMagick-help-6.9.10.67-9.oe1.aarch64.rpm', 'ImageMagick-devel-6.9.10.67-9.oe1.aarch64.rpm', 'ImageMagick-c++-6.9.10.67-9.oe1.aarch64.rpm', 'ImageMagick-c++-devel-6.9.10.67-9.oe1.aarch64.rpm', 'ImageMagick-debugsource-6.9.10.67-9.oe1.aarch64.rpm', 'ImageMagick-perl-6.9.10.67-9.oe1.aarch64.rpm', 'ImageMagick-6.9.10.67-9.oe1.aarch64.rpm'], 'x86_64': ['ImageMagick-c++-devel-6.9.10.67-9.oe1.x86_64.rpm', 'ImageMagick-debugsource-6.9.10.67-9.oe1.x86_64.rpm', 'ImageMagick-devel-6.9.10.67-9.oe1.x86_64.rpm', 'ImageMagick-c++-6.9.10.67-9.oe1.x86_64.rpm', 'ImageMagick-debuginfo-6.9.10.67-9.oe1.x86_64.rpm', 'ImageMagick-help-6.9.10.67-9.oe1.x86_64.rpm', 'ImageMagick-perl-6.9.10.67-9.oe1.x86_64.rpm', 'ImageMagick-6.9.10.67-9.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['ImageMagick-6.9.10.67-10.oe1.src.rpm'], 'aarch64': ['ImageMagick-6.9.10.67-10.oe1.aarch64.rpm', 'ImageMagick-debuginfo-6.9.10.67-10.oe1.aarch64.rpm', 'ImageMagick-help-6.9.10.67-10.oe1.aarch64.rpm', 'ImageMagick-debugsource-6.9.10.67-10.oe1.aarch64.rpm', 'ImageMagick-devel-6.9.10.67-10.oe1.aarch64.rpm', 'ImageMagick-perl-6.9.10.67-10.oe1.aarch64.rpm', 'ImageMagick-c++-6.9.10.67-10.oe1.aarch64.rpm', 'ImageMagick-c++-devel-6.9.10.67-10.oe1.aarch64.rpm'], 'x86_64': ['ImageMagick-debuginfo-6.9.10.67-10.oe1.x86_64.rpm', 'ImageMagick-perl-6.9.10.67-10.oe1.x86_64.rpm', 'ImageMagick-6.9.10.67-10.oe1.x86_64.rpm', 'ImageMagick-c++-devel-6.9.10.67-10.oe1.x86_64.rpm', 'ImageMagick-devel-6.9.10.67-10.oe1.x86_64.rpm', 'ImageMagick-c++-6.9.10.67-10.oe1.x86_64.rpm', 'ImageMagick-help-6.9.10.67-10.oe1.x86_64.rpm', 'ImageMagick-debugsource-6.9.10.67-10.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:6" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;</cveThreat>
+<affectedComponent>memcached</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1006</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>6</id>
+<cveId>CVE-2019-15026;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['memcached-1.5.10-6.oe1.src.rpm'], 'aarch64': ['memcached-debugsource-1.5.10-6.oe1.aarch64.rpm', 'memcached-devel-1.5.10-6.oe1.aarch64.rpm', 'memcached-selinux-1.5.10-6.oe1.aarch64.rpm', 'memcached-debuginfo-1.5.10-6.oe1.aarch64.rpm', 'memcached-1.5.10-6.oe1.aarch64.rpm'], 'x86_64': ['memcached-debugsource-1.5.10-6.oe1.x86_64.rpm', 'memcached-selinux-1.5.10-6.oe1.x86_64.rpm', 'memcached-1.5.10-6.oe1.x86_64.rpm', 'memcached-devel-1.5.10-6.oe1.x86_64.rpm', 'memcached-debuginfo-1.5.10-6.oe1.x86_64.rpm'], 'noarch': ['memcached-help-1.5.10-6.oe1.noarch.rpm']}, 'openEuler-20.03-LTS-SP1': {'src': ['memcached-1.5.10-6.oe1.src.rpm'], 'aarch64': ['memcached-debugsource-1.5.10-6.oe1.aarch64.rpm', 'memcached-devel-1.5.10-6.oe1.aarch64.rpm', 'memcached-selinux-1.5.10-6.oe1.aarch64.rpm', 'memcached-debuginfo-1.5.10-6.oe1.aarch64.rpm', 'memcached-1.5.10-6.oe1.aarch64.rpm'], 'x86_64': ['memcached-debugsource-1.5.10-6.oe1.x86_64.rpm', 'memcached-selinux-1.5.10-6.oe1.x86_64.rpm', 'memcached-1.5.10-6.oe1.x86_64.rpm', 'memcached-devel-1.5.10-6.oe1.x86_64.rpm', 'memcached-debuginfo-1.5.10-6.oe1.x86_64.rpm'], 'noarch': ['memcached-help-1.5.10-6.oe1.noarch.rpm']}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:5" version="1" class="security advisory">
+<metadata>
+<cveThreat>Medium;</cveThreat>
+<affectedComponent>mutt</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1005</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>5</id>
+<cveId>CVE-2020-28896;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['mutt-1.10.1-3.oe1.src.rpm'], 'aarch64': ['mutt-debugsource-1.10.1-3.oe1.aarch64.rpm', 'mutt-debuginfo-1.10.1-3.oe1.aarch64.rpm', 'mutt-1.10.1-3.oe1.aarch64.rpm'], 'x86_64': ['mutt-debuginfo-1.10.1-3.oe1.x86_64.rpm', 'mutt-1.10.1-3.oe1.x86_64.rpm', 'mutt-debugsource-1.10.1-3.oe1.x86_64.rpm'], 'noarch': ['mutt-help-1.10.1-3.oe1.noarch.rpm']}, 'openEuler-20.03-LTS-SP1': {'src': ['mutt-1.10.1-4.oe1.src.rpm'], 'aarch64': ['mutt-1.10.1-4.oe1.aarch64.rpm', 'mutt-debuginfo-1.10.1-4.oe1.aarch64.rpm', 'mutt-debugsource-1.10.1-4.oe1.aarch64.rpm'], 'x86_64': ['mutt-1.10.1-4.oe1.x86_64.rpm', 'mutt-debuginfo-1.10.1-4.oe1.x86_64.rpm', 'mutt-debugsource-1.10.1-4.oe1.x86_64.rpm'], 'noarch': ['mutt-help-1.10.1-4.oe1.noarch.rpm']}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:4" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;High;High;Low;</cveThreat>
+<affectedComponent>curl</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1004</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>4</id>
+<cveId>CVE-2020-8231;CVE-2020-8286;CVE-2020-8285;CVE-2020-8284;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['curl-7.71.1-5.oe1.src.rpm'], 'aarch64': ['libcurl-devel-7.71.1-5.oe1.aarch64.rpm', 'libcurl-7.71.1-5.oe1.aarch64.rpm', 'curl-7.71.1-5.oe1.aarch64.rpm', 'curl-debuginfo-7.71.1-5.oe1.aarch64.rpm', 'curl-debugsource-7.71.1-5.oe1.aarch64.rpm'], 'x86_64': ['curl-debugsource-7.71.1-5.oe1.x86_64.rpm', 'curl-7.71.1-5.oe1.x86_64.rpm', 'libcurl-7.71.1-5.oe1.x86_64.rpm', 'libcurl-devel-7.71.1-5.oe1.x86_64.rpm', 'curl-debuginfo-7.71.1-5.oe1.x86_64.rpm'], 'noarch': ['curl-help-7.71.1-5.oe1.noarch.rpm']}, 'openEuler-20.03-LTS-SP1': {'src': ['curl-7.71.1-4.oe1.src.rpm'], 'aarch64': ['curl-debuginfo-7.71.1-4.oe1.aarch64.rpm', 'libcurl-devel-7.71.1-4.oe1.aarch64.rpm', 'curl-debugsource-7.71.1-4.oe1.aarch64.rpm', 'libcurl-7.71.1-4.oe1.aarch64.rpm', 'curl-7.71.1-4.oe1.aarch64.rpm'], 'x86_64': ['curl-7.71.1-4.oe1.x86_64.rpm', 'curl-debuginfo-7.71.1-4.oe1.x86_64.rpm', 'libcurl-7.71.1-4.oe1.x86_64.rpm', 'libcurl-devel-7.71.1-4.oe1.x86_64.rpm', 'curl-debugsource-7.71.1-4.oe1.x86_64.rpm'], 'noarch': ['curl-help-7.71.1-4.oe1.noarch.rpm']}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:3" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;Medium;Medium;Medium;High;Medium;Medium;High;High;Medium;</cveThreat>
+<affectedComponent>kernel</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1003</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>3</id>
+<cveId>CVE-2020-14351;CVE-2020-27675;CVE-2020-25656;CVE-2020-12352;CVE-2020-29661;CVE-2020-27777;CVE-2020-29660;CVE-2020-29569;CVE-2020-27815;CVE-2020-27830;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['kernel-4.19.90-2101.1.0.0055.oe1.src.rpm'], 'aarch64': ['kernel-tools-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'bpftool-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'kernel-devel-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'perf-debuginfo-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'python3-perf-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'python2-perf-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'bpftool-debuginfo-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'perf-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'kernel-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'kernel-debuginfo-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'kernel-tools-debuginfo-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'kernel-debugsource-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'kernel-tools-devel-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'kernel-source-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'python3-perf-debuginfo-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'python2-perf-debuginfo-4.19.90-2101.1.0.0055.oe1.aarch64.rpm'], 'x86_64': ['bpftool-debuginfo-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'python3-perf-debuginfo-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-tools-devel-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'bpftool-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'python3-perf-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-source-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-tools-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'python2-perf-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-tools-debuginfo-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-debugsource-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'perf-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-devel-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-debuginfo-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'python2-perf-debuginfo-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'perf-debuginfo-4.19.90-2101.1.0.0055.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['kernel-4.19.90-2101.1.0.0055.oe1.src.rpm'], 'aarch64': ['kernel-tools-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'bpftool-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'kernel-devel-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'perf-debuginfo-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'python3-perf-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'python2-perf-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'bpftool-debuginfo-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'perf-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'kernel-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'kernel-debuginfo-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'kernel-tools-debuginfo-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'kernel-debugsource-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'kernel-tools-devel-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'kernel-source-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'python3-perf-debuginfo-4.19.90-2101.1.0.0055.oe1.aarch64.rpm', 'python2-perf-debuginfo-4.19.90-2101.1.0.0055.oe1.aarch64.rpm'], 'x86_64': ['bpftool-debuginfo-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'python3-perf-debuginfo-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-tools-devel-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'bpftool-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'python3-perf-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-source-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-tools-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'python2-perf-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-tools-debuginfo-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-debugsource-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'perf-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-devel-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'kernel-debuginfo-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'python2-perf-debuginfo-4.19.90-2101.1.0.0055.oe1.x86_64.rpm', 'perf-debuginfo-4.19.90-2101.1.0.0055.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:2" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;Low;High;</cveThreat>
+<affectedComponent>sudo</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1002</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>2</id>
+<cveId>CVE-2021-3156;CVE-2021-23239;CVE-2021-23240;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['sudo-1.9.2-2.oe1.src.rpm'], 'aarch64': ['sudo-debugsource-1.9.2-2.oe1.aarch64.rpm', 'sudo-1.9.2-2.oe1.aarch64.rpm', 'sudo-help-1.9.2-2.oe1.noarch.rpm', 'sudo-devel-1.9.2-2.oe1.aarch64.rpm', 'sudo-debuginfo-1.9.2-2.oe1.aarch64.rpm'], 'x86_64': ['sudo-help-1.9.2-2.oe1.noarch.rpm', 'sudo-debugsource-1.9.2-2.oe1.x86_64.rpm', 'sudo-devel-1.9.2-2.oe1.x86_64.rpm', 'sudo-debuginfo-1.9.2-2.oe1.x86_64.rpm', 'sudo-1.9.2-2.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['sudo-1.9.2-3.oe1.src.rpm'], 'aarch64': ['sudo-debuginfo-1.9.2-3.oe1.aarch64.rpm', 'sudo-1.9.2-3.oe1.aarch64.rpm', 'sudo-devel-1.9.2-3.oe1.aarch64.rpm', 'sudo-help-1.9.2-3.oe1.noarch.rpm', 'sudo-debugsource-1.9.2-3.oe1.aarch64.rpm'], 'x86_64': ['sudo-1.9.2-3.oe1.x86_64.rpm', 'sudo-devel-1.9.2-3.oe1.x86_64.rpm', 'sudo-debuginfo-1.9.2-3.oe1.x86_64.rpm', 'sudo-help-1.9.2-3.oe1.noarch.rpm', 'sudo-debugsource-1.9.2-3.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+<definition id="oval:org.bclinux.security:def:1" version="1" class="security advisory">
+<metadata>
+<cveThreat>High;High;Medium;Medium;Medium;Medium;Medium;</cveThreat>
+<affectedComponent>dnsmasq</affectedComponent>
+<securityNoticeNo>openEuler-SA-2021-1001</securityNoticeNo>
+<affectedProduct>openEuler-20.03-LTS;openEuler-20.03-LTS-SP1;</affectedProduct>
+<cvrf>None</cvrf>
+<id>1</id>
+<cveId>CVE-2020-25681;CVE-2020-25682;CVE-2020-25683;CVE-2020-25684;CVE-2020-25685;CVE-2020-25686;CVE-2020-25687;</cveId>
+<packageName>{'openEuler-20.03-LTS': {'src': ['dnsmasq-2.82-4.oe1.src.rpm'], 'aarch64': ['dnsmasq-debuginfo-2.82-4.oe1.aarch64.rpm', 'dnsmasq-2.82-4.oe1.aarch64.rpm', 'dnsmasq-debugsource-2.82-4.oe1.aarch64.rpm', 'dnsmasq-help-2.82-4.oe1.aarch64.rpm'], 'x86_64': ['dnsmasq-2.82-4.oe1.x86_64.rpm', 'dnsmasq-help-2.82-4.oe1.x86_64.rpm', 'dnsmasq-debugsource-2.82-4.oe1.x86_64.rpm', 'dnsmasq-debuginfo-2.82-4.oe1.x86_64.rpm'], 'noarch': []}, 'openEuler-20.03-LTS-SP1': {'src': ['dnsmasq-2.82-5.oe1.src.rpm'], 'aarch64': ['dnsmasq-debugsource-2.82-5.oe1.aarch64.rpm', 'dnsmasq-help-2.82-5.oe1.aarch64.rpm', 'dnsmasq-2.82-5.oe1.aarch64.rpm', 'dnsmasq-debuginfo-2.82-5.oe1.aarch64.rpm'], 'x86_64': ['dnsmasq-help-2.82-5.oe1.x86_64.rpm', 'dnsmasq-debuginfo-2.82-5.oe1.x86_64.rpm', 'dnsmasq-debugsource-2.82-5.oe1.x86_64.rpm', 'dnsmasq-2.82-5.oe1.x86_64.rpm'], 'noarch': []}}</packageName>
+</metadata>
+</definition>
+</definitions>
+</oval_definitions>

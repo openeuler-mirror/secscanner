@@ -267,3 +267,17 @@ def wait_for_keypress():
         getpass.getpass("\n[ Press [ENTER] to continue, or [CTRL]+C to stop ]")
     except KeyboardInterrupt:
         sys.exit()
+
+def make_oval_definition(one_sample, field_list, write_file):
+    if 'openeulercvrf' in one_sample.__tablename__.lower():
+        definition_class = 'security advisory'
+    else:
+        definition_class = 'vulnerability'
+    write_file.write(f"<definition id=\"oval:org.bclinux.security:def:{one_sample.id}\" version=\"1\" class=\"{definition_class}\">\n")
+    write_file.write("<metadata>\n")
+    for field in field_list:
+        if field == '_sa_instance_state':
+            continue
+        write_file.write(f"<{field}>{one_sample.__dict__[field]}</{field}>\n")
+    write_file.write("</metadata>\n")
+    write_file.write("</definition>\n")
