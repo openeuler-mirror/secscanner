@@ -98,7 +98,7 @@ def scan_check_rootkit():
     print(WHITE)
     print(" " * 2 + "#" * 67)
     print(" " * 2 + "#" + " " * 65 + "#")
-    print(f"  #   {MAGENTA}Starting check the system rootkit..." + WHITE + " " * 18 + "#")
+    print(f"  #   {MAGENTA}Starting check the system rootkit..." + WHITE + " "*26 + "#")
     print(" " * 2 + "#" + " " * 65 + "#")
     print(" " * 2 + "#" * 67)
     print(NORMAL)
@@ -115,7 +115,7 @@ def scan_check_rootkit():
     path = os.path.join(dir, "intrusion_check")
     CHECK_ITEMS = sorted(glob.glob(path + '/*'))
     for i in CHECK_ITEMS:
-        match = re.match(pattern, i)
+        match = re.search(pattern, i)
         if match:
             s_num = int(match.group(1))
             if 1 == s_num :  # 范围验证
