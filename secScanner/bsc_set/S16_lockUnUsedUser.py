@@ -14,11 +14,9 @@ def S16_lockUnUsedUser():
     UNUSED_USER_VALUE = seconf.get('basic', 'unused_user_value').split()
 
     if SET_DISABLE_UNUSED_USER == 'yes':
-        if not os.path.exists('/etc/ssh/sshd_config_bak'):
-            shutil.copy2('/etc/ssh/sshd_config', '/etc/ssh/sshd_config_bak')
         for i in UNUSED_USER_VALUE:
             #print(f"lock user: {i}")
-            subprocess.run(['passwd', '-l', i], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(['usermod', '-L', '-s', '/bin/false', i], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         logger.info("lock the unused user successfully")
         Display("- lock the unused user ...", "FINISHED")
     else:

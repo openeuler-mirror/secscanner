@@ -39,12 +39,12 @@ def S24_addUser():
                         count_user = count_user + 1
                 if count_user > 0:
                     logger.info(f"already have {USERNAME}, no need to add")
-                    Display(f"--indent 2 --text - Already have user:{USERNAME}...  --result SKIPPED --color YELLOW")
+                    Display(f"Already have user:{USERNAME}...", "FINISHED")
                 else:
                     logger.info(f"Adding user: {USERNAME} and Password: {USERPASS}...")
-                    subprocess.run(['useradd', '-p', USERPASS, USERNAME])
-                    subprocess.run(['usermod', '-G', '10','-a', USERNAME])
-                    Display(f"--indent 2 --text - Add user:{USERNAME} and Password: {USERPASS}...  --result FINISHED --color GREEN")
+                    subprocess.run(['useradd', '-p', USERPASS, USERNAME], stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
+                    subprocess.run(['usermod', '-G', '10','-a', USERNAME], stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
+                    Display(f"Add user:{USERNAME} done...", "FINISHED")
             else:
                 logger.info(f"Has {PROFILE} file, but no username/userpass params...")
                 Display(f"- Exist {PROFILE} file, but no username/userpass params...", "FAILED")

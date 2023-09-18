@@ -17,9 +17,8 @@ def C30_ftpBanner():
                 ftpBanner_set = 'wrong'
                 temp = line.split('=')
                 if len(temp) == 2 and temp[1] == ('Authorized users only. All activity may be '
-                                                  'monitored and reported.'):
+                                                  'monitored and reported.\n'):
                     ftpBanner_set = 'right'
-
     if ftpBanner_set == 'unset':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC30\n")

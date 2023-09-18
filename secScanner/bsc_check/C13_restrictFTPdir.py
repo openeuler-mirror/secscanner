@@ -16,7 +16,7 @@ def C13_restrictFTPdir():
             if re.match('chroot_local_user', line) and not re.match('^#|^$', line):
                 restrictFTPdir_set = 'wrong'
                 temp = line.split('=')
-                if len(temp) == 2 and temp[1] == 'YES':
+                if len(temp) == 2 and temp[1] == 'YES\n':
                     restrictFTPdir_set = 'right'
 
     if restrictFTPdir_set == 'unset':

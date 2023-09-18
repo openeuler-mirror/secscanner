@@ -28,60 +28,59 @@ def S08_fileProperty():
     if 'chmod_751_file' in BASIC_OPTIONS:
         CHMOD_751_FILE = seconf.get('basic', 'chmod_751_file').split()
     if SET_FILE_PROPERTY == 'yes':
-        pathlib.Path('/etc/bse.d/fdproperty_record').touch()
-        PRO_RECORD_DIR = '/etc/bse.d/fdproperty_record'
-        if not (os.path.exists(PRO_RECORD_DIR) and os.path.getsize(PRO_RECORD_DIR)):
+        record_file = '/etc/secscanner.d/fdproperty_record'
+        if not os.path.exists(record_file):
+            pathlib.Path(record_file).touch()
+        else:
+            shutil.copy2(record_file, record_file + '_bak')
+        #PRO_RECORD_DIR = '/etc/bse.d/fdproperty_record'
+        with open(record_file, 'w') as f:
             if CHMOD_644_FILE:
                 for i in CHMOD_644_FILE:
                     if os.path.exists(i):
                         file_permission = oct(os.stat(i).st_mode)[-3:]  # get the property
-                        with open(PRO_RECORD_DIR, 'a') as add_file:
-                            add_file.write(f"{i}={file_permission}\n")
+                        f.write(f"{i}={file_permission}\n")
             if CHMOD_750_FILE:
                 for i in CHMOD_750_FILE:
                     if os.path.exists(i):
                         file_permission = oct(os.stat(i).st_mode)[-3:]  # get the property
-                        with open(PRO_RECORD_DIR, 'a') as add_file:
-                            add_file.write(f"{i}={file_permission}\n")
+                        f.write(f"{i}={file_permission}\n")
             if CHMOD_600_FILE:
                 for i in CHMOD_600_FILE:
                     if os.path.exists(i):
                         file_permission = oct(os.stat(i).st_mode)[-3:]  # get the property
-                        with open(PRO_RECORD_DIR, 'a') as add_file:
-                            add_file.write(f"{i}={file_permission}\n")
+                        f.write(f"{i}={file_permission}\n")
             if CHMOD_400_FILE:
                 for i in CHMOD_400_FILE:
                     if os.path.exists(i):
                         file_permission = oct(os.stat(i).st_mode)[-3:]  # get the property
-                        with open(PRO_RECORD_DIR, 'a') as add_file:
-                            add_file.write(f"{i}={file_permission}\n")
+                        f.write(f"{i}={file_permission}\n")
             if CHMOD_751_FILE:
                 for i in CHMOD_751_FILE:
                     if os.path.exists(i):
                         file_permission = oct(os.stat(i).st_mode)[-3:]  # get the property
-                        with open(PRO_RECORD_DIR, 'a') as add_file:
-                            add_file.write(f"{i}={file_permission}\n")
+                        f.write(f"{i}={file_permission}\n")
         ##chmod file and dir
         if CHMOD_644_FILE:
             for i in CHMOD_644_FILE:
                 if os.path.exists(i):
-                    os.chmod(i, 644)
+                    os.chmod(i, 0o644)
         if CHMOD_750_FILE:
             for i in CHMOD_750_FILE:
                 if os.path.exists(i):
-                    os.chmod(i, 750)
+                    os.chmod(i, 0o750)
         if CHMOD_600_FILE:
             for i in CHMOD_600_FILE:
                 if os.path.exists(i):
-                    os.chmod(i, 600)
+                    os.chmod(i, 0o600)
         if CHMOD_400_FILE:
             for i in CHMOD_400_FILE:
                 if os.path.exists(i):
-                    os.chmod(i, 400)
+                    os.chmod(i, 0o400)
         if CHMOD_751_FILE:
             for i in CHMOD_751_FILE:
                 if os.path.exists(i):
-                    os.chmod(i, 751)
+                    os.chmod(i, 0o751)
         logger.info("Set the file property finished")
         Display(f"- Set the file property...", "FINISHED")
     else:

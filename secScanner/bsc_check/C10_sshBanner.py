@@ -8,14 +8,14 @@ logger = logging.getLogger("secscanner")
 
 def C10_sshBanner():
     InsertSection("check the ssh banner")
-    TMP_V = 0
+    TMP_V = False
     if os.path.exists("/etc/sshbanner"):
         with open("/etc/ssh/sshd_config", "r") as file:
             lines = file.readlines()
             for line in lines:
-                if re.match('Banner', line) and re.match('/etc/sshbanner', line) and (not re.match('^#|^$', line)):
-                    TMP_V = TMP_V + 1
-        if TMP_V > 0:
+                if re.search('Banner', line) and re.search('/etc/sshbanner', line) and (not re.match('^#|^$', line)):
+                    TMP_V = True
+        if TMP_V:
             logger.info("Has ssh banner set, checking ok")
             Display("- Check the ssh banner...", "OK")
         else:

@@ -7,6 +7,11 @@ from secScanner.commands.check_outprint import *
 logger = logging.getLogger("secscanner")
 
 
+
+deny_times = seconf.get('basic', 'deny_times')
+unlock_time = seconf.get('basic', 'unlock_time')
+lock_attacking_user = seconf.get('basic', 'lock_attacking_user')
+
 def sed_i2(a, b, file):
     str1 = ''
     str2 = ''
@@ -40,19 +45,20 @@ def sed_i2(a, b, file):
         lines = r.readlines()
     with open(file, 'w') as w:
         for line in lines:
-            if re.search(str1, line) and re.search(str2, line) and re.search(str3, line):
+            if line.strip().startswith((str1,'-'+str1)) and str2 in line and str3 in line:
+            #if re.search(str1, line) and re.search(str2, line) and re.search(str3, line):
                 if num == 1:
                     w.write(line)
-                    w.write("auth        required      pam_faillock.so preauth audit deny=3 even_deny_root "
-                            "unlock_time=120\n")
+                    w.write(f"auth        required      pam_faillock.so preauth audit deny={deny_times} even_deny_root "
+                            f"unlock_time={unlock_time}\n")
                 elif num == 2:
                     w.write(line)
-                    w.write("auth        [default=die] pam_faillock.so authfail audit deny=3 even_deny_root "
-                            "unlock_time=120\n")
+                    w.write(f"auth        [default=die] pam_faillock.so authfail audit deny={deny_times} even_deny_root "
+                            f"unlock_time={unlock_time}\n")
                 elif num == 3:
-                    w.write("auth        [default=die] pam_faillock.so authfail audit deny=3 even_deny_root "
-                            "unlock_time=120\n")
                     w.write(line)
+                    w.write(f"auth        sufficient    pam_faillock.so authfail audit deny={deny_times} even_deny_root "
+                            f"unlock_time={unlock_time}\n")
                 elif num == 4:
                     w.write(line)
                     w.write("account     required      pam_faillock.so\n")
@@ -95,7 +101,6 @@ def faillock_1(file, para1, para2, para3):
 
 
 def el7_set_deny():
-    lock_attacking_user = seconf.get('basic', 'lock_attacking_user')
     if lock_attacking_user == 'yes':
         if not os.path.exists('/etc/pam.d/system-auth_bak'):
             shutil.copy2('/etc/pam.d/system-auth', '/etc/pam.d/system-auth_bak')
@@ -103,8 +108,6 @@ def el7_set_deny():
             shutil.copy2('/etc/pam.d/sshd', '/etc/pam.d/sshd_bak')
         PAM_TALLY_SET = 0
         PAM_TALLY_SET2 = 0
-        deny_times = seconf.get('basic', 'deny_times')
-        unlock_time = seconf.get('basic', 'unlock_time')
         with open('/etc/pam.d/system-auth', 'r') as read_file:
             lines = read_file.readlines()
             for line in lines:
@@ -183,14 +186,14 @@ def el7_set_deny():
 
 
 def set_deny():
-    LOCK_ATTACKING_USER = seconf.get('basic', 'lock_attacking_user')
     SYSTEM_AUTH_FILE = '/etc/pam.d/system-auth'
     PASSWORD_AUTH_FILE = '/etc/pam.d/password-auth'
-    if LOCK_ATTACKING_USER == 'yes':
+    if lock_attacking_user == 'yes':
         if not os.path.exists('/etc/pam.d/system-auth_bak'):
             shutil.copy2(SYSTEM_AUTH_FILE, '/etc/pam.d/system-auth_bak')
         if not os.path.exists('/etc/pam.d/password-auth_bak'):
-            shutil.copy2(PASSWORD_AUTH_FILE, '/etc/pam.d/system-auth_bak')
+            shutil.copy2(PASSWORD_AUTH_FILE, '/etc/pam.d/password-auth_bak')
+        
         faillock_1(SYSTEM_AUTH_FILE, 'pam_faillock.so', 'auth', 'required')
         faillock_1(SYSTEM_AUTH_FILE, 'pam_faillock.so', 'auth', 'die')
         faillock_1(SYSTEM_AUTH_FILE, 'pam_faillock.so', 'auth', 'sufficient')
@@ -217,10 +220,8 @@ def S04_loginLock():
         elif OS_DISTRO in [ '21.10', '22.10', '8', '22.10U1', '22.10U2']:
             set_deny()
         else:
-            InsertSection("set user deny time and unlock time")
             logger.info(f"we do not support {OS_ID}-{OS_DISTRO} at this moment")
             Display(f"- We do not support {OS_ID}-{OS_DISTRO} at this moment...", "WARNING")
     else:
-        InsertSection("set user deny time and unlock time")
         logger.info(f"we do not support {OS_ID}-{OS_DISTRO} at this moment")
         Display(f"- We do not support {OS_ID}-{OS_DISTRO} at this moment...", "WARNING")

@@ -15,8 +15,8 @@ def S27_syslogProperty():
             shutil.copy2('/etc/rsyslog.conf', '/etc/rsyslog.conf_bak')
         # -----------------------------------------------------
         # record original property of logfile
-        pathlib.Path('/etc/bse.d/logfile_property').touch()
-        logfile_pro = "/etc/bse.d/logfile_property"
+        pathlib.Path('/etc/secscanner.d/logfile_property').touch()
+        logfile_pro = "/etc/secscanner.d/logfile_property"
         SYS_LOGFILE = []
         with open('/etc/rsyslog.conf', 'r') as file:
             lines = file.readlines()
@@ -38,7 +38,7 @@ def S27_syslogProperty():
         for ilog in SYS_LOGFILE:
             if os.path.exists(ilog):
                 print(f"chmod {ilog} to 600")
-                os.chmod(ilog, 600)
+                os.chmod(ilog, 0o600)
 
         logger.info("change the log file property successfully")
         Display(f"- Change the log file property...", "FINISHED")

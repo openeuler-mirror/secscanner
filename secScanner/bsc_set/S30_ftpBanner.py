@@ -18,12 +18,17 @@ def S30_ftpBanner():
                 lines = f.readlines()
                 found_banner = False
                 for i, line in enumerate(lines):
-                    if line.strip().startswith("ftpd_banner"):
-                        lines[i] = "ftpd_banner=Authorized users only. All activity may be monitored and reported.\n"
-                        found_banner = True
-                    if line.strip().startswith("#ftpd_banner=Welcome to blah FTP service."):
+                    if line.strip().startswith("#ftpd_banner"):
                         lines[i] = line.replace("#", "")
+                        if not re.search('Authorized', line):
+                            lines[i] = "ftpd_banner=Authorized users only. All activity may be monitored and reported.\n"
                         found_banner = True
+                        break
+                    elif line.strip().startswith("ftpd_banner"):
+                        if not re.search('Authorized', line):
+                            lines[i] = "ftpd_banner=Authorized users only. All activity may be monitored and reported.\n"
+                        found_banner = True
+                        break
                 if not found_banner:
                     lines.append("ftpd_banner=Authorized users only. All activity may be monitored and reported.\n")
                 f.seek(0)
