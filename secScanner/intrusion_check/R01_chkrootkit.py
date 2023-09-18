@@ -6,12 +6,15 @@ from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
 
 logger = logging.getLogger("secscanner")
+
+
 def check_rootkit():
     InsertSection("using chkrootkit check the system rootkit")
     SHELL_RUN = subprocess.run(['rpm', '-qa'], stdout=subprocess.PIPE)
     SHELL_RESULT = SHELL_RUN.stdout  # get shell result, SHELL_RESULT is a stream of bytes
     temp = SHELL_RESULT.split(b'\n', -1)  # cut the byte stream by lines
     IS_EXIST = 0
+    command_path = '/opt/secScanner/secScanner/.commands/'
     for i in range(len(temp)):
         line = temp[i].decode()
         if 'chkrootkit' in line:
@@ -22,13 +25,15 @@ def check_rootkit():
         logger.info("the system doesn't install chkrootkit, please install it ...")
         Display("- No chkrootkit install...", "WARNING")
     else:
-        if not os.path.exists("/opt/BCLinux/bse/.commands"):
-            os.mkdir("/opt/BCLinux/bse/.commands")
+        if not os.path.exists(command_path):
+            os.mkdir(command_path)
         SHELL_RUN = subprocess.run(['which', '--skip-alias', 'awk', 'cut', 'echo', 'find', 'egrep', 'id', 'head',
                                     'ls', 'netstat', 'ps', 'strings', 'sed', 'uname'], stdout=subprocess.PIPE)
         SHELL_RESULT = SHELL_RUN.stdout.decode().split("\n")
         for i in SHELL_RESULT:
-            subprocess.run(['cp', i, '/opt/BCLinux/bse/.commands'])
+            if not i:
+                continue
+            subprocess.run(['cp', i, command_path], stdout=subprocess.PIPE)
         SHELL_RUN = subprocess.run(['chkrootkit'], stdout=subprocess.PIPE)
         SHELL_RESULT = SHELL_RUN.stdout.decode()
         with open(LOGFILE, "a") as file:
@@ -50,8 +55,8 @@ def check_rootkit():
 def R01_chkrootkit():
     OS_ID = get_value("OS_ID")
     OS_DISTRO = get_value("OS_DISTRO")
-    if OS_ID.lower() in ["centos", "\"centos\"", "rhel", "\"rhel\"", "redhat", "\"redhat\"", "bclinux", "\"bclinux\""]:
-        if OS_DISTRO in ["8", "7", "\"8\"", "\"7\""]:
+    if OS_ID.lower() in ['centos', 'rhel', 'redhat', 'bclinux', 'openEuler']:
+        if OS_DISTRO in ['7', '8', '21.10', '22.10', '22.10U1', '22.10U2', '22.03']:
             check_rootkit()
         else:
             logger.info(f"we do not support {OS_ID}-{OS_DISTRO} at this moment")
