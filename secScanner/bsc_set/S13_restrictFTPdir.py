@@ -21,9 +21,12 @@ def S13_restrictFTPdir():
                 chroot_exists = False
                 for i, line in enumerate(lines):
                     if line.strip().startswith("#chroot_local_user"):
-                        chroot_exists = True
                         lines[i] = lines[i].replace("#", "")
-                    if line.strip().startswith("chroot_local_user"):
+                        if not re.search('YES', line):
+                            lines[i] = "chroot_local_user=YES\n"
+                        chroot_exists = True
+                        break
+                    elif line.strip().startswith("chroot_local_user"):
                         chroot_exists = True
                         if not re.search('YES', line):
                             lines[i] = "chroot_local_user=YES\n"

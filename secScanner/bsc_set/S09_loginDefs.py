@@ -18,9 +18,10 @@ def S09_loginDefs():
     SET_PASS_WARN_AGE = seconf.get('basic', 'set_pass_warn_age')
     PASS_WARN_AGE_VALUE = seconf.get('basic', 'pass_warn_age_value')
 
-    if not os.path.exists('/etc/login.defs_bak'):
-        shutil.copy2('/etc/login.defs', '/etc/login.defs_bak')
     if SET_PASS_MAX_DAYS == 'yes':
+        if not os.path.exists('/etc/login.defs_bak'):
+            shutil.copy2('/etc/login.defs', '/etc/login.defs_bak')
+
         IS_EXIST = 0
         with open('/etc/login.defs', 'r') as read_file:
             lines = read_file.readlines()
@@ -97,12 +98,12 @@ def S09_loginDefs():
                     IS_EXIST = 1
         if IS_EXIST == 0:
             with open('/etc/login.defs', 'a') as add_file:
-                add_file.write(f'\nPASS_MIN_LEN   {PASS_MIN_LEN_VALUE}\n')
+                add_file.write(f'\nPASS_MIN_LEN    {PASS_MIN_LEN_VALUE}\n')
         else:
             with open('/etc/login.defs', 'w') as write_file:
                 for line in lines:
                     if (not re.match('#|$', line)) and re.search('PASS_MIN_LEN', line):
-                        write_file.write(f"PASS_MIN_LEN   {PASS_MIN_LEN_VALUE}\n")
+                        write_file.write(f"PASS_MIN_LEN    {PASS_MIN_LEN_VALUE}\n")
                     else:
                         write_file.write(line)
         PASS_RESULT = ''

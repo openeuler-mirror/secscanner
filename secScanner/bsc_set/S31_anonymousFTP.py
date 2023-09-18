@@ -20,7 +20,10 @@ def S31_anonymousFTP():
                     if line.strip().startswith("#anonymous_enable"):
                         anonymous_exists = True
                         lines[i] = lines[i].replace("#", "")
-                    if line.strip().startswith("anonymous_enable"):
+                        if not re.search('NO', line):
+                            lines[i] = "anonymous_enable=NO\n"
+                        break
+                    elif line.strip().startswith("anonymous_enable"):
                         anonymous_exists = True
                         if not re.search('NO', line):
                             lines[i] = "anonymous_enable=NO\n"

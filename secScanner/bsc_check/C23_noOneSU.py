@@ -14,7 +14,7 @@ def C23_noOneSU():
     with open('/etc/pam.d/su', 'r') as file:
         lines = file.readlines()
         for line in lines:
-            if re.match('auth', line) and re.search('pam_wheel.so', line) and re.search('\"group=wheel\"', line):
+            if re.search('auth', line) and re.search('pam_wheel.so', line) and re.search('group=wheel', line):
                 IS_EXIST = 1
     if IS_EXIST == 0:
         with open(RESULT_FILE, "a") as file:

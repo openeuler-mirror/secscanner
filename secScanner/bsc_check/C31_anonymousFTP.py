@@ -16,7 +16,7 @@ def C31_anonymousFTP():
             if re.match('anonymous_enable', line) and not re.match('^#|^$', line):
                 anonymous_set = 'wrong'
                 temp = line.split('=')
-                if len(temp) == 2 and temp[1] == 'NO':
+                if len(temp) == 2 and temp[1] == 'NO\n':
                     anonymous_set = 'right'
 
     if anonymous_set == 'unset':

@@ -261,7 +261,7 @@ def scan_restore_basic_inline():
             shutil.move(dest_path, source_path)
         else:
             logger.warning(f'No {source_path} bak config file was found')
-            Display(f"- Restoring cfg file:{i}...", "SKIPPED")
+            Display(f"- Restoring cfg file: {source_path}...", "SKIPPED")
 
     # restart service
 
@@ -283,12 +283,28 @@ def scan_restore_basic_inline():
         logger.info("Restart the service:rsyslog")
         Display("- Restart service:rsyslog...", "FINISHED")
 
+
+    property_file = ['/etc/secscanner.d/fdproperty_record', '/etc/secscanner.d/fdproperty_record']
+
+    for i in property_file:
+        if os.path.isfile(i):
+            with open(i, 'r') as file:
+                restore_file = file.read().splitlines()
+                for i in restore_file:
+                    name = i.split('=')[0]
+                    if os.path.exists(name):
+                        pro_val = i.split('=')[1]
+                        pro_val = int(pro_val, 8)
+                        os.chmod(name, pro_val)
+                    Display(f"- Restoring property of file or dir:{name}...", "FINISHED")
+
     restore_unused_user()
 
     if os.path.isfile(RESULT_FILE):
         open(RESULT_FILE, 'w').close()
     if os.path.isfile(RESULT_FILE):
         os.remove(RESULT_FILE)
+
 
 def scan_restore_basic_settings():
     print(WHITE)

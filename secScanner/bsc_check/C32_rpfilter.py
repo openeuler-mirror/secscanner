@@ -17,12 +17,12 @@ def C32_rpfilter():
             if re.match('net.ipv4.conf.all.rp_filter', line) and not re.match('^#|^$', line):
                 all_set = 'wrong'
                 temp = line.split('=')
-                if len(temp) == 2 and temp[1] == '1':
+                if len(temp) == 2 and temp[1] == '1\n':
                     all_set = 'right'
             if re.match('net.ipv4.conf.default.rp_filter', line) and not re.match('^#|^$', line):
                 default_set = 'wrong'
                 temp = line.split('=')
-                if len(temp) == 2 and temp[1] == '1':
+                if len(temp) == 2 and temp[1] == '1\n':
                     default_set = 'right'
     if all_set == 'unset' and default_set == 'unset':
         with open(RESULT_FILE, "a") as file:

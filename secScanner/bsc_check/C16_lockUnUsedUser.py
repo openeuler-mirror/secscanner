@@ -1,5 +1,6 @@
 import logging
 import os
+import subprocess
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.TextInfo import *
@@ -9,18 +10,25 @@ logger = logging.getLogger("secscanner")
 
 def C16_lockUnUsedUser():
     InsertSection("check the unused user")
-    UnUsed = ['adm', 'lp', 'sync', 'shutdown', 'halt', 'news', 'uucp', 'operator', 'games', 'nobody', 'rpm', 'smmsp']
-    ERROR_USER = ''
-    with open("/etc/shadow", "r") as file:
-        lines = file.readlines()
-        for line in lines:
-            temp = line.split(':', -1)
-            if temp[0] in UnUsed:
-                ERROR_USER = ERROR_USER + temp[0] + ' '
-    if len(ERROR_USER) > 0:
+    unuser_user = seconf.get('basic', 'unused_user_value').split()
+    #UnUsed = ['adm', 'lp', 'sync', 'shutdown', 'halt', 'news', 'uucp', 'operator', 'games', 'nobody', 'rpm', 'smmsp']
+    error_user = []
+    counter = 0
+
+    for i in unuser_user:
+        try:
+            output = subprocess.check_output(["grep", "-i", f"^{i}:", "/etc/shadow"])
+            output = output.decode("utf-8").strip()
+            if "!*" not in output:
+                error_user.append(i)
+                counter += 1
+        except subprocess.CalledProcessError:
+            pass
+
+    if counter > 0:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC16\n")
-        logger.warning(f"WRN_C16: These users: {ERROR_USER} should lock")
+        logger.warning(f"WRN_C16: These users: {error_user} should lock")
         logger.warning("SUG_C16: %s", SUG_C16)
         Display("- Check if there have unused user...", "WARNING")
     else:
