@@ -21,7 +21,7 @@ from secScanner.commands.check_outprint import *
 parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0,parentdir)
 from secScanner.gconfig import *
-from secScanner.scan_func import scan_fix_sys, scan_check_sys, scan_restore_basic_settings, scan_check_rootkit
+from secScanner.scan_func import scan_fix_sys, scan_check_sys, scan_restore_basic_settings, scan_check_rootkit, scan_vulnerabilities_db, scan_vulnerabilities_db_show
 
 def quiet_output(args):
     QUIET = 1
@@ -98,6 +98,16 @@ def fix_item(args):
         else:
             print(f"file {args.item} does not exist.")
             sys.exit(1)
+            
+def db_update(args):
+    display_info()
+    check_isvirtualmachine()
+    scan_vulnerabilities_db()
+
+def db_show(args):
+    display_info()
+    check_isvirtualmachine()
+    scan_vulnerabilities_db_show()
 
 def scan_command():
 
@@ -140,6 +150,12 @@ def scan_command():
     restore_basic_parser.set_defaults(func=restore_basic)
     restore_basic_parser.add_argument('-y', '--yes', action='store_true', help="Assume 'yes' as the answer to prompts")
 
+    db_parser = subparsers.add_parser('db', help="Database command")
+    db_subparsers = db_parser.add_subparsers(dest='mode')
+    db_update_parser = db_subparsers.add_parser('update', help="Update the database")
+    db_update_parser.set_defaults(func=db_update)
+    db_show_parser = db_subparsers.add_parser('show', help="Show the database")
+    db_show_parser.set_defaults(func=db_show)
 
     args = parser.parse_args()
 
