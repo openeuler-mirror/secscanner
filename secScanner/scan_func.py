@@ -23,7 +23,11 @@ import getpass
 import sys
 import gen_report.report as report
 from datetime import datetime
-
+import json
+from db.cvrf import *
+import urllib.request
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import *
 logger = logging.getLogger('secscanner')
 
 def restart_service(service_name):
@@ -334,4 +338,77 @@ def scan_restore_basic_settings():
     print(GREEN +" Restore basicly finished... Now you can refix the system" + NORMAL)
     print("")
 
+def scan_vulnerabilities_db():
+    # clear the counter, make this function re-call-able.
+    # these two counters are used for scan_show_result() function.
+    print(WHITE)
+    print(" " * 2 + "#" * 67)
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(f"  #   {MAGENTA}Start updating the system vulnerabilities database..." + WHITE + " " * 18 + "#")
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(" " * 2 + "#" * 67)
+    print(NORMAL)
+    cvrf_index = scrapy_CVRF_index()
+    engine = create_engine('sqlite:///secScanner/db/cvedatabase.db', echo=False)
+    DBModel.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    update_count = 0
+    for i, url in enumerate(cvrf_index):
+        url = url.strip()
+        cur = url.strip('.xml').split('cvrf-')[1]
+        if session.query(CVRF).filter_by(securityNoticeNo=f'{cur}').first():
+            continue
 
+        download_url = os.path.join("https://repo.openeuler.org/security/data/cvrf/", url)
+        print("this is download url: ", download_url)
+        print("this is url: ", url)
+        request = urllib.request.Request(download_url)
+        # request = urllib.request.Request("https://repo.openeuler.org/security/data/cvrf/2023/cvrf-openEuler-SA-2023-1554.xml")
+        request.add_header("Range", "bytes={}-".format(0))
+        text = urllib.request.urlopen(request).read().decode('utf-8')
+
+        cvrf_xml_handler = CVRFXML(text)
+        print(cvrf_xml_handler.node_get_securityNoticeNo())
+
+        cvrf = CVRF()
+        cvrf.securityNoticeNo = cvrf_xml_handler.node_get_securityNoticeNo()
+        cvrf.affectedComponent = cvrf_xml_handler.node_get_affectedComponent()
+        cvrf.cveId = ";".join(cvrf_xml_handler.node_get_cveId()) + ';'
+        cvrf.cveThreat = ";".join(cvrf_xml_handler.node_get_cveThreat()) + ';'
+        print("cveid", cvrf.cveId)
+        print("cvethreat", cvrf.cveThreat)
+        cvrf.affectedProduct = ";".join(cvrf_xml_handler.node_get_affectedProduct()) + ';'
+        pkg_dict = cvrf_xml_handler.node_get_packageName()
+        cvrf.packageName = str(pkg_dict)
+        session.add(cvrf)
+        session.commit()
+        update_count = update_count + 1
+    session.close()
+    print("Update database done!")
+    print(f"{update_count} date updated!")
+
+
+    scan_show_result()
+
+def scan_vulnerabilities_db_show():
+    # clear the counter, make this function re-call-able.
+    # these two counters are used for scan_show_result() function.
+    print(WHITE)
+    print(" " * 2 + "#" * 67)
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(f"  #   {MAGENTA}Show some data from cvedatabase..." + WHITE + " " * 18 + "#")
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(" " * 2 + "#" * 67)
+    print(NORMAL)
+    engine = create_engine('sqlite:///secScanner/db/cvedatabase.db', echo=False)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    for i in range(20):
+        our_sample = session.query(CVRF).filter_by(id=f'{i + 1}').first()
+        if type(our_sample) == CVRF:
+            print(our_sample.securityNoticeNo)
+            print(our_sample.cveId)
+            print(our_sample.cveThreat)
+    session.close()
