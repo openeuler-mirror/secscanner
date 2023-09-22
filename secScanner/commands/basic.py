@@ -21,7 +21,7 @@ from secScanner.commands.check_outprint import *
 parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0,parentdir)
 from secScanner.gconfig import *
-from secScanner.scan_func import scan_fix_sys, scan_check_sys, scan_restore_basic_settings, scan_check_rootkit, scan_vulnerabilities_db, scan_vulnerabilities_db_show
+from secScanner.scan_func import scan_fix_sys, scan_check_sys, scan_restore_basic_settings, scan_check_rootkit, scan_vulnerabilities_db, scan_vulnerabilities_db_show, scan_vulnerabilities_db_create_oval
 
 def quiet_output(args):
     QUIET = 1
@@ -109,6 +109,11 @@ def db_show(args):
     check_isvirtualmachine()
     scan_vulnerabilities_db_show()
 
+def db_oval(args):
+    display_info()
+    check_isvirtualmachine()
+    scan_vulnerabilities_db_create_oval()
+
 def scan_command():
 
     parser = argparse.ArgumentParser(description='SecScanner command')
@@ -156,6 +161,8 @@ def scan_command():
     db_update_parser.set_defaults(func=db_update)
     db_show_parser = db_subparsers.add_parser('show', help="Show the database")
     db_show_parser.set_defaults(func=db_show)
+    db_oval_parser = db_subparsers.add_parser('oval', help="Generate xml from the database")
+    db_oval_parser.set_defaults(func=db_oval)
 
     args = parser.parse_args()
 
