@@ -21,7 +21,7 @@ from secScanner.commands.check_outprint import *
 parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0,parentdir)
 from secScanner.gconfig import *
-from secScanner.scan_func import scan_fix_sys, scan_check_sys, scan_restore_basic_settings, scan_check_rootkit, scan_vulnerabilities_db, scan_vulnerabilities_db_show, scan_vulnerabilities_db_create_oval
+from secScanner.scan_func import scan_fix_sys, scan_check_sys, scan_restore_basic_settings, scan_check_rootkit, scan_vulnerabilities_db, scan_vulnerabilities_db_show, scan_vulnerabilities_db_create_oval，scan_vulnerabilities_rpm_check 
 
 def quiet_output(args):
     QUIET = 1
@@ -114,6 +114,11 @@ def db_oval(args):
     check_isvirtualmachine()
     scan_vulnerabilities_db_create_oval()
 
+def rpm_check(args):
+    display_info()
+    check_isvirtualmachine()
+    scan_vulnerabilities_rpm_check()
+
 def scan_command():
 
     parser = argparse.ArgumentParser(description='SecScanner command')
@@ -163,6 +168,11 @@ def scan_command():
     db_show_parser.set_defaults(func=db_show)
     db_oval_parser = db_subparsers.add_parser('oval', help="Generate xml from the database")
     db_oval_parser.set_defaults(func=db_oval)
+
+    rpm_parser = subparsers.add_parser('rpm', help="Scan rpm command")
+    rpm_subparsers = rpm_parser.add_subparsers(dest='mode')
+    rpm_check_parser = rpm_subparsers.add_parser('check', help="Update the database")
+    rpm_check_parser.set_defaults(func=rpm_check)
 
     args = parser.parse_args()
 
