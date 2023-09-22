@@ -449,3 +449,116 @@ def scan_vulnerabilities_db_create_oval(xml_path = '/db/', table = CVRF):
         write_file.write("</definitions>\n")
         write_file.write("</oval_definitions>\n")
     session.close()
+
+def scan_vulnerabilities_rpm_check():
+    # clear the counter, make this function re-call-able.
+    # these two counters are used for scan_show_result() function.
+    print(WHITE)
+    print(" " * 2 + "#" * 67)
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(f"  #   {MAGENTA}Check system rpm by db data..." + WHITE + " " * 18 + "#")
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(" " * 2 + "#" * 67)
+    print(NORMAL)
+    engine = create_engine('sqlite:///secScanner/db/cvedatabase.db', echo=False)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    euler_version = get_value('SYS_VERSION')
+    # all 20.30 openeulers' rpm contains "oe1" suffix, when Euler version >= 22.03, change oe1 to oe2203 instead
+    ver_rpm = 'oe1'
+    if euler_version == '22.10U1 LTS' or euler_version == '22.03 LTS SP1':
+        euler_version = 'openEuler-22.03-LTS-SP1'
+        ver_rpm = 'oe2203sp1'
+    elif euler_version == '22.10 LTS' or euler_version == '22.03 LTS':
+        euler_version = 'openEuler-22.03-LTS'
+        ver_rpm = 'oe2203'
+    elif euler_version == '22.10U2 LTS' or euler_version == '22.03 LTS SP2':
+        euler_version = 'openEuler-22.03-LTS-SP2'
+        ver_rpm = 'oe2203sp2'
+    elif euler_version == '21.10U3 LTS' or euler_version == '20.03 LTS SP3':
+        euler_version = 'openEuler-20.03-LTS-SP3'
+    elif euler_version == '21.10 LTS' or euler_version == '20.03 LTS SP2':
+        euler_version = 'openEuler-20.03-LTS-SP2'
+    elif euler_version == '20.03 LTS SP1':
+        euler_version = 'openEuler-20.03-LTS-SP1'
+    #check system archtecture
+    Shell_run = subprocess.run(['uname', '-m'], stdout=subprocess.PIPE)
+    sys_arch = Shell_run.stdout.decode().strip('\n')
+
+    # use "for" loop to traverse the cve database
+    scan_db_sample = session.query(CVRF).all()
+    # use a dict to save results
+    result_dict = {}
+    for i in range(len(scan_db_sample)):
+        take_a_sample = scan_db_sample[i]
+        aff_component = take_a_sample.affectedComponent
+        cve_info = take_a_sample.cveId
+        sa_info = take_a_sample.securityNoticeNo
+        db_package = take_a_sample.packageName
+        temp = re.sub('\'', '\"', db_package)
+        db_package_json = json.loads(temp)
+
+        if euler_version in db_package_json:
+            db_package_euler = db_package_json[euler_version]
+            rpm_list = db_package_euler[sys_arch]
+        else:
+            # print("This SA didnt update rpm for this system, System maybe safe by now!")
+            continue
+
+        #Check system software version
+        Shell_run = subprocess.run(['rpm', '-qa', aff_component], stdout=subprocess.PIPE)
+        Shell_out = Shell_run.stdout.decode()
+        if Shell_out == '':
+            #print("This machine doesnt have this software, pass!")
+            continue
+        else:
+            sys_package = Shell_out.strip()
+
+        #get system software's version
+        ver_arch = sys_package.split(aff_component)[1]
+        ver_arch_list = ver_arch.split('-')
+            #ver_last_num: number after "-"
+        ver_last_num = ver_arch_list[2].split('.')[0]
+        sys_rpm_version = ver_arch_list[1].split('.')
+        sys_rpm_version.append(ver_last_num)
+        sa_rpm_version = []
+        #get SA rpm's version
+        found_rpm = ''
+        for item in rpm_list:
+            if item != '' and (aff_component in item):
+                sa_rpm = item.split('.rpm')[0].split('.' + sys_arch)[0].split('.' + ver_rpm)[0].split(aff_component + '-')[1]
+            else:
+                continue
+            temp = sa_rpm.split('-')
+            if len(temp) == 2:
+                sa_ver_last_num = temp[1]
+                sa_rpm_version = temp[0].split('.')
+                sa_rpm_version.append(sa_ver_last_num)
+                #print("----------This is SA rpm version: ", sa_rpm_version)
+                found_rpm = item
+                break
+        if len(sys_rpm_version) == len(sa_rpm_version):
+            for j in range(len(sys_rpm_version)):
+                if sys_rpm_version[j] < sa_rpm_version[j]:
+                    # print("-----------------There is a rpm need to update!")
+                    # print("-----------------system rpm: ", sys_rpm_version)
+                    # print("---------------------sa rpm: ", sa_rpm_version)
+                    if aff_component not in result_dict:
+                        result_dict[aff_component] = []
+                        result_dict[aff_component].append(sa_info)
+                        result_dict[aff_component].append(cve_info)
+                        result_dict[aff_component].append(found_rpm)
+                    else:
+                        result_dict[aff_component].append(sa_info)
+                        result_dict[aff_component].append(cve_info)
+                        result_dict[aff_component].append(found_rpm)
+                    break
+
+    for s in result_dict:
+        print("------------------------------------------------------------------------\n")
+        print(f"According to {result_dict[s][0]}")
+        print(f"Fix {result_dict[s][1]}")
+        print(f"{s} need to update!")
+        print("rpm are as follows...")
+        print(result_dict[s][2])
+    session.close()
