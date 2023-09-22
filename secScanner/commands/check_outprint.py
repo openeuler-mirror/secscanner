@@ -42,6 +42,9 @@ def distro_detection():
                     elif tmp_distro.startswith("2"): # 欧拉系列
                         OS_DISTRO = tmp_distro
                     set_value("OS_DISTRO", OS_DISTRO)
+                elif line.startswith("VERSION"):
+                    SYS_VERSION = line.split("=")[1].strip().strip("\"'")
+                    set_value("SYS_VERSION", SYS_VERSION)
         if OS_ID and OS_DISTRO:
             if OS_ID.lower() in ["centos", "rhel", "redhat", "openeuler", "bclinux"]:
                 logger.info(f"Detected this system is {OS_ID}-{OS_DISTRO}")
