@@ -5,10 +5,11 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import Column
 from sqlalchemy import Text
 from sqlalchemy import Integer
-
 import re
 import json
-
+from bs4 import BeautifulSoup
+import os
+from datetime import datetime
 url = ' https://anas.openanolis.cn/api/securitydata/errata.json'
 class ANAS(DBModel):
     __tablename__ = 'OpenAnolisANAS'
@@ -37,6 +38,100 @@ def download(url):
     name = url.split('/')[-1]
     with open('rpms/' + name, 'wb')as f:
         f.write(r.content)
+
+
+
+
+ def check_rpm_link(packagename, rpm_name):
+     rpm_list = rpm_name.split(packagename)
+     if len(rpm_list) != 2:
+         return False
+     if rpm_list[0] != '':
+         return False
+     if rpm_list[1][0] == '-' and rpm_list[1][1].isdigit():
+         return True
+     return False
+ def get_bclinux_srpm(package_src_names):
+     # 定义目标网址
+     global url
+     OS_DISTRO = "8.2"
+     url_list = [
+         "https://mirrors.cmecloud.cn/anolis/" + OS_DISTRO + "/BaseOS/source/Packages/",
+         "https://mirrors.cmecloud.cn/anolis/" + OS_DISTRO + "/AppStream/source/Packages/",
+         "https://mirrors.cmecloud.cn/anolis/" + OS_DISTRO + "/PowerTools/source/Packages/"
+     ]
+
+     packages = {}
+     found_packages = []
+     packages_url = {}
+     # 指定保存目录
+     save_directory = "bclinux_srpm"  # 替换为实际的保存目录路径
+     # 创建保存目录（如果不存在）
+     os.makedirs(save_directory, exist_ok=True)
+     downloaded_packages = set()  # 存储已下载的包的名称
+
+     # 发送 GET 请求获取网页内容
+     for url in url_list:
+         # 发送 GET 请求获取网页内容
+         response = requests.get(url)
+         html_content = response.content
+
+         # 使用 BeautifulSoup 解析网页内容
+         soup = BeautifulSoup(html_content, "html.parser")
+
+         # 提取所有 .src.rpm 文件链接、文件大小和日期
+         file_rows = soup.find_all("tr")[1:]  # 跳过表头行
+         for row in file_rows:
+             columns = row.find_all("td")
+             link = columns[0].find("a")["href"]
+             file_size_str = columns[1].text
+             upload_time_str = columns[2].text
+
+             try:
+                 file_size = float(file_size_str.split()[0])
+                 upload_time = datetime.strptime(upload_time_str, "%Y-%m-%d %H:%M:%S")
+                 package_name = None
+                 for src_name in package_src_names:
+                     if check_rpm_link(src_name, link):
+                         package_name = src_name
+                         found_packages.append(package_name)
+                         break
+
+                 # 检查是否存在相同的包名已被找到
+                 if not package_name:
+                     continue
+
+                 if package_name in packages:
+                     if upload_time > packages[package_name]["upload_time"]:
+                         packages[package_name]["upload_time"] = upload_time
+                         packages[package_name]["link"] = link
+                         packages[package_name]["file_size"] = file_size
+                 else:
+                     packages[package_name] = {"upload_time": upload_time, "link": link, "file_size": file_size}
+
+             except (ValueError, AttributeError):
+                 print(f"无效的文件大小或上传时间，跳过链接: {link}")
+
+
+         for package_name, package_info in packages.items():
+             if package_name not in downloaded_packages:  # 检查包是否已经下载过
+                 download_url = url + package_info["link"]
+                 file_name = package_info["link"].split("/")[-1]
+                 save_path = os.path.join(save_directory, file_name)
+                 # response = requests.get(download_url)
+                 # with open(save_path, "wb") as f:
+                 #     f.write(response.content)
+                 print(f"成功下载并保存 {file_name}")
+                 downloaded_packages.add(package_name)  # 将已下载的包添加到集合中
+
+     # 如果未找到任何软件包
+     if not packages:
+         print("未找到任何 .src.rpm 包")
+     count = 0
+     for i in downloaded_packages:
+         if i in package_src_names:
+             count = count + 1
+     print(f"According to Anolis ANAS updated {len(package_src_names)} numbers of rpm packages, there are {count} packages found from cmcloud")
 
 def main():
     r = requests.get(url)
@@ -118,7 +213,8 @@ def main():
     for i in sort_update_rpm:
         print("Start downloading ", i, update_rpm[i])
         download(update_rpm[i][1])
-
+    get_bclinux_srpm(update_rpm) #download from cmcloud
 
 if __name__ == '__main__':
     main()
+
