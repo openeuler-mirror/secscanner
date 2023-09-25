@@ -281,3 +281,26 @@ def make_oval_definition(one_sample, field_list, write_file):
         write_file.write(f"<{field}>{one_sample.__dict__[field]}</{field}>\n")
     write_file.write("</metadata>\n")
     write_file.write("</definition>\n")
+
+def make_one_json(one_sample, field_list, write_file):
+
+    for i in range(len(field_list)):
+        if field_list[i] == '_sa_instance_state':
+            continue
+        temp = one_sample.__dict__[field_list[i]]
+        write_file.write(f"\"{field_list[i]}\": \"{temp}\"\n")
+        if i != (len(field_list)-1):
+            write_file.write(",\n")
+def make_json_file(all_samples, table = CVRF):
+    with open(f'{table.__tablename__}.json', 'w') as write_file:
+        write_file.write("[\n")
+        for j in range(len(all_samples)):
+            field_list = list(all_samples[j].__dict__)
+            write_file.write("{")
+            make_one_json(all_samples[j], field_list, write_file)
+            write_file.write("}")
+            if j != len(all_samples)-1:
+                write_file.write(",\n")
+        write_file.write("]\n")
+
+
