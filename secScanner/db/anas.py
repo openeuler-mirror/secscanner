@@ -5,6 +5,10 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import Column
 from sqlalchemy import Text
 from sqlalchemy import Integer
+
+import re
+import json
+
 url = ' https://anas.openanolis.cn/api/securitydata/errata.json'
 class ANAS(DBModel):
     __tablename__ = 'OpenAnolisANAS'
@@ -27,6 +31,12 @@ class ANAS(DBModel):
         print(f"advisory_id: {self.advisory_id}")
         print(f"severity: {self.severity}")
         print(f"description: {self.description}")
+
+def download(url):
+    r = requests.get(url)
+    name = url.split('/')[-1]
+    with open('rpms/' + name, 'wb')as f:
+        f.write(r.content)
 
 def main():
     r = requests.get(url)
@@ -57,5 +67,58 @@ def main():
         anas.cve = str(i['cve'])
         session.add(anas)
         session.commit()
+
+    all_sample = session.query(ANAS).order_by(desc('id')).all()
+    update_rpm = {}
+    for take_a_sample in all_sample:
+        if take_a_sample.cve == "[]":
+            continue
+        text = take_a_sample.product
+        temp = re.sub('\'', '\"', text)
+        product_json = json.loads(temp)
+        if product_json[0]['name_version'] != 'Anolis OS 8':
+            continue
+        if 'product_package_info' in product_json[0]:
+            package_info = product_json[0]['product_package_info']
+        else:
+            continue
+        update_time = take_a_sample.publish_date.split()[0]
+        if 'src' in package_info:
+            package_src_name = package_info['src'][0]['rpm_name']
+            if "kernel" in package_src_name:
+                continue
+            if 'Anolis' in package_src_name:
+                continue
+            package_src_url = package_info['src'][0]['rpm_url']
+            if package_src_name in update_rpm:
+                exist_update_time = update_rpm[package_src_name][0].split('-')
+                cur_update_time = update_time.split('-')
+                if cur_update_time[0] < exist_update_time[0]:
+                    continue
+                elif cur_update_time[0] > exist_update_time[0]:
+                    update_rpm[package_src_name] = [update_time, package_src_url]
+                else:
+                    if cur_update_time[1] < exist_update_time[1]:
+                        continue
+                    elif cur_update_time[1] > exist_update_time[1]:
+                        update_rpm[package_src_name] = [update_time, package_src_url]
+                    else:
+                        if cur_update_time[2] < exist_update_time[2]:
+                            continue
+                        else:
+                            update_rpm[package_src_name] = [update_time, package_src_url]
+            else:
+                update_rpm[package_src_name] = [update_time, package_src_url]
+        else:
+            continue
+
+    print("---------------------------------")
+    sort_update_rpm = sorted(update_rpm)
+    print(len(update_rpm))
+    for i in sort_update_rpm:
+        print("Start downloading ", i, update_rpm[i])
+        download(update_rpm[i][1])
+
+
 if __name__ == '__main__':
     main()
