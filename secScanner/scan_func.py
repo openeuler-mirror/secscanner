@@ -252,7 +252,9 @@ def scan_restore_basic_inline():
                  '/etc/ssh/sshd_config_bak', '/etc/sshbanner_bak', '/etc/ssh/ssh_config_bak', '/etc/securetty_bak',
                  '/etc/syslog.conf_bak', '/etc/rsyslog.conf_bak', '/etc/issue_bak', '/etc/issue.net_bak',
                  '/etc/security/limits.conf_bak', '/etc/vsftpd/vsftpd.conf_bak', '/etc/pam.d/su_bak',
-                 '/etc/passwd_bak', '/etc/shadow_bak', '/etc/group_bak', '/etc/aliases_bak', '/etc/mail/aliases_bak']
+                 '/etc/passwd_bak', '/etc/shadow_bak', '/etc/group_bak', '/etc/aliases_bak', '/etc/mail/aliases_bak',
+                 '/etc/systemd/system/ctrl-alt-del.target_bak', '/usr/lib/systemd/system/ctrl-alt-del.target_bak',
+                 '/etc/systemd/system.conf_bak']
     for i in BAK_FILES:
         dest_path = i
         source_path = dest_path.strip("_bak")
