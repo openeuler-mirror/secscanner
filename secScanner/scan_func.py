@@ -153,6 +153,8 @@ def scan_fix_sys():
     CHECK_SET = sorted(glob.glob(path + '/*'))
     pattern = r'S([0-9]+)_.*\.py'
 
+    # record ifix in case of repeat
+    fix_indices = set()
     if os.path.isfile(RESULT_FILE) and os.path.getsize(RESULT_FILE) > 0:
         print(f"Begin to fix the system warnings, according to checking-result...")
         with open(RESULT_FILE) as result_file:
@@ -161,9 +163,10 @@ def scan_fix_sys():
                 if not line.strip().startswith('#') and not line.strip() == "":
                     ifix = line.split()[0].split('C')[-1]
                     s_pattern = r'S' + ifix + r'_.*\.py'
-                    for i in CHECK_SET:
+                    for index, i in enumerate(CHECK_SET):
                         match = re.search(s_pattern, i )
-                        if match:
+                        if match and index not in fix_indices:
+                            fix_indices.add(index)
                             module_name = os.path.splitext(os.path.basename(i))[0]
                             module_path = os.path.dirname(i)
                             sys.path.append(module_path)
@@ -183,6 +186,8 @@ def scan_fix_sys():
             if match:
                 s_num = int(match.group(1))
                 if 1 <= s_num <= 60 and os.path.isfile(iFix):
+                    if iFix == CHECK_SET[-1]:
+                        break
                     module_name = os.path.splitext(os.path.basename(iFix))[0]
                     module_path = os.path.dirname(iFix)
                     sys.path.append(module_path)

@@ -4,6 +4,7 @@ import subprocess
 import re
 import os
 import shutil
+import itertools
 import secScanner.gen_report.gen_html_report as gen_report
 
 logger = logging.getLogger('secscanner')
@@ -33,10 +34,9 @@ def warning_results():
                 sug = line.split(suggestion_match.group(0))[1].strip()
                 SUGS.append(sug)            
 
-
         TMP_COUNT = 0
 
-        for wrn, sug in zip(WRNS, SUGS):
+        for wrn, sug in itertools.zip_longest(WRNS, SUGS, fillvalue=""):
             print(f"{RED}- {wrn} {NORMAL}")
             TMP_COUNT += 1
             baseline_info += f"""
