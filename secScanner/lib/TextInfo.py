@@ -127,6 +127,8 @@ WRN_C32_02 = "Wrong reverse path filtering set, need change"
 WRN_C33_01 = "No ssh PermitEmptyPasswords set, need add"
 WRN_C33_02 = "Wrong ssh PermitEmptyPasswords set, need change"
 
+WRN_C34_01 = "No system CtrlAltDel Burst Action set, need add"
+WRN_C34_02 = "Wrong system CtrlAltDel Burst Action set, need change"
 
 
 ROOTKIT_R01 = "the system maybe infected"
@@ -440,6 +442,17 @@ SUG_C33 = ("1、执行备份："
            "</br>在/etc/ssh/sshd_config中将PermitEmptyPasswords修改为no，并取消注释"
            "</br>3、重启sshd服务:"
            "</br>#systemctl restart sshd")
+
+SUG_C34 = ("1、执行备份："
+           "</br>#cp -np /etc/systemd/system/ctrl-alt-del.target /etc/systemd/system/ctrl-alt-del.target_bak"
+           "</br>#cp -np /usr/lib/systemd/system/ctrl-alt-del.target /usr/lib/systemd/system/ctrl-alt-del.target_bak"
+           "</br>rm -f /etc/systemd/system/ctrl-alt-del.target"
+           "</br>rm -f /usr/lib/systemd/system/ctrl-alt-del.target"
+           "</br>2、修改配置"
+           "</br>#vi /etc/systemd/system.conf"
+           "</br>将#CtrlAltDelBurstAction=reboot-force 修改为CtrlAltDelBurstAction=none"
+           "</br>3、重启systemd服务:"
+           "</br>#systemctl daemon-reexec")
 
 
 SUG_R01 = "请重新检查问题文件，或删除病毒文件，或重装系统"
