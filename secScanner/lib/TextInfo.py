@@ -130,6 +130,9 @@ WRN_C33_02 = "Wrong ssh PermitEmptyPasswords set, need change"
 WRN_C34_01 = "No system CtrlAltDel Burst Action set, need add"
 WRN_C34_02 = "Wrong system CtrlAltDel Burst Action set, need change"
 
+WRN_C35_01 = "No list of users prohibited from login set, need add"
+WRN_C35_02 = "Path /etc/login.user.deny not exists,  need create"
+
 
 ROOTKIT_R01 = "the system maybe infected"
 
@@ -454,5 +457,14 @@ SUG_C34 = ("1、执行备份："
            "</br>3、重启systemd服务:"
            "</br>#systemctl daemon-reexec")
 
+SUG_C35 =("1、执行备份："
+          "</br>#cp -np /etc/pam.d/system-auth /etc/pam.d/system-auth_bak"
+          "</br>#cp -np /etc/pam.d/password-auth /etc/pam.d/password-auth_bak"
+          "</br>2、创建禁止登陆的用户列表文件"
+          "</br>#touch /etc/login.user.deny"
+          "</br>3、修改配置"
+          "</br>#vi /etc/pam.d/system-auth"
+          "</br>#vi /etc/pam.d/password-auth"
+          "</br>添加 auth        requisite     pam_listfile.so item=user onerr=succeed sense=deny file=/etc/login.user.deny")
 
 SUG_R01 = "请重新检查问题文件，或删除病毒文件，或重装系统"

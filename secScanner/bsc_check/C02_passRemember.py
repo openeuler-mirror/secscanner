@@ -9,7 +9,7 @@ logger = logging.getLogger("secscanner")
 def C02_passRemember():
     InsertSection("check passwd Remember times")
     SET_VAL = []
-    with (open("/etc/pam.d/system-auth", "r") as file):
+    with open("/etc/pam.d/system-auth", "r") as file:
         lines = file.readlines()
         for line in lines:
             if re.match('password', line) and re.search('pam_unix.so', line) and re.search('remember=', line):
