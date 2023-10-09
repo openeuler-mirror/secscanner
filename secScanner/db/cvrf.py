@@ -28,15 +28,15 @@ class CVRF(DBModel):
     affectedProduct = Column('affectedProduct', Text)
     packageName = Column('packageName', Text)
 
-    # announcementTime = Column('announcementTime', Text)
+    announcementTime = Column('announcementTime', Text)
     # description = Column('description', Text)
     # introduction = Column('introduction', Text)
     # referenceDocuments = Column('referenceDocuments', Text)
     # revisionHistory = Column('revisionHistory', Text)
     # subject = Column('subject', Text)
     # summary = Column('summary', Text)
-    # type = Column('type', Text)
-    # updateTime = Column('updateTime', Text)
+    type = Column('type', Text)
+    updateTime = Column('updateTime', Text)
 
     cvrf = Column('cvrf', Text)
 
