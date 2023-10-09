@@ -35,7 +35,7 @@ def Display(text, result=''):
     else:
         color = NORMAL
     result_part = f"{color}{result}{NORMAL}"
-    print(text.ljust(80) + result_part)
+    print(text.ljust(80) + '[ ' + result_part + ' ]')
 
 def InsertSection(section_name):
     print("")
