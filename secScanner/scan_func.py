@@ -381,6 +381,9 @@ def scan_vulnerabilities_db():
         cvrf = CVRF()
         cvrf.securityNoticeNo = cvrf_xml_handler.node_get_securityNoticeNo()
         cvrf.affectedComponent = cvrf_xml_handler.node_get_affectedComponent()
+        cvrf.announcementTime = cvrf_xml_handler.node_get_announcetime()
+        cvrf.updateTime = cvrf_xml_handler.node_get_updatetime()
+        cvrf.type = cvrf_xml_handler.node_get_type()
         cvrf.cveId = ";".join(cvrf_xml_handler.node_get_cveId()) + ';'
         cvrf.cveThreat = ";".join(cvrf_xml_handler.node_get_cveThreat()) + ';'
         print("cveid", cvrf.cveId)
