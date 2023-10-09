@@ -133,6 +133,9 @@ WRN_C34_02 = "Wrong system CtrlAltDel Burst Action set, need change"
 WRN_C35_01 = "No list of users prohibited from login set, need add"
 WRN_C35_02 = "Path /etc/login.user.deny not exists,  need create"
 
+WRN_C36_01 = "No disable magic keys set, need add"
+WRN_C36_02 = "Wrong disable magic keys set,  need change"
+
 
 ROOTKIT_R01 = "the system maybe infected"
 
@@ -438,7 +441,7 @@ SUG_C32 = ("1、执行备份："
            "</br>#vi /etc/sysctl.conf"
            "</br>net.ipv4.conf.all.rp_filter=1 "
            "</br>net.ipv4.conf.default.rp_filter=1 "
-           "</br>使得配置生效：sysctl -p ")
+           "</br>使得配置生效：sysctl -p")
 SUG_C33 = ("1、执行备份："
            "</br>#cp -np /etc/ssh/sshd_config /etc/ssh/sshd_config_bak"
            "</br>2、修改配置"
@@ -466,5 +469,13 @@ SUG_C35 =("1、执行备份："
           "</br>#vi /etc/pam.d/system-auth"
           "</br>#vi /etc/pam.d/password-auth"
           "</br>添加 auth        requisite     pam_listfile.so item=user onerr=succeed sense=deny file=/etc/login.user.deny")
+
+SUG_C36 = ("1、执行备份："
+           "</br>#cp -np /etc/sysctl.conf /etc/sysctl.conf_bak "
+           "</br>2、修改配置"
+           "</br>#vi /etc/sysctl.conf"
+           "</br>kernel.sysrq=0 "
+           "</br>使得配置生效：sysctl -p"
+           "</br>或在/etc/rc.local中增加一行“/sbin/sysctl -p /etc/sysctl.conf")
 
 SUG_R01 = "请重新检查问题文件，或删除病毒文件，或重装系统"
