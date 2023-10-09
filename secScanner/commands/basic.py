@@ -21,7 +21,7 @@ from secScanner.commands.check_outprint import *
 parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0,parentdir)
 from secScanner.gconfig import *
-from secScanner.scan_func import scan_fix_sys, scan_check_sys, scan_restore_basic_settings, scan_check_rootkit, scan_vulnerabilities_db, scan_vulnerabilities_db_show, scan_vulnerabilities_db_create_oval，scan_vulnerabilities_rpm_check 
+from secScanner.scan_func import scan_fix_sys, scan_check_sys, scan_restore_basic_settings, scan_check_rootkit, scan_vulnerabilities_db, scan_vulnerabilities_db_show, scan_vulnerabilities_db_create_oval, scan_vulnerabilities_rpm_check 
 
 def quiet_output(args):
     QUIET = 1
