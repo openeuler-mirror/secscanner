@@ -136,6 +136,9 @@ WRN_C35_02 = "Path /etc/login.user.deny not exists,  need create"
 WRN_C36_01 = "No disable magic keys set, need add"
 WRN_C36_02 = "Wrong disable magic keys set,  need change"
 
+WRN_C37_01 = "No kernel panic on oops set, need add"
+WRN_C37_02 = "Wrong kernel panic on oops set,  need change"
+
 
 ROOTKIT_R01 = "the system maybe infected"
 
@@ -477,5 +480,23 @@ SUG_C36 = ("1、执行备份："
            "</br>kernel.sysrq=0 "
            "</br>使得配置生效：sysctl -p"
            "</br>或在/etc/rc.local中增加一行“/sbin/sysctl -p /etc/sysctl.conf")
+
+SUG_C37 = ("1、执行备份："
+           "</br>#cp -np /etc/sysctl.conf /etc/sysctl.conf_bak "
+           "</br>#cp -np /etc/rc.local /etc/rc.local_bak "
+           "</br>#cp -np /lib/systemd/system/rc-local.service /lib/systemd/system/rc-local.service_bak"
+           "</br>2、修改配置"
+           "</br>#vi /etc/sysctl.conf"
+           "</br>kernel.panic_on_oops=1 "
+           "</br>#vi /etc/rc.local"
+           "</br>/sbin/sysctl -p /etc/sysctl.conf"
+           "</br>#vi /lib/systemd/system/rc-local.service"
+           "</br>[install]\n"
+           "</br>wantedBy=multi-user.target"
+           "</br>chmod o+x /etc/rc.local"
+           "</br>#vi /etc/rc.local"
+           "</br>#!/bin/sh -e\nkernel.panic_on_oops =1\nrm -rf /lib/systemd/system/ctrl-alt-del.target"
+           "</br>exit 0 保存退出")
+
 
 SUG_R01 = "请重新检查问题文件，或删除病毒文件，或重装系统"
