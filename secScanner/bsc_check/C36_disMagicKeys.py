@@ -10,7 +10,6 @@ logger = logging.getLogger("secscanner")
 def C36_disMagicKeys():
     InsertSection("check disable magic keys")
     sysrq_set = 'unset'
-    sysctl_set = 'unset'
     if os.path.exists('/etc/sysctl.conf'):
         with open("/etc/sysctl.conf", "r") as file:
             lines = file.readlines()
@@ -20,15 +19,6 @@ def C36_disMagicKeys():
                     temp = line.split('=')
                     if len(temp) == 2 and temp[1] == '0\n':
                         sysrq_set = 'right'
-
-        if os.path.exists('/etc/rc.local'):
-            with open('/etc/rc.local', 'r') as read_file:
-                lines = read_file.readlines()
-                for line in lines:
-                    if not re.match('#|$', line) and re.search('sysctl.conf', line):
-                        sysctl_set = 'right'
-        else:
-            pass
         
         if sysrq_set == 'unset':
             with open(RESULT_FILE, "a") as file:

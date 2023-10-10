@@ -12,8 +12,6 @@ def S36_disMagicKeys():
     if set_disable_magickeys == 'yes':
         if os.path.exists('/etc/sysctl.conf') and not os.path.exists('/etc/sysctl.conf_bak'):
             shutil.copy2('/etc/sysctl.conf', '/etc/sysctl.conf_bak')
-        if os.path.exists('/etc/rc.local') and not os.path.exists('/etc/rc.local_bak'):
-            shutil.copy2('/etc/rc.local', '/etc/rc.local_bak')
 
         if os.path.exists('/etc/sysctl.conf'):
             sysrq = 0
@@ -53,4 +51,4 @@ def S36_disMagicKeys():
             Display("- No filepath /etc/sysctl.conf...", "FAILED")
 
     else:
-        Display("- Skip disable the reverse path filtering due to config file...", "SKIPPING")
+        Display("- Skip set disable magic keys due to config file...", "SKIPPING")
