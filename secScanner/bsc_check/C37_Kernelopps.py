@@ -35,7 +35,7 @@ def C37_Kernelopps():
                 file.write("\nC37\n")
             logger.warning("WRN_C37_01: %s", WRN_C37_01)
             logger.warning("SUG_C37: %s", SUG_C37)
-            Display("- No  kernel panic on oops set...", "WARNING")
+            Display("- No kernel panic on oops set...", "WARNING")
         elif kerneloops_set == 'right' and rclocal_set:
             logger.info("Has kernel panic on oops set set, checking OK")
             Display("- Check kernel panic on oops set set...", "OK")
