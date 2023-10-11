@@ -254,7 +254,8 @@ def scan_restore_basic_inline():
                  '/etc/security/limits.conf_bak', '/etc/vsftpd/vsftpd.conf_bak', '/etc/pam.d/su_bak',
                  '/etc/passwd_bak', '/etc/shadow_bak', '/etc/group_bak', '/etc/aliases_bak', '/etc/mail/aliases_bak',
                  '/etc/systemd/system/ctrl-alt-del.target_bak', '/usr/lib/systemd/system/ctrl-alt-del.target_bak',
-                 '/etc/systemd/system.conf_bak', '/etc/rc.local_bak', '/lib/systemd/system/rc-local.service_bak']
+                 '/etc/systemd/system.conf_bak', '/etc/rc.local_bak', '/lib/systemd/system/rc-local.service_bak',
+                 '/etc/pam.d/login_bak']
     for i in BAK_FILES:
         dest_path = i
         source_path = dest_path.strip("_bak")

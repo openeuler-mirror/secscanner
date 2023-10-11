@@ -139,6 +139,7 @@ WRN_C36_02 = "Wrong disable magic keys set,  need change"
 WRN_C37_01 = "No kernel panic on oops set, need add"
 WRN_C37_02 = "Wrong kernel panic on oops set,  need change"
 
+WRN_C38 = "No limit of system resources, need add"
 
 ROOTKIT_R01 = "the system maybe infected"
 
@@ -498,5 +499,13 @@ SUG_C37 = ("1、执行备份："
            "</br>#!/bin/sh -e\nkernel.panic_on_oops =1\nrm -rf /lib/systemd/system/ctrl-alt-del.target"
            "</br>exit 0 保存退出")
 
+SUG_C38 = ("1、执行备份："
+              "</br>#cp -np /etc/security/limits.conf  /etc/security/limits.conf_bak "
+              "</br>2、修改配置"
+              "</br>soft stack 1024"
+              "</br>hard stack 1024"
+              "</br>* hard rss 100000"
+              "</br>* hard nproc 4000"
+              "</br>* hard maxlogins 3 写入/etc/security/limits.conf")
 
 SUG_R01 = "请重新检查问题文件，或删除病毒文件，或重装系统"
