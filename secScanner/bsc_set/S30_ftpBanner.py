@@ -48,10 +48,10 @@ def S30_ftpBanner():
 
             if not found_banner:
                 logger.info("set the ftp banner failed, no set option")
-                Display(f"- Set the ftp banner...", "FAILED")
+                Display("- Set the ftp banner...", "FAILED")
             elif CHECK_EXIST == 0:
                 logger.info("set the ftp banner failed, wrong setting")
-                Display(f"- Set the ftp banner...", "FAILED")
+                Display("- Set the ftp banner...", "FAILED")
             else:
                 result = subprocess.run(['systemctl', 'is-active', 'vsftpd'], stdout=subprocess.DEVNULL,
                                         stderr=subprocess.STDOUT)
@@ -60,8 +60,8 @@ def S30_ftpBanner():
                 else:
                     subprocess.run(['systemctl', 'start', 'vsftpd'])
                 logger.info("set the ftp banner successfully")
-                Display(f"- Set the ftp banner...", "FINISHED")
+                Display("- Set the ftp banner...", "FINISHED")
         else:
             Display("- filepath /etc/vsftpd/vsftpd.conf not exist...", "SKIPPING")
     else:
-        Display(f"- Skip set ftp banner due to config file...", "SKIPPING")
+        Display("- Skip set ftp banner due to config file...", "SKIPPING")

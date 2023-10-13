@@ -26,9 +26,9 @@ def S19_syslogError():
                     add_file.write(f"\n*.err /var/log/{ERROR_FILE_NAME}\n")
             else:
                 logger.info("has *.err set, passing...")
-            Display(f"- Setting the rsyslog.conf, recording the error events...", "FINISHED")
+            Display("- Setting the rsyslog.conf, recording the error events...", "FINISHED")
         else:
             logger.info("no filepath /etc/rsyslog.conf")
             Display("- no filepath /etc/rsyslog.conf...", "SKIPPING")
     else:
-        Display(f"- Skip recording the error events due to config file...", "SKIPPING")
+        Display("- Skip recording the error events due to config file...", "SKIPPING")

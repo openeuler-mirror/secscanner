@@ -57,9 +57,9 @@ def S10_sshBanner():
                         TMP_V = 1
             if TMP_V > 0:
                 logger.info("set the sshdbanner successfully")
-                Display(f"- Set the sshbanner...", "FINISHED")
+                Display("- Set the sshbanner...", "FINISHED")
         else:
             logger.info("create the sshdbanner failed")
     else:
-        Display(f"- Skip set ssh login banner due to config file...", "SKIPPING")
+        Display("- Skip set ssh login banner due to config file...", "SKIPPING")
 

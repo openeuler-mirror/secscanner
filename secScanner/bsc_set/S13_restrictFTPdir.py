@@ -49,10 +49,10 @@ def S13_restrictFTPdir():
 
             if not chroot_exists:
                 logger.info("set the restrict directories of ftp failed, no set option")
-                Display(f"- Set the restrict directories of ftp...", "FAILED")
+                Display("- Set the restrict directories of ftp...", "FAILED")
             elif CHECK_EXIST == 0:
                 logger.info("set the restrict directories of ftp failed, wrong setting")
-                Display(f"- Set the restrict directories of ftp...", "FAILED")
+                Display("- Set the restrict directories of ftp...", "FAILED")
             else:
                 result = subprocess.run(['systemctl', 'is-active', 'vsftpd'], stdout=subprocess.DEVNULL,
                                         stderr=subprocess.STDOUT)
@@ -61,8 +61,8 @@ def S13_restrictFTPdir():
                 else:
                     subprocess.run(['systemctl', 'start', 'vsftpd'])
                 logger.info("set the restrict directories of ftp successfully")
-                Display(f"- Set the restrict directories of ftp...", "FINISHED")
+                Display("- Set the restrict directories of ftp...", "FINISHED")
         else:
             Display("- filepath /etc/vsftpd/vsftpd.conf not exist...", "SKIPPING")
     else:
-        Display(f"- Skip set restrict directories of ftp due to config file...", "SKIPPING")
+        Display("- Skip set restrict directories of ftp due to config file...", "SKIPPING")

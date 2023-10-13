@@ -41,6 +41,6 @@ def S27_syslogProperty():
                 os.chmod(ilog, 0o600)
 
         logger.info("change the log file property successfully")
-        Display(f"- Change the log file property...", "FINISHED")
+        Display("- Change the log file property...", "FINISHED")
     else:
-        Display(f"- Skip change log file property due to config file...", "SKIPPING")
+        Display("- Skip change log file property due to config file...", "SKIPPING")

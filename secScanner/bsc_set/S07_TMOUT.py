@@ -32,7 +32,7 @@ def S07_TMOUT():
                         write_file.write(line)
             with open('/etc/profile', 'a') as add_file:
                 add_file.write(f"\nTMOUT={TMOUT_VALUE}\n")
-                add_file.write(f"export TMOUT\n")
+                add_file.write("export TMOUT\n")
             with open('/etc/csh.cshrc', 'a') as add_file:
                 add_file.write("\nset autologout=30\n")
         else:

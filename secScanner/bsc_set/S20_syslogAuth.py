@@ -26,9 +26,9 @@ def S20_syslogAuth():
                     add_file.write(f"\nauth.none /var/log/{AUTH_EVENTS_FILE_NAME}\n")
             else:
                 logger.info("has auth.none set, passing...")
-            Display(f"- Setting the rsyslog.conf, recording the auth events...", "FINISHED")
+            Display("- Setting the rsyslog.conf, recording the auth events...", "FINISHED")
         else:
             logger.info("no filepath /etc/rsyslog.conf")
             Display("- no filepath /etc/rsyslog.conf...", "SKIPPING")
     else:
-        Display(f"- Skip recording the auth events due to config file...", "SKIPPING")
+        Display("- Skip recording the auth events due to config file...", "SKIPPING")

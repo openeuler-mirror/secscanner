@@ -44,12 +44,12 @@ def S33_noEmptyPasswd():
                         CHECK_EXIST = 1
         if not config_exists:
             logger.info("set the ssh PermitEmptyPasswords failed,no set option")
-            Display(f"- Set the ssh PermitEmptyPasswords...", "FAILED")
+            Display("- Set the ssh PermitEmptyPasswords...", "FAILED")
         elif CHECK_EXIST == 0:
             logger.info("set the ssh PermitEmptyPasswords failed, wrong setting")
-            Display(f"- Set the ssh PermitEmptyPasswords...", "FAILED")
+            Display("- Set the ssh PermitEmptyPasswords...", "FAILED")
         else:
             logger.info("set the ssh PermitEmptyPasswords successfully")
-            Display(f"- Set the ssh PermitEmptyPasswords...", "FINISHED")
+            Display("- Set the ssh PermitEmptyPasswords...", "FINISHED")
     else:
-        Display(f"- Skip set ssh PermitEmptyPasswords due to config file...", "SKIPPING")
+        Display("- Skip set ssh PermitEmptyPasswords due to config file...", "SKIPPING")

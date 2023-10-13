@@ -82,6 +82,6 @@ def S08_fileProperty():
                 if os.path.exists(i):
                     os.chmod(i, 0o751)
         logger.info("Set the file property finished")
-        Display(f"- Set the file property...", "FINISHED")
+        Display("- Set the file property...", "FINISHED")
     else:
-        Display(f"- Skip set security file property due to config file...", "SKIPPING")
+        Display("- Skip set security file property due to config file...", "SKIPPING")

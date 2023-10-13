@@ -25,33 +25,27 @@ def C03_passComplex():
     with open("/etc/pam.d/system-auth", "r") as file:
         lines = file.readlines()
         for line in lines:
-            if re.match('password', line) and re.search('pam_pwquality.so', line) and re.search('minlen=', line) and (
-            not re.match('#', line)):
+            if re.match('password', line) and re.search('pam_pwquality.so', line) and re.search('minlen=', line):
                 temp = re.findall(regex_minlen, line)
                 if temp != []:
                     t_minlen = temp[0]  # must found num,  if temp == [] means no number after "minlen" No password set
-            if re.match('password', line) and re.search('pam_pwquality.so', line) and re.search('minclass=', line) and (
-            not re.match('#', line)):
+            if re.match('password', line) and re.search('pam_pwquality.so', line) and re.search('minclass=', line):
                 temp = re.findall(regex_minclass, line)
                 if temp != []:
                     t_minclass = temp[0]
-            if re.match('password', line) and re.search('pam_pwquality.so', line) and re.search('ucredit=', line) and (
-            not re.match('#', line)):
+            if re.match('password', line) and re.search('pam_pwquality.so', line) and re.search('ucredit=', line):
                 temp = re.findall(regex_ucredit, line)
                 if temp != []:
                     n_ucredit = temp[0]
-            if re.match('password', line) and re.search('pam_pwquality.so', line) and re.search('lcredit=', line) and (
-            not re.match('#', line)):
+            if re.match('password', line) and re.search('pam_pwquality.so', line) and re.search('lcredit=', line):
                 temp = re.findall(regex_lcredit, line)
                 if temp != []:
                     n_lcredit = temp[0]
-            if re.match('password', line) and re.search('pam_pwquality.so', line) and re.search('dcredit=', line) and (
-            not re.match('#', line)):
+            if re.match('password', line) and re.search('pam_pwquality.so', line) and re.search('dcredit=', line):
                 temp = re.findall(regex_dcredit, line)
                 if temp != []:
                     n_dcredit = temp[0]
-            if re.match('password', line) and re.search('pam_pwquality.so', line) and re.search('ocredit=', line) and (
-            not re.match('#', line)):
+            if re.match('password', line) and re.search('pam_pwquality.so', line) and re.search('ocredit=', line):
                 temp = re.findall(regex_ocredit, line)
                 if temp != []:
                     n_ocredit = temp[0]

@@ -52,5 +52,5 @@ def S24_addUser():
             logger.info(f"No {PROFILE} file, can not read username/userpass params...")
             Display(f"- No {PROFILE} file, can not get params...", "FAILED")
     else:
-        Display(f"- Skip add additional user due to config file...", "SKIPPING")
+        Display("- Skip add additional user due to config file...", "SKIPPING")
 
