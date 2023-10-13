@@ -57,9 +57,9 @@ def S23_noOneSU():
                     IS_EXIST = 1
         if IS_EXIST == 0:
             logger.info("set pam.d/su, add pam_wheel.so failed,no  set option")
-            Display(f"- Set pam.d/su, add pam_wheel.so...", "FAILED")
+            Display("- Set pam.d/su, add pam_wheel.so...", "FAILED")
         else:
             logger.info("set pam.d/su, add pam_wheel.so successfully")
-            Display(f"- Set pam.d/su, add pam_wheel.so...", "FINISHED")
+            Display("- Set pam.d/su, add pam_wheel.so...", "FINISHED")
     else:
-        Display(f"- Skip forbidden user su to root due to config file...", "SKIPPING")
+        Display("- Skip forbidden user su to root due to config file...", "SKIPPING")

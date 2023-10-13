@@ -45,9 +45,9 @@ def S22_resourceLimit():
                         else:
                             write_file.write(line)
             logger.info("set the soft/hard core limit successfully")
-            Display(f"- Setting the soft/hard core limit...", "FINISHED")
+            Display("- Setting the soft/hard core limit...", "FINISHED")
         else:
             logger.info("no filepath /etc/security/limits.conf")
             Display("- no filepath /etc/security/limits.conf...", "SKIPPING")
     else:
-        Display(f"- Skip set coredump due to config file...", "SKIPPING")
+        Display("- Skip set coredump due to config file...", "SKIPPING")

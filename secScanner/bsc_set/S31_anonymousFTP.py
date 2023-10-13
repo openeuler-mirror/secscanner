@@ -46,10 +46,10 @@ def S31_anonymousFTP():
 
             if not anonymous_exists:
                 logger.info("set the prohibit anonymous FTP failed, no set option")
-                Display(f"- Set the prohibit anonymous FTP...", "FAILED")
+                Display("- Set the prohibit anonymous FTP...", "FAILED")
             elif CHECK_EXIST == 0:
                 logger.info("set the prohibit anonymous FTP failed, wrong setting")
-                Display(f"- Set the prohibit anonymous FTP...", "FAILED")
+                Display("- Set the prohibit anonymous FTP...", "FAILED")
             else:
                 result = subprocess.run(['systemctl', 'is-active', 'vsftpd'], stdout=subprocess.DEVNULL,
                                         stderr=subprocess.STDOUT)
@@ -58,8 +58,8 @@ def S31_anonymousFTP():
                 else:
                     subprocess.run(['systemctl', 'start', 'vsftpd'])
                 logger.info("set the prohibit anonymous FTP successfully")
-                Display(f"- Set the prohibit anonymous FTP...", "FINISHED")
+                Display("- Set the prohibit anonymous FTP...", "FINISHED")
         else:
             Display("- filepath /etc/vsftpd/vsftpd.conf not exist...", "SKIPPING")
     else:
-        Display(f"- Skip set prohibit anonymous FTP due to config file...", "SKIPPING")
+        Display("- Skip set prohibit anonymous FTP due to config file...", "SKIPPING")

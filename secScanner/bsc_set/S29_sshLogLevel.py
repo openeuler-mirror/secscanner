@@ -44,12 +44,12 @@ def S29_sshLogLevel():
                         CHECK_EXIST = 1
         if not loglevel_exists:
             logger.info("set the ssh loglevel failed,no set option")
-            Display(f"- Set the ssh loglevel...", "FAILED")
+            Display("- Set the ssh loglevel...", "FAILED")
         elif CHECK_EXIST == 0:
             logger.info("set the ssh loglevel failed, wrong setting")
-            Display(f"- Set the ssh loglevel...", "FAILED")
+            Display("- Set the ssh loglevel...", "FAILED")
         else:
             logger.info("set the ssh loglevel successfully")
-            Display(f"- Set the ssh loglevel...", "FINISHED")
+            Display("- Set the ssh loglevel...", "FINISHED")
     else:
-        Display(f"- Skip set ssh loglevel due to config file...", "SKIPPING")
+        Display("- Skip set ssh loglevel due to config file...", "SKIPPING")

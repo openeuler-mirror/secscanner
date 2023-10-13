@@ -105,9 +105,10 @@ WRN_C24 = "There is no customer user"
 WRN_C25_01 = "No ssh syslogfacility set, need add"
 WRN_C25_02 = "Wrong ssh syslogfacility set, need change"
 
-WRN_C26 = "One or more log file's property is not 600"
+WRN_C26_01 = "No ls and rm aliases set, need add"
+WRN_C26_02 = "Wrong ls and rm aliases set, need change"
 
-WRN_C27 = ""
+WRN_C27 = "One or more log file's property is not 600"
 
 WRN_C28_01 = "No ALWAYS_SET_PATH set, need add"
 WRN_C28_02 = "Wrong ALWAYS_SET_PATH set, need change"
@@ -413,9 +414,10 @@ SUG_C25 = ("1、执行备份："
            "</br>3、重启sshd服务:"
            "</br>#systemctl restart sshd")
 SUG_C26 = ("1、执行备份："
-           "</br>#cp -np /etc/aliases 或 cp -np /etc/mail/aliases。"
-           "</br>2、删除或注释无用别名：games,ingres,system,toor,uucp,manager,dumper,operator,decode,marc"
-           "</br>补充操作说明：更新后运行/usr/bin/newaliases,使改变生效")
+           "</br>#cp -np /root/.bashrc /root/.bashrc_bak"
+           "</br>2、查看是否存在相关配置，若不存在则添加"
+           "</br>alias ls='ls -al'"
+           "</br>alias rm='rm -i'")
 SUG_C27 = "请确保/var/log/下的敏感日志文件的权限为600"
 SUG_C28 = ("1、执行备份："
            "</br>#cp -np /etc/login.defs /etc/login.defs_bak "

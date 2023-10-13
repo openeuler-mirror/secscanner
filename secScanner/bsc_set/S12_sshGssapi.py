@@ -44,13 +44,13 @@ def S12_sshGssapi():
 
         if IS_EXIST == 0 :
             logger.info("set the ssh gssapi failed, no set options")
-            Display(f"- Set the ssh gssapi...", "FAILED")
+            Display("- Set the ssh gssapi...", "FAILED")
         elif IS_EXIST == 1 and GSSAPI_SET == 0:
             logger.info("set the ssh gssapi failed, wrong setting")
-            Display(f"- Set the ssh gssapi...", "FAILED")
+            Display("- Set the ssh gssapi...", "FAILED")
         elif IS_EXIST == 1 and GSSAPI_SET == 1:
             logger.info("set the ssh gssapi successfully")
-            Display(f"- Set the ssh gssapi...", "FINISHED")
+            Display("- Set the ssh gssapi...", "FINISHED")
         else:
             pass
     else:

@@ -72,21 +72,21 @@ def S11_sshAlgorithms():
                     IS_EXIST2 = 1
         if IS_EXIST == 0:
             logger.info("set the ssh KexAlgorithms failed, no KexAlgorithms config options found")
-            Display(f"- Set the ssh KexAlgorithms...", "FAILED")
+            Display("- Set the ssh KexAlgorithms...", "FAILED")
         else:
             logger.info("set the ssh KexAlgorithms successfully, or its already has config options")
-            Display(f"- Set the ssh KexAlgorithms...", "FINISHED")
+            Display("- Set the ssh KexAlgorithms...", "FINISHED")
         if IS_EXIST1 == 0:
             logger.info("set the ssh cipher failed, no cipher config options found")
-            Display(f"- Set the ssh cipher...", "FAILED")
+            Display("- Set the ssh cipher...", "FAILED")
         else:
             logger.info("set the ssh cipher successfully, or its already has config options")
-            Display(f"- Set the ssh cipher...", "FINISHED")
+            Display("- Set the ssh cipher...", "FINISHED")
         if IS_EXIST2 == 0:
             logger.info("set the ssh MACs failed, no MACs config options found")
-            Display(f"- Set the ssh MACs...", "FAILED")
+            Display("- Set the ssh MACs...", "FAILED")
         else:
             logger.info("set the ssh MACs successfully, or its already has config options")
-            Display(f"- Set the ssh MACs...", "FINISHED")
+            Display("- Set the ssh MACs...", "FINISHED")
     else:
-        Display(f"- Skip set ssh algorithms due to config file...", "SKIPPING")
+        Display("- Skip set ssh algorithms due to config file...", "SKIPPING")

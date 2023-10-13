@@ -41,15 +41,15 @@ def S25_syslogFacility():
                         CHECK_EXIST = 1
         if IS_EXIST == 0:
             logger.info("set the ssh syslogfacility failed, no set option")
-            Display(f"- Set the ssh syslogfacility...", "FAILED")
+            Display("- Set the ssh syslogfacility...", "FAILED")
         elif CHECK_EXIST == 0:
             logger.info("set the ssh syslogfacility failed, wrong setting")
-            Display(f"- Set the ssh syslogfacility...", "FAILED")
+            Display("- Set the ssh syslogfacility...", "FAILED")
         else:
             logger.info("set the ssh syslogfacility successfully")
-            Display(f"- Set the ssh syslogfacility...", "FINISHED")
+            Display("- Set the ssh syslogfacility...", "FINISHED")
     else:
-        Display(f"- Skip set ssh syslogfacility due to config file...", "SKIPPING")
+        Display("- Skip set ssh syslogfacility due to config file...", "SKIPPING")
 
 
 

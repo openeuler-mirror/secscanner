@@ -54,13 +54,13 @@ def S34_noCtrlAltDelBurstAction():
 
         if not config_exists:
             logger.info("set the system CtrlAltDel Burst Action failed, no set option")
-            Display(f"- Set the system CtrlAltDel Burst Action...", "FAILED")
+            Display("- Set the system CtrlAltDel Burst Action...", "FAILED")
         elif CHECK_EXIST == 0:
             logger.info("set the system CtrlAltDel Burst Action, wrong setting")
-            Display(f"- Set the system CtrlAltDel Burst Action...", "FAILED")
+            Display("- Set the system CtrlAltDel Burst Action...", "FAILED")
         else:
             logger.info("set the system CtrlAltDel Burst Action successfully")
-            Display(f"- Set the system CtrlAltDel Burst Action...", "FINISHED")
+            Display("- Set the system CtrlAltDel Burst Action...", "FINISHED")
     else:
-        Display(f"- Skip set system CtrlAltDel Burst Action due to config file...", "SKIPPING")
+        Display("- Skip set system CtrlAltDel Burst Action due to config file...", "SKIPPING")
 
