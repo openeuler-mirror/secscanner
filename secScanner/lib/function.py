@@ -291,7 +291,7 @@ def make_one_json(one_sample, field_list, write_file):
         write_file.write(f"\"{field_list[i]}\": \"{temp}\"\n")
         if i != (len(field_list)-1):
             write_file.write(",\n")
-def make_json_file(all_samples, table = CVRF):
+def make_json_file(all_samples, table):
     with open(f'{table.__tablename__}.json', 'w') as write_file:
         write_file.write("[\n")
         for j in range(len(all_samples)):

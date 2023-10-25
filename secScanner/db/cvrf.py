@@ -303,7 +303,8 @@ def scrapy_CVRF_index():
         exit(1)
     index_list = response.text.strip('\r').split('\n')
     if 0 == len(index_list):
-        raise " failed to get cvrf list"
+        print("failed to get cvrf list")
+        exit(1)
     index_list.pop()
     return index_list
 
