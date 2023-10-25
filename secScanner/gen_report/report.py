@@ -1,4 +1,5 @@
 from secScanner.gconfig import *
+from secScanner.lib.TextInfo import *
 import logging
 import subprocess
 import re
@@ -77,6 +78,26 @@ def warning_results():
         print("-" * 67)
         show_warnings()
 
+def rootkit_get_context(rootkit_type, rootkit_count, rootkit_list, rootkit_suggestion):
+    rootkit_info = ""
+    ret_html_rootkit_context = ""
+    if rootkit_count > 0:
+        rootkit_info += f"{rootkit_type} ({rootkit_count}):\n"
+        rootkit_info += "----------------------------\n"
+        rootkit_info += "\n".join(rootkit_list) + "\n"
+    else:
+        rootkit_info += f"No {rootkit_type}\n"
+    print(rootkit_info)
+
+    for index, infected_line in enumerate(rootkit_list):
+        ret_html_rootkit_context += f"""
+        <tr style="cursor:pointer; border:solid 1px #ddd;">
+        <td>{index + 1}</td>
+        <td><font color="red">{infected_line}</font></td>
+        <td>{rootkit_suggestion}</td>
+        </tr>
+        """
+    return ret_html_rootkit_context
 
 def rootkit_result():
     rootkit_info = ""
@@ -88,31 +109,23 @@ def rootkit_result():
         infected_count = 0
         infected_list = []
 
+        kmod_infected_count = 0
+        kmod_infected_list = []
+
         for line in lines:
             if "INFECTED" in line:
                 infected_count += 1
                 infected_list.append(line.strip())
+            elif "HIDEKMODULE" in line:
+                kmod_match = re.findall(r'HIDEKMODULE\s*{[^}]*}', line)
+                if kmod_match:
+                    kmod_infected_count += 1
+                    kmod_infected_list.append(kmod_match[0].strip())
 
-        if infected_count > 0:
-            rootkit_info += f"INFECTED ({infected_count}):\n"
-            rootkit_info += "----------------------------\n"
-            rootkit_info += "\n".join(infected_list) + "\n"
-        else:
-            rootkit_info += "No INFECTED\n"
-        print(rootkit_info)
-
-        for index, infected_line in enumerate(infected_list):
-            suggestion = "请重新检查问题文件，或删除病毒文件，或重装系统"
-            html_rootkit_content += f"""
-            <tr style="cursor:pointer; border:solid 1px #ddd;">
-            <td>{index + 1}</td>
-            <!--
-            <td><font color="red">{infected_line}</font></td>
-            <td>{suggestion}</td>
-            </tr>
-            """
+        html_rootkit_content += rootkit_get_context("INFECTED", infected_count, infected_list, SUG_R01)
+        html_rootkit_content += rootkit_get_context("HIDEKMODULE", kmod_infected_count, kmod_infected_list, SUG_R02)
     set_value("html_rootkit_content", html_rootkit_content)
-    TOTAL_INFECTED = infected_count
+    TOTAL_INFECTED = infected_count + kmod_infected_count
     set_value("TOTAL_INFECTED", TOTAL_INFECTED)
 
     return html_rootkit_content
