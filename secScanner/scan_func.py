@@ -589,12 +589,16 @@ def scan_vulnerabilities_rpm_check():
     scan_db_sample = session.query(CVRF).all()
     # use a dict to save results
     result_dict = {}
+    sa_dict = {}
     for i in range(len(scan_db_sample)):
         take_a_sample = scan_db_sample[i]
         aff_component = take_a_sample.affectedComponent
+        # ignore openEuler kernel's vulnerabilities
+        if 'kernel' in aff_component:
+            continue
         cve_info = take_a_sample.cveId
         sa_info = take_a_sample.securityNoticeNo
-        db_package = take_a_sample.packageName
+        db_package = take_a_sample.packageInfo
         temp = re.sub('\'', '\"', db_package)
         db_package_json = json.loads(temp)
 
@@ -640,25 +644,19 @@ def scan_vulnerabilities_rpm_check():
         if len(sys_rpm_version) == len(sa_rpm_version):
             for j in range(len(sys_rpm_version)):
                 if sys_rpm_version[j] < sa_rpm_version[j]:
-                    # print("-----------------There is a rpm need to update!")
-                    # print("-----------------system rpm: ", sys_rpm_version)
-                    # print("---------------------sa rpm: ", sa_rpm_version)
-                    if aff_component not in result_dict:
-                        result_dict[aff_component] = []
-                        result_dict[aff_component].append(sa_info)
-                        result_dict[aff_component].append(cve_info)
-                        result_dict[aff_component].append(found_rpm)
-                    else:
-                        result_dict[aff_component].append(sa_info)
-                        result_dict[aff_component].append(cve_info)
-                        result_dict[aff_component].append(found_rpm)
+                    result_dict[sa_info] = [sa_info, cve_info, found_rpm, aff_component, sys_package]
                     break
 
     for s in result_dict:
         print("------------------------------------------------------------------------\n")
+        # sa_dict[result_dict[s][0]] = result_dict[s][1].strip(';').split(';')
+        sa_dict[result_dict[s][0]] = [result_dict[s][1].strip(';').split(';'), result_dict[s][3], result_dict[s][4]]
         print(f"According to {result_dict[s][0]}")
         print(f"Fix {result_dict[s][1]}")
-        print(f"{s} need to update!")
+        print(f"{result_dict[s][3]} need to update!")
         print("rpm are as follows...")
+        logger.warning(f"According to {result_dict[s][0]}, vulnerabilities of {result_dict[s][3]} are as follows {result_dict[s][1].strip(';')}, latest rpm {result_dict[s][2]} is provided")
         print(result_dict[s][2])
+    set_value('vulner_info', sa_dict)
     session.close()
+    scan_show_result()
