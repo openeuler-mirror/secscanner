@@ -25,6 +25,7 @@ import gen_report.report as report
 from datetime import datetime
 import json
 from db.cvrf import *
+from db.cve import *
 import urllib.request
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import *
@@ -346,7 +347,7 @@ def scan_restore_basic_settings():
     print(GREEN +" Restore basicly finished... Now you can refix the system" + NORMAL)
     print("")
 
-def scan_vulnerabilities_db():
+def vulnerabilities_db_update():
     # clear the counter, make this function re-call-able.
     # these two counters are used for scan_show_result() function.
     print(WHITE)
@@ -361,7 +362,8 @@ def scan_vulnerabilities_db():
     DBModel.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     session = Session()
-    update_count = 0
+    update_sa = 0
+    update_cve = 0
     for i, url in enumerate(cvrf_index):
         url = url.strip()
         cur = url.strip('.xml').split('cvrf-')[1]
@@ -383,24 +385,105 @@ def scan_vulnerabilities_db():
         cvrf.securityNoticeNo = cvrf_xml_handler.node_get_securityNoticeNo()
         cvrf.affectedComponent = cvrf_xml_handler.node_get_affectedComponent()
         cvrf.announcementTime = cvrf_xml_handler.node_get_announcetime()
-        cvrf.updateTime = cvrf_xml_handler.node_get_updatetime()
+        # cvrf.updateTime = cvrf_xml_handler.node_get_updatetime()
         cvrf.type = cvrf_xml_handler.node_get_type()
         cvrf.cveId = ";".join(cvrf_xml_handler.node_get_cveId()) + ';'
         cvrf.cveThreat = ";".join(cvrf_xml_handler.node_get_cveThreat()) + ';'
-        print("cveid", cvrf.cveId)
-        print("cvethreat", cvrf.cveThreat)
+        # print("cveid", cvrf.cveId)
+        # print("cvethreat", cvrf.cveThreat)
         cvrf.affectedProduct = ";".join(cvrf_xml_handler.node_get_affectedProduct()) + ';'
         pkg_dict = cvrf_xml_handler.node_get_packageName()
         cvrf.packageName = str(pkg_dict)
         session.add(cvrf)
         session.commit()
-        update_count = update_count + 1
+        update_sa += 1
+
+    ####################################################################################
+    # get data from api url
+    ####################################################################################
+    api_url = 'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/findAll'
+    body = { "keyword": "", "pages": {"page": 1, "size": 100000}}#size 可以改大小，其他内容不影响获取的数据内容
+    response = requests.post(url=api_url, json=body, timeout=(10, 30))
+    response_json_dict = json.loads(response.text)
+    cveDatabaseList = response_json_dict["result"]["cveDatabaseList"]
+    # print(cveDatabaseList[0])
+    cve_list = []
+    for i in range(len(cveDatabaseList)):
+        cve_list.append([cveDatabaseList[i]['cveId'], cveDatabaseList[i]['packageName']])
+
+    ###################################################################################
+    # create sqlite database and save data
+    ###################################################################################
+
+    count = 0
+    for cve_init in reversed(cve_list):
+        count = 1 + count
+        # only add new data
+        if session.query(CVE).filter_by(cveId=f'{cve_init[0]}', packageName=f'{cve_init[1]}').first():
+            continue
+        print(f'Updating {cve_init[0]}!   {count+1}/{len(cve_list)}')
+        cve_url = f'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/getByCveIdAndPackageName?cveId={cve_init[0]}&packageName={cve_init[1]}'
+        response = requests.get(url=cve_url, timeout=2)
+        json_data = json.loads(response.text)['result']
+
+        cve = CVE()
+        cve.cveId = json_data['cveId']
+        cve.summary = json_data['summary']
+        cve.level = json_data['type']
+
+        cve.cvsssCoreNVD = json_data['cvsssCoreNVD']
+        cve.cvsssCoreOE = json_data['cvsssCoreOE']
+
+        cve.attackVectorNVD = json_data['attackVectorNVD']
+        cve.attackVectorOE = json_data['attackVectorOE']
+
+        cve.attackComplexityNVD = json_data['attackComplexityNVD']
+        cve.attackComplexityOE = json_data['attackComplexityOE']
+
+        cve.privilegesRequiredNVD = json_data['privilegesRequiredNVD']
+        cve.privilegesRequiredOE = json_data['privilegesRequiredOE']
+
+        cve.userInteractionNVD = json_data['userInteractionNVD']
+        cve.userInteractionOE = json_data['userInteractionOE']
+
+        cve.scopeNVD = json_data['scopeNVD']
+        cve.scopeOE = json_data['scopeOE']
+
+        cve.confidentialityNVD = json_data['confidentialityNVD']
+        cve.confidentialityOE = json_data['confidentialityOE']
+
+        cve.integrityNVD = json_data['integrityNVD']
+        cve.integrityOE = json_data['integrityOE']
+
+        cve.availabilityNVD = json_data['availabilityNVD']
+        cve.availabilityOE = json_data['availabilityOE']
+
+        cve.status = json_data['status']
+
+        cve.announcementTime = json_data['announcementTime']
+        cve.createTime = json_data['createTime']
+        cve.updateTime = json_data['updateTime']
+
+        cve.packageName = json_data['packageName']
+
+        pkg_name = json_data['packageName']
+        extra_url = f'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/getCVEProductPackageList?cveId={cve_init[0]}&packageName={cve_init[1]}'
+        response_extra = requests.get(url=extra_url, timeout=(10, 30))
+        if 'Required String parameter' in response_extra.text:
+            pass
+        else:
+            extra_data = json.loads(response_extra.text)['result']
+            cve.extra_data = str(extra_data)
+
+        session.add(cve)
+        session.commit()
+        update_cve += 1
+
     session.close()
+
     print("Update database done!")
-    print(f"{update_count} date updated!")
+    print(f"{update_sa} SAs and {update_cve} CVEs are updated!")
 
-
-    scan_show_result()
 
 def scan_vulnerabilities_db_show():
     # clear the counter, make this function re-call-able.
