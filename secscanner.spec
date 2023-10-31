@@ -19,8 +19,16 @@ Provides: secscanner
 BuildArch: noarch
 BuildRoot: %{_builddir}/%{name}-root
 #install dependence
+
+#BuildRequires: python3
+
+
 Requires: rpmdevtools
-#Requires: chkrootkit
+Requires: python3
+Requires: python3-devel
+Requires: chkrootkit
+
+
 Source0:%{name}-%{version}.tar.gz
 
 
@@ -32,6 +40,8 @@ Operating System Security Scanning Tool
 #exit 0
 
 %build
+pip3 install -r requirements.txt
+#pip3 install psutil sqlalchemy requests
 exit 0
 
 %install
