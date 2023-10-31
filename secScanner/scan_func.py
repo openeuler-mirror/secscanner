@@ -660,3 +660,113 @@ def scan_vulnerabilities_rpm_check():
     set_value('vulner_info', sa_dict)
     session.close()
     scan_show_result()
+
+def cut_component_version(component, package):
+    # get component's version   glibc-2.28-101.el8.src.rpm
+    ver_arch = package.split(component)[1]  # -2.28-101.el8
+    ver_arch_list = ver_arch.split('-')  #
+    # ver_last_num: number after "-"
+    ver_last_num = ver_arch_list[2].split('.')[0]  # ['101']
+    component_version = ver_arch_list[1].split('.')  # ['2', '28']
+    component_version.append(ver_last_num)  # ['2', '28', '101']
+    return component_version
+
+def compare_version_of_two(sys, sa):
+    for i in range(len(sys)):
+        if sys[i] == sa[i]:
+            continue
+        if sys[i].isdigit() and sa[i].isdigit():
+            if int(sys[i]) < int(sa[i]):
+                return 1
+            else:
+                continue
+        else:
+            if sys[i] < sa[i]:
+                return 1
+    return 0
+
+
+def scan_vulnerabilities_by_items():
+    print(WHITE)
+    print(" " * 2 + "#" * 67)
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(f"  #   {MAGENTA}Check system compounents according to cfg file..." + WHITE + " " * 18 + "#")
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(" " * 2 + "#" * 67)
+    print(NORMAL)
+    engine = create_engine('sqlite:///secScanner/db/cvedatabase.db', echo=False)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    euler_version = get_value('SYS_VERSION')
+    # all 20.30 openeulers' rpm contains "oe1" suffix, when Euler version >= 22.03, change oe1 to oe2203 instead
+    ver_rpm = 'oe1'
+    if euler_version == '22.10U1 LTS' or euler_version == '22.03 LTS SP1':
+        euler_version = 'openEuler-22.03-LTS-SP1'
+        ver_rpm = 'oe2203sp1'
+    elif euler_version == '22.10 LTS' or euler_version == '22.03 LTS':
+        euler_version = 'openEuler-22.03-LTS'
+        ver_rpm = 'oe2203'
+    elif euler_version == '22.10U2 LTS' or euler_version == '22.03 LTS SP2':
+        euler_version = 'openEuler-22.03-LTS-SP2'
+        ver_rpm = 'oe2203sp2'
+    elif euler_version == '21.10U3 LTS' or euler_version == '20.03 LTS SP3':
+        euler_version = 'openEuler-20.03-LTS-SP3'
+    elif euler_version == '21.10 LTS' or euler_version == '20.03 LTS SP2':
+        euler_version = 'openEuler-20.03-LTS-SP2'
+    elif euler_version == '20.03 LTS SP1':
+        euler_version = 'openEuler-20.03-LTS-SP1'
+    #check system archtecture
+    Shell_run = subprocess.run(['uname', '-m'], stdout=subprocess.PIPE)
+    sys_arch = Shell_run.stdout.decode().strip('\n')
+
+
+    # Check system software version
+    RPM_ASSEMBLY = seconf.get('basic', 'rpm_assembly').split()
+    result_dict = {}
+    for component in RPM_ASSEMBLY:
+        Shell_run = subprocess.run(['rpm', '-qa', component], stdout=subprocess.PIPE)
+        Shell_out = Shell_run.stdout.decode()
+        if Shell_out == '':
+            # print("This machine doesn't have this component, pass!")
+            continue
+        else:
+            sys_package = Shell_out.strip()
+        # get system software's version   glibc-2.28-101.el8.src.rpm
+        sys_rpm_version = cut_component_version(component, sys_package)
+
+        target_sa = session.query(CVRF).order_by(CVRF.id.desc()).all()
+        sa_rpm = ''
+        for single_sa in target_sa:
+            if single_sa.affectedComponent != component:
+                continue
+            else:
+                # get SA rpm's version
+                packages = re.sub('\'', '\"', single_sa.packageInfo)
+                packages_dict = json.loads(packages)
+                if euler_version in packages_dict:
+                    sa_rpm_list = packages_dict[euler_version][sys_arch]
+                else:
+                    continue
+                #glibc-2.28-101.el8.src.rpm
+                for item in sa_rpm_list:
+                    if item != '' and (component in item):
+                        temp = item.split(component + '-')[1]
+                        if temp[0].isdigit():
+                            sa_rpm = item
+                            # found target rpm
+                            break
+                    else:
+                        continue
+                if sa_rpm != '':
+                    break
+                else:
+                    continue
+        if sa_rpm == '':
+            continue
+        sa_component_version = cut_component_version(component, sa_rpm)
+        if len(sa_component_version) == len(sys_rpm_version):
+            if compare_version_of_two(sys_rpm_version, sa_component_version):
+                result_dict[component] = [sys_package, sa_rpm, 1]
+            else:
+                result_dict[component] = [sys_package, sa_rpm, 0]
+    print(result_dict)
