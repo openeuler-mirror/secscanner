@@ -7,6 +7,7 @@ from sqlalchemy import Integer
 
 class CVE(DBModel):
     __tablename__ = 'OpenEulerCVE'
+    __table_args__ = {'extend_existing': True}
     id = Column('id', Integer, primary_key=True)
 
     cveId = Column('cveId', Text)
