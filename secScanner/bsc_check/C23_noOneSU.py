@@ -20,6 +20,7 @@ def C23_noOneSU():
         with open(RESULT_FILE, "a") as file:
             file.write("\nC23\n")
         logger.warning("WRN_C23: %s", WRN_C23)
+        logger.warning("SUG_C23: %s", SUG_C23)
         Display("- There is no pam_wheel set, check warning","WARNING")
     else:
         logger.info("There have pam_wheel set, check OK")

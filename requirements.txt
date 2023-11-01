@@ -1,0 +1,4 @@
+beautifulsoup4==4.12.2
+psutil==5.9.6
+Requests==2.31.0
+SQLAlchemy==1.4.31

@@ -6,6 +6,7 @@ import os
 import shutil
 import itertools
 import secScanner.gen_report.gen_html_report as gen_report
+import json
 
 logger = logging.getLogger('secscanner')
 
@@ -19,7 +20,8 @@ def warning_results():
         WRNS = []
         SUGS = []
         baseline_info = ""
-
+        data = ""
+        #json_data = []
         with open(LOGFILE, "r") as file:
             lines = file.readlines()
 
@@ -33,7 +35,7 @@ def warning_results():
             if suggestion_match:
                 sug = line.split(suggestion_match.group(0))[1].strip()
                 SUGS.append(sug)            
-
+        #print(SUGS)
         TMP_COUNT = 0
 
         for wrn, sug in itertools.zip_longest(WRNS, SUGS, fillvalue=""):
@@ -47,6 +49,14 @@ def warning_results():
                 <td>{sug}</td>
                 </tr>
             """
+            data += f'''
+            {{"num": "{TMP_COUNT}", "warning": "{wrn}", "suggestion": "{sug}"}}'''
+        json_data =f'''{{"enhancement":[{data}]}}'''
+        json_str = json.dumps(json_data, ensure_ascii=False)
+        js = json.loads(json_str)
+        with open('/var/log/secScanner/output_enhancement.json', 'w') as file:
+            file.write(js)
+
         set_value("baseline_info", baseline_info)
         TOTAL_WARNINGS = TMP_COUNT
         set_value("TOTAL_WARNINGS", TOTAL_WARNINGS)

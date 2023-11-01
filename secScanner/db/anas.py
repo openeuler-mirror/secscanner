@@ -39,10 +39,7 @@ def download(url):
     with open('rpms/' + name, 'wb')as f:
         f.write(r.content)
 
-
-
-
- def check_rpm_link(packagename, rpm_name):
+def check_rpm_link(packagename, rpm_name):
      rpm_list = rpm_name.split(packagename)
      if len(rpm_list) != 2:
          return False
@@ -51,7 +48,8 @@ def download(url):
      if rpm_list[1][0] == '-' and rpm_list[1][1].isdigit():
          return True
      return False
- def get_bclinux_srpm(package_src_names):
+
+def get_bclinux_srpm(package_src_names):
      # 定义目标网址
      global url
      OS_DISTRO = "8.2"
