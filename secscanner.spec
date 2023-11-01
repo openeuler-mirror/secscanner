@@ -7,7 +7,7 @@ Summary: System secure check and enhancement tool for system of Linux
 Name: %{name}
 Version: %{version}
 Release: %{release}
-License: MulanPSL2
+License: MulanPSL-2.0
 Group: Applications/System
 URL: https://gitee.com/openeuler/secscanner
 Distribution: openEuler 22.03
@@ -27,7 +27,10 @@ Requires: rpmdevtools
 Requires: python3
 Requires: python3-devel
 Requires: chkrootkit
-
+Requires: python3-beautifulsoup4
+Requires: python3-psutil
+Requires: python3-requests
+Requires: python3-Flask-SQLAlchemy
 
 Source0:%{name}-%{version}.tar.gz
 
@@ -40,7 +43,7 @@ Operating System Security Scanning Tool
 #exit 0
 
 %build
-pip3 install -r requirements.txt
+#pip3 install -r requirements.txt
 #pip3 install psutil sqlalchemy requests
 exit 0
 
