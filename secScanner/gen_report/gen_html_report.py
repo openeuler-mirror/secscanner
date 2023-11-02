@@ -168,14 +168,14 @@ def gen_html_report():
                     <table class="report_table plumb">
                       <thead>
                         <tr class="first_title">
-                          <td style='width:30px'>序号</td>
-                          <td style='width:50px'>CVE号</td>
+                          <td style='width:20px'>序号</td>
+                          <td style='width:60px'>CVE号</td>
                           <td style='width:50px'>涉及软件包名</td>
                           <td style='width:50px'>漏洞修复版本</td>
                           <td style='width:25px'>漏洞评分</td>
-                          <td style='width:25px'>利用方式</td>
-                          <td style='width:40px'>利用复杂度</td>
-                          <td style='width:40px'>RHSA</td>
+                          <td style='width:40px'>利用方式</td>
+                          <td style='width:35px'>利用复杂度</td>
+                          <td style='width:60px'>BLSA</td>
                           <td >CVE漏洞描述</td>
                         </tr>
                       </thead>
@@ -262,4 +262,5 @@ def gen_html_report():
     </body>
 </html>
 ''')
+
 

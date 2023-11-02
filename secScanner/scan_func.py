@@ -362,6 +362,8 @@ def vulnerabilities_db_update():
     DBModel.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     session = Session()
+    session.query(CVRF).delete()
+    session.commit()
     update_sa = 0
     update_cve = 0
     for i, url in enumerate(cvrf_index):
@@ -382,18 +384,21 @@ def vulnerabilities_db_update():
         print(cvrf_xml_handler.node_get_securityNoticeNo())
 
         cvrf = CVRF()
+        cvrf.title = cvrf_xml_handler.node_get_title()
         cvrf.securityNoticeNo = cvrf_xml_handler.node_get_securityNoticeNo()
         cvrf.affectedComponent = cvrf_xml_handler.node_get_affectedComponent()
         cvrf.announcementTime = cvrf_xml_handler.node_get_announcetime()
-        # cvrf.updateTime = cvrf_xml_handler.node_get_updatetime()
-        cvrf.type = cvrf_xml_handler.node_get_type()
+        cvrf.synopsis = cvrf_xml_handler.node_get_synopsis()
+        cvrf.summary = cvrf_xml_handler.node_get_summary()
+        cvrf.topic = cvrf_xml_handler.node_get_topic()
+        cvrf.description = cvrf_xml_handler.node_get_description()
+        cvrf.updateTime = cvrf_xml_handler.node_get_updatetime()
+        cvrf.announcementLevel = cvrf_xml_handler.node_get_announceLevel()
         cvrf.cveId = ";".join(cvrf_xml_handler.node_get_cveId()) + ';'
-        cvrf.cveThreat = ";".join(cvrf_xml_handler.node_get_cveThreat()) + ';'
         # print("cveid", cvrf.cveId)
-        # print("cvethreat", cvrf.cveThreat)
-        cvrf.affectedProduct = ";".join(cvrf_xml_handler.node_get_affectedProduct()) + ';'
+        cvrf.cveList = str(cvrf_xml_handler.node_get_cve_reference_list())
         pkg_dict = cvrf_xml_handler.node_get_packageName()
-        cvrf.packageName = str(pkg_dict)
+        cvrf.packageInfo = str(pkg_dict)
         session.add(cvrf)
         session.commit()
         update_sa += 1
@@ -424,6 +429,8 @@ def vulnerabilities_db_update():
         print(f'Updating {cve_init[0]}!   {count+1}/{len(cve_list)}')
         cve_url = f'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/getByCveIdAndPackageName?cveId={cve_init[0]}&packageName={cve_init[1]}'
         response = requests.get(url=cve_url, timeout=2)
+        if 'Required String parameter' in response.text:
+            continue
         json_data = json.loads(response.text)['result']
 
         cve = CVE()
@@ -483,7 +490,6 @@ def vulnerabilities_db_update():
 
     print("Update database done!")
     print(f"{update_sa} SAs and {update_cve} CVEs are updated!")
-
 
 def scan_vulnerabilities_db_show():
     # clear the counter, make this function re-call-able.
@@ -583,12 +589,16 @@ def scan_vulnerabilities_rpm_check():
     scan_db_sample = session.query(CVRF).all()
     # use a dict to save results
     result_dict = {}
+    sa_dict = {}
     for i in range(len(scan_db_sample)):
         take_a_sample = scan_db_sample[i]
         aff_component = take_a_sample.affectedComponent
+        # ignore openEuler kernel's vulnerabilities
+        if 'kernel' in aff_component:
+            continue
         cve_info = take_a_sample.cveId
         sa_info = take_a_sample.securityNoticeNo
-        db_package = take_a_sample.packageName
+        db_package = take_a_sample.packageInfo
         temp = re.sub('\'', '\"', db_package)
         db_package_json = json.loads(temp)
 
@@ -634,25 +644,19 @@ def scan_vulnerabilities_rpm_check():
         if len(sys_rpm_version) == len(sa_rpm_version):
             for j in range(len(sys_rpm_version)):
                 if sys_rpm_version[j] < sa_rpm_version[j]:
-                    # print("-----------------There is a rpm need to update!")
-                    # print("-----------------system rpm: ", sys_rpm_version)
-                    # print("---------------------sa rpm: ", sa_rpm_version)
-                    if aff_component not in result_dict:
-                        result_dict[aff_component] = []
-                        result_dict[aff_component].append(sa_info)
-                        result_dict[aff_component].append(cve_info)
-                        result_dict[aff_component].append(found_rpm)
-                    else:
-                        result_dict[aff_component].append(sa_info)
-                        result_dict[aff_component].append(cve_info)
-                        result_dict[aff_component].append(found_rpm)
+                    result_dict[sa_info] = [sa_info, cve_info, found_rpm, aff_component, sys_package]
                     break
 
     for s in result_dict:
         print("------------------------------------------------------------------------\n")
+        # sa_dict[result_dict[s][0]] = result_dict[s][1].strip(';').split(';')
+        sa_dict[result_dict[s][0]] = [result_dict[s][1].strip(';').split(';'), result_dict[s][3], result_dict[s][4]]
         print(f"According to {result_dict[s][0]}")
         print(f"Fix {result_dict[s][1]}")
-        print(f"{s} need to update!")
+        print(f"{result_dict[s][3]} need to update!")
         print("rpm are as follows...")
+        logger.warning(f"According to {result_dict[s][0]}, vulnerabilities of {result_dict[s][3]} are as follows {result_dict[s][1].strip(';')}, latest rpm {result_dict[s][2]} is provided")
         print(result_dict[s][2])
+    set_value('vulner_info', sa_dict)
     session.close()
+    scan_show_result()

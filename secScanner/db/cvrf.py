@@ -1,13 +1,4 @@
 # -*- coding: utf-8 -*-
-
-"""
- (c) 2023 - Copyright CTyunOS Inc
-
- Authors:
-   youyifeng <youyf2@chinatelecom.cn>
-
-"""
-
 from secScanner.db.base import DBModel
 from sqlalchemy import Column
 from sqlalchemy import Text
@@ -21,68 +12,49 @@ class CVRF(DBModel):
     __tablename__ = 'OpenEulerCVRF'
 
     id = Column('id', Integer, primary_key=True)
+
+    title = Column('title', Text)
     securityNoticeNo = Column('securityNoticeNo', Text)
     affectedComponent = Column('affectedComponent', Text)
+
+    productNameList = Column('productNameList', Text)
+
+    announcementLevel = Column('announcementLevel', Text)
+
+    synopsis = Column('synopsis', Text)
+    description = Column('description', Text)
+    summary = Column('summary', Text)
+    topic = Column('topic', Text)
+
+    packageInfo = Column('packageInfo', Text)
+
     cveId = Column('cveId', Text)
-    cveThreat = Column('cveThreat', Text)
-    affectedProduct = Column('affectedProduct', Text)
-    packageName = Column('packageName', Text)
+    cveList = Column('cveList', Text)
 
     announcementTime = Column('announcementTime', Text)
-    # description = Column('description', Text)
-    # introduction = Column('introduction', Text)
-    # referenceDocuments = Column('referenceDocuments', Text)
-    # revisionHistory = Column('revisionHistory', Text)
-    # subject = Column('subject', Text)
-    # summary = Column('summary', Text)
-    type = Column('type', Text)
     updateTime = Column('updateTime', Text)
 
-    cvrf = Column('cvrf', Text)
+    COLUMN = [
+        "id",
+        "title",
+        "securityNoticeNo",
+        "affectedComponent",
+        "productNameList",
+        "announcementLevel",
+        "synopsis",
+        "description",
+        "summary",
+        "topic",
+        "packageInfo",
+        "cveId",
+        "cveList",
+        "announcementTime",
+        "updateTime",
+    ]
 
-    # packageHelperList = Column('packageHelperList', Text)
-    # packageList = Column('packageList', Text)
-    # referenceList = Column('referenceList', Text)
-    # cveList = Column('cveList', Text)
 
-    def format_output(self):
-        print("""SecurityNoticeNo: %s
-PackageName: %s
-CVEID: %s
-Affected Product: %s
-""" % (
-            self.securityNoticeNo,
-            self.affectedComponent,
-            self.cveId,
-            self.affectedProduct
-        ))
 
-    @staticmethod
-    def pretty_output_title():
-        print("%-15s %-30s %-10s %-20s" % ("CVEID", "包名", "评分", "发布时间"))
 
-    def pretty_output(self):
-        print("%-15s %-30s %-10s %-20s" % (
-            self.cveId,
-            self.packageName,
-            self.cvsssCoreNVD if self.cvsssCoreNVD else self.cvsssCoreOE,
-            self.updateTime,
-        ))
-
-    def simple_output(self):
-        print("""CVEID: %s
-评分:%s 
-包名: %s
-发布时间: %s
-详情链接: https://www.openeuler.org/zh/security/cve/detail/?cveId=%s&packageName=%s
-""" % (
-            self.cveId,
-            self.cvsssCoreNVD if self.cvsssCoreNVD else self.cvsssCoreOE,
-            self.packageName,
-            self.updateTime,
-            self.cveId,
-            self.packageName,
-        ))
 
 
 class CVRFXML(object):
@@ -95,6 +67,18 @@ class CVRFXML(object):
         self.ctyunos_cvrf_xml = cvrf_xml
         self.root = ET.fromstring(rawxmldata)
         # self.repos = repos
+
+    def node_get_title(self):
+        # self.showNode(node)
+        path = 'DocumentTitle'
+        ret = self.root.find(path)
+
+        if ret is not None:
+            # print(ret.text)
+            return ret.text
+        else:
+            raise Exception("%s is None" % path)
+
 
     def node_get_securityNoticeNo(self):
         # self.showNode(node)
@@ -112,12 +96,22 @@ class CVRFXML(object):
         path = 'DocumentNotes/Note'
         ret = self.root.findall(path)
         for node in ret:
-            if "Title" in node.attrib and node.attrib["Title"] == 'Synopsis':
+            if "Title" in node.attrib and node.attrib["Title"] == 'Summary':
                 return node.text
 
         raise Exception("%s is None" % path)
 
     def node_get_announcetime(self):
+        # self.showNode(node)
+        path = 'DocumentTracking/InitialReleaseDate'
+        ret = self.root.find(path)
+
+        if ret is not None:
+            return ret.text
+        else:
+            raise Exception("%s is None" % path)
+
+    def node_get_updatetime(self):
         # self.showNode(node)
         path = 'DocumentTracking/CurrentReleaseDate'
         ret = self.root.find(path)
@@ -127,18 +121,7 @@ class CVRFXML(object):
         else:
             raise Exception("%s is None" % path)
 
-    def node_get_introduction(self):
-        # self.showNode(node)
-        path = 'DocumentTitle'
-        ret = self.root.find(path)
-
-        if ret is not None:
-            # print(ret.text)
-            return ret.text
-        else:
-            raise Exception("%s is None" % path)
-
-    def node_get_type(self):
+    def node_get_announceLevel(self):
         # self.showNode(node)
         path = 'DocumentNotes/Note'
         ret = self.root.findall(path)
@@ -148,15 +131,6 @@ class CVRFXML(object):
 
         raise Exception("%s is None" % path)
 
-    def node_get_subject(self):
-        # self.showNode(node)
-        path = 'DocumentNotes/Note'
-        ret = self.root.findall(path)
-        for node in ret:
-            if "Title" in node.attrib and node.attrib["Title"] == 'Topic':
-                return node.text
-
-        raise Exception("%s is None" % path)
 
     def node_get_description(self):
         # self.showNode(node)
@@ -167,6 +141,55 @@ class CVRFXML(object):
                 return node.text
 
         raise Exception("%s is None" % path)
+
+    def node_get_cveId(self):
+        path = 'Vulnerability/CVE'
+        cve_list = []
+        ret = self.root.findall(path)
+        for node in ret:
+            cve_list.append(node.text)
+        if len(cve_list) == 0:
+            raise Exception("cve list is 0")
+        return cve_list
+
+
+    def node_get_topic(self):
+        # self.showNode(node)
+        path = 'DocumentNotes/Note'
+        ret = self.root.findall(path)
+        for node in ret:
+            if "Title" in node.attrib and node.attrib["Title"] == 'Topic':
+                return node.text
+
+        raise Exception("%s is None" % path)
+
+    def node_get_cve_reference_list(self):
+        path = 'DocumentReferences/Reference'
+        reference_list = []
+        ret = self.root.findall(path)
+        for node in ret:
+            if "Type" in node.attrib and node.attrib["Type"] == 'Other':
+                for child in node:
+                    reference_list.append(child.text)
+        if len(reference_list) == 0:
+            raise Exception("reference list is 0")
+        return reference_list
+
+    def node_get_synopsis(self):
+        # self.showNode(node)
+        path = 'DocumentNotes/Note'
+        ret = self.root.findall(path)
+        for node in ret:
+            if "Title" in node.attrib and node.attrib["Title"] == 'Synopsis':
+                return node.text
+
+        raise Exception("%s is None" % path)
+
+
+
+
+
+
 
     def node_get_affectedComponent(self):
         # self.showNode(node)
@@ -181,39 +204,7 @@ class CVRFXML(object):
     def showNode(self, node):
         print("tag: %s | attrib: %s | text: %s" % (node.tag, node.attrib, node.text))
 
-    def node_get_reference_list(self):
-        path = 'DocumentReferences/Reference'
-        reference_list = []
-        ret = self.root.findall(path)
-        for node in ret:
-            if "Type" in node.attrib and node.attrib["Type"] == 'Other':
-                for child in node:
-                    reference_list.append({
-                        "url": child.text
-                    })
-        if len(reference_list) == 0:
-            raise Exception("reference list is 0")
-        return reference_list
 
-    def node_get_cveId(self):
-        path = 'Vulnerability/CVE'
-        cve_list = []
-        ret = self.root.findall(path)
-        for node in ret:
-            cve_list.append(node.text)
-        if len(cve_list) == 0:
-            raise Exception("cve list is 0")
-        return cve_list
-
-    def node_get_cveThreat(self):
-        path = 'Vulnerability/Threats/Threat/Description'
-        cveThreat_list = []
-        ret = self.root.findall(path)
-        for node in ret:
-            cveThreat_list.append(node.text)
-        if len(cveThreat_list) == 0:
-            raise Exception("cvethreat list is 0")
-        return cveThreat_list
 
     def node_get_packageName(self):
 
@@ -257,29 +248,8 @@ class CVRFXML(object):
 
         return pkg_dict
 
-    def node_get_affectedProduct(self):
-        path = 'ProductTree/Branch'
-        pkg_dict = set()
-        ret = self.root.findall(path)
-        for node in ret:
-            if "Type" in node.attrib and node.attrib["Type"] == 'Product Name':
-                for child in node:
-                    pkg_dict.add(child.text)
 
-        return list(pkg_dict)
-
-
-class PRODUCT(DBModel):
-    __tablename__ = 'OpenEulerProduct'
-
-    id = Column('id', Integer, primary_key=True)
-    productId = Column('productId', Text)
-    srcfilename = Column('srcfilename', Text)
-    packageName = Column('packageName', Text)
-    packages = Column('packages', Text)
-    # Foreign key to OpenEulerCVRF
-    securityNoticeNo = Column('securityNoticeNo', Text)
-
+####################################################################################
 def scrapy_CVRF_index():
     """
     :API: https://repo.openeuler.org/security/data/cvrf/index.txt
@@ -291,7 +261,7 @@ def scrapy_CVRF_index():
         try:
             response = requests.get(url=api_url, timeout=(10, 30))
         except Exception as e:
-            print("scrapy from api '%s' error!" % api_url, str(e))
+            print(f"scrapy from {api_url} error: {str(e)}!")
             if try_index == try_time - 1:
                 print("try [%d] times failed! exit.")
                 exit(1)
@@ -301,21 +271,9 @@ def scrapy_CVRF_index():
     if response.status_code < 200 or response.status_code > 299:
         print("ret code no in [200,300)")
         exit(1)
-    index_list = response.text.strip('\r').split('\n')
+    index_list = response.text.strip().strip('\r').split('\n')
     if 0 == len(index_list):
-        print("failed to get cvrf list")
+        print(" failed to get cvrf list")
         exit(1)
-    index_list.pop()
     return index_list
 
-
-def activate_session(session):
-    """active sql session"""
-    DBModel.metadata.create_all(bind=session.get_engine())
-    db = session.new_session()
-    return db
-
-def purge_db(session):
-    """clean all data model and recreate"""
-    DBModel.metadata.drop_all(bind=session.get_engine())
-    DBModel.metadata.create_all(bind=session.get_engine())
