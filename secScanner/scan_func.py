@@ -23,6 +23,7 @@ import getpass
 import sys
 import gen_report.report as report
 from datetime import datetime
+
 import json
 from db.cvrf import *
 from db.cve import *
@@ -30,6 +31,7 @@ import urllib.request
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import *
 logger = logging.getLogger('secscanner')
+#RESULT_FILE = os.path.join(LOGDIR, "check_result.relt")
 
 def restart_service(service_name):
     subprocess.run(['systemctl', 'restart', service_name], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -62,7 +64,7 @@ def scan_check_sys():
     print(" "*2+"#"*67)
     print(NORMAL)
 
-    RESULT_FILE = os.path.join(LOGDIR, "check_result.relt")
+    #RESULT_FILE = os.path.join(LOGDIR, "check_result.relt")
 
     if os.access(RESULT_FILE, os.W_OK):
         open(RESULT_FILE, "w").close()
@@ -346,6 +348,7 @@ def scan_restore_basic_settings():
     print("")
     print(GREEN +" Restore basicly finished... Now you can refix the system" + NORMAL)
     print("")
+
 
 def vulnerabilities_db_update():
     # clear the counter, make this function re-call-able.

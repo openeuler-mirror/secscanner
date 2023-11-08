@@ -3,6 +3,7 @@ import shutil
 from secScanner.lib import *
 from secScanner.gconfig import *
 import logging
+import subprocess
 logger = logging.getLogger("secscanner")
 
 def S05_icmpLimit():
@@ -28,6 +29,8 @@ def S05_icmpLimit():
                             write_file.write('net.ipv4.conf.all.accept_redirects=0\n')
                         else:
                             write_file.write(line)
+            subprocess.run(['sysctl', '-p', '-q'], stdout=subprocess.DEVNULL,
+                                        stderr=subprocess.STDOUT)
             IS_EXIST = 0
             with open('/etc/sysctl.conf', 'r') as read_file:
                 lines = read_file.readlines()

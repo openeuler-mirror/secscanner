@@ -32,6 +32,8 @@ def S32_rpfilter():
                         else:
                             write_file.write(line)
 
+            subprocess.run(['sysctl', '-p', '-q'], stdout=subprocess.DEVNULL,
+                                        stderr=subprocess.STDOUT)
             IS_EXIST = 0
             with open('/etc/sysctl.conf', 'r') as read_file:
                 lines = read_file.readlines()
