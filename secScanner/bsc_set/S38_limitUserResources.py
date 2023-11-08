@@ -37,7 +37,7 @@ def S38_limitUserResources():
 
             if not (set01 and set02 and set03 and set04 and set05):
                 with open('/etc/security/limits.conf', 'a') as add_file:
-                    add_file.write("\nsoft stack 1024\nhard stack 1024\n* hard rss 100000\n* hard nproc 4000\n* hard maxlogins 3")
+                    add_file.write("\n* soft stack 1024\n* hard stack 1024\n* hard rss 100000\n* hard nproc 4000\n* hard maxlogins 3")
             else:
                 pass
            

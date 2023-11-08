@@ -18,7 +18,7 @@ def C33_noEmptyPasswd():
                 CONFIG_SET = 'wrong'
                 temp = line.split()
                 if len(temp) == 2 and temp[1] == 'no':
-                    CONFIGL_SET = 'right'
+                    CONFIG_SET = 'right'
 
     if CONFIG_SET == 'unset':
         with open(RESULT_FILE, "a") as file:

@@ -10,25 +10,37 @@ logger = logging.getLogger("secscanner")
 
 def C13_restrictFTPdir():
     InsertSection("check the ftp restrict directories")
-    restrictFTPdir_set = 'unset'
-    
+    chroot_set = 'unset'
+    chrootlist_set = 'unset'
+    listfile_set = 'unset'
     if os.path.exists('/etc/vsftpd/vsftpd.conf'):
         with open('/etc/vsftpd/vsftpd.conf', 'r') as file:
             lines = file.readlines()
             for line in lines:
                 if re.match('chroot_local_user', line) and not re.match('^#|^$', line):
-                    restrictFTPdir_set = 'wrong'
+                    chroot_set = 'wrong'
                     temp = line.split('=')
                     if len(temp) == 2 and temp[1] == 'YES\n':
-                        restrictFTPdir_set = 'right'
+                        chroot_set = 'right'
+                if re.match('chroot_list_enable', line) and not re.match('^#|^$', line):
+                    chrootlist_set = 'wrong'
+                    temp = line.split('=')
+                    if len(temp) == 2 and temp[1] == 'YES\n':
+                        chrootlist_set = 'right'
+                if re.match('chroot_list_file', line) and not re.match('^#|^$', line):
+                    listfile_set = 'wrong'
+                    temp = line.split('=')
+                    if len(temp) == 2 and temp[1] == '/etc/vsftpd/chroot_list\n':
+                        listfile_set = 'right'
 
-        if restrictFTPdir_set == 'unset':
+
+        if chroot_set == 'unset':
             with open(RESULT_FILE, "a") as file:
                 file.write("\nC30\n")
             logger.warning("WRN_C13_01: %s", WRN_C13_01)
             logger.warning("SUG_C13: %s", SUG_C13)
             Display("- No ftp restrict directories set...", "WARNING")
-        elif restrictFTPdir_set == 'right':
+        elif chroot_set == 'right' and chrootlist_set == 'right' and listfile_set == 'right':
             logger.info("Has ftp restrict directories set, checking OK")
             Display("- Check the ftp restrict directories...", "OK")
         else:
