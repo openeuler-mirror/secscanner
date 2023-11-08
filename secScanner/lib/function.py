@@ -21,6 +21,7 @@ import getpass
 import subprocess
 import configparser
 from secScanner.gconfig import *
+import json
 
 logger = logging.getLogger('secscanner')
 
@@ -303,4 +304,19 @@ def make_json_file(all_samples, table):
                 write_file.write(",\n")
         write_file.write("]\n")
 
-
+def gen_cve_json_file(data):
+    # data should be a dict
+    json_list = []
+    for cve_info in data:
+        temp = {}
+        temp['cveId'] = cve_info[0]
+        temp['affectedComponent'] = cve_info[1]
+        temp['affectedVersion'] = cve_info[2]
+        temp['score'] = cve_info[3]
+        temp['attackVector'] = cve_info[4]
+        temp['attackComplexity'] = cve_info[5]
+        temp['saId'] = cve_info[6]
+        temp['cveSummary'] = cve_info[7]
+        json_list.append(temp)
+    with open(f"/var/log/secScanner/CVE_info.json", 'w') as write_file:
+        write_file.write(json.dumps(json_list))

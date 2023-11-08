@@ -117,74 +117,76 @@ def rootkit_result():
 
     return html_rootkit_content
 
-
 def cve_result():
+    # init database to get more cve info
+    engine = create_engine('sqlite:///secScanner/db/cvedatabase.db', echo=False)
+    DBModel.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    # get cveId by saId
+    sa_dict = get_value('vulner_info')
+
     vulne_info = ""
-    tmp_cve_count = 1
-
-    with open(LOGFILE, "r") as file:
-        log_content = file.readlines()
-
-        cves = [re.findall(r"CVE-[0-9]{4}-[0-9]{4,9}", line) for line in log_content]
-        cves = list(filter(None, cves))
-
-        if not cves:
-            vulne_info += "No vulnerabilities\n"
-        else:
-            vulne_info += f"Vulnerabilities Details ({len(cves)}):\n"
-            vulne_info += "----------------------------\n"
-
-            vulne_info += "<table>\n"
-            vulne_info += "  <tr>\n"
-            vulne_info += "    <th>#</th>\n"
-            vulne_info += "    <th>CVE Number</th>\n"
-            vulne_info += "    <th>Affected Package</th>\n"
-            vulne_info += "    <th>Fixed Version</th>\n"
-            vulne_info += "    <th>Score</th>\n"
-            vulne_info += "    <th>Vector</th>\n"
-            vulne_info += "    <th>Access Complexity</th>\n"
-            vulne_info += "    <th>RHSA</th>\n"
-            vulne_info += "    <th>Summary</th>\n"
-            vulne_info += "  </tr>\n"
-
-            for cve_list in cves:
-                for cve in cve_list:
-                    cve_all_info = re.findall(r"\[.*?\](.*?)\|", cve)
-                    cve_num = cve_all_info[0]
-                    cve_summary = cve_all_info[7]
-
-                    if tmp_cve_count <= 1000:
-                        vulne_info += f"  <tr>\n"
-                        vulne_info += f"    <td>{tmp_cve_count}</td>\n"
-                        vulne_info += f"    <td>{cve_num}</td>\n"
-                        vulne_info += f"    <td>{cve_all_info[5]}</td>\n"
-                        vulne_info += f"    <td>{cve_all_info[6]}</td>\n"
-                        vulne_info += f"    <td>{cve_all_info[1]}</td>\n"
-                        vulne_info += f"    <td>{cve_all_info[2]}</td>\n"
-                        vulne_info += f"    <td>{cve_all_info[3]}</td>\n"
-                        vulne_info += f"    <td>{cve_all_info[4]}</td>\n"
-                        vulne_info += f"    <td>{cve_summary}</td>\n"
-                        vulne_info += f"  </tr>\n"
-
-                    if tmp_cve_count > 10000:
-                        if vulne_info.count("<tr>") == 1:  # 判断是否是第一次超过最大项数
-                            vulne_info += "This system has more than 10000 CVEs, skip output too much info on shell console. You can see html report for details.\n"
-                            vulne_info += "Also you can change the max cve output count:cve_report_max_items={} in {}.txt, and rerun the program to see all cve info.\n".format(
-                                len(cves), '.bash_profile')
-
-                    tmp_cve_count += 1
-            vulne_info += "</table>\n"
-
+    cve_count = 0
+    cve_list = []
+    if sa_dict == {}:
         set_value("vulne_info", vulne_info)
-        TOTAL_CVES = tmp_cve_count
+        TOTAL_CVES = 0
         set_value("TOTAL_CVES", TOTAL_CVES)
+        vulne_info += "No vulnerabilities\n"
+        return vulne_info
+    for single_sa in sa_dict:
+        for single_data in sa_dict[single_sa][0]:
+            temp = []
+            temp.append(single_data)
+            cve_sample = session.query(CVE).filter_by(cveId=f'{single_data}', packageName=f'{sa_dict[single_sa][1]}').first()
+            temp.append(cve_sample.packageName)
+            temp.append(sa_dict[single_sa][2])
+            temp.append(cve_sample.cvsssCoreOE)
+            temp.append(cve_sample.attackVectorOE)
+            temp.append(cve_sample.attackComplexityOE)
+            temp.append(single_sa)
+            temp.append(cve_sample.summary)
+            cve_list.append(temp)
+            cve_count += 1
+    gen_cve_json_file(cve_list)
+    cve_report_max_items = 0
+    # add cve info
+
+    vulne_info += f"Vulnerabilities Details ({cve_count}):\n"
+    vulne_info += "----------------------------\n"
+
+    for i in range(len(cve_list)):
+        if i + 1 <= 1000:
+            vulne_info += f"  <tr style=\"cursor:pointer; border:solid 1px \#ddd;\">"
+            vulne_info += f"    <td>{i+1}</td>\n"
+            vulne_info += f"    <td>{cve_list[i][0]}</td>\n"
+            vulne_info += f"    <td>{cve_list[i][1]}</td>\n"
+            vulne_info += f"    <td>{cve_list[i][2]}</td>\n"
+            vulne_info += f"    <td>{cve_list[i][3]}</td>\n"
+            vulne_info += f"    <td>{cve_list[i][4]}</td>\n"
+            vulne_info += f"    <td>{cve_list[i][5]}</td>\n"
+            vulne_info += f"    <td>{cve_list[i][6]}</td>\n"
+            vulne_info += f"    <td>{cve_list[i][7]}</td>\n"
+            vulne_info += f"  </tr>\n"
+
+        else:
+            if cve_report_max_items == 0:  # 判断是否是第一次超过最大项数
+                vulne_info += "This system has more than 10000 CVEs, skip output too much info on shell console. You can see html report for details.\n"
+                vulne_info += "Also you can change the max cve output count:cve_report_max_items={} in {}.txt, and rerun the program to see all cve info.\n".format(
+                    len(cve_list), '.bash_profile')
+                cve_report_max_items = 1
+    vulne_info += "</table>\n"
+    set_value("vulne_info", vulne_info)
+    TOTAL_CVES = cve_count
+    set_value("TOTAL_CVES", TOTAL_CVES)
     return vulne_info
 
 def main():
 
     warning_results()
     rootkit_result()
-    #cve_result()
+    cve_result()
     HTML_REPORT_DIRNAME = "html_report"
     set_value("HTML_REPORT_DIRNAME",HTML_REPORT_DIRNAME)
     html_report_dir = os.path.join(LOGDIR, HTML_REPORT_DIRNAME)

@@ -24,6 +24,12 @@ import sys
 import gen_report.report as report
 from datetime import datetime
 
+import json
+from db.cvrf import *
+from db.cve import *
+import urllib.request
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import *
 logger = logging.getLogger('secscanner')
 #RESULT_FILE = os.path.join(LOGDIR, "check_result.relt")
 
@@ -344,3 +350,426 @@ def scan_restore_basic_settings():
     print("")
 
 
+def vulnerabilities_db_update():
+    # clear the counter, make this function re-call-able.
+    # these two counters are used for scan_show_result() function.
+    print(WHITE)
+    print(" " * 2 + "#" * 67)
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(f"  #   {MAGENTA}Start updating the system vulnerabilities database..." + WHITE + " " * 18 + "#")
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(" " * 2 + "#" * 67)
+    print(NORMAL)
+    cvrf_index = scrapy_CVRF_index()
+    engine = create_engine('sqlite:///secScanner/db/cvedatabase.db', echo=False)
+    DBModel.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    session.query(CVRF).delete()
+    session.commit()
+    update_sa = 0
+    update_cve = 0
+    for i, url in enumerate(cvrf_index):
+        url = url.strip()
+        cur = url.strip('.xml').split('cvrf-')[1]
+        if session.query(CVRF).filter_by(securityNoticeNo=f'{cur}').first():
+            continue
+
+        download_url = os.path.join("https://repo.openeuler.org/security/data/cvrf/", url)
+        print("this is download url: ", download_url)
+        print("this is url: ", url)
+        request = urllib.request.Request(download_url)
+        # request = urllib.request.Request("https://repo.openeuler.org/security/data/cvrf/2023/cvrf-openEuler-SA-2023-1554.xml")
+        request.add_header("Range", "bytes={}-".format(0))
+        text = urllib.request.urlopen(request).read().decode('utf-8')
+
+        cvrf_xml_handler = CVRFXML(text)
+        print(cvrf_xml_handler.node_get_securityNoticeNo())
+
+        cvrf = CVRF()
+        cvrf.title = cvrf_xml_handler.node_get_title()
+        cvrf.securityNoticeNo = cvrf_xml_handler.node_get_securityNoticeNo()
+        cvrf.affectedComponent = cvrf_xml_handler.node_get_affectedComponent()
+        cvrf.announcementTime = cvrf_xml_handler.node_get_announcetime()
+        cvrf.synopsis = cvrf_xml_handler.node_get_synopsis()
+        cvrf.summary = cvrf_xml_handler.node_get_summary()
+        cvrf.topic = cvrf_xml_handler.node_get_topic()
+        cvrf.description = cvrf_xml_handler.node_get_description()
+        cvrf.updateTime = cvrf_xml_handler.node_get_updatetime()
+        cvrf.announcementLevel = cvrf_xml_handler.node_get_announceLevel()
+        cvrf.cveId = ";".join(cvrf_xml_handler.node_get_cveId()) + ';'
+        # print("cveid", cvrf.cveId)
+        cvrf.cveList = str(cvrf_xml_handler.node_get_cve_reference_list())
+        pkg_dict = cvrf_xml_handler.node_get_packageName()
+        cvrf.packageInfo = str(pkg_dict)
+        session.add(cvrf)
+        session.commit()
+        update_sa += 1
+
+    ####################################################################################
+    # get data from api url
+    ####################################################################################
+    api_url = 'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/findAll'
+    body = { "keyword": "", "pages": {"page": 1, "size": 100000}}#size 可以改大小，其他内容不影响获取的数据内容
+    response = requests.post(url=api_url, json=body, timeout=(10, 30))
+    response_json_dict = json.loads(response.text)
+    cveDatabaseList = response_json_dict["result"]["cveDatabaseList"]
+    # print(cveDatabaseList[0])
+    cve_list = []
+    for i in range(len(cveDatabaseList)):
+        cve_list.append([cveDatabaseList[i]['cveId'], cveDatabaseList[i]['packageName']])
+
+    ###################################################################################
+    # create sqlite database and save data
+    ###################################################################################
+
+    count = 0
+    for cve_init in reversed(cve_list):
+        count = 1 + count
+        # only add new data
+        if session.query(CVE).filter_by(cveId=f'{cve_init[0]}', packageName=f'{cve_init[1]}').first():
+            continue
+        print(f'Updating {cve_init[0]}!   {count+1}/{len(cve_list)}')
+        cve_url = f'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/getByCveIdAndPackageName?cveId={cve_init[0]}&packageName={cve_init[1]}'
+        response = requests.get(url=cve_url, timeout=2)
+        if 'Required String parameter' in response.text:
+            continue
+        json_data = json.loads(response.text)['result']
+
+        cve = CVE()
+        cve.cveId = json_data['cveId']
+        cve.summary = json_data['summary']
+        cve.level = json_data['type']
+
+        cve.cvsssCoreNVD = json_data['cvsssCoreNVD']
+        cve.cvsssCoreOE = json_data['cvsssCoreOE']
+
+        cve.attackVectorNVD = json_data['attackVectorNVD']
+        cve.attackVectorOE = json_data['attackVectorOE']
+
+        cve.attackComplexityNVD = json_data['attackComplexityNVD']
+        cve.attackComplexityOE = json_data['attackComplexityOE']
+
+        cve.privilegesRequiredNVD = json_data['privilegesRequiredNVD']
+        cve.privilegesRequiredOE = json_data['privilegesRequiredOE']
+
+        cve.userInteractionNVD = json_data['userInteractionNVD']
+        cve.userInteractionOE = json_data['userInteractionOE']
+
+        cve.scopeNVD = json_data['scopeNVD']
+        cve.scopeOE = json_data['scopeOE']
+
+        cve.confidentialityNVD = json_data['confidentialityNVD']
+        cve.confidentialityOE = json_data['confidentialityOE']
+
+        cve.integrityNVD = json_data['integrityNVD']
+        cve.integrityOE = json_data['integrityOE']
+
+        cve.availabilityNVD = json_data['availabilityNVD']
+        cve.availabilityOE = json_data['availabilityOE']
+
+        cve.status = json_data['status']
+
+        cve.announcementTime = json_data['announcementTime']
+        cve.createTime = json_data['createTime']
+        cve.updateTime = json_data['updateTime']
+
+        cve.packageName = json_data['packageName']
+
+        pkg_name = json_data['packageName']
+        extra_url = f'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/getCVEProductPackageList?cveId={cve_init[0]}&packageName={cve_init[1]}'
+        response_extra = requests.get(url=extra_url, timeout=(10, 30))
+        if 'Required String parameter' in response_extra.text:
+            pass
+        else:
+            extra_data = json.loads(response_extra.text)['result']
+            cve.extra_data = str(extra_data)
+
+        session.add(cve)
+        session.commit()
+        update_cve += 1
+
+    session.close()
+
+    print("Update database done!")
+    print(f"{update_sa} SAs and {update_cve} CVEs are updated!")
+
+def scan_vulnerabilities_db_show():
+    # clear the counter, make this function re-call-able.
+    # these two counters are used for scan_show_result() function.
+    print(WHITE)
+    print(" " * 2 + "#" * 67)
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(f"  #   {MAGENTA}Show some data from cvedatabase..." + WHITE + " " * 18 + "#")
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(" " * 2 + "#" * 67)
+    print(NORMAL)
+    engine = create_engine('sqlite:///secScanner/db/cvedatabase.db', echo=False)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    for i in range(20):
+        our_sample = session.query(CVRF).filter_by(id=f'{i + 1}').first()
+        if type(our_sample) == CVRF:
+            print(our_sample.securityNoticeNo)
+            print(our_sample.cveId)
+            print(our_sample.cveThreat)
+    session.close()
+
+def scan_vulnerabilities_db_create_oval(xml_path = '/db/', table = CVRF):
+    # clear the counter, make this function re-call-able.
+    # these two counters are used for scan_show_result() function.
+    print(WHITE)
+    print(" " * 2 + "#" * 67)
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(f"  #   {MAGENTA}Generate an OVAL file from existing cvedatabase..." + WHITE + " " * 18 + "#")
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(" " * 2 + "#" * 67)
+    print(NORMAL)
+    engine = create_engine('sqlite:///secScanner/db/cvedatabase.db', echo=False)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    t = time.strftime("%Y-%m-%dT%X", time.localtime())
+    dir = os.path.dirname(os.path.abspath(__file__))
+    all_samples = session.query(table).order_by(desc('id')).all()
+    with open(dir + xml_path+table.__tablename__+'_oval.xml', 'w') as write_file:
+        write_file.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+        write_file.write("<oval_definitions \n")
+        write_file.write("xsi:schemaLocation=\"http://oval.mitre.org/XMLSchema/oval-definitions-5#linux linux-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#unix unix-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5 oval-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd\"\n")
+        write_file.write("xmlns=\"http://oval.mitre.org/XMLSchema/oval-definitions-5\"\n")
+        write_file.write("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n")
+        write_file.write("xmlns:oval=\"http://oval.mitre.org/XMLSchema/oval-common-5\"\n")
+        write_file.write("xmlns:oval-def=\"http://oval.mitre.org/XMLSchema/oval-definitions-5\">\n")
+        write_file.write("<generator>\n")
+        write_file.write("<oval:product_name>Marcus Updateinfo to OVAL Converter</oval:product_name>\n")
+        write_file.write("<oval:schema_version>5.5</oval:schema_version>\n")
+        write_file.write(f"<oval:timestamp>{t}</oval:timestamp>\n")
+        write_file.write("</generator>\n")
+        write_file.write("<definitions>\n")
+        for take_a_sample in all_samples:
+            field_list = list(take_a_sample.__dict__)
+            make_oval_definition(take_a_sample, field_list, write_file)
+        write_file.write("</definitions>\n")
+        write_file.write("</oval_definitions>\n")
+    session.close()
+
+def scan_vulnerabilities_rpm_check():
+    # clear the counter, make this function re-call-able.
+    # these two counters are used for scan_show_result() function.
+    print(WHITE)
+    print(" " * 2 + "#" * 67)
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(f"  #   {MAGENTA}Check system rpm by db data..." + WHITE + " " * 18 + "#")
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(" " * 2 + "#" * 67)
+    print(NORMAL)
+    engine = create_engine('sqlite:///secScanner/db/cvedatabase.db', echo=False)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    euler_version = get_value('SYS_VERSION')
+    # all 20.30 openeulers' rpm contains "oe1" suffix, when Euler version >= 22.03, change oe1 to oe2203 instead
+    ver_rpm = 'oe1'
+    if euler_version == '22.10U1 LTS' or euler_version == '22.03 LTS SP1':
+        euler_version = 'openEuler-22.03-LTS-SP1'
+        ver_rpm = 'oe2203sp1'
+    elif euler_version == '22.10 LTS' or euler_version == '22.03 LTS':
+        euler_version = 'openEuler-22.03-LTS'
+        ver_rpm = 'oe2203'
+    elif euler_version == '22.10U2 LTS' or euler_version == '22.03 LTS SP2':
+        euler_version = 'openEuler-22.03-LTS-SP2'
+        ver_rpm = 'oe2203sp2'
+    elif euler_version == '21.10U3 LTS' or euler_version == '20.03 LTS SP3':
+        euler_version = 'openEuler-20.03-LTS-SP3'
+    elif euler_version == '21.10 LTS' or euler_version == '20.03 LTS SP2':
+        euler_version = 'openEuler-20.03-LTS-SP2'
+    elif euler_version == '20.03 LTS SP1':
+        euler_version = 'openEuler-20.03-LTS-SP1'
+    #check system archtecture
+    Shell_run = subprocess.run(['uname', '-m'], stdout=subprocess.PIPE)
+    sys_arch = Shell_run.stdout.decode().strip('\n')
+
+    # use "for" loop to traverse the cve database
+    scan_db_sample = session.query(CVRF).all()
+    # use a dict to save results
+    result_dict = {}
+    sa_dict = {}
+    for i in range(len(scan_db_sample)):
+        take_a_sample = scan_db_sample[i]
+        aff_component = take_a_sample.affectedComponent
+        # ignore openEuler kernel's vulnerabilities
+        if 'kernel' in aff_component:
+            continue
+        cve_info = take_a_sample.cveId
+        sa_info = take_a_sample.securityNoticeNo
+        db_package = take_a_sample.packageInfo
+        temp = re.sub('\'', '\"', db_package)
+        db_package_json = json.loads(temp)
+
+        if euler_version in db_package_json:
+            db_package_euler = db_package_json[euler_version]
+            rpm_list = db_package_euler[sys_arch]
+        else:
+            # print("This SA didnt update rpm for this system, System maybe safe by now!")
+            continue
+
+        #Check system software version
+        Shell_run = subprocess.run(['rpm', '-qa', aff_component], stdout=subprocess.PIPE)
+        Shell_out = Shell_run.stdout.decode()
+        if Shell_out == '':
+            #print("This machine doesnt have this software, pass!")
+            continue
+        else:
+            sys_package = Shell_out.strip()
+
+        #get system software's version
+        ver_arch = sys_package.split(aff_component)[1]
+        ver_arch_list = ver_arch.split('-')
+            #ver_last_num: number after "-"
+        ver_last_num = ver_arch_list[2].split('.')[0]
+        sys_rpm_version = ver_arch_list[1].split('.')
+        sys_rpm_version.append(ver_last_num)
+        sa_rpm_version = []
+        #get SA rpm's version
+        found_rpm = ''
+        for item in rpm_list:
+            if item != '' and (aff_component in item):
+                sa_rpm = item.split('.rpm')[0].split('.' + sys_arch)[0].split('.' + ver_rpm)[0].split(aff_component + '-')[1]
+            else:
+                continue
+            temp = sa_rpm.split('-')
+            if len(temp) == 2:
+                sa_ver_last_num = temp[1]
+                sa_rpm_version = temp[0].split('.')
+                sa_rpm_version.append(sa_ver_last_num)
+                #print("----------This is SA rpm version: ", sa_rpm_version)
+                found_rpm = item
+                break
+        if len(sys_rpm_version) == len(sa_rpm_version):
+            for j in range(len(sys_rpm_version)):
+                if sys_rpm_version[j] < sa_rpm_version[j]:
+                    result_dict[sa_info] = [sa_info, cve_info, found_rpm, aff_component, sys_package]
+                    break
+
+    for s in result_dict:
+        print("------------------------------------------------------------------------\n")
+        # sa_dict[result_dict[s][0]] = result_dict[s][1].strip(';').split(';')
+        sa_dict[result_dict[s][0]] = [result_dict[s][1].strip(';').split(';'), result_dict[s][3], result_dict[s][4]]
+        print(f"According to {result_dict[s][0]}")
+        print(f"Fix {result_dict[s][1]}")
+        print(f"{result_dict[s][3]} need to update!")
+        print("rpm are as follows...")
+        logger.warning(f"According to {result_dict[s][0]}, vulnerabilities of {result_dict[s][3]} are as follows {result_dict[s][1].strip(';')}, latest rpm {result_dict[s][2]} is provided")
+        print(result_dict[s][2])
+    set_value('vulner_info', sa_dict)
+    session.close()
+    scan_show_result()
+
+def cut_component_version(component, package):
+    # get component's version   glibc-2.28-101.el8.src.rpm
+    ver_arch = package.split(component)[1]  # -2.28-101.el8
+    ver_arch_list = ver_arch.split('-')  #
+    # ver_last_num: number after "-"
+    ver_last_num = ver_arch_list[2].split('.')[0]  # ['101']
+    component_version = ver_arch_list[1].split('.')  # ['2', '28']
+    component_version.append(ver_last_num)  # ['2', '28', '101']
+    return component_version
+
+def compare_version_of_two(sys, sa):
+    for i in range(len(sys)):
+        if sys[i] == sa[i]:
+            continue
+        if sys[i].isdigit() and sa[i].isdigit():
+            if int(sys[i]) < int(sa[i]):
+                return 1
+            else:
+                continue
+        else:
+            if sys[i] < sa[i]:
+                return 1
+    return 0
+
+
+def scan_vulnerabilities_by_items():
+    print(WHITE)
+    print(" " * 2 + "#" * 67)
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(f"  #   {MAGENTA}Check system compounents according to cfg file..." + WHITE + " " * 18 + "#")
+    print(" " * 2 + "#" + " " * 65 + "#")
+    print(" " * 2 + "#" * 67)
+    print(NORMAL)
+    engine = create_engine('sqlite:///secScanner/db/cvedatabase.db', echo=False)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    euler_version = get_value('SYS_VERSION')
+    # all 20.30 openeulers' rpm contains "oe1" suffix, when Euler version >= 22.03, change oe1 to oe2203 instead
+    ver_rpm = 'oe1'
+    if euler_version == '22.10U1 LTS' or euler_version == '22.03 LTS SP1':
+        euler_version = 'openEuler-22.03-LTS-SP1'
+        ver_rpm = 'oe2203sp1'
+    elif euler_version == '22.10 LTS' or euler_version == '22.03 LTS':
+        euler_version = 'openEuler-22.03-LTS'
+        ver_rpm = 'oe2203'
+    elif euler_version == '22.10U2 LTS' or euler_version == '22.03 LTS SP2':
+        euler_version = 'openEuler-22.03-LTS-SP2'
+        ver_rpm = 'oe2203sp2'
+    elif euler_version == '21.10U3 LTS' or euler_version == '20.03 LTS SP3':
+        euler_version = 'openEuler-20.03-LTS-SP3'
+    elif euler_version == '21.10 LTS' or euler_version == '20.03 LTS SP2':
+        euler_version = 'openEuler-20.03-LTS-SP2'
+    elif euler_version == '20.03 LTS SP1':
+        euler_version = 'openEuler-20.03-LTS-SP1'
+    #check system archtecture
+    Shell_run = subprocess.run(['uname', '-m'], stdout=subprocess.PIPE)
+    sys_arch = Shell_run.stdout.decode().strip('\n')
+
+
+    # Check system software version
+    RPM_ASSEMBLY = seconf.get('basic', 'rpm_assembly').split()
+    result_dict = {}
+    for component in RPM_ASSEMBLY:
+        Shell_run = subprocess.run(['rpm', '-qa', component], stdout=subprocess.PIPE)
+        Shell_out = Shell_run.stdout.decode()
+        if Shell_out == '':
+            # print("This machine doesn't have this component, pass!")
+            continue
+        else:
+            sys_package = Shell_out.strip()
+        # get system software's version   glibc-2.28-101.el8.src.rpm
+        sys_rpm_version = cut_component_version(component, sys_package)
+
+        target_sa = session.query(CVRF).order_by(CVRF.id.desc()).all()
+        sa_rpm = ''
+        for single_sa in target_sa:
+            if single_sa.affectedComponent != component:
+                continue
+            else:
+                # get SA rpm's version
+                packages = re.sub('\'', '\"', single_sa.packageInfo)
+                packages_dict = json.loads(packages)
+                if euler_version in packages_dict:
+                    sa_rpm_list = packages_dict[euler_version][sys_arch]
+                else:
+                    continue
+                #glibc-2.28-101.el8.src.rpm
+                for item in sa_rpm_list:
+                    if item != '' and (component in item):
+                        temp = item.split(component + '-')[1]
+                        if temp[0].isdigit():
+                            sa_rpm = item
+                            # found target rpm
+                            break
+                    else:
+                        continue
+                if sa_rpm != '':
+                    break
+                else:
+                    continue
+        if sa_rpm == '':
+            continue
+        sa_component_version = cut_component_version(component, sa_rpm)
+        if len(sa_component_version) == len(sys_rpm_version):
+            if compare_version_of_two(sys_rpm_version, sa_component_version):
+                result_dict[component] = [sys_package, sa_rpm, 1]
+            else:
+                result_dict[component] = [sys_package, sa_rpm, 0]
+    print(result_dict)

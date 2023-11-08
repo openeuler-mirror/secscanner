@@ -21,7 +21,7 @@ from secScanner.commands.check_outprint import *
 parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0,parentdir)
 from secScanner.gconfig import *
-from secScanner.scan_func import scan_fix_sys, scan_check_sys, scan_restore_basic_settings, scan_check_rootkit, scan_vulnerabilities_db, scan_vulnerabilities_db_show, scan_vulnerabilities_db_create_oval, scan_vulnerabilities_rpm_check 
+from secScanner.scan_func import *
 
 def quiet_output(args):
     QUIET = 1
@@ -102,7 +102,7 @@ def fix_item(args):
 def db_update(args):
     display_info()
     check_isvirtualmachine()
-    scan_vulnerabilities_db()
+    vulnerabilities_db_update()
 
 def db_show(args):
     display_info()
@@ -118,6 +118,11 @@ def rpm_check(args):
     display_info()
     check_isvirtualmachine()
     scan_vulnerabilities_rpm_check()
+
+def rpm_scan(args):
+    display_info()
+    check_isvirtualmachine()
+    scan_vulnerabilities_by_items()
 
 def scan_command():
 
@@ -173,6 +178,8 @@ def scan_command():
     rpm_subparsers = rpm_parser.add_subparsers(dest='mode')
     rpm_check_parser = rpm_subparsers.add_parser('check', help="Update the database")
     rpm_check_parser.set_defaults(func=rpm_check)
+    rpm_scan_parser = rpm_subparsers.add_parser('scan', help="Scan the database")
+    rpm_scan_parser.set_defaults(func=rpm_scan)
 
     args = parser.parse_args()
 
