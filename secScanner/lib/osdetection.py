@@ -223,10 +223,11 @@ if os.path.exists("/etc/redhat-release"):
         OS_VERSION = OS_FULLNAME
 
     # Oracle Enterprise Linux
-    if "Oracle Linux Server" in open("/etc/oracle-release").read():
-        LINUX_VERSION = "Oracle Enterprise Linux"
-        OS_FULLNAME = [line for line in open("/etc/oracle-release").readlines() if "Oracle Linux" in line][0].strip()
-        OS_VERSION = OS_FULLNAME
+    if os.path.exists("/etc/oracle-release"):
+        if "Oracle Linux Server" in open("/etc/oracle-release").read():
+            LINUX_VERSION = "Oracle Enterprise Linux"
+            OS_FULLNAME = [line for line in open("/etc/oracle-release").readlines() if "Oracle Linux" in line][0].strip()
+            OS_VERSION = OS_FULLNAME
 
     # Oracle VM Server
     if os.path.exists("/etc/ovs-release"):
