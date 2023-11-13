@@ -136,7 +136,9 @@ def rootkit_result():
 
 def cve_result():
     # init database to get more cve info
-    engine = create_engine('sqlite:///secScanner/db/cvedatabase.db', echo=False)
+    dir = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(dir, "..")
+    engine = create_engine(f'sqlite:///{db_path}/db/cvedatabase.db', echo=False)
     DBModel.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     session = Session()
