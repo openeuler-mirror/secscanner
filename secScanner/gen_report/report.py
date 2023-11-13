@@ -7,6 +7,10 @@ import os
 import shutil
 import itertools
 import secScanner.gen_report.gen_html_report as gen_report
+from secScanner.db.cve import *
+from secScanner.lib.function import *
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import *
 import json
 
 logger = logging.getLogger('secscanner')
