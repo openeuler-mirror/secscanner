@@ -366,8 +366,6 @@ def vulnerabilities_db_update():
     DBModel.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     session = Session()
-    session.query(CVRF).delete()
-    session.commit()
     update_sa = 0
     update_cve = 0
     for i, url in enumerate(cvrf_index):
