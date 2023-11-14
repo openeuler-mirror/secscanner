@@ -27,10 +27,6 @@ Requires: rpmdevtools
 Requires: python3
 Requires: python3-devel
 Requires: chkrootkit
-Requires: python3-beautifulsoup4
-Requires: python3-psutil
-Requires: python3-requests
-Requires: python3-Flask-SQLAlchemy
 
 Source0:%{name}-%{version}.tar.gz
 
@@ -43,7 +39,7 @@ Operating System Security Scanning Tool
 #exit 0
 
 %build
-#pip3 install -r requirements.txt
+pip3 install -r requirements.txt
 #pip3 install psutil sqlalchemy requests
 exit 0
 
