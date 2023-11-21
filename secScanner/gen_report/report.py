@@ -159,6 +159,8 @@ def cve_result():
             temp = []
             temp.append(single_data)
             cve_sample = session.query(CVE).filter_by(cveId=f'{single_data}', packageName=f'{sa_dict[single_sa][1]}').first()
+            if not cve_sample:
+                continue
             temp.append(cve_sample.packageName)
             temp.append(sa_dict[single_sa][2])
             temp.append(cve_sample.cvsssCoreOE)
