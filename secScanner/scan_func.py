@@ -634,7 +634,8 @@ def scan_vulnerabilities_rpm_check():
         #get SA rpm's version
         found_rpm = ''
         for item in rpm_list:
-            if item != '' and (aff_component in item):
+            sa_component = aff_component + '-'
+            if item != '' and (sa_component in item):
                 sa_rpm = item.split('.rpm')[0].split('.' + sys_arch)[0].split('.' + ver_rpm)[0].split(aff_component + '-')[1]
             else:
                 continue
