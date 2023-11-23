@@ -35,8 +35,8 @@ def fix_basic(args):
 def auto(args):
     display_info()
     check_isvirtualmachine()
-    scan_fix_sys()
     scan_check_sys()
+    scan_fix_sys()
 
 def check_basic(args):
     display_info()
@@ -44,6 +44,7 @@ def check_basic(args):
     scan_check_sys()
 
 def check_rootkit(args):
+    display_info()
     scan_check_rootkit()
 
 def restore_basic(args):
@@ -146,7 +147,7 @@ def scan_command():
 
     # Item fix subcommand
     fix_item_parser = fix_subparsers.add_parser('item', help="Fix a specific item")
-    fix_item_parser.add_argument('item', nargs='?', help="Custom item option", choices=['sshRootDenie', 'issueRemove', 'noOneSU', 'addUser', 'disableUnUsedaliases', 'syslogProperty'])
+    fix_item_parser.add_argument('item', nargs='?', help="Custom item option", choices=['sshRootDenie', 'issueRemove', 'noOneSU', 'addUser', 'syslogProperty', 'ftpBanner', 'restrictFTPdir', 'anonymousFTP'])
     fix_item_parser.set_defaults(func=fix_item)
 
     check_parser = subparsers.add_parser('check', help="Check command")
