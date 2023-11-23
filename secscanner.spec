@@ -1,6 +1,6 @@
 %define name secScanner
 %define version 0.1
-%define release 0
+%define release 1
 
 
 Summary: System secure check and enhancement tool for system of Linux
@@ -25,7 +25,7 @@ BuildRoot: %{_builddir}/%{name}-root
 
 Requires: rpmdevtools
 Requires: python3
-Requires: python3-devel
+#Requires: python3-devel
 Requires: chkrootkit
 
 Source0:%{name}-%{version}.tar.gz
@@ -81,6 +81,10 @@ exit 0
 /etc/secscanner.d
 
 %changelog
+*Mon Nov 20 2023 pengyuan <pengyuan@cmss.chinamobile.com> 0.1-1
+- up to release 0.1-1
+- first complete version
+
 *Mon Aug 14 2023 pengyuan <pengyuan@cmss.chinamobile.com> 0.1-0
 - Fix Security Reinforcement Item Execution Mode
 - Adjust the Command Line
