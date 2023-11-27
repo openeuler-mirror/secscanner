@@ -175,12 +175,12 @@ def scan_command():
     db_oval_parser = db_subparsers.add_parser('oval', help="Generate xml from the database")
     db_oval_parser.set_defaults(func=db_oval)
 
-    rpm_parser = subparsers.add_parser('rpm', help="Scan rpm command")
-    rpm_subparsers = rpm_parser.add_subparsers(dest='mode')
-    rpm_check_parser = rpm_subparsers.add_parser('check', help="Update the database")
-    rpm_check_parser.set_defaults(func=rpm_check)
-    rpm_scan_parser = rpm_subparsers.add_parser('scan', help="Scan the database")
-    rpm_scan_parser.set_defaults(func=rpm_scan)
+    vulner_parser = subparsers.add_parser('vulner', help="Scan vulner command")
+    vulner_subparsers = vulner_parser.add_subparsers(dest='mode')
+    scan_parser = vulner_subparsers.add_parser('scan', help="Scan system vulnerabilities by database")
+    scan_parser.set_defaults(func=rpm_check)
+    check_parser = vulner_subparsers.add_parser('check', help="Scan vulner according to cfg file")
+    check_parser.set_defaults(func=rpm_scan)
 
     args = parser.parse_args()
 
