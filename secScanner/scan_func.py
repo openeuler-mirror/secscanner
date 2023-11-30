@@ -299,7 +299,7 @@ def scan_restore_basic_inline():
         Display("- Restart service:rsyslog...", "FINISHED")
 
 
-    property_file = ['/etc/secscanner.d/fdproperty_record', '/etc/secscanner.d/fdproperty_record']
+    property_file = ['/etc/secscanner.d/logfile_property', '/etc/secscanner.d/fdproperty_record']
 
     for i in property_file:
         if os.path.isfile(i):
@@ -312,6 +312,7 @@ def scan_restore_basic_inline():
                         pro_val = int(pro_val, 8)
                         os.chmod(name, pro_val)
                     Display(f"- Restoring property of file or dir:{name}...", "FINISHED")
+            #os.remove(i)
 
     restore_unused_user()
 
@@ -507,14 +508,13 @@ def scan_vulnerabilities_db_show():
     engine = create_engine(f'sqlite:///{dir}/db/cvedatabase.db', echo=False)
     Session = sessionmaker(bind=engine)
     session = Session()
-        
-    all_sample = session.query(CVRF).order_by(CVRF.id.desc()).all()
-    count = 0
-    for i in all_sample:
-        print(i.securityNoticeNo)
-        count += 1
-        if count == 20:
-            break
+
+    for i in range(20):
+        our_sample = session.query(CVRF).filter_by(id=f'{i + 1}').first()
+        if type(our_sample) == CVRF:
+            print(our_sample.securityNoticeNo)
+            print(our_sample.cveId)
+            print(our_sample.cveThreat)
     session.close()
 
 def scan_vulnerabilities_db_create_oval(xml_path = '/db/', table = CVRF):
@@ -636,7 +636,10 @@ def scan_vulnerabilities_rpm_check():
         found_rpm = ''
         for item in rpm_list:
             sa_component = aff_component + '-'
-            if item != '' and re.match(sa_component, item):
+            if item != '' and (sa_component in item):
+                print(aff_component)
+                print(sa_info)
+                print("this is item from rpm check", item)
                 sa_rpm = item.split('.rpm')[0].split('.' + sys_arch)[0].split('.' + ver_rpm)[0].split(aff_component + '-')[1]
             else:
                 continue
@@ -692,6 +695,7 @@ def compare_version_of_two(sys, sa):
                 return 1
     return 0
 
+
 def scan_vulnerabilities_by_items():
     print(WHITE)
     print(" " * 2 + "#" * 67)
@@ -731,12 +735,10 @@ def scan_vulnerabilities_by_items():
     RPM_ASSEMBLY = seconf.get('basic', 'rpm_assembly').split()
     result_dict = {}
     for component in RPM_ASSEMBLY:
-        print('\n----------------------------------------------\n')
-        print(f'------------{component}------------------------')
         Shell_run = subprocess.run(['rpm', '-qa', component], stdout=subprocess.PIPE)
         Shell_out = Shell_run.stdout.decode()
         if Shell_out == '':
-            print(f"This machine doesn't have {component}, pass!")
+            # print("This machine doesn't have this component, pass!")
             continue
         else:
             sys_package = Shell_out.strip()
@@ -771,14 +773,11 @@ def scan_vulnerabilities_by_items():
                 else:
                     continue
         if sa_rpm == '':
-            print(f"Can't find any SA data about {component} in database!")
             continue
         sa_component_version = cut_component_version(component, sa_rpm)
         if len(sa_component_version) == len(sys_rpm_version):
             if compare_version_of_two(sys_rpm_version, sa_component_version):
                 result_dict[component] = [sys_package, sa_rpm, 1]
-                print(f"component {component} need to update!")
-                print(f"latest package is {sa_rpm}")
             else:
                 result_dict[component] = [sys_package, sa_rpm, 0]
-                print(f"component {component} is safe now!")
+    print(result_dict)
