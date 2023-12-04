@@ -299,7 +299,7 @@ def scan_restore_basic_inline():
         Display("- Restart service:rsyslog...", "FINISHED")
 
 
-    property_file = ['/etc/secscanner.d/fdproperty_record', '/etc/secscanner.d/fdproperty_record']
+    property_file = ['/etc/secscanner.d/logfile_property', '/etc/secscanner.d/fdproperty_record']
 
     for i in property_file:
         if os.path.isfile(i):
