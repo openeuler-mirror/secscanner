@@ -125,6 +125,11 @@ def rpm_scan(args):
     check_isvirtualmachine()
     scan_vulnerabilities_by_items()
 
+def get_report(args):
+    display_info()
+    check_isvirtualmachine()
+    scan_check_all()
+
 def scan_command():
 
     parser = argparse.ArgumentParser(description='SecScanner command')
@@ -158,6 +163,9 @@ def scan_command():
 
     check_rootkit_parser = check_subparsers.add_parser('rootkit', help="Check the system rootkit")
     check_rootkit_parser.set_defaults(func=check_rootkit)
+
+    check_all_parser = check_subparsers.add_parser('all', help="Check the system basicly, rootkit and cve, output html report")
+    check_all_parser.set_defaults(func=get_report)
 
     restore_parser = subparsers.add_parser('restore', help="Restore command")
     restore_subparsers = restore_parser.add_subparsers(dest='mode')

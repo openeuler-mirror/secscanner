@@ -44,13 +44,20 @@ def scan_show_result():
     print(WHITE)
     print(" "*2+"#"*67)
     print(" "*2+"#"+" "*65+"#")
-    print(f"  #   "+MAGENTA+"Show the checking result overview..."+WHITE+" "*26+"#")
+    print(f"  #  {MAGENTA}For details, please check /var/log/secScanner/secscanner.log "+WHITE+" "*2+"#")
     print(" "*2+"#"+" "*65+"#")
     print(" "*2+"#"*67)
     print(NORMAL)
+
     report_datetime_end = datetime.now()
     set_value("report_datetime_end",report_datetime_end)
     report.main()
+
+def scan_check_all():
+    scan_check_sys()
+    scan_check_rootkit()
+    scan_vulnerabilities_rpm_check()
+    scan_show_result()
 
 # check the system
 def scan_check_sys():
@@ -63,8 +70,6 @@ def scan_check_sys():
     print(" "*2+"#"+" "*65+"#")
     print(" "*2+"#"*67)
     print(NORMAL)
-
-    #RESULT_FILE = os.path.join(LOGDIR, "check_result.relt")
 
     if os.access(RESULT_FILE, os.W_OK):
         open(RESULT_FILE, "w").close()
@@ -96,7 +101,6 @@ def scan_check_sys():
                     print(f"Module {module_name} does not have the required function: {e}")
                     sys.exit(1)
                 logger.info("===---------------------------------------------------------------===\n")
-    scan_show_result()
 
 # check the system rootkit
 def scan_check_rootkit():
@@ -141,8 +145,6 @@ def scan_check_rootkit():
                     sys.exit(1)
 
                 logger.info("===---------------------------------------------------------------===\n")
-
-    scan_show_result()
 
 # fix the system
 def scan_fix_sys():
@@ -561,7 +563,7 @@ def scan_vulnerabilities_rpm_check():
     print(WHITE)
     print(" " * 2 + "#" * 67)
     print(" " * 2 + "#" + " " * 65 + "#")
-    print(f"  #   {MAGENTA}Check system rpm by db data..." + WHITE + " " * 18 + "#")
+    print(f"  #   {MAGENTA}Check system rpm by db data..." + WHITE + " " * 32 + "#")
     print(" " * 2 + "#" + " " * 65 + "#")
     print(" " * 2 + "#" * 67)
     print(NORMAL)
@@ -666,7 +668,6 @@ def scan_vulnerabilities_rpm_check():
         print(result_dict[s][2])
     set_value('vulner_info', sa_dict)
     session.close()
-    scan_show_result()
 
 def cut_component_version(component, package):
     # get component's version   glibc-2.28-101.el8.src.rpm

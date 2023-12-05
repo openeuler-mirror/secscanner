@@ -19,9 +19,9 @@ logger = logging.getLogger('secscanner')
 def warning_results():
 
     def show_warnings():
-        print("")
-        print(f"{OK}BaseLine Warnings{NORMAL}")
-        print(f"{WHITE}----------------------------{NORMAL}")
+        #print("")
+        #print(f"{OK}BaseLine Warnings{NORMAL}")
+        #print(f"{WHITE}----------------------------{NORMAL}")
         WRNS = []
         SUGS = []
         baseline_info = ""
@@ -44,7 +44,7 @@ def warning_results():
         TMP_COUNT = 0
 
         for wrn, sug in itertools.zip_longest(WRNS, SUGS, fillvalue=""):
-            print(f"{RED}- {wrn} {NORMAL}")
+            #print(f"{RED}- {wrn} {NORMAL}")
             TMP_COUNT += 1
             baseline_info += f"""
                 <tr style="cursor:pointer; border:solid 1px #ddd;">
@@ -66,20 +66,20 @@ def warning_results():
         TOTAL_WARNINGS = TMP_COUNT
         set_value("TOTAL_WARNINGS", TOTAL_WARNINGS)
         
-        if TOTAL_WARNINGS ==0:
-            print("NO warnings")
-            print("")
+        #if TOTAL_WARNINGS ==0:
+        #    print("NO warnings")
+        #    print("")
 
         return baseline_info
 
     #QUIET = get_value("QUIET")
     if QUIET == 0:
-        print("")
-        print("=" * 81)
-        print("")
-        print(f"  -[ {WHITE}{PROGRAM_NAME} {PROGRAM_VERSION} Results{NORMAL} ]-")
-        print("")
-        print("-" * 67)
+        #print("")
+        #print("=" * 81)
+        #print("")
+        #print(f"  -[ {WHITE}{PROGRAM_NAME} {PROGRAM_VERSION} Results{NORMAL} ]-")
+        #print("")
+        #print("-" * 67)
         show_warnings()
 
 def rootkit_get_context(rootkit_type, rootkit_count, rootkit_list, rootkit_suggestion):
@@ -91,7 +91,7 @@ def rootkit_get_context(rootkit_type, rootkit_count, rootkit_list, rootkit_sugge
         rootkit_info += "\n".join(rootkit_list) + "\n"
     else:
         rootkit_info += f"No {rootkit_type}\n"
-    print(rootkit_info)
+    #print(rootkit_info)
 
     for index, infected_line in enumerate(rootkit_list):
         ret_html_rootkit_context += f"""
@@ -218,9 +218,6 @@ def main():
     # target_file
     target_file = os.path.join(current_dir, 'result_template')
 
-
-    #os.makedirs(html_report_dir)
     shutil.copytree(target_file, html_report_dir)
-
 
     gen_report.gen_html_report()
