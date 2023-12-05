@@ -377,15 +377,15 @@ def vulnerabilities_db_update():
             continue
 
         download_url = os.path.join("https://repo.openeuler.org/security/data/cvrf/", url)
-        print("this is download url: ", download_url)
-        print("this is url: ", url)
+        #print("this is download url: ", download_url)
+        #print("this is url: ", url)
         request = urllib.request.Request(download_url)
         # request = urllib.request.Request("https://repo.openeuler.org/security/data/cvrf/2023/cvrf-openEuler-SA-2023-1554.xml")
         request.add_header("Range", "bytes={}-".format(0))
         text = urllib.request.urlopen(request).read().decode('utf-8')
 
         cvrf_xml_handler = CVRFXML(text)
-        print(cvrf_xml_handler.node_get_securityNoticeNo())
+        #print(cvrf_xml_handler.node_get_securityNoticeNo())
 
         cvrf = CVRF()
         cvrf.title = cvrf_xml_handler.node_get_title()
@@ -430,7 +430,7 @@ def vulnerabilities_db_update():
         # only add new data
         if session.query(CVE).filter_by(cveId=f'{cve_init[0]}', packageName=f'{cve_init[1]}').first():
             continue
-        print(f'Updating {cve_init[0]}!   {count+1}/{len(cve_list)}')
+        #print(f'Updating {cve_init[0]}!   {count+1}/{len(cve_list)}')
         cve_url = f'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/getByCveIdAndPackageName?cveId={cve_init[0]}&packageName={cve_init[1]}'
         response = requests.get(url=cve_url, timeout=2)
         if 'Required String parameter' in response.text:
@@ -491,9 +491,10 @@ def vulnerabilities_db_update():
         update_cve += 1
 
     session.close()
-
-    print("Update database done!")
-    print(f"{update_sa} SAs and {update_cve} CVEs are updated!")
+    InsertSection("Updating database")
+    Display(f"{update_sa} SAs and {update_cve} CVEs are updated!", "OK")
+    #print("Update database done!")
+    #print(f"{update_sa} SAs and {update_cve} CVEs are updated!")
 
 def scan_vulnerabilities_db_show():
     # clear the counter, make this function re-call-able.
