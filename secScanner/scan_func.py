@@ -358,7 +358,7 @@ def vulnerabilities_db_update():
     print(WHITE)
     print(" " * 2 + "#" * 67)
     print(" " * 2 + "#" + " " * 65 + "#")
-    print(f"  #   {MAGENTA}Start updating the system vulnerabilities database..." + WHITE + " " * 18 + "#")
+    print(f"  #   {MAGENTA}Start updating the system vulnerabilities database..." + WHITE + " " * 9 + "#")
     print(" " * 2 + "#" + " " * 65 + "#")
     print(" " * 2 + "#" * 67)
     print(NORMAL)
