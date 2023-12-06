@@ -362,6 +362,7 @@ def vulnerabilities_db_update():
     print(" " * 2 + "#" + " " * 65 + "#")
     print(" " * 2 + "#" * 67)
     print(NORMAL)
+    InsertSection("Updating database")
     cvrf_index = scrapy_CVRF_index()
     dir = os.path.dirname(os.path.abspath(__file__))
     engine = create_engine(f'sqlite:///{dir}/db/cvedatabase.db', echo=False)
@@ -491,7 +492,6 @@ def vulnerabilities_db_update():
         update_cve += 1
 
     session.close()
-    InsertSection("Updating database")
     Display(f"{update_sa} SAs and {update_cve} CVEs are updated!", "OK")
     #print("Update database done!")
     #print(f"{update_sa} SAs and {update_cve} CVEs are updated!")
