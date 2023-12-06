@@ -42,7 +42,8 @@ def warning_results():
                 SUGS.append(sug)            
         #print(SUGS)
         TMP_COUNT = 0
-
+        json_result = {}
+        json_list = []
         for wrn, sug in itertools.zip_longest(WRNS, SUGS, fillvalue=""):
             #print(f"{RED}- {wrn} {NORMAL}")
             TMP_COUNT += 1
@@ -54,13 +55,11 @@ def warning_results():
                 <td>{sug}</td>
                 </tr>
             """
-            data += f'''
-            {{"num": "{TMP_COUNT}", "warning": "{wrn}", "suggestion": "{sug}"}}'''
-        json_data =f'''{{"enhancement":[{data}]}}'''
-        json_str = json.dumps(json_data, ensure_ascii=False)
-        js = json.loads(json_str)
+            json_list.append({"num": f"{TMP_COUNT}", "warning": f"{wrn}", "suggestion": f"{sug}"})
+        json_result["enhancement"] = json_list
         with open('/var/log/secScanner/output_enhancement.json', 'w') as file:
-            file.write(js)
+            file.write(json.dumps(json_result))
+
 
         set_value("baseline_info", baseline_info)
         TOTAL_WARNINGS = TMP_COUNT
