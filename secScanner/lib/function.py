@@ -306,6 +306,7 @@ def make_json_file(all_samples, table):
 
 def gen_cve_json_file(data):
     # data should be a dict
+    result = {}
     json_list = []
     for cve_info in data:
         temp = {}
@@ -318,5 +319,6 @@ def gen_cve_json_file(data):
         temp['saId'] = cve_info[6]
         temp['cveSummary'] = cve_info[7]
         json_list.append(temp)
+    result["CVE_INFO"] = json_list
     with open(f"/var/log/secScanner/CVE_info.json", 'w') as write_file:
-        write_file.write(json.dumps(json_list))
+        write_file.write(json.dumps(result))
