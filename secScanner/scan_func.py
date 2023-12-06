@@ -564,10 +564,11 @@ def scan_vulnerabilities_rpm_check():
     print(WHITE)
     print(" " * 2 + "#" * 67)
     print(" " * 2 + "#" + " " * 65 + "#")
-    print(f"  #   {MAGENTA}Check system rpm by db data..." + WHITE + " " * 32 + "#")
+    print(f"  #   {MAGENTA}Scan system components by db data..." + WHITE + " " * 26 + "#")
     print(" " * 2 + "#" + " " * 65 + "#")
     print(" " * 2 + "#" * 67)
     print(NORMAL)
+    InsertSection("Vulnerability scanning...")
     dir = os.path.dirname(os.path.abspath(__file__))
     engine = create_engine(f'sqlite:///{dir}/db/cvedatabase.db', echo=False)
     Session = sessionmaker(bind=engine)
@@ -656,17 +657,17 @@ def scan_vulnerabilities_rpm_check():
                 if sys_rpm_version[j] < sa_rpm_version[j]:
                     result_dict[sa_info] = [sa_info, cve_info, found_rpm, aff_component, sys_package]
                     break
-
+    Display(f"Found {len(result_dict)} pieces of information about component vulnerabilities", "WARNING")
     for s in result_dict:
         print("------------------------------------------------------------------------\n")
         # sa_dict[result_dict[s][0]] = result_dict[s][1].strip(';').split(';')
         sa_dict[result_dict[s][0]] = [result_dict[s][1].strip(';').split(';'), result_dict[s][3], result_dict[s][4]]
         print(f"According to {result_dict[s][0]}")
-        print(f"Fix {result_dict[s][1]}")
-        print(f"{result_dict[s][3]} need to update!")
-        print("rpm are as follows...")
+        print(f"Fix {result_dict[s][1].strip(';')}")
+        #print(f"{result_dict[s][3]} need to update!")
+        #print(f"Latest version rpm: {result_dict[s][2]}")
+        print(f"{result_dict[s][3]} should be updated to {result_dict[s][2].split('.oe')[0]}")
         logger.warning(f"According to {result_dict[s][0]}, vulnerabilities of {result_dict[s][3]} are as follows {result_dict[s][1].strip(';')}, latest rpm {result_dict[s][2]} is provided")
-        print(result_dict[s][2])
     set_value('vulner_info', sa_dict)
     session.close()
 
@@ -698,7 +699,7 @@ def scan_vulnerabilities_by_items():
     print(WHITE)
     print(" " * 2 + "#" * 67)
     print(" " * 2 + "#" + " " * 65 + "#")
-    print(f"  #   {MAGENTA}Check system compounents according to cfg file..." + WHITE + " " * 18 + "#")
+    print(f"  #   {MAGENTA}Check system compounents targeted according to cfg file..." + WHITE + " " * 4 + "#")
     print(" " * 2 + "#" + " " * 65 + "#")
     print(" " * 2 + "#" * 67)
     print(NORMAL)
@@ -731,14 +732,13 @@ def scan_vulnerabilities_by_items():
 
     # Check system software version
     RPM_ASSEMBLY = seconf.get('basic', 'rpm_assembly').split()
+    InsertSection("Vulnerability targeted scanning...")
     result_dict = {}
     for component in RPM_ASSEMBLY:
-        print('\n----------------------------------------------\n')
-        print(f'------------{component}------------------------')
         Shell_run = subprocess.run(['rpm', '-qa', component], stdout=subprocess.PIPE)
         Shell_out = Shell_run.stdout.decode()
         if Shell_out == '':
-            print(f"This machine doesn't have {component}, pass!")
+            Display(f"This machine doesn't have [{component}], pass...", "SKIPPING")
             continue
         else:
             sys_package = Shell_out.strip()
@@ -773,14 +773,13 @@ def scan_vulnerabilities_by_items():
                 else:
                     continue
         if sa_rpm == '':
-            print(f"Can't find any SA data about {component} in database!")
+            Display(f"Can't find any SA data about [{component}] in database...", "SKIPPING")
             continue
         sa_component_version = cut_component_version(component, sa_rpm)
         if len(sa_component_version) == len(sys_rpm_version):
             if compare_version_of_two(sys_rpm_version, sa_component_version):
                 result_dict[component] = [sys_package, sa_rpm, 1]
-                print(f"component {component} need to update!")
-                print(f"latest package is {sa_rpm}")
+                Display(f"[{component}] should be updated to {sa_rpm.split('.oe')[0]}...", "WARNING")
             else:
                 result_dict[component] = [sys_package, sa_rpm, 0]
-                print(f"component {component} is safe now!")
+                Display(f"[{component}] is safe by now...", "OK")
