@@ -54,6 +54,8 @@ WRN_C08_13 = "dir /etc/rc4.d's property is not safe"
 WRN_C08_14 = "dir /etc/rc5.d's property is not safe"
 WRN_C08_15 = "dir /etc/rc6.d's property is not safe"
 WRN_C08_16 = "dir /tmp's property is not safe"
+WRN_C08_17 = "dir /root's property is not safe"
+WRN_C08_18 = "dir /var/log/*'s property is not safe"
 
 WRN_C09_01 = "PASS_MAX_DAYS value is not safe"
 WRN_C09_02 = "PASS_MAX_DAYS value is null"
@@ -286,6 +288,12 @@ SUG_C08_15 = ("1、修改文件权限："
 SUG_C08_16 = ("1、修改文件权限："
               "</br>#chmod 750 /tmp。"
               "</br>补充操作说明/tmp权限为750")
+SUG_C08_17 = ("1、修改文件权限："
+              "</br>#chmod 700 /root。"
+              "</br>补充操作说明/root权限为700")
+SUG_C08_18 = ("1、修改文件权限："
+              "</br>#chmod go-wx /var/log/*。")
+
 SUG_C09_01 = ("1、执行备份："
               "</br>#cp -np /etc/login.defs /etc/login.defs_bak "
               "</br>2、修改策略设置："
