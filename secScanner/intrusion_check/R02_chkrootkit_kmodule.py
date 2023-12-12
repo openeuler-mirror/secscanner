@@ -27,7 +27,7 @@ def init_sdklib():
     secDetectorsdklib = ctypes.cdll.LoadLibrary(sdklib_path)
     secDetectorsdklib.secSub.argtypes = [ctypes.c_int]
     secDetectorsdklib.secSub.restype = ctypes.c_void_p
-    secDetectorsdklib.secUnsub.argtypes = [ctypes.c_int, ctypes.c_void_p]
+    secDetectorsdklib.secUnsub.argtypes = [ctypes.c_void_p]
     secDetectorsdklib.secUnsub.restype = None
     secDetectorsdklib.secReadFrom.argtypes = [ctypes.c_void_p, ctypes.c_char_p, ctypes.c_int]
     secDetectorsdklib.secReadFrom.restype = None
@@ -98,7 +98,7 @@ def thread_func_unsub(num=0):
     global g_cli_reader
     g_cli_reader_lock.acquire()
     try:
-        secDetectorsdklib.secUnsub(KMODULELIST_TYPE, g_cli_reader)
+        secDetectorsdklib.secUnsub(g_cli_reader)
     finally:
         g_cli_reader_lock.release()
     logger.info("R02 chkrootkit kmodule unsub")
