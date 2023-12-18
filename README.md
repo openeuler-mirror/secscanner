@@ -29,9 +29,9 @@ secScanner是操作系统安全扫描工具，旨在为操作系统提供安全�
 #### 安装教程
 ```shell
 git clone https://gitee.com/openeuler/secscanner
-mv secscanner secscanner-0.1
-tar -cvf secScanner-0.1.tar.gz secscanner-0.1
-cp secscanner-0.1/secscanner.spec rpmbuild/SPECS
+mv secscanner secScanner-0.1
+tar -cvf secScanner-0.1.tar.gz secScanner-0.1
+cp secScanner-0.1/secscanner.spec rpmbuild/SPECS
 rpmbuild -ba rpmbuild/SPECS/secscanner.spec
 rpm -ivh secScanner-1.0-0.xxxx.xxxx.noarch.rpm
 若提示需安装chkrootkit，则
