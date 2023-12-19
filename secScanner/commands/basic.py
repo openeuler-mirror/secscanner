@@ -105,11 +105,6 @@ def db_update(args):
     check_isvirtualmachine()
     vulnerabilities_db_update()
 
-def db_show(args):
-    display_info()
-    check_isvirtualmachine()
-    scan_vulnerabilities_db_show()
-
 def db_oval(args):
     display_info()
     check_isvirtualmachine()
@@ -164,7 +159,13 @@ def scan_command():
     check_rootkit_parser = check_subparsers.add_parser('rootkit', help="Check the system rootkit")
     check_rootkit_parser.set_defaults(func=check_rootkit)
 
-    check_all_parser = check_subparsers.add_parser('all', help="Check the system basicly, rootkit and cve, output html report")
+    check_vulner_parser = check_subparsers.add_parser('cve', help="Check the system vulnerability")
+    check_vulner_parser.set_defaults(func=rpm_check)
+    
+    check_vulner_target_parser = check_subparsers.add_parser('cve_t', help="Check the system vulnerability targeted according to cfg file")
+    check_vulner_target_parser.set_defaults(func=rpm_scan)
+    
+    check_all_parser = check_subparsers.add_parser('all', help="Check the system basicly, rootkit and vulnerability, output html report")
     check_all_parser.set_defaults(func=get_report)
 
     restore_parser = subparsers.add_parser('restore', help="Restore command")
@@ -176,17 +177,15 @@ def scan_command():
 
     db_parser = subparsers.add_parser('db', help="Database command")
     db_subparsers = db_parser.add_subparsers(dest='mode')
+    
     db_update_parser = db_subparsers.add_parser('update', help="Update the database")
     db_update_parser.set_defaults(func=db_update)
-    db_show_parser = db_subparsers.add_parser('show', help="Show the database")
-    db_show_parser.set_defaults(func=db_show)
+    
     db_oval_parser = db_subparsers.add_parser('oval', help="Generate xml from the database")
     db_oval_parser.set_defaults(func=db_oval)
 
     vulner_parser = subparsers.add_parser('vulner', help="Scan vulner command")
     vulner_subparsers = vulner_parser.add_subparsers(dest='mode')
-    scan_parser = vulner_subparsers.add_parser('scan', help="Scan system vulnerabilities by database")
-    scan_parser.set_defaults(func=rpm_check)
     check_parser = vulner_subparsers.add_parser('check', help="Scan vulner according to cfg file")
     check_parser.set_defaults(func=rpm_scan)
 
