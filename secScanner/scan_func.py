@@ -102,7 +102,7 @@ def scan_check_sys():
                     sys.exit(1)
                 logger.info("===---------------------------------------------------------------===\n")
     report.warning_results()
-
+   
 # check the system rootkit
 def scan_check_rootkit():
     # clear the counter, make this function re-call-able.
@@ -432,7 +432,6 @@ def vulnerabilities_db_update():
         # only add new data
         if session.query(CVE).filter_by(cveId=f'{cve_init[0]}', packageName=f'{cve_init[1]}').first():
             continue
-        #print(f'Updating {cve_init[0]}!   {count+1}/{len(cve_list)}')
         cve_url = f'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/getByCveIdAndPackageName?cveId={cve_init[0]}&packageName={cve_init[1]}'
         response = requests.get(url=cve_url, timeout=2)
         if 'Required String parameter' in response.text:
@@ -494,32 +493,7 @@ def vulnerabilities_db_update():
 
     session.close()
     Display(f"{update_sa} SAs and {update_cve} CVEs are updated!", "OK")
-    #print("Update database done!")
-    #print(f"{update_sa} SAs and {update_cve} CVEs are updated!")
 
-def scan_vulnerabilities_db_show():
-    # clear the counter, make this function re-call-able.
-    # these two counters are used for scan_show_result() function.
-    print(WHITE)
-    print(" " * 2 + "#" * 67)
-    print(" " * 2 + "#" + " " * 65 + "#")
-    print(f"  #   {MAGENTA}Show some data from cvedatabase..." + WHITE + " " * 18 + "#")
-    print(" " * 2 + "#" + " " * 65 + "#")
-    print(" " * 2 + "#" * 67)
-    print(NORMAL)
-    dir = os.path.dirname(os.path.abspath(__file__))
-    engine = create_engine(f'sqlite:///{dir}/db/cvedatabase.db', echo=False)
-    Session = sessionmaker(bind=engine)
-    session = Session()
-        
-    all_sample = session.query(CVRF).order_by(CVRF.id.desc()).all()
-    count = 0
-    for i in all_sample:
-        print(i.securityNoticeNo)
-        count += 1
-        if count == 20:
-            break
-    session.close()
 
 def scan_vulnerabilities_db_create_oval(xml_path = '/db/', table = CVRF):
     # clear the counter, make this function re-call-able.
@@ -736,6 +710,7 @@ def scan_vulnerabilities_by_items():
     RPM_ASSEMBLY = seconf.get('basic', 'rpm_assembly').split()
     InsertSection("Vulnerability targeted scanning...")
     result_dict = {}
+    sa_dict = {}
     for component in RPM_ASSEMBLY:
         Shell_run = subprocess.run(['rpm', '-qa', component], stdout=subprocess.PIPE)
         Shell_out = Shell_run.stdout.decode()
@@ -749,6 +724,8 @@ def scan_vulnerabilities_by_items():
 
         target_sa = session.query(CVRF).order_by(CVRF.id.desc()).all()
         sa_rpm = ''
+        sa_num = ''
+        cve_list = []
         for single_sa in target_sa:
             if single_sa.affectedComponent != component:
                 continue
@@ -766,6 +743,11 @@ def scan_vulnerabilities_by_items():
                         temp = item.split(component + '-')[1]
                         if temp[0].isdigit():
                             sa_rpm = item
+                            sa_num = single_sa.securityNoticeNo
+                            #cve_list = single_sa.cveId
+                            for i in single_sa.cveId.split(';'):
+                                if i != '':
+                                    cve_list.append(i)
                             # found target rpm
                             break
                     else:
@@ -781,7 +763,11 @@ def scan_vulnerabilities_by_items():
         if len(sa_component_version) == len(sys_rpm_version):
             if compare_version_of_two(sys_rpm_version, sa_component_version):
                 result_dict[component] = [sys_package, sa_rpm, 1]
+                logger.warning(f"According to {sa_num}, vulnerabilities of {component} are as follows {cve_list}, latest rpm {sa_rpm} is provided")
                 Display(f"[{component}] should be updated to {sa_rpm.split('.oe')[0]}...", "WARNING")
+                sa_dict[sa_num] = [cve_list, component, sa_rpm]
             else:
                 result_dict[component] = [sys_package, sa_rpm, 0]
                 Display(f"[{component}] is safe by now...", "OK")
+    set_value('vulner_info', sa_dict)
+    report.cve_result()
