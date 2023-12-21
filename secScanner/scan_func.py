@@ -644,6 +644,7 @@ def scan_vulnerabilities_rpm_check():
         logger.warning(f"According to {result_dict[s][0]}, vulnerabilities of {result_dict[s][3]} are as follows {result_dict[s][1].strip(';')}, latest rpm {result_dict[s][2]} is provided")
     set_value('vulner_info', sa_dict)
     session.close()
+    report.cve_result()
 
 def cut_component_version(component, package):
     # get component's version   glibc-2.28-101.el8.src.rpm
@@ -768,4 +769,4 @@ def scan_vulnerabilities_by_items():
                 result_dict[component] = [sys_package, sa_rpm, 0]
                 Display(f"[{component}] is safe by now...", "OK")
     set_value('vulner_info', sa_dict)
-    scan_show_result()
+    report.cve_result()
