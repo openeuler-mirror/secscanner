@@ -101,7 +101,8 @@ def scan_check_sys():
                     print(f"Module {module_name} does not have the required function: {e}")
                     sys.exit(1)
                 logger.info("===---------------------------------------------------------------===\n")
-
+   report.warning_results()
+   
 # check the system rootkit
 def scan_check_rootkit():
     # clear the counter, make this function re-call-able.
