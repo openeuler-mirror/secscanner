@@ -43,7 +43,7 @@ def C15_disableUnUsedSoft():
     OS_ID = get_value("OS_ID")
     OS_DISTRO = get_value("OS_DISTRO")
     if OS_ID.lower() in ['openEuler', 'bclinux']:
-        if OS_DISTRO in ['7', '8', '22.03', '22.10', '22.10U1', '22.10U2', ]:
+        if OS_DISTRO in ['7', '8', '22.03', '22.10', '22.10U1', '22.10U2', 'v24' ]:
             softck()
         else:
             logger.warning(f"C15: Detected this system is {OS_ID}-{OS_DISTRO} , and not in os-distro ")

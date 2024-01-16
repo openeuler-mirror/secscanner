@@ -56,7 +56,7 @@ def R01_chkrootkit():
     OS_ID = get_value("OS_ID")
     OS_DISTRO = get_value("OS_DISTRO")
     if OS_ID.lower() in ['centos', 'rhel', 'redhat', 'bclinux', 'openEuler']:
-        if OS_DISTRO in ['7', '8', '21.10', '22.10', '22.10U1', '22.10U2', '22.03']:
+        if OS_DISTRO in ['7', '8', '21.10', '22.10', '22.10U1', '22.10U2', '22.03', 'v24']:
             check_rootkit()
         else:
             logger.info(f"we do not support {OS_ID}-{OS_DISTRO} at this moment")
