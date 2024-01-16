@@ -217,7 +217,7 @@ def S04_loginLock():
     if OS_ID.lower() in [ 'bclinux', 'openEuler']:
         if OS_DISTRO in ['7']:
             el7_set_deny()
-        elif OS_DISTRO in [ '21.10', '22.10', '8', '22.10U1', '22.10U2']:
+        elif OS_DISTRO in [ '21.10', '22.10', '8', '22.10U1', '22.10U2', 'v24']:
             set_deny()
         else:
             logger.info(f"we do not support {OS_ID}-{OS_DISTRO} at this moment")

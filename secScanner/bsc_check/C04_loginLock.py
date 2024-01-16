@@ -82,7 +82,7 @@ def C04_loginLock():
     if OS_ID.lower() in ["centos", "rhel", "redhat", "openEuler", "bclinux"]:
         if OS_DISTRO in ["7", "6"]:
             el67_check_deny()
-        elif OS_DISTRO in ["21.10", "20.12", "8", "22.10U1", "22.10", "22.10U2", "22.03"]:
+        elif OS_DISTRO in ["21.10", "20.12", "8", "22.10U1", "22.10", "22.10U2", "22.03", "v24"]:
             oe_el8_check_deny()
         else:
             logger.warning(f"We do not support {OS_ID}-{OS_DISTRO} at this moment")

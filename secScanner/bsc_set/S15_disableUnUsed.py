@@ -39,7 +39,7 @@ def S15_disableUnUsed():
     InsertSection("Disable the UnUsed software")
     if DISABLE_UNUSED_SOFTWARE == 'yes':
         if OS_ID.lower() in ['bclinux', 'openEuler']:
-            if OS_DISTRO in ['7', '8', '21.10', '22.10', '8', '22.10U1', '22.10U2']:
+            if OS_DISTRO in ['7', '8', '21.10', '22.10', '8', '22.10U1', '22.10U2', 'v24']:
                 dis()
                 logger.info("This is RHEL system, disable the unused software...")
                 Display(f"- Disable the {OS_ID}-{OS_DISTRO} unused software...", "FINISHED")
