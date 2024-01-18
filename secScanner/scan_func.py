@@ -561,11 +561,7 @@ def scan_vulnerabilities_rpm_check():
     elif euler_version == '22.10U2 LTS' or euler_version == '22.03 LTS SP2':
         euler_version = 'openEuler-22.03-LTS-SP2'
         ver_rpm = 'oe2203sp2'
-<<<<<<< HEAD
-    elif euler_version == 'v24 LTS' or euler_version == '22.03 LTS SP3':
-=======
     elif euler_version == 'v24 LTS' or euler_version == '22.03 (LTS-SP3)':
->>>>>>> 4cddc3b74337415e6fb4aba6f9ad75c8eb26598c
         euler_version = 'openEuler-22.03-LTS-SP3'
         ver_rpm = 'oe2203sp3'
     elif euler_version == '21.10U3 LTS' or euler_version == '20.03 LTS SP3':
@@ -581,10 +577,6 @@ def scan_vulnerabilities_rpm_check():
     if sys_arch not in ['arm', 'x86_64']:
         print("This architecture is not supported by the vulnerability scanning feature at this time")
         sys.exit(1)
-<<<<<<< HEAD
-=======
-
->>>>>>> 4cddc3b74337415e6fb4aba6f9ad75c8eb26598c
     # use "for" loop to traverse the cve database
     scan_db_sample = session.query(CVRF).all()
     # use a dict to save results
@@ -710,11 +702,7 @@ def scan_vulnerabilities_by_items():
     elif euler_version == '22.10U2 LTS' or euler_version == '22.03 LTS SP2':
         euler_version = 'openEuler-22.03-LTS-SP2'
         ver_rpm = 'oe2203sp2'
-<<<<<<< HEAD
-    elif euler_version == 'v24 LTS' or euler_version == '22.03 LTS SP3':
-=======
     elif euler_version == 'v24 LTS' or euler_version == '22.03 (LTS-SP3)':
->>>>>>> 4cddc3b74337415e6fb4aba6f9ad75c8eb26598c
         euler_version = 'openEuler-22.03-LTS-SP3'
         ver_rpm = 'oe2203sp3'
     elif euler_version == '21.10U3 LTS' or euler_version == '20.03 LTS SP3':
