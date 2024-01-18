@@ -184,11 +184,6 @@ def scan_command():
     db_oval_parser = db_subparsers.add_parser('oval', help="Generate xml from the database")
     db_oval_parser.set_defaults(func=db_oval)
 
-    vulner_parser = subparsers.add_parser('vulner', help="Scan vulner command")
-    vulner_subparsers = vulner_parser.add_subparsers(dest='mode')
-    check_parser = vulner_subparsers.add_parser('check', help="Scan vulner according to cfg file")
-    check_parser.set_defaults(func=rpm_scan)
-
     args = parser.parse_args()
 
     find_profile()
