@@ -28,3 +28,5 @@ def C19_syslogError():
             else:
                 logger.info("The security audit modle *.err is set, checking OK")
                 Display("- Check if there have *.err set...", "OK")
+        else:
+            Display(f"- file {i} does not exist...", "SKIPPED")

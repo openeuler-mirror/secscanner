@@ -8,7 +8,7 @@ logger = logging.getLogger("secscanner")
 
 
 def S06_umask():
-    InsertSection("Set the mask...")
+    InsertSection("Set the umask...")
     SET_UMASK = seconf.get('basic', 'set_umask')
     UMASK_VALUE = seconf.get('basic', 'umask_value')
     if SET_UMASK == 'yes':

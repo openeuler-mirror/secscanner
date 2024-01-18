@@ -71,7 +71,7 @@ def IsVirtualMachine():
     if SHORT == "":
         if subprocess.call(["which", "systemd-detect-virt"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
             logger.info("Test: trying to guess virtualization technology with systemd-detect-virt")
-            FIND = subprocess.check_output(["systemd-detect-virt"]).decode().strip()
+            FIND = subprocess.run(["systemd-detect-virt"], shell=True, capture_output=True).stdout.decode().strip()
             if FIND != "":
                 logger.info(f"Result: found {FIND}")
                 SHORT = FIND
@@ -84,7 +84,7 @@ def IsVirtualMachine():
     if SHORT == "":
         if subprocess.call(["which", "lscpu"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
             logger.info("Test: trying to guess virtualization with lscpu")
-            FIND = subprocess.check_output(["lscpu | grep '^Hypervisor Vendor' | awk -F: '{ print $2 }' | sed 's/ //g'"], shell=True).decode().strip()
+            FIND = subprocess.run(["lscpu | grep '^Hypervisor Vendor' | awk -F: '{ print $2 }' | sed 's/ //g'"], shell=True, capture_output=True).stdout.decode().strip()
             if FIND != "":
                 logger.info(f"Result: found {FIND}")
                 SHORT = FIND
@@ -99,7 +99,7 @@ def IsVirtualMachine():
     if SHORT == "":
         if subprocess.call(["which", "dmidecode"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
             logger.info("Test: trying to guess virtualization with dmidecode")
-            FIND = subprocess.check_output(["dmidecode -s system-product-name | awk '{ print $1 }'"], shell=True).decode().strip()
+            FIND = subprocess.run(["dmidecode -s system-product-name | awk '{ print $1 }'"], shell=True, capture_output=True).stdout.decode().strip()
             if FIND != "":
                 logger.info(f"Result: found {FIND}")
                 SHORT = FIND
@@ -114,7 +114,7 @@ def IsVirtualMachine():
     if SHORT == "":
         if subprocess.call(["which", "lshw"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
             logger.info("Test: trying to guess virtualization with lshw")
-            FIND = subprocess.check_output(["lshw -quiet -class system | awk '{ if ($1=='product:') { print $2 }}'"], shell=True).decode().strip()
+            FIND = subprocess.run(["lshw -quiet -class system | awk '{ if ($1=='product:') { print $2 }}'"], shell=True, capture_output=True).stdout.decode().strip()
             if FIND != "":
                 logger.info(f"Result: found {FIND}")
                 SHORT = FIND
@@ -163,13 +163,14 @@ def IsVirtualMachine():
     # sysctl values
     if SHORT == "":
         logger.info("Test: trying to guess virtual machine type by sysctl keys")
-        FIND = subprocess.check_output(["sysctl -a 2> /dev/null | egrep '(hw.product|machdep.dmi.system-product)' | head -1 | sed 's/ = /=/' | awk -F= '{ print $2 }'"], shell=True).decode().strip()
+        FIND = subprocess.run(["sysctl -a 2> /dev/null | egrep '(hw.product|machdep.dmi.system-product)' | head -1 | sed 's/ = /=/' | awk -F= '{ print $2 }'"], shell=True, capture_output=True).stdout.decode().strip()
         if FIND != "":
             SHORT = FIND
     else:
         logger.info("Result: skipped sysctl test, as we already found platform")
 
     if not SHORT == "":
+        #print(SHORT)
     # Lowercase and see if we found a match
         SHORT = SHORT.split(" ")[0].lower()
 

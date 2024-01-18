@@ -28,3 +28,5 @@ def C17_syslogLogin():
             else:
                 logger.info("The security audit modle authpriv.info is set, checking OK")
                 Display("- Check if there have authpriv.info set...", "OK")
+        else:
+            Display(f"- file {i} does not exist...", "SKIPPED")

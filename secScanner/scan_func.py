@@ -233,10 +233,11 @@ def scan_fix_sys():
         print("")
 
     else:
-        start_service('rsyslog')
-        print("")
-        print(f"{GREEN} Finish start rsyslog.service{NORMAL}")
-        print("")
+        if subprocess.call(['systemctl', 'is-enable', 'rsyslog'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
+            start_service('rsyslog')
+            print("")
+            print(f"{GREEN} Finish start rsyslog.service{NORMAL}")
+            print("")
 
 
     print("")
@@ -569,13 +570,13 @@ def scan_vulnerabilities_rpm_check():
         euler_version = 'openEuler-20.03-LTS-SP2'
     elif euler_version == '20.03 LTS SP1':
         euler_version = 'openEuler-20.03-LTS-SP1'
+
     #check system archtecture
     Shell_run = subprocess.run(['uname', '-m'], stdout=subprocess.PIPE)
     sys_arch = Shell_run.stdout.decode().strip('\n')
     if sys_arch not in ['arm', 'x86_64']:
         print("This architecture is not supported by the vulnerability scanning feature at this time")
         sys.exit(1)
-
     # use "for" loop to traverse the cve database
     scan_db_sample = session.query(CVRF).all()
     # use a dict to save results
