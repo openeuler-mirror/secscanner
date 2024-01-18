@@ -29,3 +29,5 @@ def C18_syslogKern():
             else:
                 logger.info("The security audit modle kern.warn is set, checking OK")
                 Display("- Check if there have kern.warn set...","OK")
+        else:
+            Display(f"- file {i} does not exist...", "SKIPPED")

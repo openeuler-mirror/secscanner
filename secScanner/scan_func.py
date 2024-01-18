@@ -560,16 +560,22 @@ def scan_vulnerabilities_rpm_check():
     elif euler_version == '22.10U2 LTS' or euler_version == '22.03 LTS SP2':
         euler_version = 'openEuler-22.03-LTS-SP2'
         ver_rpm = 'oe2203sp2'
+    elif euler_version == 'v24 LTS' or euler_version == '22.03 LTS SP3':
+        euler_version = 'openEuler-22.03-LTS-SP3'
+        ver_rpm = 'oe2203sp3'
     elif euler_version == '21.10U3 LTS' or euler_version == '20.03 LTS SP3':
         euler_version = 'openEuler-20.03-LTS-SP3'
     elif euler_version == '21.10 LTS' or euler_version == '20.03 LTS SP2':
         euler_version = 'openEuler-20.03-LTS-SP2'
     elif euler_version == '20.03 LTS SP1':
         euler_version = 'openEuler-20.03-LTS-SP1'
+
     #check system archtecture
     Shell_run = subprocess.run(['uname', '-m'], stdout=subprocess.PIPE)
     sys_arch = Shell_run.stdout.decode().strip('\n')
-
+    if sys_arch not in ['arm', 'x86_64']:
+        print("This architecture is not supported by the vulnerability scanning feature at this time")
+        sys.exit(1)
     # use "for" loop to traverse the cve database
     scan_db_sample = session.query(CVRF).all()
     # use a dict to save results
@@ -695,6 +701,9 @@ def scan_vulnerabilities_by_items():
     elif euler_version == '22.10U2 LTS' or euler_version == '22.03 LTS SP2':
         euler_version = 'openEuler-22.03-LTS-SP2'
         ver_rpm = 'oe2203sp2'
+    elif euler_version == 'v24 LTS' or euler_version == '22.03 LTS SP3':
+        euler_version = 'openEuler-22.03-LTS-SP3'
+        ver_rpm = 'oe2203sp3'
     elif euler_version == '21.10U3 LTS' or euler_version == '20.03 LTS SP3':
         euler_version = 'openEuler-20.03-LTS-SP3'
     elif euler_version == '21.10 LTS' or euler_version == '20.03 LTS SP2':
@@ -704,7 +713,9 @@ def scan_vulnerabilities_by_items():
     #check system archtecture
     Shell_run = subprocess.run(['uname', '-m'], stdout=subprocess.PIPE)
     sys_arch = Shell_run.stdout.decode().strip('\n')
-
+    if sys_arch not in ['arm', 'x86_64']:
+        print("This architecture is not supported by the vulnerability scanning feature at this time")
+        sys.exit(1)
 
     # Check system software version
     RPM_ASSEMBLY = seconf.get('basic', 'rpm_assembly').split()

@@ -27,9 +27,9 @@ def S17_syslogLogin():
                     add_file.write(f"\nauthpriv.info /var/log/{LOGIN_EVENTS_FILE_NAME}\n")
             else:
                 logger.info("has authpriv.info set, passing...")
+            Display("- Setting the rsyslog.conf, recording the login events...", "FINISHED")
         else:
             logger.info("no filepath /etc/rsyslog.conf")
             Display("- no filepath /etc/rsyslog.conf...", "SKIPPING")
-        Display("- Setting the rsyslog.conf, recording the login events...", "FINISHED")
     else:
         Display("- Skip recording login events due to config file...", "SKIPPING")

@@ -33,6 +33,5 @@ def S18_syslogKern():
             logger.info("no filepath /etc/rsyslog.conf")
             Display("- no filepath /etc/rsyslog.conf...", "SKIPPING")
 
-
     else:
         Display(f"- Skip recording the kernel warn due to config file...", "SKIPPING")

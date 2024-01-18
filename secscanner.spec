@@ -1,6 +1,6 @@
 %define name secScanner
-%define version 0.1
-%define release 1
+%define version 1.0
+%define release 0
 
 
 Summary: System secure check and enhancement tool for system of Linux
@@ -87,6 +87,10 @@ exit 0
 /etc/secscanner.d
 
 %changelog
+*Thu Jan 18 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.0-0
+- Release 1.0
+- modify some bugs
+
 *Mon Nov 20 2023 pengyuan <pengyuan@cmss.chinamobile.com> 0.1-1
 - up to release 0.1-1
 - first complete version

@@ -28,3 +28,5 @@ def C20_syslogAuth():
             else:
                 logger.info("The security audit modle auth.none is set, checking OK")
                 Display("- Check if there have auth.none set...", "OK")
+        else:
+            Display(f"- file {i} does not exist...", "SKIPPED")
