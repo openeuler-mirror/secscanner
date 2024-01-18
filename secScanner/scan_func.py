@@ -233,10 +233,11 @@ def scan_fix_sys():
         print("")
 
     else:
-        start_service('rsyslog')
-        print("")
-        print(f"{GREEN} Finish start rsyslog.service{NORMAL}")
-        print("")
+        if subprocess.call(['systemctl', 'is-enable', 'rsyslog'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
+            start_service('rsyslog')
+            print("")
+            print(f"{GREEN} Finish start rsyslog.service{NORMAL}")
+            print("")
 
 
     print("")
