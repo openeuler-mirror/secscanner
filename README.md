@@ -53,7 +53,6 @@ positional arguments:
     check               Check command
     restore             Restore command
     db                  Database command
-    vulner              Scan vulner command
 
 optional arguments:
   -h, --help            show this help message and exit
