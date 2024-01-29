@@ -561,7 +561,7 @@ def scan_vulnerabilities_rpm_check():
     elif euler_version == '22.10U2 LTS' or euler_version == '22.03 LTS SP2':
         euler_version = 'openEuler-22.03-LTS-SP2'
         ver_rpm = 'oe2203sp2'
-    elif euler_version == 'v24 LTS' or euler_version == '22.03 (LTS-SP3)':
+    elif euler_version in ['v24 LTS', '22.03 (LTS-SP3)', '24.e1011']:
         euler_version = 'openEuler-22.03-LTS-SP3'
         ver_rpm = 'oe2203sp3'
     elif euler_version == '21.10U3 LTS' or euler_version == '20.03 LTS SP3':
