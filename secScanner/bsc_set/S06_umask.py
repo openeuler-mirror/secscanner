@@ -59,10 +59,10 @@ def S06_umask():
                                 UMASK_RESULT = temp[1]
                                 if UMASK_VALUE == UMASK_RESULT:
                                     logger.info("Set the umask finished, checking ok")
-                                    Display("- Set the umask...", "FINISHED")
+                                    Display(f"- file {f} set the umask finished...", "FINISHED")
                                 else:
                                     logger.info(f"Set the umask failed, the result is {UMASK_RESULT}, and is not ok")
-                                    Display("- Set the umask...", "FAILED")
+                                    Display(f"- file {f} set the umask failed...", "FAILED")
     else:
         Display("- Skip set umask due to config file...", "SKIPPING")
 
