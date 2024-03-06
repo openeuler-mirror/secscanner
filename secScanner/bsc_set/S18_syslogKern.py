@@ -24,7 +24,7 @@ def S18_syslogKern():
 
             if IS_EXIST == 0:
                 with open('/etc/rsyslog.conf', 'a') as add_file:
-                    add_file.write(f"\nkern.warn /var/log/{KERNEL_WARN_FILE_NAME}\n")
+                    add_file.write(f"\nkern.warning /var/log/{KERNEL_WARN_FILE_NAME}\n")
             else:
                 logger.info("has kern.warn set, passing...")
             Display(f"- Setting the rsyslog.conf, recording the kern warn...", "FINISHED")

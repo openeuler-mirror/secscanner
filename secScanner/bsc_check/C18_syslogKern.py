@@ -25,9 +25,9 @@ def C18_syslogKern():
                     file.write("\nC18\n")
                 logger.warning("WRN_C18: %s", WRN_C18)
                 logger.warning("SUG_C18: %s", SUG_C18)
-                Display("- Check if there have kern.warn set...", "WARNING")
+                Display("- Check if there have kern.warning set...", "WARNING")
             else:
-                logger.info("The security audit modle kern.warn is set, checking OK")
-                Display("- Check if there have kern.warn set...","OK")
+                logger.info("The security audit modle kern.warning is set, checking OK")
+                Display("- Check if there have kern.warning set...","OK")
         else:
             Display(f"- file {i} does not exist...", "SKIPPED")
