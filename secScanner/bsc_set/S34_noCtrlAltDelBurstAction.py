@@ -10,15 +10,14 @@ def S34_noCtrlAltDelBurstAction():
     set_prohibit_ctrlaltdel = seconf.get('basic', 'set_prohibit_ctrlaltdel')
     InsertSection("Set the system CtrlAltDel Burst Action...")
     if set_prohibit_ctrlaltdel == 'yes':
-        if not os.path.exists('/etc/systemd/system/ctrl-alt-del.target_bak') and not os.path.exists('/usr/lib/systemd/system/ctrl-alt-del.target'):
-            if os.path.exists('/etc/systemd/system/ctrl-alt-del.target'):
-                shutil.copy2('/etc/systemd/system/ctrl-alt-del.target', '/etc/systemd/system/ctrl-alt-del.target_bak')
-                os.remove('/etc/systemd/system/ctrl-alt-del.target')
-            if os.path.exists('/usr/lib/systemd/system/ctrl-alt-del.target'):
-                shutil.copy2('/usr/lib/systemd/system/ctrl-alt-del.target', '/usr/lib/systemd/system/ctrl-alt-del.target_bak')
-                os.remove('/usr/lib/systemd/system/ctrl-alt-del.target')
+        if not os.path.exists('/etc/systemd/system/ctrl-alt-del.target_bak') and os.path.exists('/etc/systemd/system/ctrl-alt-del.target'):
+            shutil.copy2('/etc/systemd/system/ctrl-alt-del.target', '/etc/systemd/system/ctrl-alt-del.target_bak')
+            os.remove('/etc/systemd/system/ctrl-alt-del_target')
+        if not os.path.exists('/usr/lib/systemd/system/ctrl-alt-del.target_bak') and os.path.exists('/usr/lib/systemd/system/ctrl-alt-del.target'):
+            shutil.copy2('/usr/lib/systemd/system/ctrl-alt-del.target', '/usr/lib/systemd/system/ctrl-alt-del.target_bak')
+            os.remove( '/usr/lib/systemd/system/ctrl-alt-del.target')
 
-        if not os.path.exists('/etc/systemd/system.conf_bak'):
+        if not os.path.exists('/etc/systemd/system.conf_bak') and os.path.exists('/etc/systemd/system.conf'):
             shutil.copy2('/etc/systemd/system.conf', '/etc/systemd/system.conf_bak')
         # -----------------set the CtrlAltDelBurstAction----------------
         with open('/etc/systemd/system.conf', 'r+') as f:
