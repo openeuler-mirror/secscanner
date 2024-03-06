@@ -34,10 +34,24 @@ logger = logging.getLogger('secscanner')
 #RESULT_FILE = os.path.join(LOGDIR, "check_result.relt")
 
 def restart_service(service_name):
-    subprocess.run(['systemctl', 'restart', service_name], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    cmd = 'systemctl restart ' + service_name
+    ret, result = subprocess.getstatusoutput(cmd)
+    if ret != 0:
+        logger.error(f"systemd service restart failed —— {result}")
+        print(result)
+        return
+    else:
+        print(f"\n{GREEN} Finish restart {service_name}{NORMAL}")
 
 def start_service(service_name):
-    subprocess.run(['systemctl', 'start', service_name], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    cmd = 'systemctl start ' + service_name
+    ret, result = subprocess.getstatusoutput(cmd)
+    if ret != 0:
+        logger.error(f"systemd service start failed —— {result}")
+        print(result)
+        return
+    else:
+        print(f"\n{GREEN} Finish start {service_name}{NORMAL}")
 
 # show the check result overview
 def scan_show_result():
@@ -213,36 +227,21 @@ def scan_fix_sys():
                         sys.exit(1)
             
     # restart service
-
-    if subprocess.call(['systemctl', 'is-active', 'sshd'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
+    cmd_sshd = 'systemctl is-active sshd'
+    ret, result = subprocess.getstatusoutput(cmd_sshd)
+    if ret == 0:
         restart_service('sshd')
-        print("")
-        print(f"{GREEN} Finish restart sshd.service{NORMAL}")
-        print("")
-
     else:
         start_service('sshd')
-        print("")
-        print(f"{GREEN} Finish start sshd.service{NORMAL}")
-        print("")
 
-    if subprocess.call(['systemctl', 'is-active', 'rsyslog'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
+    cmd_rsyslog = 'systemctl is-active rsyslog'
+    reflag, output = subprocess.getstatusoutput(cmd_rsyslog)
+    if reflag == 0:
         restart_service('rsyslog')
-        print("")
-        print(f"{GREEN} Finish restart rsyslog.service{NORMAL}")
-        print("")
-
     else:
-        if subprocess.call(['systemctl', 'is-enable', 'rsyslog'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
-            start_service('rsyslog')
-            print("")
-            print(f"{GREEN} Finish start rsyslog.service{NORMAL}")
-            print("")
+        start_service('rsyslog')
 
-
-    print("")
-    print(f"{GREEN} Fix system finished... Now you can recheck the system{NORMAL}")
-    print("")
+    print(f"\n{GREEN} Fix system finished... Now you can recheck the system{NORMAL}")
 
 
 # restore unused  user
@@ -282,27 +281,6 @@ def scan_restore_basic_inline():
             logger.warning(f'No {source_path} bak config file was found')
             Display(f"- Restoring cfg file: {source_path}...", "SKIPPED")
 
-    # restart service
-
-    if subprocess.call(['systemctl', 'is-active', 'sshd'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
-        restart_service('sshd')
-        logger.info("Restart the service:sshd")
-        Display("- Restart service:sshd...", "FINISHED")
-    else:
-        start_service('sshd')
-        logger.info("Restart the service:sshd")
-        Display("- Restart service:sshd...", "FINISHED")
-
-    if subprocess.call(['systemctl', 'is-active', 'rsyslog'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
-        restart_service('rsyslog')
-        logger.info("Restart the service:rsyslog")
-        Display("- Restart service:rsyslog...", "FINISHED")
-    else:
-        start_service('rsyslog')
-        logger.info("Restart the service:rsyslog")
-        Display("- Restart service:rsyslog...", "FINISHED")
-
-
     property_file = ['/etc/secscanner.d/logfile_property', '/etc/secscanner.d/fdproperty_record']
 
     for i in property_file:
@@ -318,6 +296,22 @@ def scan_restore_basic_inline():
                     Display(f"- Restoring property of file or dir:{name}...", "FINISHED")
 
     restore_unused_user()
+
+    # restart service
+    cmd_sshd = 'systemctl is-active sshd'
+    ret, result = subprocess.getstatusoutput(cmd_sshd)
+    if ret == 0:
+        restart_service('sshd')
+    else:
+        start_service('sshd')
+
+    cmd_rsyslog = 'systemctl is-active rsyslog'
+    reflag, output = subprocess.getstatusoutput(cmd_rsyslog)
+    if reflag == 0:
+        restart_service('rsyslog')
+    else:
+        start_service('rsyslog')
+
 
     if os.path.isfile(RESULT_FILE):
         open(RESULT_FILE, 'w').close()
@@ -349,9 +343,7 @@ def scan_restore_basic_settings():
             print("  Leaving... Remain everything unchanged.")
             sys.exit()
 
-    print("")
-    print(GREEN +" Restore basicly finished... Now you can refix the system" + NORMAL)
-    print("")
+    print("\n" + GREEN +" Restore basicly finished... Now you can refix the system" + NORMAL + "\n")
 
 
 def vulnerabilities_db_update():
