@@ -18,10 +18,12 @@ import re
 import importlib
 import getpass
 from secScanner.commands.check_outprint import *
+from secScanner.services import *
 parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0,parentdir)
-from secScanner.gconfig import *
+from secScanner.gconfig import * 
 from secScanner.scan_func import *
+
 
 def quiet_output(args):
     QUIET = 1
@@ -125,6 +127,68 @@ def get_report(args):
     check_isvirtualmachine()
     scan_check_all()
 
+def service_on(args):
+    service = ['secaide', 'sechkrootkit']
+    if args.servicename not in service:
+        print("Invalid service name, please check...")
+    else:
+        dir = '/usr/lib/systemd/system/'
+        timer_name = rf'{args.servicename}.timer'
+        service_name = rf'{args.servicename}.service'
+        path_timer = os.path.join(dir, timer_name)
+        path_service = os.path.join(dir, service_name)
+        if os.path.exists(path_timer):
+            if args.servicename == 'secaide':
+                obj_init = service_aide()
+                obj_init.aide_init()
+
+            obj_on = sec_service()
+            obj_on.reload()
+            obj_on.is_enabled(timer_name)
+            obj_on.start(timer_name)
+
+        else:
+            if os.path.exists(path_service):
+                obj_on = sec_service()
+                obj_on.reload()
+                obj_on.is_enabled(service_name)
+                obj_on.start(service_name)
+
+def service_off(args):
+    service = ['secaide', 'sechkrootkit']
+    if args.servicename not in service:
+        print("Invalid service name, please check...")
+    else:
+        dir = '/usr/lib/systemd/system/'
+        timer_name = rf'{args.servicename}.timer'
+        service_name = rf'{args.servicename}.service'
+        path_timer = os.path.join(dir, timer_name)
+        path_service = os.path.join(dir, service_name)
+        if os.path.exists(path_timer):
+            obj_off = sec_service()
+            obj_off.stop(timer_name)
+            obj_off.disable(timer_name)
+            obj_off.stop(service_name)
+
+        else:
+            if os.path.exists(path_service):
+                obj_off = sec_service()
+                obj_off.stop(service_name)
+                obj_off.disable(service_name)
+
+def service_status(args):
+    service = ['secaide', 'sechkrootkit']
+    if args.servicename not in service:
+        print("Invalid service name, please check...")
+    else:
+        dir = '/usr/lib/systemd/system/'
+        service_name = rf'{args.servicename}.service'
+        path_service = os.path.join(dir, service_name)
+        if os.path.exists(path_service):
+            obj_status = sec_service()
+            obj_status.status(service_name)
+
+
 def scan_command():
 
     parser = argparse.ArgumentParser(description='SecScanner command')
@@ -183,6 +247,22 @@ def scan_command():
     
     db_oval_parser = db_subparsers.add_parser('oval', help="Generate xml from the database")
     db_oval_parser.set_defaults(func=db_oval)
+
+    # service commands
+    service_parser = subparsers.add_parser('service', help="AIDE service command")
+    service_parser.add_argument('servicename',  type=str, help="Service name(secaide, sechkrootkit)")
+    service_subparsers = service_parser.add_subparsers(dest='action')
+
+    service_on_parser = service_subparsers.add_parser('on', help="Start service")
+    service_on_parser.set_defaults(func=service_on)
+
+    service_off_parser = service_subparsers.add_parser('off', help="Stop service")
+    service_off_parser.set_defaults(func=service_off)
+
+    service_status_parser = service_subparsers.add_parser('status', help="Check service status")
+    service_status_parser.set_defaults(func=service_status)
+
+
 
     args = parser.parse_args()
 
