@@ -1,5 +1,5 @@
 %define name secScanner
-%define version 1.0
+%define version 1.1
 %define release 0
 
 
@@ -27,6 +27,7 @@ Requires: rpmdevtools
 Requires: python3
 #Requires: python3-devel
 Requires: chkrootkit
+Requires: aide
 
 Requires: python3-psutil
 Requires: python3-beautifulsoup4
@@ -55,7 +56,7 @@ exit 0
 
 mkdir -p %{buildroot}/opt/secScanner/
 cp -a %{_builddir}/%{name}-%{version}/* %{buildroot}/opt/secScanner/
-#keep the bse file in /usr/bin
+#keep the secscanner file in /usr/bin
 mkdir -p %{buildroot}/usr/bin
 #create symbolic links
 ln -snf /opt/secScanner/secscanner.py %{buildroot}/usr/bin/secscanner
@@ -68,6 +69,10 @@ mkdir -p %{buildroot}/etc/secScanner
 mv %{buildroot}/opt/secScanner/secscanner.cfg %{buildroot}/etc/secScanner/secscanner.cfg
 #record the file and dir properties
 mkdir -p %{buildroot}/etc/secscanner.d/
+#copy service file in /usr/lib/systemd/system/
+mkdir -p %{buildroot}/usr/lib/systemd/system/
+cp -p %{buildroot}/opt/secScanner/secScanner/services/service_file/* /usr/lib/systemd/system/
+cp -p %{buildroot}/opt/secScanner/secScanner/services/timer_file/* /usr/lib/systemd/system/
 
 #exit 0
 
@@ -87,6 +92,12 @@ exit 0
 /etc/secscanner.d
 
 %changelog
+* Fri Mar 1 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.1-0
+- Up to release 1.1
+- add services func 
+- add services and timers for secaid and sechkrootkit
+- add service commands, including on/off/status
+
 *Thu Jan 18 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.0-0
 - Release 1.0
 - modify some bugs
