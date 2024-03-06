@@ -17,7 +17,7 @@ def C19_syslogError():
             with open(i, 'r') as file:
                 lines = file.readlines()
                 for line in lines:
-                    if re.search('\*.error', line) and re.search('/var/log/', line) and not re.match('#', line):
+                    if re.search('\\*.err', line) and re.search('/var/log/', line) and not re.match('#', line):
                         count = count + 1
             if count == 0:
                 with open(RESULT_FILE, "a") as file:
