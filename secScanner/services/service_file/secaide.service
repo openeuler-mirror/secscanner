@@ -1,0 +1,7 @@
+[Unit]
+Description=AIDE's daemon
+
+[Service]
+ExecStart=/usr/sbin/aide --check
+Type=simple
+

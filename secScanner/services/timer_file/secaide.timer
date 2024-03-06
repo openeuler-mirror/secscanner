@@ -1,0 +1,11 @@
+[Unit]
+Description=Timer for Secaide.
+
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=1d
+Unit=secaide.service
+
+[Install]
+WantedBy=multi-user.target
+
