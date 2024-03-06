@@ -1,0 +1,7 @@
+[Unit]
+Description=Chkrootkit's daemon
+
+[Service]
+ExecStart=/usr/sbin/chkrootkit
+Type=simple
+
