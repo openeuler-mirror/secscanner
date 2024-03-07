@@ -71,9 +71,8 @@ mv %{buildroot}/opt/secScanner/secscanner.cfg %{buildroot}/etc/secScanner/secsca
 mkdir -p %{buildroot}/etc/secscanner.d/
 #copy service file in /usr/lib/systemd/system/
 mkdir -p %{buildroot}/usr/lib/systemd/system/
-cp -p %{buildroot}/opt/secScanner/secScanner/services/service_file/* /usr/lib/systemd/system/
-cp -p %{buildroot}/opt/secScanner/secScanner/services/timer_file/* /usr/lib/systemd/system/
-
+cp -p %{buildroot}/opt/secScanner/secScanner/services/service_file/* %{buildroot}/usr/lib/systemd/system/
+cp -p %{buildroot}/opt/secScanner/secScanner/services/timer_file/* %{buildroot}/usr/lib/systemd/system/
 #exit 0
 
 %post
@@ -90,6 +89,7 @@ exit 0
 /usr/share/man/man8/secscanner.8.gz
 /etc/secScanner/secscanner.cfg
 /etc/secscanner.d
+/usr/lib/systemd/system/
 
 %changelog
 * Fri Mar 1 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.1-0
