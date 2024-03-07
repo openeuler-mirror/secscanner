@@ -249,7 +249,7 @@ def scan_command():
     db_oval_parser.set_defaults(func=db_oval)
 
     # service commands
-    service_parser = subparsers.add_parser('service', help="AIDE service command")
+    service_parser = subparsers.add_parser('service', help="Services command")
     service_parser.add_argument('servicename',  type=str, help="Service name(secaide, sechkrootkit)")
     service_subparsers = service_parser.add_subparsers(dest='action')
 
