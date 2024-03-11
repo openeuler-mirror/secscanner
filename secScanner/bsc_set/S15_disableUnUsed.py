@@ -28,7 +28,7 @@ def dis():
                                                        stderr=subprocess.PIPE)
                             run_out = len(enable_ser.stdout)
                             run_err = len(enable_ser.stderr)
-                            if RUN_ERR == 0 and RUN_OUT != 0:
+                            if run_err == 0 and run_out != 0:
                                 subprocess.run(['systemctl', 'disable', j])
                                 logger.info(f"Disable the unused software: {j}, you can use systemctl enable {j} to enable it...")
 

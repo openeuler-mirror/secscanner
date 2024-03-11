@@ -12,7 +12,7 @@ def S34_noCtrlAltDelBurstAction():
     if set_prohibit_ctrlaltdel == 'yes':
         if not os.path.exists('/etc/systemd/system/ctrl-alt-del.target_bak') and os.path.exists('/etc/systemd/system/ctrl-alt-del.target'):
             shutil.copy2('/etc/systemd/system/ctrl-alt-del.target', '/etc/systemd/system/ctrl-alt-del.target_bak')
-            os.remove('/etc/systemd/system/ctrl-alt-del_target')
+            os.remove('/etc/systemd/system/ctrl-alt-del.target')
         if not os.path.exists('/usr/lib/systemd/system/ctrl-alt-del.target_bak') and os.path.exists('/usr/lib/systemd/system/ctrl-alt-del.target'):
             shutil.copy2('/usr/lib/systemd/system/ctrl-alt-del.target', '/usr/lib/systemd/system/ctrl-alt-del.target_bak')
             os.remove( '/usr/lib/systemd/system/ctrl-alt-del.target')
