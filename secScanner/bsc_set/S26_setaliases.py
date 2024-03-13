@@ -76,6 +76,6 @@ def S26_setaliases():
                 logger.info("set ls and rm aliases failed, wrong setting")
                 Display("- Set ls and rm aliases...", "FAILED")
         else:
-            Display("- file '/root/.bashrc' does not exist...", "SKIPPED")
+            Display("- file '/root/.bashrc' does not exist...", "SKIPPING")
     else:
         Display("- Skip set ls and rm aliases due to config file...", "SKIPPING")

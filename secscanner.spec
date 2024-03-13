@@ -23,19 +23,34 @@ BuildRoot: %{_builddir}/%{name}-root
 #BuildRequires: python3
 
 
+
+
 Requires: rpmdevtools
 Requires: python3
 #Requires: python3-devel
 Requires: chkrootkit
 Requires: aide
 
-Requires: python3-psutil
-Requires: python3-beautifulsoup4
-Requires: python3-requests
-Requires: python3-sqlalchemy
+#Requires: python3-psutil
+#Requires: python3-beautifulsoup4
+#Requires: python3-requests
+#Requires: python3-sqlalchemy
 
+Source0: %{name}-%{version}.tar.gz
 
-Source0:%{name}-%{version}.tar.gz
+Source100: beautifulsoup4-4.12.3-py3-none-any.whl
+Source101: certifi-2024.2.2-py3-none-any.whl
+Source102: charset_normalizer-2.0.12-py3-none-any.whl
+Source103: idna-3.6-py3-none-any.whl
+Source104: importlib_metadata-4.8.3-py3-none-any.whl
+Source105: psutil-5.9.8-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+Source106: greenlet-2.0.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+Source107: requests-2.27.1-py2.py3-none-any.whl
+Source108: soupsieve-2.3.2.post1-py3-none-any.whl
+Source109: SQLAlchemy-1.4.52-cp36-cp36m-manylinux1_x86_64.manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_5_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+Source110: typing_extensions-4.1.1-py3-none-any.whl
+Source111: urllib3-1.26.18-py2.py3-none-any.whl
+Source112: zipp-3.6.0-py3-none-any.whl
 
 
 %description
@@ -43,6 +58,7 @@ Operating System Security Scanning Tool
 
 %prep
 %setup -q
+
 #exit 0
 
 %build
@@ -92,6 +108,10 @@ exit 0
 /usr/lib/systemd/system/
 
 %changelog
+* Tue Mar 12 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.1-0
+- fix bugs for S15
+- add Python installation dependency on local software packages 
+
 * Fri Mar 1 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.1-0
 - Up to release 1.1
 - add services func 
