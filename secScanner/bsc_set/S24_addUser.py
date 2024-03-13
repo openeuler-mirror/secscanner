@@ -42,8 +42,16 @@ def S24_addUser():
                     Display(f"Already have user:{USERNAME}...", "FINISHED")
                 else:
                     logger.info(f"Adding user: {USERNAME} and Password: {USERPASS}...")
-                    subprocess.run(['useradd', '-p', USERPASS, USERNAME], stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
-                    subprocess.run(['usermod', '-G', '10','-a', USERNAME], stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
+                    ret, result = subprocess.getstatusoutput(f'useradd -p {USERPASS} {USERNAME}')
+                    if ret !=0:
+                        logger.warning("useradd command execution failed")
+                        Display(f"Add user:{USERNAME} failed...", "FAILED")
+                        return
+                    flag, res = subprocess.getstatusoutput(f'usermod -G 10 -a {USERNAME}')
+                    if flag !=0:
+                        logger.warning("usermod command execution failed")
+                        Display(f"Add user:{USERNAME} failed...", "FAILED")
+                        return
                     Display(f"Add user:{USERNAME} done...", "FINISHED")
             else:
                 logger.info(f"Has {PROFILE} file, but no username/userpass params...")

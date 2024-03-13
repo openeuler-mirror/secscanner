@@ -10,16 +10,17 @@ logger = logging.getLogger("secscanner")
 
 def check_rootkit():
     InsertSection("using chkrootkit check the system rootkit")
-    SHELL_RUN = subprocess.run(['rpm', '-qa'], stdout=subprocess.PIPE)
-    SHELL_RESULT = SHELL_RUN.stdout  # get shell result, SHELL_RESULT is a stream of bytes
-    temp = SHELL_RESULT.split(b'\n', -1)  # cut the byte stream by lines
-    IS_EXIST = 0
+    ret, result = subprocess.getstatusoutput('rpm -qa')
+    if ret !=0:
+        logger.warning("'rpm -qa' command execution failed")
+    temp = result.split('\n', -1)  # cut the byte stream by lines
+    is_exist = 0
     command_path = '/opt/secScanner/secScanner/.commands/'
     for i in range(len(temp)):
-        line = temp[i].decode()
+        line = temp[i]
         if 'chkrootkit' in line:
-            IS_EXIST = 1
-    if IS_EXIST == 0:
+            is_exist = 1
+    if is_exist == 0:
         with open(RESULT_FILE, "a") as file:
             file.write("\nR01\n")
         logger.info("the system doesn't install chkrootkit, please install it ...")
@@ -27,17 +28,28 @@ def check_rootkit():
     else:
         if not os.path.exists(command_path):
             os.mkdir(command_path)
-        SHELL_RUN = subprocess.run(['which', '--skip-alias', 'awk', 'cut', 'echo', 'find', 'egrep', 'id', 'head',
-                                    'ls', 'netstat', 'ps', 'strings', 'sed', 'uname'], stdout=subprocess.PIPE)
-        SHELL_RESULT = SHELL_RUN.stdout.decode().split("\n")
-        for i in SHELL_RESULT:
+        cmd = 'which --skip-alias awk cut echo find egrep id head ls netstat ps strings sed uname'
+        ret, result = subprocess.getstatusoutput(cmd)
+        if ret != 0:
+            logger.warning(f'{cmd} command execution failed')
+            Display(f"- {cmd} command execution failed...", "WARNING")
+            return
+        result = result.split("\n")
+        for i in result:
             if not i:
                 continue
-            subprocess.run(['cp', i, command_path], stdout=subprocess.PIPE)
-        SHELL_RUN = subprocess.run(['chkrootkit'], stdout=subprocess.PIPE)
-        SHELL_RESULT = SHELL_RUN.stdout.decode()
+            ret, result = subprocess.getstatusoutput(f'cp -p {i} {command_path}')
+            if ret != 0:
+                logger.warning('CP command execution failed')
+                Display("- CP command execution failed...", "WARNING")
+                return
+        ret, result = subprocess.getstatusoutput('`which chkrootkit`')
+        if ret != 0:
+            logger.warning('chkrootkit command execution failed')
+            Display("- chkrootkit command execution failed...", "WARNING")
+            return
         with open(LOGFILE, "a") as file:
-            file.write(f"{SHELL_RESULT}\n")
+            file.write(f"{result}\n")
         count = 0
         with open(LOGFILE, 'r') as read_file:
             lines = read_file.readlines()

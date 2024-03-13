@@ -1,7 +1,8 @@
 %define name secScanner
 %define version 1.1
 %define release 0
-
+%define os_version %(source /etc/os-release; echo ${VERSION})
+%define os_id %(source /etc/os-release; echo ${ID})
 
 Summary: System secure check and enhancement tool for system of Linux
 Name: %{name}
@@ -20,38 +21,22 @@ BuildArch: noarch
 BuildRoot: %{_builddir}/%{name}-root
 #install dependence
 
-#BuildRequires: python3
-
-
-
+BuildRequires: python3-pip
+BuildRequires: python3
 
 Requires: rpmdevtools
 Requires: python3
-#Requires: python3-devel
 Requires: chkrootkit
 Requires: aide
 
-#Requires: python3-psutil
-#Requires: python3-beautifulsoup4
-#Requires: python3-requests
-#Requires: python3-sqlalchemy
+%if 0%{?openEuler}
+Requires: python3-psutil
+Requires: python3-beautifulsoup4
+Requires: python3-requests
+Requires: python3-sqlalchemy
+%endif
 
 Source0: %{name}-%{version}.tar.gz
-
-Source100: beautifulsoup4-4.12.3-py3-none-any.whl
-Source101: certifi-2024.2.2-py3-none-any.whl
-Source102: charset_normalizer-2.0.12-py3-none-any.whl
-Source103: idna-3.6-py3-none-any.whl
-Source104: importlib_metadata-4.8.3-py3-none-any.whl
-Source105: psutil-5.9.8-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-Source106: greenlet-2.0.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-Source107: requests-2.27.1-py2.py3-none-any.whl
-Source108: soupsieve-2.3.2.post1-py3-none-any.whl
-Source109: SQLAlchemy-1.4.52-cp36-cp36m-manylinux1_x86_64.manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_5_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-Source110: typing_extensions-4.1.1-py3-none-any.whl
-Source111: urllib3-1.26.18-py2.py3-none-any.whl
-Source112: zipp-3.6.0-py3-none-any.whl
-
 
 %description
 Operating System Security Scanning Tool
@@ -62,8 +47,6 @@ Operating System Security Scanning Tool
 #exit 0
 
 %build
-#pip3 install -r requirements.txt
-#pip3 install psutil sqlalchemy requests
 exit 0
 
 %install
@@ -72,6 +55,10 @@ exit 0
 
 mkdir -p %{buildroot}/opt/secScanner/
 cp -a %{_builddir}/%{name}-%{version}/* %{buildroot}/opt/secScanner/
+if [ "%{os_id}" = "bclinux" ]; then
+   pip3 install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+fi
+
 #keep the secscanner file in /usr/bin
 mkdir -p %{buildroot}/usr/bin
 #create symbolic links

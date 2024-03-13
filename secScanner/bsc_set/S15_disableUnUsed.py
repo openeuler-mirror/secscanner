@@ -5,41 +5,46 @@ import logging
 from secScanner.commands.check_outprint import *
 logger = logging.getLogger("secscanner")
 
-DISABLE_UNUSED_SOFTWARE = seconf.get('basic', 'disable_unused_software')
-UNUSED_SOFTWARE_VALUE = seconf.get('basic', 'unused_software_value').split()
+disable_unused_software = seconf.get('basic', 'disable_unused_software')
+unused_software_value = seconf.get('basic', 'unused_software_value').split()
 
 def dis():
-    command1 = ['systemctl', '-l']
-    command2 = ['grep', 'running']
-    output1 = subprocess.run(command1, stdout=subprocess.PIPE)
-    output2 = subprocess.run(command2, input=output1.stdout, stdout=subprocess.PIPE)
-    result = output2.stdout.decode().split('\n')
-    if len(result) > 0:
-        for line in result:
+    ret, result = subprocess.getstatusoutput(f'systemctl list-units')
+    if ret ==0:
+        out = result.split('\n')
+
+    if len(out) > 0:
+        for line in out:
             if line:
-                SERV_SOCK = line.split()[0]
-                if ('.service' in SERV_SOCK) or ('.socket' in SERV_SOCK):
-                    for j in UNUSED_SOFTWARE_VALUE:
-                        if j == SERV_SOCK:
-                            subprocess.run(['systemctl', 'stop', j])
-                            logger.info(f"Stop the unused software: {j}, you can use systemctl start {j} to enable it...")
+                serv_sock = line.split()[0]
+                if ('.service' in serv_sock) or ('.socket' in serv_sock):
+                    for j in unused_software_value:
+                        if j == serv_sock:
+                            flag, res =  subprocess.getstatusoutput(f'systemctl stop {j}')
+                            if flag !=0:
+                                logger.warning(f"Stop the unused software: {j} fail")
 
-                            enable_ser = subprocess.run(['systemctl', 'is-enabled', j], stdout=subprocess.PIPE,
-                                                       stderr=subprocess.PIPE)
-                            run_out = len(enable_ser.stdout)
-                            run_err = len(enable_ser.stderr)
-                            if run_err == 0 and run_out != 0:
-                                subprocess.run(['systemctl', 'disable', j])
-                                logger.info(f"Disable the unused software: {j}, you can use systemctl enable {j} to enable it...")
+                            logger.info(f"Stop the unused software: {j}, you can use systemctl start {j} to start it...")
 
+                            en, serv_en = subprocess.getstatusoutput(f'systemctl is-enabled {j}')
+                            if en !=0:
+                                logger.warning(f"Check the unused software: {j} is enabled fail")
+                                
+                            else:
+                                if serv_en == 'enabled':
+                                    dis, serv_dis = subprocess.getstatusoutput(f'systemctl disable {j}')
+                                    if dis !=0:
+                                        logger.warning(f"Disable the unused software: {j} fail")
+                                        
+                                    logger.info(f"Disable the unused software: {j}, you can use systemctl enable {j} to enable it...")
 
 def S15_disableUnUsed():
     OS_ID = get_value("OS_ID")
     OS_DISTRO = get_value("OS_DISTRO")
     InsertSection("Disable the UnUsed software")
-    if DISABLE_UNUSED_SOFTWARE == 'yes':
+    if disable_unused_software == 'yes':
         if OS_ID.lower() in ['bclinux', 'openEuler']:
-            if OS_DISTRO in ['7', '8', '21.10', '22.10', '8', '22.10U1', '22.10U2', 'v24', '24']:
+            if OS_DISTRO in ['7', '8', '21.10', '22.10', '22.10U1', '22.10U2', 'v24', '24']:
                 dis()
                 logger.info("This is RHEL system, disable the unused software...")
                 Display(f"- Disable the {OS_ID}-{OS_DISTRO} unused software...", "FINISHED")

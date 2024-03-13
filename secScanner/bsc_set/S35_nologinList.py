@@ -7,7 +7,7 @@ logger = logging.getLogger("secscanner")
 
 
 def add_line(file):
-    new_line = 'auth        requisite     pam_listfile.so item=user onerr=succeed sense=deny file=/etc/login.user.deny'
+    new_line = 'auth        required     pam_listfile.so item=user onerr=succeed sense=deny file=/etc/login.user.deny'
     conf_set = 'unset'
     with open(file, 'r') as read_file:
         lines = read_file.readlines() 
@@ -23,13 +23,13 @@ def add_line(file):
                 else:
                     write_file.write(new_line + '\n')
     else:
-        last_auth = -1
-        for i in range(len(lines)-1, -1, -1):
+        first_auth = -1
+        for i in range(len(lines)):
             if re.match('auth', lines[i]):
-                last_auth = i
+                first_auth = i
                 break
-        if last_auth >= 0:
-            lines.insert(last_auth + 1, new_line + '\n')
+        if first_auth >= 0:
+            lines.insert(first_auth, new_line + '\n')
         with open(file, 'w') as w:
             w.writelines(lines)
 
