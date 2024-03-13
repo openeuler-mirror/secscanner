@@ -12,18 +12,17 @@ logger = logging.getLogger("secscanner")
 def softck():
     resultServ = ''  # countServ dont need
     needStopSer = seconf.get('basic', 'unused_software_value').split()
-    command1 = ['systemctl', '-l']
-    command2 = ['grep', 'running']
-    output1 = subprocess.run(command1, stdout=subprocess.PIPE)
-    output2 = subprocess.run(command2, input=output1.stdout, stdout=subprocess.PIPE)
-    result = output2.stdout.decode().split('\n')
+    ret, result = subprocess.getstatusoutput(f'systemctl list-units')
+    if ret ==0:
+        result = result.split('\n')
+
     if len(result) > 0:
         for line in result:
             if line:
-                SERV_SOCK = line.split()[0]
-                if ('.service' in SERV_SOCK) or ('.socket' in SERV_SOCK):
+                serv_sock = line.split()[0]
+                if ('.service' in serv_sock) or ('.socket' in serv_sock):
                     for j in needStopSer:
-                        if j == SERV_SOCK:
+                        if j == serv_sock:
                             resultServ += j + ' '
 
     if len(resultServ) > 0:

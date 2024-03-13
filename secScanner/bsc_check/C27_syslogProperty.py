@@ -22,9 +22,9 @@ def C27_syslogProperty():
 
         for f in SYS_LOGFILE:
             if os.path.exists(f):
-                ilog_perm = subprocess.run(['ls', '-al', f], stdout=subprocess.PIPE)
-                result = ilog_perm.stdout.split()
-                if (b'rw-------' in result[0]):
+                ret, result = subprocess.getstatusoutput(f'ls -al {f}')
+                result = result.split()
+                if ('rw-------' in result[0]):
                     Display(f"- check if {f} property is 600 ...", "OK")
                 else:
                     with open(RESULT_FILE, "a") as file:

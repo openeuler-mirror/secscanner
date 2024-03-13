@@ -51,15 +51,15 @@ def IsVirtualMachine():
     ISVIRTUALMACHINE  = 2
     VMTYPE = "unknown"
     VMFULLTYPE = "Unknown"
-    SHORT = ""
+    short = ""
 
     # facter
-    if SHORT == "":
+    if short == "":
         if subprocess.call(["which", "facter"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0 :
             output = subprocess.check_output(["facter", "is_virtual"]).decode().strip()
             if output == "true":
-                SHORT = subprocess.check_output(["facter", "virtual"]).decode().strip()
-                logger.info(f"Result: found {SHORT}")
+                short = subprocess.check_output(["facter", "virtual"]).decode().strip()
+                logger.info(f"Result: found {short}")
             elif output == "false":
                 logger.info("Result: facter says this machine is not a virtual")
         else:
@@ -68,26 +68,26 @@ def IsVirtualMachine():
         logger.info("Result: skipped facter test, as we already found machine type")
 
     # systemd
-    if SHORT == "":
+    if short == "":
         if subprocess.call(["which", "systemd-detect-virt"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
             logger.info("Test: trying to guess virtualization technology with systemd-detect-virt")
-            FIND = subprocess.run(["systemd-detect-virt"], shell=True, capture_output=True).stdout.decode().strip()
-            if FIND != "":
-                logger.info(f"Result: found {FIND}")
-                SHORT = FIND
+            ret, find = subprocess.getstatusoutput('systemd-detect-virt')
+            if ret == 0:
+                logger.info(f"Result: found {find}")
+                short = find
         else:
             logger.error("Result: systemd-detect-virt not found")
     else:
         logger.info("Result: skipped systemd test, as we already found machine type")
 
     # lscpu
-    if SHORT == "":
+    if short == "":
         if subprocess.call(["which", "lscpu"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
             logger.info("Test: trying to guess virtualization with lscpu")
-            FIND = subprocess.run(["lscpu | grep '^Hypervisor Vendor' | awk -F: '{ print $2 }' | sed 's/ //g'"], shell=True, capture_output=True).stdout.decode().strip()
-            if FIND != "":
-                logger.info(f"Result: found {FIND}")
-                SHORT = FIND
+            ret, find = subprocess.getstatusoutput("lscpu | grep '^Hypervisor Vendor' | awk -F: '{ print $2 }' | sed 's/ //g'")
+            if ret == 0:
+                logger.info(f"Result: found {find}")
+                short = find
             else:
                 logger.warning("Result: can't find hypervisor vendor with lscpu")
         else:
@@ -96,13 +96,13 @@ def IsVirtualMachine():
         logger.info("Result: skipped lscpu test, as we already found machine type")
     
     # dmidecode
-    if SHORT == "":
+    if short == "":
         if subprocess.call(["which", "dmidecode"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
             logger.info("Test: trying to guess virtualization with dmidecode")
-            FIND = subprocess.run(["dmidecode -s system-product-name | awk '{ print $1 }'"], shell=True, capture_output=True).stdout.decode().strip()
-            if FIND != "":
-                logger.info(f"Result: found {FIND}")
-                SHORT = FIND
+            ret, find = subprocess.getstatusoutput("dmidecode -s system-product-name | awk '{ print $1 }'")
+            if ret == 0:
+                logger.info(f"Result: found {find}")
+                short = find
             else:
                 logger.warning("Result: can't find product name with dmidecode")
         else:
@@ -111,126 +111,127 @@ def IsVirtualMachine():
         logger.info("Result: skipped dmidecode test, as we already found machine type")
 
     # lshw
-    if SHORT == "":
+    if short == "":
         if subprocess.call(["which", "lshw"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
             logger.info("Test: trying to guess virtualization with lshw")
-            FIND = subprocess.run(["lshw -quiet -class system | awk '{ if ($1=='product:') { print $2 }}'"], shell=True, capture_output=True).stdout.decode().strip()
-            if FIND != "":
-                logger.info(f"Result: found {FIND}")
-                SHORT = FIND
+            ret, find = subprocess.getstatusoutput("lshw -quiet -class system | awk '{ if ($1=='product:') { print $2 }}'")
+            if ret == 0:
+                logger.info(f"Result: found {find}")
+                short = find
         else:
             logger.error("Result: lshw not found")
     else:
         logger.info("Result: skipped lshw test, as we already found machine type")
    
    # Try common guest processes
-    if SHORT == "":
+    if short == "":
         logger.info("Test: trying to guess virtual machine type by running processes")
         # VMware
         process_name = "vmware-guestd"
-        RUNNING = IsRunning(process_name)
-        if RUNNING == 1:
-            SHORT = "vmware"
+        running = IsRunning(process_name)
+        if running == 1:
+            short = "vmware"
 
         process_name = "vmtoolsd"
-        RUNNING = IsRunning(process_name)
-        if RUNNING == 1:
-            SHORT = "vmware"
+        running = IsRunning(process_name)
+        if running == 1:
+            short = "vmware"
 
         # VirtualBox based on guest services
         process_name = "vboxguest-service"
-        RUNNING = IsRunning(process_name)
-        if RUNNING == 1:
-            SHORT = "virtualbox"
+        running = IsRunning(process_name)
+        if running == 1:
+            short = "virtualbox"
 
         process_name = "VBoxClient"
-        RUNNING = IsRunning(process_name)
-        if RUNNING == 1:
-            SHORT = "virtualbox"
+        running = IsRunning(process_name)
+        if running == 1:
+            short = "virtualbox"
     else:
         logger.info("Result: skipped processes test, as we already found platform")
 
     # Amazon EC2
-    if SHORT == "":
+    if short == "":
         logger.info("Test: checking specific files for Amazon")
         if os.path.isfile("/etc/ec2_version") and os.path.getsize("/etc/ec2_version") != 0:
-            SHORT = "amazon-ec2"
+            short = "amazon-ec2"
         else:
             logger.info("Result: system not hosted on Amazon")
     else:
         logger.info("Result: skipped Amazon EC2 test, as we already found platform")
 
     # sysctl values
-    if SHORT == "":
+    if short == "":
         logger.info("Test: trying to guess virtual machine type by sysctl keys")
-        FIND = subprocess.run(["sysctl -a 2> /dev/null | egrep '(hw.product|machdep.dmi.system-product)' | head -1 | sed 's/ = /=/' | awk -F= '{ print $2 }'"], shell=True, capture_output=True).stdout.decode().strip()
-        if FIND != "":
-            SHORT = FIND
+        ret, find = subprocess.getstatusoutput("sysctl -a 2> /dev/null | egrep '(hw.product|machdep.dmi.system-product)' | head -1 | sed 's/ = /=/' | awk -F= '{ print $2 }'")
+        if ret == 0:
+            logger.info(f"Result: found {find}")
+            short = find
     else:
         logger.info("Result: skipped sysctl test, as we already found platform")
 
-    if not SHORT == "":
-        #print(SHORT)
+    if not short == "":
+        #print(short)
     # Lowercase and see if we found a match
-        SHORT = SHORT.split(" ")[0].lower()
+        short = short.split(" ")[0].lower()
 
-        if SHORT == "amazon-ec2":
+        if short == "amazon-ec2":
             ISVIRTUALMACHINE = 1
             VMTYPE = "amazon-ec2"
             VMFULLTYPE = "Amazon AWS EC2 Instance"
-        elif SHORT == "bochs":
+        elif short == "bochs":
             ISVIRTUALMACHINE = 1
             VMTYPE = "bochs"
             VMFULLTYPE = "Bochs CPU emulation"
-        elif SHORT == "docker":
+        elif short == "docker":
             ISVIRTUALMACHINE = 1
             VMTYPE = "docker"
             VMFULLTYPE = "Docker container"
-        elif SHORT == "kvm":
+        elif short == "kvm":
             ISVIRTUALMACHINE = 1
             VMTYPE = "kvm"
             VMFULLTYPE = "KVM"
-        elif SHORT == "lxc":
+        elif short == "lxc":
             ISVIRTUALMACHINE = 1
             VMTYPE = "lxc"
             VMFULLTYPE = "Linux Containers"
-        elif SHORT == "lxc-libvirt":
+        elif short == "lxc-libvirt":
             ISVIRTUALMACHINE = 1
             VMTYPE = "lxc-libvirt"
             VMFULLTYPE = "libvirt LXC driver (Linux Containers)"
-        elif SHORT == "microsoft":
+        elif short == "microsoft":
             ISVIRTUALMACHINE = 1
             VMTYPE = "microsoft"
             VMFULLTYPE = "Microsoft Virtual PC"
-        elif SHORT == "openvz":
+        elif short == "openvz":
             ISVIRTUALMACHINE = 1
             VMTYPE = "openvz"
             VMFULLTYPE = "OpenVZ"
-        elif SHORT in ["oracle", "virtualbox"]:
+        elif short in ["oracle", "virtualbox"]:
             ISVIRTUALMACHINE = 1
             VMTYPE = "virtualbox"
             VMFULLTYPE = "Oracle VM VirtualBox"
-        elif SHORT == "qemu":
+        elif short == "qemu":
             ISVIRTUALMACHINE = 1
             VMTYPE = "qemu"
             VMFULLTYPE = "QEMU"
-        elif SHORT == "systemd-nspawn":
+        elif short == "systemd-nspawn":
             ISVIRTUALMACHINE = 1
             VMTYPE = "systemd-nspawn"
             VMFULLTYPE = "Systemd Namespace container"
-        elif SHORT == "uml":
+        elif short == "uml":
             ISVIRTUALMACHINE = 1
             VMTYPE = "uml"
             VMFULLTYPE = "User-Mode Linux (UML)"
-        elif SHORT == "vmware":
+        elif short == "vmware":
             ISVIRTUALMACHINE = 1
             VMTYPE = "vmware"
             VMFULLTYPE = "VMware product"
-        elif SHORT == "xen":
+        elif short == "xen":
             ISVIRTUALMACHINE = 1
             VMTYPE = "xen"
             VMFULLTYPE = "XEN"
-        elif SHORT == "zvm":
+        elif short == "zvm":
             ISVIRTUALMACHINE = 1
             VMTYPE = "zvm"
             VMFULLTYPE = "IBM z/VM"
@@ -250,19 +251,19 @@ def IsVirtualMachine():
     return ISVIRTUALMACHINE, VMTYPE, VMFULLTYPE
 
 def IsRunning(process_name):  # PSBINARY is not defined
-    RUNNING = 0
+    running = 0
     PSOPTIONS = ""
     PSBINARY = "ps"
     SHELL_IS_BUSYBOX = get_value("SHELL_IS_BUSYBOX")
     if SHELL_IS_BUSYBOX == "0":
         PSOPTIONS = "ax"
-    FIND = subprocess.getoutput(f"{PSBINARY} {PSOPTIONS} | egrep '( |/){process_name}' | grep -v 'grep'")
-    if FIND != "":
-        RUNNING = 1
-        logger.info(f"IsRunning: process '{process_name}' found ({FIND})")
+    find = subprocess.getoutput(f"{PSBINARY} {PSOPTIONS} | egrep '( |/){process_name}' | grep -v 'grep'")
+    if find != "":
+        running = 1
+        logger.info(f"IsRunning: process '{process_name}' found ({find})")
     else:
         logger.info(f"IsRunning: process '{process_name}' not found")
-    return RUNNING
+    return running
 
 def wait_for_keypress():
     try:

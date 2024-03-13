@@ -48,12 +48,12 @@ def S03_passComplex():
             lines = read_file.readlines()
             for line in lines:
                 if re.match('password', line) and re.search('pam_pwquality.so', line):
-                    passwd_rem_set = 'set'
+                    passwd_complex_set = 'set'
                     if (re.search(f'minclass={minclass}', line) and re.search(f'minlen={minlen}', line) and
                             re.search(f'ucredit={ucredit}', line) and re.search(f'lcredit={lcredit}', line) and
                             re.search(f'dcredit={dcredit}', line) and re.search(f'ocredit={ocredit}', line)):
-                        passwd_rem_set = 'right'
-        if passwd_rem_set == 'unset':  # no password complex set, add the following line in target file
+                        passwd_complex_set = 'right'
+        if passwd_complex_set == 'unset':  # no password complex set, add the following line in target file
             with open(file_name, 'a') as add_file:
                 add_file.write(
                     f'\npassword    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 '
