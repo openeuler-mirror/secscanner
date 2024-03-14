@@ -248,10 +248,12 @@ def scan_fix_sys():
 def restore_unused_user():
     unused_users = seconf.get('basic', 'unused_user_value').split()
     for user in unused_users:
-        grep_output = subprocess.run(['grep', user, '/etc/passwd'], capture_output=True, text=True)
-        if grep_output.returncode == 0:
-            usermod_process = subprocess.run(['usermod', '-U', '-s', '/sbin/nologin', user])
-            if usermod_process.returncode == 0:
+        ret, result = subprocess.getstatusoutput(f'grep {user} /etc/passwd')
+        if ret != 0:
+            logger.warning('Command execution failed')
+        else:
+            ret, out = subprocess.getstatusoutput(f'usermod -U -s /sbin/nologin {user}')
+            if ret == 0:
                 Display(f"- Restoring unused {user}...", "FINISHED")
 
 # restore the basic settings
@@ -312,6 +314,14 @@ def scan_restore_basic_inline():
     else:
         start_service('rsyslog')
 
+    cmd_vsftpd = 'systemctl is-active vsftpd'
+    ret, result = subprocess.getstatusoutput(cmd_vsftpd)
+    if ret != 0:
+        logger.info('vsftpd service already inactive')
+    else:
+        flag, out = subprocess.getstatusoutput('systemctl stop vsftpd')
+        if flag != 0:
+            logger.warning('Stop vsftpd service failed')
 
     if os.path.isfile(RESULT_FILE):
         open(RESULT_FILE, 'w').close()

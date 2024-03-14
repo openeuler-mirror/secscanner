@@ -10,13 +10,15 @@ logger = logging.getLogger("secscanner")
 
 def S16_lockUnUsedUser():
     InsertSection("Lock the unused users...")
-    SET_DISABLE_UNUSED_USER = seconf.get('basic', 'disable_unused_user')
-    UNUSED_USER_VALUE = seconf.get('basic', 'unused_user_value').split()
+    set_disable_unused_user = seconf.get('basic', 'disable_unused_user')
+    unused_user_value = seconf.get('basic', 'unused_user_value').split()
 
-    if SET_DISABLE_UNUSED_USER == 'yes':
-        for i in UNUSED_USER_VALUE:
-            #print(f"lock user: {i}")
-            subprocess.run(['usermod', '-L', '-s', '/bin/false', i], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    if set_disable_unused_user == 'yes':
+        for i in unused_user_value:
+            ret, result = subprocess.getstatusoutput(f'usermod -L -s /bin/false {i}')
+            if ret != 0:
+                logger.warning(f'{result}')
+
         logger.info("lock the unused user successfully")
         Display("- lock the unused user ...", "FINISHED")
     else:

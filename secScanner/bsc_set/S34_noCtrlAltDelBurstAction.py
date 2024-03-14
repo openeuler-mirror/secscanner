@@ -49,8 +49,11 @@ def S34_noCtrlAltDelBurstAction():
                     temp = line.strip('\n').split('=')
                     if temp[0] == 'CtrlAltDelBurstAction' and temp[1] == 'none':
                         CHECK_EXIST = 1
-                        subprocess.run(['systemctl', 'daemon-reexec'])
-
+                        ret, result = subprocess.getstatusoutput('systemctl daemon-reexec')
+                        if ret != 0:
+                            logger.warning('Command execution failed')
+                            Display("- Command execution failed...", "FAILED")
+                            return
         if not config_exists:
             logger.info("set the system CtrlAltDel Burst Action failed, no set option")
             Display("- Set the system CtrlAltDel Burst Action...", "FAILED")

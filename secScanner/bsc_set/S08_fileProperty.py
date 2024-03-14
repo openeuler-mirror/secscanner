@@ -107,7 +107,11 @@ def S08_fileProperty():
         if CHMOD_GWX_FILE:
             for i in CHMOD_GWX_FILE:
                 if os.path.exists(i):
-                    result = subprocess.run(['chmod', 'go-wx', i], stdout=subprocess.PIPE)
+                    ret, result = subprocess.getstatusoutput(f'chmod go-wx {i}')
+                    if ret != 0:
+                        logger.warning('Command execution failed')
+                        Display("- Command execution failed...", "FAILED")
+                        return
         logger.info("Set the file property finished")
         Display("- Set the file property...", "FINISHED")
     else:

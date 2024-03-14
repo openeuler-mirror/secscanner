@@ -88,12 +88,19 @@ def S13_restrictFTPdir():
                             listfile_check = True
 
             if chroot_check and chrootlist_check and listfile_check:
-                result = subprocess.run(['systemctl', 'is-active', 'vsftpd'], stdout=subprocess.DEVNULL,
-                                        stderr=subprocess.STDOUT)
-                if result.returncode == 0:
-                    subprocess.run(['systemctl', 'restart', 'vsftpd'])
+                ret, result = subprocess.getstatusoutput('systemctl is-active vsftpd')
+                if ret != 0:
+                    flag, out = subprocess.getstatusoutput('systemctl start vsftpd')
+                    if flag != 0:
+                        logger.warning('Start vsftpd failed')
+                        Display("- Start vsftpd service failed...", "FAILED")
+                        return
                 else:
-                    subprocess.run(['systemctl', 'start', 'vsftpd'])
+                    flag, out = subprocess.getstatusoutput('systemctl restart vsftpd')
+                    if flag != 0:
+                        logger.warning('Restart vsftpd failed')
+                        Display("- Restart vsftpd service failed...", "FAILED")
+                        return
                 logger.info("set the restrict directories of ftp successfully")
                 Display("- Set the restrict directories of ftp...", "FINISHED")
 

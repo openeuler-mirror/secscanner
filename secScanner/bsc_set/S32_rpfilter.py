@@ -32,8 +32,10 @@ def S32_rpfilter():
                         else:
                             write_file.write(line)
 
-            subprocess.run(['sysctl', '-p', '-q'], stdout=subprocess.DEVNULL,
-                                        stderr=subprocess.STDOUT)
+            ret, result = subprocess.getstatusoutput('sysctl -p -q')
+            if ret != 0:
+                logger.warning('Command execution failed')
+
             IS_EXIST = 0
             with open('/etc/sysctl.conf', 'r') as read_file:
                 lines = read_file.readlines()

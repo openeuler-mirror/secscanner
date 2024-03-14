@@ -9,8 +9,8 @@ logger = logging.getLogger("secscanner")
 
 def S27_syslogProperty():
     InsertSection("Change the log property...")
-    SET_LOG_FILE_PROPERTY = seconf.get('advance', 'set_log_file_property')
-    if SET_LOG_FILE_PROPERTY == 'yes':
+    set_log_file_property = seconf.get('advance', 'set_log_file_property')
+    if set_log_file_property == 'yes':
         if os.path.exists('/etc/rsyslog.conf'):
             if not os.path.exists('/etc/rsyslog.conf_bak'):
                 shutil.copy2('/etc/rsyslog.conf', '/etc/rsyslog.conf_bak')
@@ -18,27 +18,28 @@ def S27_syslogProperty():
             # record original property of logfile
             pathlib.Path('/etc/secscanner.d/logfile_property').touch()
             logfile_pro = "/etc/secscanner.d/logfile_property"
-            SYS_LOGFILE = []
+            sys_logfile = []
             with open('/etc/rsyslog.conf', 'r') as file:
                 lines = file.readlines()
                 for line in lines:
                     if re.search('/var/log', line) and (not re.match('#|$', line)):
                         temp = line.split()
                         if len(temp) == 2 and re.match('/var', temp[1]):
-                            SYS_LOGFILE.append(temp[1])
+                            sys_logfile.append(temp[1])
             if len(logfile_pro) > 0:
-                for i in SYS_LOGFILE:
+                for i in sys_logfile:
                     if os.path.exists(i):
-                        SHELL_RUN = subprocess.run(['stat', '-c', '%a', i], stdout=subprocess.PIPE)
-                        SHELL_OUT = SHELL_RUN.stdout
-                        pro_val = SHELL_OUT.strip().decode()
+                        ret, result = subprocess.getstatusoutput(f'stat -c %a {i}')
+                        if ret != 0:
+                            logger.warning('Command execution failed')
+                            Display("- Command execution failed...", "FAILED")
                         with open(logfile_pro, 'a') as add_file:
-                            add_file.write(f"\n{i}={pro_val}\n")
+                            add_file.write(f"\n{i}={result}\n")
 
             # --------------change the log property--------------
-            for ilog in SYS_LOGFILE:
+            for ilog in sys_logfile:
                 if os.path.exists(ilog):
-                    print(f"chmod {ilog} to 600")
+                    #print(f"chmod {ilog} to 600")
                     os.chmod(ilog, 0o600)
 
             logger.info("change the log file property successfully")
