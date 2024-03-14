@@ -30,8 +30,9 @@ def S36_disMagicKeys():
                             write_file.write('kernel.sysrq=0\n')
                         else:
                             write_file.write(line)
-        
-            subprocess.run(['sysctl', '-p'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            ret, result = subprocess.getstatusoutput('sysctl -p -q')
+            if ret != 0:
+                logger.warning('Command execution failed')        
 
             sysrq_set = False
             with open('/etc/sysctl.conf', 'r') as read_file:
