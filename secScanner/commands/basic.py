@@ -202,6 +202,18 @@ def ssh_unban(args):
     else:
         print(f'Unban IP {args.ipaddress} failed, please check if fail2ban is installed correctly！')
 
+def ssh_status(args):
+    ret, result = subprocess.getstatusoutput('iptables -L -n -v')
+    if ret == 0:
+        result = result.split('\n')
+        print_flag = 0
+        for line in result:
+            if re.match('Chain f2b-sshd', line):
+                print_flag = 1
+            if print_flag == 1:
+                    print(line)
+    else:
+        print('An error may appear in iptables')
 
 def scan_command():
 
@@ -285,6 +297,8 @@ def scan_command():
     ssh_ban_parser.set_defaults(func=ssh_ban)
     ssh_unban_parser = ssh_subparsers.add_parser('unban', help="Unban IP")
     ssh_unban_parser.set_defaults(func=ssh_unban)
+    ssh_status_parser = ssh_subparsers.add_parser('status', help="SSH status")
+    ssh_status_parser.set_defaults(func=ssh_status)
 
 
 
