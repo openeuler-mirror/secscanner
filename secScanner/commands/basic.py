@@ -193,14 +193,14 @@ def ssh_ban(args):
     if ret == 0 and result == '1':
         print(f'Ban IP {args.ipaddress} sucess!')
     else:
-        print(f'Ban IP {args.ipaddress} failed, sys exit!')
+        print(f'Ban IP {args.ipaddress} failed, please check if fail2ban is installed correctly！')
 
 def ssh_unban(args):
     ret, result = subprocess.getstatusoutput(f'fail2ban-client set sshd unbanip {args.ipaddress}')
     if ret == 0 and result == '1':
         print(f'Unban IP {args.ipaddress} sucess!')
     else:
-        print(f'Unban IP {args.ipaddress} failed, sys exit!')
+        print(f'Unban IP {args.ipaddress} failed, please check if fail2ban is installed correctly！')
 
 
 def scan_command():
