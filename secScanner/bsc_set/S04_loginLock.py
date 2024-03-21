@@ -214,7 +214,7 @@ def S04_loginLock():
     OS_ID = get_value("OS_ID")
     OS_DISTRO = get_value("OS_DISTRO")
     InsertSection("set user deny time and unlock time")
-    if OS_ID.lower() in [ 'bclinux', 'openEuler']:
+    if OS_ID.lower() in [ 'bclinux', 'openeuler']:
         if OS_DISTRO in ['7']:
             el7_set_deny()
         elif OS_DISTRO in [ '21.10', '22.10', '8', '22.10U1', '22.10U2', 'v24', '24']:

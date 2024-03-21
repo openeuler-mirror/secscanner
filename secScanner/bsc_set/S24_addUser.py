@@ -46,12 +46,12 @@ def S24_addUser():
                     if ret !=0:
                         logger.warning("useradd command execution failed")
                         Display(f"Add user:{USERNAME} failed...", "FAILED")
-                        return
+                        sys.exit(1)
                     flag, res = subprocess.getstatusoutput(f'usermod -G 10 -a {USERNAME}')
                     if flag !=0:
                         logger.warning("usermod command execution failed")
                         Display(f"Add user:{USERNAME} failed...", "FAILED")
-                        return
+                        sys.exit(1)
                     Display(f"Add user:{USERNAME} done...", "FINISHED")
             else:
                 logger.info(f"Has {PROFILE} file, but no username/userpass params...")

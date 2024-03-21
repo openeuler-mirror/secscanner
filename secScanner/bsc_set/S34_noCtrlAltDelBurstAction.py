@@ -53,7 +53,7 @@ def S34_noCtrlAltDelBurstAction():
                         if ret != 0:
                             logger.warning('Command execution failed')
                             Display("- Command execution failed...", "FAILED")
-                            return
+                            sys.exit(1)
         if not config_exists:
             logger.info("set the system CtrlAltDel Burst Action failed, no set option")
             Display("- Set the system CtrlAltDel Burst Action...", "FAILED")

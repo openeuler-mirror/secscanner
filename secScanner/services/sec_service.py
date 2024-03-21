@@ -21,7 +21,7 @@ class sec_service:
         ret, result = subprocess.getstatusoutput(cmd)
         if ret !=0:
             logger.error("systemd service reload failed")
-            return
+            sys.exit(1)
 
     def is_enabled(self, name):
         dir = '/usr/lib/systemd/system/'
@@ -34,7 +34,7 @@ class sec_service:
                 en, output = subprocess.getstatusoutput(f'systemctl enable {name}')
                 if en !=0:
                     logger.error("systemd service enable failed")
-                    return
+                    sys.exit(1)
 
     def start(self, name):
         ret, result = subprocess.getstatusoutput(f'systemctl is-active {name}') 
@@ -43,13 +43,13 @@ class sec_service:
             if reflag != 0:
                 print(re_output)
                 logger.error(f"{name} restart failed —— {re_output}")
-                return
+                sys.exit(1)
         else:
             flag, output = subprocess.getstatusoutput(f'systemctl start {name}')
             if flag != 0:
                 print(output)
                 logger.error(f"{name} start failed —— {output}")
-                return
+                sys.exit(1)
             else:
                 logger.info(f"Start {name} success")
                 print(f"Start {name} success")
@@ -61,14 +61,14 @@ class sec_service:
             if flag == 0:
                 logger.info(f"{name} stop success")
                 print(f"{name} stop success")
-                return
+                sys.exit(1)
 
     def disable(self, name):
         ret, result = subprocess.getstatusoutput(f'systemctl disable {name}')
         if ret != 0:
             print(f"{name} disable failed")
             logger.error(f"{name} disable failed")
-            return
+            sys.exit(1)
         else:
             logger.info(f"{name} disable success")
             print(f"{name} disable success")
@@ -85,7 +85,7 @@ class service_aide:
         if ret !=0:
             logger.error("Failed to initialize database")
             print("Failed to initialize database")
-            return
+            sys.exit(1)
         lines = result.splitlines()
         for line in lines:
              if re.match('AIDE initialized database', line):
@@ -95,7 +95,7 @@ class service_aide:
                      flag, output = subprocess.getstatusoutput(f'cp -p {gz_file} /var/lib/aide/aide.db.gz')
                      if flag !=0:
                          logger.error("Failed to copy AIDE initialized database")
-                         return
+                         sys.exit(1)
                      else:
                          print( "Copy AIDE initialized database success")
 
@@ -105,7 +105,7 @@ class service_aide:
         if ret !=0:
             logger.error("Failed to update database")
             print("Failed to update database")
-            return
+            sys.exit(1)
         lines = result.splitlines()
         for line in lines:
              if re.match('New AIDE database written to', line):
@@ -115,7 +115,7 @@ class service_aide:
                      flag, output = subprocess.getstatusoutput(f'cp -p {gz_file} /var/lib/aide/aide.db.gz')
                      if flag !=0:
                          logger.error("Failed to copy AIDE initialized database")
-                         return
+                         sys.exit(1)
                      else:
                          print( "Copy AIDE initialized database success")
 

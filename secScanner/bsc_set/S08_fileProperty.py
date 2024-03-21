@@ -111,7 +111,7 @@ def S08_fileProperty():
                     if ret != 0:
                         logger.warning('Command execution failed')
                         Display("- Command execution failed...", "FAILED")
-                        return
+                        sys.exit(1)
         logger.info("Set the file property finished")
         Display("- Set the file property...", "FINISHED")
     else:

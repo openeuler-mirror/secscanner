@@ -33,7 +33,7 @@ def check_rootkit():
         if ret != 0:
             logger.warning(f'{cmd} command execution failed')
             Display(f"- {cmd} command execution failed...", "WARNING")
-            return
+            sys.exit(1)
         result = result.split("\n")
         for i in result:
             if not i:
@@ -42,12 +42,12 @@ def check_rootkit():
             if ret != 0:
                 logger.warning('CP command execution failed')
                 Display("- CP command execution failed...", "WARNING")
-                return
+                sys.exit(1)
         ret, result = subprocess.getstatusoutput('`which chkrootkit`')
         if ret != 0:
             logger.warning('chkrootkit command execution failed')
             Display("- chkrootkit command execution failed...", "WARNING")
-            return
+            sys.exit(1)
         with open(LOGFILE, "a") as file:
             file.write(f"{result}\n")
         count = 0
@@ -67,7 +67,7 @@ def check_rootkit():
 def R01_chkrootkit():
     OS_ID = get_value("OS_ID")
     OS_DISTRO = get_value("OS_DISTRO")
-    if OS_ID.lower() in ['centos', 'rhel', 'redhat', 'bclinux', 'openEuler']:
+    if OS_ID.lower() in ['centos', 'rhel', 'redhat', 'bclinux', 'openeuler']:
         if OS_DISTRO in ['7', '8', '21.10', '22.10', '22.10U1', '22.10U2', '22.03', 'v24', '24']:
             check_rootkit()
         else:
