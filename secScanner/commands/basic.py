@@ -217,7 +217,7 @@ def ssh_status(args):
 
 def scan_command():
 
-    parser = argparse.ArgumentParser(description='SecScanner command')
+    parser = argparse.ArgumentParser(description='SecScanner command', allow_abbrev=False)
 
     parser.add_argument('--config', action='store_true',  help='Show settings file path')
 
@@ -276,7 +276,7 @@ def scan_command():
 
     # service commands
     service_parser = subparsers.add_parser('service', help="Services command")
-    service_parser.add_argument('servicename',  type=str, help="Service name(secaide, sechkrootkit)")
+    service_parser.add_argument('servicename', metavar="secaide, sechkrootkit", type=str, help="Service name")
     service_subparsers = service_parser.add_subparsers(dest='action')
 
     service_on_parser = service_subparsers.add_parser('on', help="Start service")
@@ -300,9 +300,25 @@ def scan_command():
     ssh_status_parser = ssh_subparsers.add_parser('status', help="SSH status")
     ssh_status_parser.set_defaults(func=ssh_status)
 
-
-
     args = parser.parse_args()
+    
+
+    if args.command == None:
+        parser.error('Command line parameters not provided. Please use - h or -- help to view help information.')
+    
+    if args.command == 'fix' and args.mode is None:
+        parser.error('fix command requires a subcommand (either "basic" or "item").')
+
+    if args.command == 'check' and args.mode is None:
+        parser.error('check command requires a subcommand (choose "basic" , "rootkit" , "cve" , "cve_t" , "all").')
+
+    if args.command == 'restore' and args.mode is None:
+        parser.error('restore command requires a subcommand - "basic".')
+
+    if args.command == 'service':
+        if args.action is None or (args.action in ['on', 'off', 'status'] and not args.servicename):
+            parser.error('The "servicename" is required when using service commands.')
+
 
     find_profile()
 
