@@ -46,17 +46,17 @@ def show_dict():
 The above functions is a dict to save global values
 '''
 # Program information
-PROGRAM_VERSION = "1.1.0"
-PROGRAM_RELEASE = "v1.1.0"
+PROGRAM_VERSION = "1.2.0"
+PROGRAM_RELEASE = "v1.2.0"
 PROGRAM_NAME = "secScanner"
-PROGRAM_UPDATEDATE = "2024-03-11"
+PROGRAM_UPDATEDATE = "2024-03-22"
 PROGRAM_AUTHOR = "Yuan Peng"
 PROGRAM_CONTACTEMAIL = "pengyuan_yewu@cmss.chinamobile.com"
 PROGRAM_WEBSITE = "https://gitee.com/openeuler/secscanner"
 PROGRAM_COPYRIGHT = "Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved."
 
 # Script Info
-VER_ID = "SecurityHarden, by pengyuan, 2024-03-11"
+VER_ID = "SecurityHarden, by pengyuan, 2024-03-22"
 
 if not os.path.exists("/var/log/secScanner"):
     os.makedirs("/var/log/secScanner")

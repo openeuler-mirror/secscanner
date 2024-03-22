@@ -1,5 +1,5 @@
 %define name secScanner
-%define version 1.1
+%define version 1.2
 %define release 0
 %define os_version %(source /etc/os-release; echo ${VERSION})
 %define os_id %(source /etc/os-release; echo ${ID})
@@ -95,6 +95,9 @@ exit 0
 /usr/lib/systemd/system/
 
 %changelog
+* Fri Mar 22 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.2-0
+- modify subprocess func and add error prompts when entering commands
+
 * Tue Mar 12 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.1-0
 - fix bugs for S15
 - add Python installation dependency on local software packages 
