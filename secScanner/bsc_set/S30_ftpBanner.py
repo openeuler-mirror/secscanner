@@ -59,13 +59,13 @@ def S30_ftpBanner():
                     if flag != 0:
                         logger.warning('Start vsftpd failed')
                         Display("- Start vsftpd service failed...", "FAILED")
-                        return
+                        sys.exit(1)
                 else:
                     flag, out = subprocess.getstatusoutput('systemctl restart vsftpd')
                     if flag != 0:
                         logger.warning('Restart vsftpd failed')
                         Display("- Restart vsftpd service failed...", "FAILED")
-                        return
+                        sys.exit(1)
                 logger.info("set the ftp banner successfully")
                 Display("- Set the ftp banner...", "FINISHED")
         else:

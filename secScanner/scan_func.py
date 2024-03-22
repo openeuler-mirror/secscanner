@@ -39,7 +39,7 @@ def restart_service(service_name):
     if ret != 0:
         logger.error(f"systemd service restart failed —— {result}")
         print(result)
-        return
+        sys.exit(1)
     else:
         print(f"\n{GREEN} Finish restart {service_name}{NORMAL}")
 
@@ -49,7 +49,7 @@ def start_service(service_name):
     if ret != 0:
         logger.error(f"systemd service start failed —— {result}")
         print(result)
-        return
+        sys.exit(1)
     else:
         print(f"\n{GREEN} Finish start {service_name}{NORMAL}")
 
