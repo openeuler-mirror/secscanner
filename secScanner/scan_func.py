@@ -536,6 +536,7 @@ def scan_vulnerabilities_db_create_oval(xml_path = '/db/', table = CVRF):
         write_file.write("</oval_definitions>\n")
     session.close()
 
+
 def scan_vulnerabilities_rpm_check():
     # clear the counter, make this function re-call-able.
     # these two counters are used for scan_show_result() function.
@@ -574,8 +575,7 @@ def scan_vulnerabilities_rpm_check():
         euler_version = 'openEuler-20.03-LTS-SP1'
 
     #check system archtecture
-    Shell_run = subprocess.run(['uname', '-m'], stdout=subprocess.PIPE)
-    sys_arch = Shell_run.stdout.decode().strip('\n')
+    ret, sys_arch = subprocess.getstatusoutput('uname -m')
     if sys_arch not in ['arm', 'x86_64']:
         print("This architecture is not supported by the vulnerability scanning feature at this time")
         sys.exit(1)
@@ -604,13 +604,12 @@ def scan_vulnerabilities_rpm_check():
             continue
 
         #Check system software version
-        Shell_run = subprocess.run(['rpm', '-qa', aff_component], stdout=subprocess.PIPE)
-        Shell_out = Shell_run.stdout.decode()
-        if Shell_out == '':
+        ret, sys_qa = subprocess.getstatusoutput(f'rpm -qa {aff_component}')
+        if sys_qa == '':
             #print("This machine doesnt have this software, pass!")
             continue
         else:
-            sys_package = Shell_out.strip()
+            sys_package = sys_qa
 
         #get system software's version
         ver_arch = sys_package.split(aff_component)[1]
@@ -714,8 +713,7 @@ def scan_vulnerabilities_by_items():
     elif euler_version == '20.03 LTS SP1':
         euler_version = 'openEuler-20.03-LTS-SP1'
     #check system archtecture
-    Shell_run = subprocess.run(['uname', '-m'], stdout=subprocess.PIPE)
-    sys_arch = Shell_run.stdout.decode().strip('\n')
+    ret, sys_arch = subprocess.getstatusoutput('uname -m')
     if sys_arch not in ['arm', 'x86_64']:
         print("This architecture is not supported by the vulnerability scanning feature at this time")
         sys.exit(1)
@@ -726,13 +724,12 @@ def scan_vulnerabilities_by_items():
     result_dict = {}
     sa_dict = {}
     for component in RPM_ASSEMBLY:
-        Shell_run = subprocess.run(['rpm', '-qa', component], stdout=subprocess.PIPE)
-        Shell_out = Shell_run.stdout.decode()
-        if Shell_out == '':
+        ret, sys_qa = subprocess.getstatusoutput(f'rpm -qa {component}')
+        if sys_qa == '':
             Display(f"This machine doesn't have [{component}], pass...", "SKIPPING")
             continue
         else:
-            sys_package = Shell_out.strip()
+            sys_package = sys_qa
         # get system software's version   glibc-2.28-101.el8.src.rpm
         sys_rpm_version = cut_component_version(component, sys_package)
 
