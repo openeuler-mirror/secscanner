@@ -56,7 +56,7 @@ exit 0
 mkdir -p %{buildroot}/opt/secScanner/
 cp -a %{_builddir}/%{name}-%{version}/* %{buildroot}/opt/secScanner/
 if [ "%{os_id}" = "bclinux" ]; then
-   pip3 install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+   pip3 install -r requirements.txt
 fi
 
 #keep the secscanner file in /usr/bin
@@ -95,6 +95,9 @@ exit 0
 /usr/lib/systemd/system/
 
 %changelog
+* Tue Mar 26 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.2-0
+- Add abnormal login alarm and prohibit foreign IP login
+
 * Fri Mar 22 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.2-0
 - modify subprocess func and add error prompts when entering commands
 
@@ -108,17 +111,17 @@ exit 0
 - add services and timers for secaid and sechkrootkit
 - add service commands, including on/off/status
 
-*Thu Jan 18 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.0-0
+* Thu Jan 18 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.0-0
 - Release 1.0
 - modify some bugs
 
-*Mon Nov 20 2023 pengyuan <pengyuan@cmss.chinamobile.com> 0.1-1
+* Mon Nov 20 2023 pengyuan <pengyuan@cmss.chinamobile.com> 0.1-1
 - up to release 0.1-1
 - first complete version
 
-*Mon Aug 14 2023 pengyuan <pengyuan@cmss.chinamobile.com> 0.1-0
+* Mon Aug 14 2023 pengyuan <pengyuan@cmss.chinamobile.com> 0.1-0
 - Fix Security Reinforcement Item Execution Mode
 - Adjust the Command Line
 
-*Fri Jun 30 2023 pengyuan <pengyuan@cmss.chinamobile.com> 0.1-0
+* Fri Jun 30 2023 pengyuan <pengyuan@cmss.chinamobile.com> 0.1-0
 - secscanner release 0.1-0
