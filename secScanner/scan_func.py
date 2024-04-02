@@ -788,6 +788,7 @@ def check_fail2ban_client():
     ret, result = subprocess.getstatusoutput('fail2ban-client -h')
     if ret == 0:
         #print('fail2ban is installed!')
+        pass
     else:
         print('fail2ban is not installed! System exit......')
         sys.exit(1)
@@ -796,11 +797,15 @@ def check_fail2ban_client():
     jail_path = '/etc/fail2ban/jail.local'
     if os.path.exists(jail_path):
         #print('jail.local path exists!')
+        pass
     else:
         print('Creating jail.local file!')
         ret, result = subprocess.getstatusoutput('cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local')
         if ret == 0:
-            print('')
+            print('Creating jail.local successfully!')
+        else:
+            print('Creating jail.local failed!')
+            sys.exit(1)
 
 
     ###将cfg文件中的内容写入jail.local文件
@@ -829,6 +834,7 @@ def check_fail2ban_client():
     ret, result = subprocess.getstatusoutput('fail2ban-client restart')
     if ret == 0 and result == 'Shutdown successful\nServer ready':
         #print('restart fail2ban-client success!')
+        pass
     else:
         print('restart fail2ban-client failed, sys exit!')
         sys.exit(1)
@@ -836,6 +842,7 @@ def check_fail2ban_client():
     ###检查systemd中是否设置开机启动服务
     if os.path.exists("/usr/lib/systemd/system/fail2ban_start.service"):
         #print('fail2ban start service exists!')
+        pass
     else:
         print('Need to establish fail2ban start service!')
 
