@@ -1,0 +1,11 @@
+[Unit]
+Description=Timer for check abnormal login IP.
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=30min
+Unit=abnormal_login.service
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,7 @@
+[Unit]
+Description=Check abnormal login IP
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/secScanner/secScanner/services/abnormal_login/check_abnormal_login.py
+Type=simple
+
