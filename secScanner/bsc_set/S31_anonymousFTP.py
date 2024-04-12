@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 from secScanner.lib import *
 from secScanner.gconfig import *
 import shutil

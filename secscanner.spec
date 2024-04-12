@@ -1,3 +1,4 @@
+%define debug_package %{nil}
 %define name secScanner
 %define version 1.2
 %define release 0
@@ -7,7 +8,7 @@
 Summary: System secure check and enhancement tool for system of Linux
 Name: %{name}
 Version: %{version}
-Release: %{release}
+Release: %{release}%{?dist}
 License: MulanPSL-2.0
 Group: Applications/System
 URL: https://gitee.com/openeuler/secscanner
@@ -17,17 +18,22 @@ Packager: pengyuan_yewu@cmss.chinamobile.com
 Provides: secscanner
 
 
-BuildArch: noarch
+BuildArch: x86_64 aarch64
+
 BuildRoot: %{_builddir}/%{name}-root
 #install dependence
 
 BuildRequires: python3-pip
 BuildRequires: python3
+BuildRequires: gcc
+BuildRequires: python3-devel
 
 Requires: rpmdevtools
 Requires: python3
+Requires: python3-pip
 Requires: chkrootkit
 Requires: aide
+
 
 %if 0%{?openEuler}
 Requires: python3-psutil
@@ -47,18 +53,73 @@ Operating System Security Scanning Tool
 #exit 0
 
 %build
-exit 0
+do_virtualenv() {
+    mkdir -p virtualenv
+    python3 -m venv virtualenv
+    source virtualenv/bin/activate
+    pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+    pip3 install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+    pushd ${PWD}
+    tar zcf virtualenv.tar.gz virtualenv
+    popd
+}
+
+#do_download_pkgs(){
+#    python3 -m pip install -U setuptools
+#    python3 -m pip download -r requirements.txt -d pkgs -i  https://pypi.tuna.tsinghua.edu.cn/simple/
+#}
+
+#pkgs_url=http://100.71.8.130/bigcloud/bclinux/tools/secscanner
+#do_download_pkgs() {
+#    echo "now download python pkgs..."
+#    if [ -f /etc/bclinux-release ];then
+#	is_Euler=$(cat /etc/bclinux-release | egrep Euler |wc -l)
+#	if [ $is_Euler != 0 ];then
+#	   OS_DISTRO=$(cat /etc/bclinux-release | egrep -io [0-9]\{1,2\}.[0-9]\{1,2\})
+#	else
+#	   OS_DISTRO=$(cat /etc/bclinux-release | egrep -io [0-9].[0-9] | head -1 | cut -d '.' -f 1 )
+#	fi
+#    elif [ -f /etc/os-release ];then
+#	OS_DISTRO=`cat /etc/os-release | grep -Eiw '^VERSION_ID' |egrep -io [0-9]\{1,2\}.[0-9]\{1,2\} |cut -d '.' -f 1 `
+#    fi
+#    mkdir -p pkgs
+#    pushd pkgs
+#    if [ ${OS_DISTRO} == "21.10" ]; then
+#	wget ${pkgs_url}/pkgs_oe2110.tar.gz
+#	tar -xvf pkgs_oe2110.tar.gz
+#	rm pkgs_oe2110.tar.gz
+#	cp -p pkgs_oe2110/* ./
+#	rm -rf pkgs_oe2110
+#    elif [ ${OS_DISTRO} == "22.10" ]; then
+#        wget ${pkgs_url}/pkgs_oe2210.tar.gz
+#	tar -xvf pkgs_oe2210.tar.gz
+#	rm pkgs_oe2210.tar.gz
+#	cp -p pkgs_oe2210/* ./ 
+#	rm -rf pkgs_oe2210
+#    elif [ ${OS_DISTRO} == "8" ]; then
+#        wget ${pkgs_url}/pkgs_anolis.tar.gz
+#	tar -xvf pkgs_anolis.tar.gz
+#	rm pkgs_anolis.tar.gz
+#	cp -p pkgs_anolis/* ./
+#	rm -rf pkgs_anolis
+#    fi
+#    popd
+#}
+#echo "start build secscanner ..."
+#echo ${PWD}
+#do_download_pkgs
+#echo "build secscanner end........"
+echo "start build secscanner ..."
+echo ${PWD}
+do_virtualenv
+echo "build secscanner end........"
+
 
 %install
-#install -p -m 755 %{SOURCE0} %{buildroot}
-#install -p -m 755 %{_builddir}/%{name}-%{version} %{buildroot}/opt/
 
 mkdir -p %{buildroot}/opt/secScanner/
 cp -a %{_builddir}/%{name}-%{version}/* %{buildroot}/opt/secScanner/
-if [ "%{os_id}" = "bclinux" ]; then
-   pip3 install -r requirements.txt
-fi
-
+#python3 -m pip install --no-index --find-links=%{buildroot}/opt/secScanner/pkgs  -r requirements.txt
 #keep the secscanner file in /usr/bin
 mkdir -p %{buildroot}/usr/bin
 #create symbolic links
@@ -76,10 +137,13 @@ mkdir -p %{buildroot}/etc/secscanner.d/
 mkdir -p %{buildroot}/usr/lib/systemd/system/
 cp -p %{buildroot}/opt/secScanner/secScanner/services/service_file/* %{buildroot}/usr/lib/systemd/system/
 cp -p %{buildroot}/opt/secScanner/secScanner/services/timer_file/* %{buildroot}/usr/lib/systemd/system/
-#exit 0
+cp -a virtualenv.tar.gz %{buildroot}/opt/secScanner/secScanner/
 
 %post
-
+pushd /opt/secScanner/secScanner/
+tar -xvf virtualenv.tar.gz
+rm -rf virtualenv.tar.gz
+popd
 
 %clean
 [ -d "$RPM_BUILD_ROOT" ] && rm -rf $RPM_BUILD_ROOT
@@ -95,9 +159,6 @@ exit 0
 /usr/lib/systemd/system/
 
 %changelog
-* Tue Mar 26 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.2-0
-- Add abnormal login alarm and prohibit foreign IP login
-
 * Fri Mar 22 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.2-0
 - modify subprocess func and add error prompts when entering commands
 
@@ -111,17 +172,17 @@ exit 0
 - add services and timers for secaid and sechkrootkit
 - add service commands, including on/off/status
 
-* Thu Jan 18 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.0-0
+*Thu Jan 18 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.0-0
 - Release 1.0
 - modify some bugs
 
-* Mon Nov 20 2023 pengyuan <pengyuan@cmss.chinamobile.com> 0.1-1
+*Mon Nov 20 2023 pengyuan <pengyuan@cmss.chinamobile.com> 0.1-1
 - up to release 0.1-1
 - first complete version
 
-* Mon Aug 14 2023 pengyuan <pengyuan@cmss.chinamobile.com> 0.1-0
+*Mon Aug 14 2023 pengyuan <pengyuan@cmss.chinamobile.com> 0.1-0
 - Fix Security Reinforcement Item Execution Mode
 - Adjust the Command Line
 
-* Fri Jun 30 2023 pengyuan <pengyuan@cmss.chinamobile.com> 0.1-0
+*Fri Jun 30 2023 pengyuan <pengyuan@cmss.chinamobile.com> 0.1-0
 - secscanner release 0.1-0
