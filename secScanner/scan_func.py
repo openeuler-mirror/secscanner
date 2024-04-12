@@ -536,6 +536,7 @@ def scan_vulnerabilities_db_create_oval(xml_path = '/db/', table = CVRF):
         write_file.write("</oval_definitions>\n")
     session.close()
 
+
 def scan_vulnerabilities_rpm_check():
     # clear the counter, make this function re-call-able.
     # these two counters are used for scan_show_result() function.
@@ -574,8 +575,7 @@ def scan_vulnerabilities_rpm_check():
         euler_version = 'openEuler-20.03-LTS-SP1'
 
     #check system archtecture
-    Shell_run = subprocess.run(['uname', '-m'], stdout=subprocess.PIPE)
-    sys_arch = Shell_run.stdout.decode().strip('\n')
+    ret, sys_arch = subprocess.getstatusoutput('uname -m')
     if sys_arch not in ['arm', 'x86_64']:
         print("This architecture is not supported by the vulnerability scanning feature at this time")
         sys.exit(1)
@@ -604,13 +604,12 @@ def scan_vulnerabilities_rpm_check():
             continue
 
         #Check system software version
-        Shell_run = subprocess.run(['rpm', '-qa', aff_component], stdout=subprocess.PIPE)
-        Shell_out = Shell_run.stdout.decode()
-        if Shell_out == '':
+        ret, sys_qa = subprocess.getstatusoutput(f'rpm -qa {aff_component}')
+        if sys_qa == '':
             #print("This machine doesnt have this software, pass!")
             continue
         else:
-            sys_package = Shell_out.strip()
+            sys_package = sys_qa
 
         #get system software's version
         ver_arch = sys_package.split(aff_component)[1]
@@ -714,8 +713,7 @@ def scan_vulnerabilities_by_items():
     elif euler_version == '20.03 LTS SP1':
         euler_version = 'openEuler-20.03-LTS-SP1'
     #check system archtecture
-    Shell_run = subprocess.run(['uname', '-m'], stdout=subprocess.PIPE)
-    sys_arch = Shell_run.stdout.decode().strip('\n')
+    ret, sys_arch = subprocess.getstatusoutput('uname -m')
     if sys_arch not in ['arm', 'x86_64']:
         print("This architecture is not supported by the vulnerability scanning feature at this time")
         sys.exit(1)
@@ -726,13 +724,12 @@ def scan_vulnerabilities_by_items():
     result_dict = {}
     sa_dict = {}
     for component in RPM_ASSEMBLY:
-        Shell_run = subprocess.run(['rpm', '-qa', component], stdout=subprocess.PIPE)
-        Shell_out = Shell_run.stdout.decode()
-        if Shell_out == '':
+        ret, sys_qa = subprocess.getstatusoutput(f'rpm -qa {component}')
+        if sys_qa == '':
             Display(f"This machine doesn't have [{component}], pass...", "SKIPPING")
             continue
         else:
-            sys_package = Shell_out.strip()
+            sys_package = sys_qa
         # get system software's version   glibc-2.28-101.el8.src.rpm
         sys_rpm_version = cut_component_version(component, sys_package)
 
@@ -785,3 +782,67 @@ def scan_vulnerabilities_by_items():
                 Display(f"[{component}] is safe by now...", "OK")
     set_value('vulner_info', sa_dict)
     report.cve_result()
+
+def check_fail2ban_client():
+    ###判断是否成功安装fail2ban
+    ret, result = subprocess.getstatusoutput('fail2ban-client -h')
+    if ret == 0:
+        #print('fail2ban is installed!')
+        pass
+    else:
+        print('fail2ban is not installed! System exit......')
+        sys.exit(1)
+
+    ###判断是否存在jail.local文件， 如果没有则复制一个
+    jail_path = '/etc/fail2ban/jail.local'
+    if os.path.exists(jail_path):
+        #print('jail.local path exists!')
+        pass
+    else:
+        print('Creating jail.local file!')
+        ret, result = subprocess.getstatusoutput('cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local')
+        if ret == 0:
+            print('Creating jail.local successfully!')
+        else:
+            print('Creating jail.local failed!')
+            sys.exit(1)
+
+
+    ###将cfg文件中的内容写入jail.local文件
+    ##读取cfg文件的内容
+    #cfg_file_path = '/etc/secScanner/secscanner.cfg'
+    jail_content = seconf.get('basic', 'jail_content')
+    #jail_content = 'enabled = true\nport = 22\nlogpath = /var/log/secure\nbackend = auto\nbantime = 60m\nfindtime = 1m\nmaxretry = 2\n'
+    #print(f'jail_content: {jail_content}')
+    with open(jail_path, 'r') as read_file:
+        jail_lines = read_file.readlines()
+    SSH_WRITE = 0
+    with open(jail_path, 'w') as write_file:
+        for line in jail_lines:
+            if SSH_WRITE == 0:
+                write_file.write(line)
+                if line == '[sshd]\n':
+                    #print("Found [sshd]")
+                    SSH_WRITE = 1
+                    write_file.write(jail_content)
+            else:
+                if line == '[dropbear]\n':
+                    write_file.write(line)
+                    SSH_WRITE = 0
+                continue
+    ###restart fail2ban-client
+    ret, result = subprocess.getstatusoutput('fail2ban-client restart')
+    if ret == 0 and result == 'Shutdown successful\nServer ready':
+        #print('restart fail2ban-client success!')
+        pass
+    else:
+        print('restart fail2ban-client failed, sys exit!')
+        sys.exit(1)
+
+    ###检查systemd中是否设置开机启动服务
+    if os.path.exists("/usr/lib/systemd/system/fail2ban_start.service"):
+        #print('fail2ban start service exists!')
+        pass
+    else:
+        print('Need to establish fail2ban start service!')
+

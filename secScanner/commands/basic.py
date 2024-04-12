@@ -155,7 +155,7 @@ def service_on(args):
                 obj_on.start(service_name)
 
 def service_off(args):
-    service = ['secaide', 'sechkrootkit', 'abnormal_login']
+    service = ['secaide', 'sechkrootkit']
     if args.servicename not in service:
         print("Invalid service name, please check...")
     else:
@@ -177,7 +177,7 @@ def service_off(args):
                 obj_off.disable(service_name)
 
 def service_status(args):
-    service = ['secaide', 'sechkrootkit', 'abnormal_login']
+    service = ['secaide', 'sechkrootkit']
     if args.servicename not in service:
         print("Invalid service name, please check...")
     else:
@@ -276,7 +276,7 @@ def scan_command():
 
     # service commands
     service_parser = subparsers.add_parser('service', help="Services command")
-    service_parser.add_argument('servicename', metavar="secaide, sechkrootkit, abnormal_login", type=str, help="Service name")
+    service_parser.add_argument('servicename', metavar="secaide, sechkrootkit", type=str, help="Service name")
     service_subparsers = service_parser.add_subparsers(dest='action')
 
     service_on_parser = service_subparsers.add_parser('on', help="Start service")
