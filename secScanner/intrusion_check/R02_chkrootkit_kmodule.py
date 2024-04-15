@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/opt/secScanner/virtualenv/bin/python3
 # -*- coding utf-8 -*-
 
 import ctypes

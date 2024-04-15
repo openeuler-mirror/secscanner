@@ -54,61 +54,20 @@ Operating System Security Scanning Tool
 
 %build
 do_virtualenv() {
-    mkdir -p virtualenv
     python3 -m venv virtualenv
     source virtualenv/bin/activate
     pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
     pip3 install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+    search_directory="virtualenv/bin"
+    new_first_line="#!\/opt\/secScanner\/virtualenv\/bin\/python3"
+    find "${search_directory}" -type f -name "*pip*" -exec sed -i '1s/.*/'"$new_first_line"'/' {} +
+    sed -i '1s/.*/#!\/opt\/secScanner\/virtualenv\/bin\/python3/' virtualenv/bin/normalizer
+    sed -i 's/VIRTUAL_ENV=.*/VIRTUAL_ENV="\/opt\/secScanner\/virtualenv"/' virtualenv/bin/activate
     pushd ${PWD}
     tar zcf virtualenv.tar.gz virtualenv
     popd
 }
 
-#do_download_pkgs(){
-#    python3 -m pip install -U setuptools
-#    python3 -m pip download -r requirements.txt -d pkgs -i  https://pypi.tuna.tsinghua.edu.cn/simple/
-#}
-
-#pkgs_url=http://100.71.8.130/bigcloud/bclinux/tools/secscanner
-#do_download_pkgs() {
-#    echo "now download python pkgs..."
-#    if [ -f /etc/bclinux-release ];then
-#	is_Euler=$(cat /etc/bclinux-release | egrep Euler |wc -l)
-#	if [ $is_Euler != 0 ];then
-#	   OS_DISTRO=$(cat /etc/bclinux-release | egrep -io [0-9]\{1,2\}.[0-9]\{1,2\})
-#	else
-#	   OS_DISTRO=$(cat /etc/bclinux-release | egrep -io [0-9].[0-9] | head -1 | cut -d '.' -f 1 )
-#	fi
-#    elif [ -f /etc/os-release ];then
-#	OS_DISTRO=`cat /etc/os-release | grep -Eiw '^VERSION_ID' |egrep -io [0-9]\{1,2\}.[0-9]\{1,2\} |cut -d '.' -f 1 `
-#    fi
-#    mkdir -p pkgs
-#    pushd pkgs
-#    if [ ${OS_DISTRO} == "21.10" ]; then
-#	wget ${pkgs_url}/pkgs_oe2110.tar.gz
-#	tar -xvf pkgs_oe2110.tar.gz
-#	rm pkgs_oe2110.tar.gz
-#	cp -p pkgs_oe2110/* ./
-#	rm -rf pkgs_oe2110
-#    elif [ ${OS_DISTRO} == "22.10" ]; then
-#        wget ${pkgs_url}/pkgs_oe2210.tar.gz
-#	tar -xvf pkgs_oe2210.tar.gz
-#	rm pkgs_oe2210.tar.gz
-#	cp -p pkgs_oe2210/* ./ 
-#	rm -rf pkgs_oe2210
-#    elif [ ${OS_DISTRO} == "8" ]; then
-#        wget ${pkgs_url}/pkgs_anolis.tar.gz
-#	tar -xvf pkgs_anolis.tar.gz
-#	rm pkgs_anolis.tar.gz
-#	cp -p pkgs_anolis/* ./
-#	rm -rf pkgs_anolis
-#    fi
-#    popd
-#}
-#echo "start build secscanner ..."
-#echo ${PWD}
-#do_download_pkgs
-#echo "build secscanner end........"
 echo "start build secscanner ..."
 echo ${PWD}
 do_virtualenv
@@ -119,7 +78,6 @@ echo "build secscanner end........"
 
 mkdir -p %{buildroot}/opt/secScanner/
 cp -a %{_builddir}/%{name}-%{version}/* %{buildroot}/opt/secScanner/
-#python3 -m pip install --no-index --find-links=%{buildroot}/opt/secScanner/pkgs  -r requirements.txt
 #keep the secscanner file in /usr/bin
 mkdir -p %{buildroot}/usr/bin
 #create symbolic links
@@ -137,13 +95,14 @@ mkdir -p %{buildroot}/etc/secscanner.d/
 mkdir -p %{buildroot}/usr/lib/systemd/system/
 cp -p %{buildroot}/opt/secScanner/secScanner/services/service_file/* %{buildroot}/usr/lib/systemd/system/
 cp -p %{buildroot}/opt/secScanner/secScanner/services/timer_file/* %{buildroot}/usr/lib/systemd/system/
-cp -a virtualenv.tar.gz %{buildroot}/opt/secScanner/secScanner/
+cp virtualenv.tar.gz  %{buildroot}/opt/secScanner/
 
 %post
-pushd /opt/secScanner/secScanner/
+pushd /opt/secScanner
 tar -xvf virtualenv.tar.gz
 rm -rf virtualenv.tar.gz
 popd
+
 
 %clean
 [ -d "$RPM_BUILD_ROOT" ] && rm -rf $RPM_BUILD_ROOT
