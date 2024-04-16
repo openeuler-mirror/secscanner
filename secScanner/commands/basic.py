@@ -32,29 +32,53 @@ def quiet_output(args):
 def fix_basic(args):
     display_info()
     check_isvirtualmachine()
-    scan_fix_sys()
-
-def auto(args):
-    display_info()
-    check_isvirtualmachine()
-    scan_check_sys()
-    scan_fix_sys()
+    scan_fix_sys('basic')
 
 def check_basic(args):
     display_info()
     check_isvirtualmachine()
-    scan_check_sys()
+    scan_check_sys('basic')
 
 def check_rootkit(args):
     display_info()
     scan_check_rootkit()
 
-def restore_basic(args):
+def restore_all(args):
     display_info()
     check_isvirtualmachine()
     AUTO_BASIC_RESTORE = 1 if args.yes else 0
     AUTO_BASIC_RESTORE = set_value("AUTO_BASIC_RESTORE", AUTO_BASIC_RESTORE)  # auto basic restore
     scan_restore_basic_settings()
+
+def fix_group(args):
+    display_info()
+    check_isvirtualmachine()
+    scan_fix_sys('group')
+
+def fix_level4(args):
+    display_info()
+    check_isvirtualmachine()
+    scan_fix_sys('level4')
+
+def fix_euler(args):
+    display_info()
+    check_isvirtualmachine()
+    scan_fix_sys('euler')
+
+def check_group(args):
+    display_info()
+    check_isvirtualmachine()
+    scan_check_sys('group')
+
+def check_level4(args):
+    display_info()
+    check_isvirtualmachine()
+    scan_check_sys('level4')
+
+def check_euler(args):
+    display_info()
+    check_isvirtualmachine()
+    scan_check_sys('euler')
 
 def fix_item(args):
     display_info()
@@ -225,15 +249,24 @@ def scan_command():
     parser.add_argument('-V', '--version', action='version', version='SecScanner 0.1.0', help='Show version')
 
     subparsers = parser.add_subparsers(dest='command')
-    
-    auto_parser = subparsers.add_parser('auto', help="auto command")
-    auto_parser.set_defaults(func=auto)
 
     fix_parser = subparsers.add_parser('fix', help="Fix command")
     fix_subparsers = fix_parser.add_subparsers(dest='mode')
 
     fix_basic_parser = fix_subparsers.add_parser('basic', help="Basicly fix the system")
     fix_basic_parser.set_defaults(func=fix_basic)
+
+    #集团加固基线
+    fix_group_parser = fix_subparsers.add_parser('group', help="According the group's baseline fix system")
+    fix_group_parser.set_defaults(func=fix_group)
+
+    fix_level4_parser = fix_subparsers.add_parser('level4', help="According the level 4 of protection baseline fix system")
+    fix_level4_parser.set_defaults(func=fix_level4)
+
+    fix_euler_parser = fix_subparsers.add_parser('euler', help="According the openEuler's baseline fix system")
+    fix_euler_parser.set_defaults(func=fix_euler)
+
+
 
     # Item fix subcommand
     fix_item_parser = fix_subparsers.add_parser('item', help="Fix a specific item")
@@ -245,6 +278,15 @@ def scan_command():
 
     check_basic_parser = check_subparsers.add_parser('basic', help="Check the system basicly")
     check_basic_parser.set_defaults(func=check_basic)
+
+    check_group_parser = check_subparsers.add_parser('group', help="Check the system by group's baseline")
+    check_group_parser.set_defaults(func=check_group)
+
+    check_level4_parser = check_subparsers.add_parser('level4', help="Check the system by level 4 of protection baseline")
+    check_level4_parser.set_defaults(func=check_level4)
+
+    check_euler_parser = check_subparsers.add_parser('euler', help="Check the system by openEuler's baseline")
+    check_euler_parser.set_defaults(func=check_euler)
 
     check_rootkit_parser = check_subparsers.add_parser('rootkit', help="Check the system rootkit")
     check_rootkit_parser.set_defaults(func=check_rootkit)
@@ -261,9 +303,9 @@ def scan_command():
     restore_parser = subparsers.add_parser('restore', help="Restore command")
     restore_subparsers = restore_parser.add_subparsers(dest='mode')
 
-    restore_basic_parser = restore_subparsers.add_parser('basic', help="Restore all basic settings")
-    restore_basic_parser.set_defaults(func=restore_basic)
-    restore_basic_parser.add_argument('-y', '--yes', action='store_true', help="Assume 'yes' as the answer to prompts")
+    restore_all_parser = restore_subparsers.add_parser('all', help="Restore all basic settings")
+    restore_all_parser.set_defaults(func=restore_all)
+    restore_all_parser.add_argument('-y', '--yes', action='store_true', help="Assume 'yes' as the answer to prompts")
 
     db_parser = subparsers.add_parser('db', help="Database command")
     db_subparsers = db_parser.add_subparsers(dest='mode')

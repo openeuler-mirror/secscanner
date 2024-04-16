@@ -67,14 +67,8 @@ def scan_show_result():
     set_value("report_datetime_end",report_datetime_end)
     report.main()
 
-def scan_check_all():
-    scan_check_sys()
-    scan_check_rootkit()
-    scan_vulnerabilities_rpm_check()
-    scan_show_result()
-
 # check the system
-def scan_check_sys():
+def scan_check_sys(baseline):
     # clear the counter, make this function re-call-able.
     # these two counters are used for scan_show_result() function.
     print(WHITE)
@@ -92,7 +86,10 @@ def scan_check_sys():
     pattern = r'C([0-9]+)_.*\.py'
 
     dir = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join(dir, "bsc_check")
+    main_path = os.path.join(dir, "enhance")
+    baseline_path = os.path.join(main_path, baseline)
+    path = os.path.join(baseline_path, 'check')
+
     CHECK_ITEMS = sorted(glob.glob( path + '/*' ))
 
     for i in CHECK_ITEMS:
@@ -162,7 +159,7 @@ def scan_check_rootkit():
                 logger.info("===---------------------------------------------------------------===\n")
 
 # fix the system
-def scan_fix_sys():
+def scan_fix_sys(baseline):
     print(WHITE)
     print(" "*2+"#"*67)
     print(" "*2+"#"+" "*65+"#")
@@ -173,7 +170,9 @@ def scan_fix_sys():
 
     OS_ID = get_value("OS_ID")
     dir = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join(dir, "bsc_set")
+    main_path = os.path.join(dir, "enhance")
+    baseline_path = os.path.join(main_path, baseline)
+    path = os.path.join(baseline_path, "set")
     CHECK_SET = sorted(glob.glob(path + '/*'))
     pattern = r'S([0-9]+)_.*\.py'
 
