@@ -55,10 +55,19 @@ def fix_group(args):
     check_isvirtualmachine()
     scan_fix_sys('group')
 
-def fix_level4(args):
+def fix_level3(args):
     display_info()
     check_isvirtualmachine()
-    scan_fix_sys('level4')
+    scan_fix_sys('level3')
+
+def sep_permit(args):
+    display_info()
+    main_path = os.path.join(parentdir, "enhance/level3")
+    path = os.path.join(main_path, 'sep_permit.py')
+    try:
+        subprocess.run(path, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"脚本执行出错，返回码：{e.returncode}")
 
 def fix_euler(args):
     display_info()
@@ -70,10 +79,10 @@ def check_group(args):
     check_isvirtualmachine()
     scan_check_sys('group')
 
-def check_level4(args):
+def check_level3(args):
     display_info()
     check_isvirtualmachine()
-    scan_check_sys('level4')
+    scan_check_sys('level3')
 
 def check_euler(args):
     display_info()
@@ -250,6 +259,9 @@ def scan_command():
 
     subparsers = parser.add_subparsers(dest='command')
 
+    useradd_parser = subparsers.add_parser('useradd', help="Create a new user to achieve permission separation")
+    useradd_parser.set_defaults(func=sep_permit)
+
     fix_parser = subparsers.add_parser('fix', help="Fix command")
     fix_subparsers = fix_parser.add_subparsers(dest='mode')
 
@@ -260,8 +272,8 @@ def scan_command():
     fix_group_parser = fix_subparsers.add_parser('group', help="According the group's baseline fix system")
     fix_group_parser.set_defaults(func=fix_group)
 
-    fix_level4_parser = fix_subparsers.add_parser('level4', help="According the level 4 of protection baseline fix system")
-    fix_level4_parser.set_defaults(func=fix_level4)
+    fix_level4_parser = fix_subparsers.add_parser('level3', help="According the level 3 of protection baseline fix system")
+    fix_level4_parser.set_defaults(func=fix_level3)
 
     fix_euler_parser = fix_subparsers.add_parser('euler', help="According the openEuler's baseline fix system")
     fix_euler_parser.set_defaults(func=fix_euler)
@@ -282,7 +294,7 @@ def scan_command():
     check_group_parser = check_subparsers.add_parser('group', help="Check the system by group's baseline")
     check_group_parser.set_defaults(func=check_group)
 
-    check_level4_parser = check_subparsers.add_parser('level4', help="Check the system by level 4 of protection baseline")
+    check_level4_parser = check_subparsers.add_parser('level3', help="Check the system by level 3 of protection baseline")
     check_level4_parser.set_defaults(func=check_level4)
 
     check_euler_parser = check_subparsers.add_parser('euler', help="Check the system by openEuler's baseline")
