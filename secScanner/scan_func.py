@@ -67,6 +67,13 @@ def scan_show_result():
     set_value("report_datetime_end",report_datetime_end)
     report.main()
 
+def scan_check_all():
+    baseline = seconf.get('main','baseline')
+    scan_check_sys(baseline)
+    scan_check_rootkit()
+    scan_vulnerabilities_rpm_check()
+    scan_show_result()
+
 # check the system
 def scan_check_sys(baseline):
     # clear the counter, make this function re-call-able.
@@ -91,12 +98,19 @@ def scan_check_sys(baseline):
     path = os.path.join(baseline_path, 'check')
 
     CHECK_ITEMS = sorted(glob.glob( path + '/*' ))
+    numbers = []
 
     for i in CHECK_ITEMS:
         match = re.search(pattern, i)
         if match:
             s_num = int(match.group(1))
-            if 1 <= s_num <= 60 : # 范围验证
+            numbers.append(s_num)
+
+    for i in CHECK_ITEMS:
+        match = re.search(pattern, i)
+        if match:
+            s_num = int(match.group(1))
+            if min(numbers) <= s_num <= max(numbers) and os.path.isfile(i) : # 范围验证
                 module_name = os.path.splitext(os.path.basename(i))[0]
                 module_path = os.path.dirname(i)
                 sys.path.append(module_path)
@@ -137,11 +151,19 @@ def scan_check_rootkit():
     dir = os.path.dirname(os.path.abspath(__file__))
     path = os.path.join(dir, "intrusion_check")
     CHECK_ITEMS = sorted(glob.glob(path + '/*'))
+    numbers = []
+
     for i in CHECK_ITEMS:
         match = re.search(pattern, i)
         if match:
             s_num = int(match.group(1))
-            if 1 == s_num :  # 范围验证
+            numbers.append(s_num)
+
+    for i in CHECK_ITEMS:
+        match = re.search(pattern, i)
+        if match:
+            s_num = int(match.group(1))
+            if min(numbers) <= s_num <= max(numbers) and os.path.isfile(i) :  # 范围验证
                 module_name = os.path.splitext(os.path.basename(i))[0]
                 module_path = os.path.dirname(i)
                 sys.path.append(module_path)
@@ -175,7 +197,7 @@ def scan_fix_sys(baseline):
     path = os.path.join(baseline_path, "set")
     CHECK_SET = sorted(glob.glob(path + '/*'))
     pattern = r'S([0-9]+)_.*\.py'
-
+    numbers = []
     # record ifix in case of repeat
     fix_indices = set()
     if os.path.isfile(RESULT_FILE) and os.path.getsize(RESULT_FILE) > 0:
@@ -208,7 +230,13 @@ def scan_fix_sys(baseline):
             match = re.search(pattern, iFix)
             if match:
                 s_num = int(match.group(1))
-                if 1 <= s_num <= 60 and os.path.isfile(iFix):
+                numbers.append(s_num)
+
+        for iFix in CHECK_SET:
+            match = re.search(pattern, iFix)
+            if match:
+                s_num = int(match.group(1))
+                if min(numbers) <= s_num and os.path.isfile(iFix):
                     if iFix == CHECK_SET[-1]:
                         break
                     module_name = os.path.splitext(os.path.basename(iFix))[0]
