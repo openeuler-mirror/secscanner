@@ -31,8 +31,8 @@ def warning_results():
             lines = file.readlines()
 
         for line in lines:
-            wrn_match = re.search(r'WRN_C\d{2}(_\d{2})?:', line)
-            suggestion_match = re.search(r'SUG_C\d{2}(_\d{2})?:', line)
+            wrn_match = re.search(r'WRN_C\d*(_?\d*)?:', line)
+            suggestion_match = re.search(r'SUG_C\d*(_?\d*)?:', line)
 
             if wrn_match:
                 wrn = line.split(wrn_match.group(0))[1].strip()
