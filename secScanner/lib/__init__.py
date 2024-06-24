@@ -16,3 +16,8 @@
 from .function import *
 from .osdetection import *
 from .errors import GenericError, ConfigError, RuntimeError, NoDirError
+from .textInfo_basic import *
+from .textInfo_group import *
+from .textInfo_level3 import *
+from .textInfo_euler import *
+
