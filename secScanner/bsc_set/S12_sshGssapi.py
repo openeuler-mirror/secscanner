@@ -14,6 +14,7 @@ def S12_sshGssapi():
     if SET_SSH_GSSAPI == 'yes':
         if not os.path.exists('/etc/ssh/sshd_config_bak'):
             shutil.copy2('/etc/ssh/sshd_config', '/etc/ssh/sshd_config_bak')
+        add_bak_file('/etc/ssh/sshd_config_bak')
         IS_EXIST = 0
         with open('/etc/ssh/sshd_config', 'r') as read_file:
             lines = read_file.readlines()

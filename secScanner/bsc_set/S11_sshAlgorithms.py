@@ -18,8 +18,10 @@ def S11_sshAlgorithms():
     if SET_SSH_ALORITHMS == 'yes':
         if not os.path.exists('/etc/ssh/sshd_config_bak'):
             shutil.copy2('/etc/ssh/sshd_config', '/etc/ssh/sshd_config_bak')
+        add_bak_file('/etc/ssh/sshd_config_bak')
         if not os.path.exists('/etc/ssh/ssh_config_bak'):
             shutil.copy2('/etc/ssh/ssh_config', '/etc/ssh/ssh_config_bak')
+        add_bak_file('/etc/ssh/ssh_config_bak')
 
         IS_EXIST = 0
         IS_EXIST1 = 0
