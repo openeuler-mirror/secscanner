@@ -152,6 +152,7 @@ def cve_result():
         TOTAL_CVES = 0
         set_value("TOTAL_CVES", TOTAL_CVES)
         vulne_info += "No vulnerabilities\n"
+        gen_cve_json_file(cve_list)
         return vulne_info
     for single_sa in sa_dict:
         for single_data in sa_dict[single_sa][0]:
