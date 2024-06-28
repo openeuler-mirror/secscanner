@@ -14,10 +14,12 @@ def S14_sshRootDenie():
     if DENY_ROOT_LOGIN == 'yes' or DENY_ROOT_LOGIN == 'YES':
         if not os.path.exists('/etc/ssh/sshd_config_bak'):
             shutil.copy2('/etc/ssh/sshd_config', '/etc/ssh/sshd_config_bak')
+        add_bak_file('/etc/ssh/sshd_config_bak')
         # ----------------Denie Telnet login---------------
         if OS_DISTRO == '7':
             if not os.path.exists('/etc/securetty_bak'):
                 shutil.copy2('/etc/securetty', '/etc/securetty_bak')
+            add_bak_file('/etc/securetty_bak')
             with open("/etc/securetty", "r+") as file:
                 lines = file.readlines()
                 file.seek(0)
