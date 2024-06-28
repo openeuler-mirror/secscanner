@@ -443,15 +443,38 @@ def vulnerabilities_db_update():
     # get data from api url
     ####################################################################################
     api_url = 'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/findAll'
-    body = { "keyword": "", "pages": {"page": 1, "size": 100000}}#size 可以改大小，其他内容不影响获取的数据内容
-    response = requests.post(url=api_url, json=body, timeout=(10, 30))
-    response_json_dict = json.loads(response.text)
-    cveDatabaseList = response_json_dict["result"]["cveDatabaseList"]
-    # print(cveDatabaseList[0])
-    cve_list = []
-    for i in range(len(cveDatabaseList)):
-        cve_list.append([cveDatabaseList[i]['cveId'], cveDatabaseList[i]['packageName']])
+    page_size = 100  # 单页请求的数量
+    cveDatabaseList = []  # 用于存储所有查询结果
 
+    # 初始化参数
+    params = {
+        "keyword": "",
+        "pages": {
+            "page": 1,  # 起始页
+            "size": page_size
+        }
+    }
+    for i in range(1, 150):
+        response = requests.post(url=api_url, json=params, timeout=(10, 30))
+        # 检查响应状态
+        if response.status_code != 200:
+            print(f"请求失败，状态码：{response.status_code}")
+            return
+        # 获取并解析当前页的数据
+        current_page_data = json.loads(response.text)
+        # 如果当前页无数据，说明已获取完所有数据，退出循环
+        if current_page_data["result"]["cveDatabaseList"] == []:
+            break
+
+        # 将当前页数据添加到总结果中
+        cveDatabaseList.append(current_page_data)
+
+        # 更新下一页参数
+        params["pages"]["page"] += 1  # 前往下一页
+    cve_list = []
+    for cvedata in cveDatabaseList:
+        for single in cvedata['result']["cveDatabaseList"]:
+            cve_list.append([single['cveId'], single['packageName']])
     ###################################################################################
     # create sqlite database and save data
     ###################################################################################
