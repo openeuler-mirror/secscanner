@@ -13,13 +13,15 @@ def S34_noCtrlAltDelBurstAction():
         if not os.path.exists('/etc/systemd/system/ctrl-alt-del.target_bak') and os.path.exists('/etc/systemd/system/ctrl-alt-del.target'):
             shutil.copy2('/etc/systemd/system/ctrl-alt-del.target', '/etc/systemd/system/ctrl-alt-del.target_bak')
             os.remove('/etc/systemd/system/ctrl-alt-del.target')
+        add_bak_file('/etc/systemd/system/ctrl-alt-del.target_bak')
         if not os.path.exists('/usr/lib/systemd/system/ctrl-alt-del.target_bak') and os.path.exists('/usr/lib/systemd/system/ctrl-alt-del.target'):
             shutil.copy2('/usr/lib/systemd/system/ctrl-alt-del.target', '/usr/lib/systemd/system/ctrl-alt-del.target_bak')
             os.remove( '/usr/lib/systemd/system/ctrl-alt-del.target')
-
+        add_bak_file('/usr/lib/systemd/system/ctrl-alt-del.target_bak')
         if not os.path.exists('/etc/systemd/system.conf_bak') and os.path.exists('/etc/systemd/system.conf'):
             shutil.copy2('/etc/systemd/system.conf', '/etc/systemd/system.conf_bak')
-        # -----------------set the CtrlAltDelBurstAction----------------
+        add_bak_file('/etc/systemd/system.conf_bak')
+            # -----------------set the CtrlAltDelBurstAction----------------
         with open('/etc/systemd/system.conf', 'r+') as f:
             lines = f.readlines()
             config_exists = False

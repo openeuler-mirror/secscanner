@@ -12,6 +12,7 @@ def S33_noEmptyPasswd():
     if set_ssh_permitemptypasswd == 'yes':
         if not os.path.exists('/etc/ssh/sshd_config_bak'):
             shutil.copy2('/etc/ssh/sshd_config', '/etc/ssh/sshd_config_bak')
+        add_bak_file('/etc/ssh/sshd_config_bak')
         # -----------------set the permitemptypasswd----------------
         with open('/etc/ssh/sshd_config', 'r+') as f:
             lines = f.readlines()

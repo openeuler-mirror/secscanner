@@ -12,8 +12,10 @@ def S38_limitUserResources():
     if set_limit_resources == 'yes':
         if os.path.exists('/etc/security/limits.conf') and not os.path.exists('/etc/security/limits.conf_bak'):
             shutil.copy2('/etc/security/limits.conf', '/etc/security/limits.conf_bak')
+        add_bak_file('/etc/security/limits.conf_bak')
         if os.path.exists('/etc/pam.d/login') and not os.path.exists('/etc/pam.d/login_bak'):
             shutil.copy2('/etc/pam.d/login', '/etc/pam.d/login_bak')
+        add_bak_file('/etc/pam.d/login_bak')
         if os.path.exists('/etc/security/limits.conf'):
             set01 = False
             set02 = False
