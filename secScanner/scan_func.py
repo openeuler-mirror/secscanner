@@ -493,6 +493,10 @@ def vulnerabilities_db_update():
             continue
         cve_url = f'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/getByCveIdAndPackageName?cveId={cve_init[0]}&packageName={cve_init[1]}'
         response = requests.get(url=cve_url, timeout=2)
+        if response.status_code != 200:
+            print(f"请求失败，状态码：{response.status_code}, 请重试！")
+            return
+
         if 'Required String parameter' in response.text:
             continue
         json_data = json.loads(response.text)['result']
