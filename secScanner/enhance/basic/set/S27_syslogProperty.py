@@ -14,6 +14,7 @@ def S27_syslogProperty():
         if os.path.exists('/etc/rsyslog.conf'):
             if not os.path.exists('/etc/rsyslog.conf_bak'):
                 shutil.copy2('/etc/rsyslog.conf', '/etc/rsyslog.conf_bak')
+            add_bak_file('/etc/rsyslog.conf_bak')
             # -----------------------------------------------------
             # record original property of logfile
             pathlib.Path('/etc/secscanner.d/logfile_property').touch()

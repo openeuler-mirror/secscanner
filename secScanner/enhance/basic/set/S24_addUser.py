@@ -30,10 +30,13 @@ def S24_addUser():
             if USERNAME != '':
                 if not os.path.exists('/etc/passwd_bak'):
                     shutil.copy2('/etc/passwd', '/etc/passwd_bak')
+                add_bak_file('/etc/passwd_bak')
                 if not os.path.exists('/etc/shadow_bak'):
                     shutil.copy2('/etc/shadow', '/etc/shadow_bak')
+                add_bak_file('/etc/shadow_bak')
                 if not os.path.exists('/etc/group_bak'):
                     shutil.copy2('/etc/group', '/etc/group_bak')
+                add_bak_file('/etc/group_bak')
                 count_user = 0
                 for i in PASSWD_USER:
                     if USERNAME == i:

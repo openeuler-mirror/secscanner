@@ -12,6 +12,7 @@ def S22_resourceLimit():
     if SET_CORE_DUMP == 'yes':
         if os.path.exists('/etc/security/limits.conf') and not os.path.exists('/etc/security/limits.conf_bak'):
             shutil.copy2('/etc/security/limits.conf', '/etc/security/limits.conf_bak')
+        add_bak_file('/etc/security/limits.conf_bak')
         if os.path.exists('/etc/security/limits.conf'):
             IS_EXIST = 0
             IS_EXIST2 = 0
