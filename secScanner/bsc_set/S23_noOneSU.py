@@ -12,6 +12,7 @@ def S23_noOneSU():
     if SET_FORBIDDEN_SU == 'yes':
         if os.path.exists('/etc/pam.d/su') and not os.path.exists('/etc/pam.d/su_bak'):
             shutil.copy2('/etc/pam.d/su', '/etc/pam.d/su_bak')
+        add_bak_file('/etc/pam.d/su_bak')
 
         IS_EXIST = 0
         USE_UID_EXIST = 0

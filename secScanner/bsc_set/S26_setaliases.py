@@ -13,7 +13,7 @@ def S26_setaliases():
         if os.path.exists('/root/.bashrc_bak'):
             if not os.path.exists('/root/.bashrc_bak'):
                 shutil.copy2('/root/.bashrc', '/root/.bashrc_bak')
-
+            add_bak_file('/root/.bashrc_bak')
             config_ls = False
             config_rm = False
             with open('/root/.bashrc', 'r') as read_file:
