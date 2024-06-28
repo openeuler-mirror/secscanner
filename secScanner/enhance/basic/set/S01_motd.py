@@ -11,6 +11,7 @@ def S01_motd():
     if set_motd == 'yes':
         if os.path.exists('/etc/motd') and not os.path.exists('/etc/motd_bak'):
             shutil.copy2('/etc/motd', '/etc/motd_bak')
+        add_bak_file('/etc/motd_bak')
         if not os.path.exists('/etc/motd'):
             pathlib.Path('/etc/motd').touch()
             os.chmod('/etc/motd', 600)
