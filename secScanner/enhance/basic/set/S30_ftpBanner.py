@@ -14,6 +14,7 @@ def S30_ftpBanner():
     if set_ftp_banner == 'yes':
         if os.path.exists('/etc/vsftpd/vsftpd.conf') and not os.path.exists('/etc/vsftpd/vsftpd.conf_bak'):
             shutil.copy2('/etc/vsftpd/vsftpd.conf', '/etc/vsftpd/vsftpd.conf_bak')
+        add_bak_file('/etc/vsftpd/vsftpd.conf_bak')
         if os.path.exists('/etc/vsftpd/vsftpd.conf'):
             with open('/etc/vsftpd/vsftpd.conf', 'r+') as f:
                 lines = f.readlines()

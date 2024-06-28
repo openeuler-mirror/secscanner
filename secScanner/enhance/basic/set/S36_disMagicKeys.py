@@ -12,7 +12,7 @@ def S36_disMagicKeys():
     if set_disable_magickeys == 'yes':
         if os.path.exists('/etc/sysctl.conf') and not os.path.exists('/etc/sysctl.conf_bak'):
             shutil.copy2('/etc/sysctl.conf', '/etc/sysctl.conf_bak')
-
+        add_bak_file('/etc/sysctl.conf_bak')
         if os.path.exists('/etc/sysctl.conf'):
             sysrq = 0
             with open('/etc/sysctl.conf', 'r') as read_file:

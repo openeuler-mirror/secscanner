@@ -40,8 +40,10 @@ def S35_nologinList():
     if set_nologin_list == 'yes':
         if not os.path.exists('/etc/pam.d/system-auth_bak'):
             shutil.copy2('/etc/pam.d/system-auth', '/etc/pam.d/system-auth_bak')
+        add_bak_file('/etc/pam.d/system-auth_bak')
         if not os.path.exists('/etc/pam.d/password-auth_bak'):
             shutil.copy2('/etc/pam.d/password-auth', '/etc/pam.d/password-auth_bak')
+        add_bak_file('/etc/pam.d/password-auth_bak')
         if not os.path.exists('/etc/login.user.deny'):
             pathlib.Path('/etc/login.user.deny').touch()
         
