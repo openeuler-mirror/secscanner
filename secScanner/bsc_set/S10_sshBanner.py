@@ -16,9 +16,11 @@ def S10_sshBanner():
     if SET_SSH_LOGIN_BANNER == 'yes':
         if not os.path.exists('/etc/ssh/sshd_config_bak'):
             shutil.copy2('/etc/ssh/sshd_config', '/etc/ssh/sshd_config_bak')
+        add_bak_file('/etc/ssh/sshd_config_bak')
         if os.path.exists("/etc/sshbanner"):
             if not os.path.exists('/etc/sshbanner_bak'):
                 shutil.copy2('/etc/sshbanner', '/etc/sshbanner_bak')
+            add_bak_file('/etc/sshbanner_bak')
             logger.info("exist /etc/sshbanner file, rewrite it...")
             with open('/etc/sshbanner', 'w') as write_file:
                 write_file.write(SSH_LOGIN_BANNER_VALUE)

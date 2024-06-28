@@ -14,16 +14,22 @@ def S06_umask():
     if SET_UMASK == 'yes':
         if not os.path.exists('/etc/profile_bak') and os.path.exists('/etc/profile'):
             shutil.copy2('/etc/profile', '/etc/profile_bak')
+        add_bak_file('/etc/profile_bak')
         if not os.path.exists('/etc/bashrc_bak') and os.path.exists('/etc/bashrc'):
             shutil.copy2('/etc/bashrc', '/etc/bashrc_bak')
+        add_bak_file('/etc/bashrc_bak')
         if not os.path.exists('/etc/csh.cshrc_bak') and os.path.exists('/etc/csh.cshrc'):
             shutil.copy2('/etc/csh.cshrc', '/etc/csh.cshrc_bak')
+        add_bak_file('/etc/csh.cshrc_bak')
         if not os.path.exists('/etc/csh.login_bak') and os.path.exists('/etc/csh.login'):
             shutil.copy2('/etc/csh.login', '/etc/csh.login_bak')
+        add_bak_file('/etc/csh.login_bak')
         if not os.path.exists('/root/.bashrc_bak') and os.path.exists('/root/.bashrc'):
             shutil.copy2('/root/.bashrc', '/root/.bashrc_bak')
+        add_bak_file('/root/.bashrc_bak')
         if not os.path.exists('/root/.cshrc_bak') and os.path.exists('/root/.cshrc'):
             shutil.copy2('/root/.cshrc', '/root/.cshrc_bak')
+        add_bak_file('/root/.cshrc_bak')
 
         FILE = ['/etc/profile', '/etc/bashrc', '/etc/csh.cshrc', '/etc/csh.login', '/root/.bashrc', '/root/.cshrc']
         for f in FILE:

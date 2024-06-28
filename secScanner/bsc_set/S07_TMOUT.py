@@ -14,8 +14,10 @@ def S07_TMOUT():
     if SET_TMOUT == 'yes':
         if not os.path.exists('/etc/profile_bak'):
             shutil.copy2('/etc/profile', '/etc/profile_bak')
+        add_bak_file('/etc/profile_bak')
         if not os.path.exists('/etc/csh.cshrc_bak'):
             shutil.copy2('/etc/csh.cshrc', '/etc/csh.cshrc_bak')
+        add_bak_file('/etc/csh.cshrc_bak')
         IS_EXIST = 0
         with open ('/etc/profile', 'r') as read_file:
             lines = read_file.readlines()
