@@ -324,3 +324,34 @@ def gen_cve_json_file(data):
     result["CVE_INFO"] = json_list
     with open(f"/var/log/secScanner/CVE_info.json", 'w') as write_file:
         write_file.write(json.dumps(result))
+
+def add_bak_file(file_name):
+    # add bak file name to global dict
+    # bak file name is /etc/motd
+    bak_list = get_value('bak_files_list')
+    if file_name not in bak_list:
+        bak_list.append(file_name)
+    set_value('bak_files_list', bak_list)
+
+#write bak file name in /lib/bak.py from global dict
+def write_bak_file():
+    # after finishing fix, bak files' name already save in global dict
+    # get bak file name from global dict
+    bak_files_list = get_value("bak_files_list")
+    # get history bak file name from bak.py
+    # mix all bak files' name
+    dir = os.path.dirname(os.path.abspath(__file__))
+    with open(f'{dir}/bak.py', "r") as read_file:
+        lines = read_file.readlines()
+        for line in lines:
+            if 'bak' in line and line.strip('\n') not in bak_files_list:
+                bak_files_list.append(line.strip('\n'))
+            else:
+                continue
+    # write into bak.py file
+    bak_string = ''
+    for bak_file_name in bak_files_list:
+        bak_string += f"{bak_file_name}\n"
+    with open(f'{dir}/bak.py', "w") as f:
+        f.write(bak_string)
+    
