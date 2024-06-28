@@ -225,7 +225,8 @@ def scan_fix_sys():
                     except AttributeError as e:
                         print(f"Module {module_name} does not have the required function: {e}")
                         sys.exit(1)
-            
+    # save bak files' name from global dict into bak.py file
+    write_bak_file()            
     # restart service
     cmd_sshd = 'systemctl is-active sshd'
     ret, result = subprocess.getstatusoutput(cmd_sshd)
@@ -258,16 +259,21 @@ def restore_unused_user():
 
 # restore the basic settings
 def scan_restore_basic_inline():
-    BAK_FILES = ['/etc/motd_bak', '/etc/pam.d/system-auth_bak', '/etc/pam.d/sshd_bak', '/etc/pam.d/password-auth_bak',
-                 '/etc/sysctl.conf_bak', '/etc/profile_bak', '/etc/bashrc_bak', '/etc/csh.cshrc_bak',
-                 '/etc/csh.login_bak', '/root/.bashrc_bak', '/root/.cshrc_bak', '/etc/login.defs_bak',
-                 '/etc/ssh/sshd_config_bak', '/etc/sshbanner_bak', '/etc/ssh/ssh_config_bak', '/etc/securetty_bak',
-                 '/etc/syslog.conf_bak', '/etc/rsyslog.conf_bak', '/etc/issue_bak', '/etc/issue.net_bak',
-                 '/etc/security/limits.conf_bak', '/etc/vsftpd/vsftpd.conf_bak', '/etc/pam.d/su_bak',
-                 '/etc/passwd_bak', '/etc/shadow_bak', '/etc/group_bak', '/etc/aliases_bak', '/etc/mail/aliases_bak',
-                 '/etc/systemd/system/ctrl-alt-del.target_bak', '/usr/lib/systemd/system/ctrl-alt-del.target_bak',
-                 '/etc/systemd/system.conf_bak', '/etc/rc.local_bak', '/lib/systemd/system/rc-local.service_bak',
-                 '/etc/pam.d/login_bak']
+    # init bak files name list
+    BAK_FILES = []
+    # read history bak names, save in list
+    dir = os.path.dirname(os.path.abspath(__file__))
+    with open(f'{dir}/lib/bak.py', "r") as read_file:
+        lines = read_file.readlines()
+        for line in lines:
+            if 'bak' in line and line.strip('\n') not in BAK_FILES:
+                BAK_FILES.append(line.strip('\n'))
+            else:
+                continue
+    # clear bak.py file
+    with open(f'{dir}/lib/bak.py', "w") as write_file:
+        write_file.write('')
+    
     for i in BAK_FILES:
         dest_path = i
         source_path = dest_path.strip("_bak")
