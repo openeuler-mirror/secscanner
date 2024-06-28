@@ -104,8 +104,10 @@ def el7_set_deny():
     if lock_attacking_user == 'yes':
         if not os.path.exists('/etc/pam.d/system-auth_bak'):
             shutil.copy2('/etc/pam.d/system-auth', '/etc/pam.d/system-auth_bak')
+        add_bak_file('/etc/pam.d/system-auth_bak')
         if not os.path.exists('/etc/pam.d/sshd_bak'):
             shutil.copy2('/etc/pam.d/sshd', '/etc/pam.d/sshd_bak')
+        add_bak_file('/etc/pam.d/sshd_bak')
         PAM_TALLY_SET = 0
         PAM_TALLY_SET2 = 0
         with open('/etc/pam.d/system-auth', 'r') as read_file:
@@ -191,9 +193,10 @@ def set_deny():
     if lock_attacking_user == 'yes':
         if not os.path.exists('/etc/pam.d/system-auth_bak'):
             shutil.copy2(SYSTEM_AUTH_FILE, '/etc/pam.d/system-auth_bak')
+        add_bak_file('/etc/pam.d/system-auth_bak')
         if not os.path.exists('/etc/pam.d/password-auth_bak'):
             shutil.copy2(PASSWORD_AUTH_FILE, '/etc/pam.d/password-auth_bak')
-        
+        add_bak_file('/etc/pam.d/password-auth_bak')
         faillock_1(SYSTEM_AUTH_FILE, 'pam_faillock.so', 'auth', 'required')
         faillock_1(SYSTEM_AUTH_FILE, 'pam_faillock.so', 'auth', 'die')
         faillock_1(SYSTEM_AUTH_FILE, 'pam_faillock.so', 'auth', 'sufficient')

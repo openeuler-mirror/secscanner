@@ -13,6 +13,7 @@ def S02_passRemember():
     if SET_PASSWD_REM == 'yes':
         if not os.path.exists('/etc/pam.d/system-auth_bak'):
             shutil.copy2('/etc/pam.d/system-auth', '/etc/pam.d/system-auth_bak')
+        add_bak_file('/etc/pam.d/system-auth_bak')
         if not (os.path.exists('/etc/security/opasswd') and os.access('/etc/security/opasswd', os.W_OK)):
             pathlib.Path('/etc/security/opasswd').touch()
             os.chown('/etc/security/opasswd', os.geteuid(), os.geteuid())
