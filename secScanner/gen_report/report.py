@@ -1,5 +1,5 @@
 from secScanner.gconfig import *
-from secScanner.lib.TextInfo import *
+from secScanner.lib import *
 import logging
 import subprocess
 import re
