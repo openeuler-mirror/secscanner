@@ -9,15 +9,16 @@ logger = logging.getLogger("secscanner")
 def C11_sshAlgorithms():
     InsertSection("check the ssh algorithms")
     IS_EXIST = 0
-    with open("/etc/ssh/sshd_config", "r") as file:
-        lines = file.readlines()
-        for line in lines:
-            if re.match('KexAlgorithms', line) and (not re.match('^#|^$', line)):
-                IS_EXIST = IS_EXIST + 1
-            elif re.match('Ciphers', line) and (not re.match('^#|^$', line)):
-                IS_EXIST = IS_EXIST + 1
-            elif re.match('MACs', line) and (not re.match('^#|^$', line)):
-                IS_EXIST = IS_EXIST + 1
+    if os.path.isfile("/etc/ssh/sshd_config"):
+        with open("/etc/ssh/sshd_config", "r") as file:
+            lines = file.readlines()
+            for line in lines:
+                if re.match('KexAlgorithms', line) and (not re.match('^#|^$', line)):
+                    IS_EXIST = IS_EXIST + 1
+                elif re.match('Ciphers', line) and (not re.match('^#|^$', line)):
+                    IS_EXIST = IS_EXIST + 1
+                elif re.match('MACs', line) and (not re.match('^#|^$', line)):
+                    IS_EXIST = IS_EXIST + 1
     if IS_EXIST == 0:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC11\n")
