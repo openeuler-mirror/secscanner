@@ -272,8 +272,8 @@ def scan_command():
     fix_group_parser = fix_subparsers.add_parser('group', help="According the group's baseline fix system")
     fix_group_parser.set_defaults(func=fix_group)
 
-    fix_level4_parser = fix_subparsers.add_parser('level3', help="According the level 3 of protection baseline fix system")
-    fix_level4_parser.set_defaults(func=fix_level3)
+    fix_level3_parser = fix_subparsers.add_parser('level3', help="According the level 3 of protection baseline fix system")
+    fix_level3_parser.set_defaults(func=fix_level3)
 
     fix_euler_parser = fix_subparsers.add_parser('euler', help="According the openEuler's baseline fix system")
     fix_euler_parser.set_defaults(func=fix_euler)
@@ -294,8 +294,8 @@ def scan_command():
     check_group_parser = check_subparsers.add_parser('group', help="Check the system by group's baseline")
     check_group_parser.set_defaults(func=check_group)
 
-    check_level4_parser = check_subparsers.add_parser('level3', help="Check the system by level 3 of protection baseline")
-    check_level4_parser.set_defaults(func=check_level4)
+    check_level3_parser = check_subparsers.add_parser('level3', help="Check the system by level 3 of protection baseline")
+    check_level3_parser.set_defaults(func=check_level3)
 
     check_euler_parser = check_subparsers.add_parser('euler', help="Check the system by openEuler's baseline")
     check_euler_parser.set_defaults(func=check_euler)
