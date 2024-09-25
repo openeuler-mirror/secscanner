@@ -255,7 +255,7 @@ def scan_command():
     parser.add_argument('--config', action='store_true',  help='Show settings file path')
 
     parser.add_argument('-q', '--quiet', dest='quiet', action='store_true',default=False, help='Quiet mode')
-    parser.add_argument('-V', '--version', action='version', version='SecScanner 0.1.0', help='Show version')
+    parser.add_argument('-V', '--version', action='version', version='SecScanner 1.2.0', help='Show version')
 
     subparsers = parser.add_subparsers(dest='command')
 
