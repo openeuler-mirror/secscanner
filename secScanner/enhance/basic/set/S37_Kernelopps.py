@@ -20,6 +20,7 @@ def S37_Kernelopps():
         if os.path.exists('/lib/systemd/system/rc-local.service') and not os.path.exists('/lib/systemd/system/rc-local.service_bak'):
             shutil.copy2('/lib/systemd/system/rc-local.service', '/lib/systemd/system/rc-local.service_bak')
         add_bak_file('/lib/systemd/system/rc-local.service_bak')
+
         if os.path.exists('/etc/sysctl.conf'):
             set_kerneloops = 0
             with open('/etc/sysctl.conf', 'r') as read_file:

@@ -62,6 +62,7 @@ def S10_sshBanner():
                 Display("- Set the sshbanner...", "FINISHED")
         else:
             logger.info("create the sshdbanner failed")
+            Display("- Set the sshbanner failed...", "FAILED")
     else:
         Display("- Skip set ssh login banner due to config file...", "SKIPPING")
 

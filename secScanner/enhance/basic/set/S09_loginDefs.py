@@ -22,6 +22,7 @@ def S09_loginDefs():
         if not os.path.exists('/etc/login.defs_bak'):
             shutil.copy2('/etc/login.defs', '/etc/login.defs_bak')
         add_bak_file('/etc/login.defs_bak')
+
         IS_EXIST = 0
         with open('/etc/login.defs', 'r') as read_file:
             lines = read_file.readlines()

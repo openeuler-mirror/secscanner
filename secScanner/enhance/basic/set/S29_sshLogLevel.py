@@ -39,7 +39,6 @@ def S29_sshLogLevel():
             lines = read_file.readlines()
             for line in lines:
                 if re.match('LogLevel', line):
-                    IS_EXIST = 1
                     temp = line.split()
                     if temp[0] == 'LogLevel' and temp[1] == 'VERBOSE':
                         CHECK_EXIST = 1

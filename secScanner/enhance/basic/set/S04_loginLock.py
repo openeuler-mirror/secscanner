@@ -77,7 +77,14 @@ def sed_d2(a, b, file):
             if re.search('pam_faillock.so', line):
                 if re.match(a, line):
                     if re.search(b, line):
-                        pass  # pass this line
+                        deny_match = re.search(r'\s*deny=(\d+)', line)
+                        unlock_time_match = re.search(r'\s*unlock_time=(\d+)', line)
+                        deny_value = deny_match.group(1) if deny_match else None
+                        unlock_time_value = unlock_time_match.group(1) if unlock_time_match else None
+                        if deny_value != deny_times:
+                            line = re.sub(r'deny=\d+', f'deny={deny_times}', line)
+                        if unlock_time_value != unlock_time:
+                            line = re.sub(r'unlock_time=\d+', f'unlock_time={unlock_time}', line)
                     else:
                         w.write(line)
                 else:
@@ -193,10 +200,11 @@ def set_deny():
     if lock_attacking_user == 'yes':
         if not os.path.exists('/etc/pam.d/system-auth_bak'):
             shutil.copy2(SYSTEM_AUTH_FILE, '/etc/pam.d/system-auth_bak')
-        add_bak_file('/etc/pam.d/system-auth_bak')
+            add_bak_file('/etc/pam.d/system-auth_bak')
         if not os.path.exists('/etc/pam.d/password-auth_bak'):
             shutil.copy2(PASSWORD_AUTH_FILE, '/etc/pam.d/password-auth_bak')
-        add_bak_file('/etc/pam.d/password-auth_bak')
+            add_bak_file('/etc/pam.d/password-auth_bak')
+        
         faillock_1(SYSTEM_AUTH_FILE, 'pam_faillock.so', 'auth', 'required')
         faillock_1(SYSTEM_AUTH_FILE, 'pam_faillock.so', 'auth', 'die')
         faillock_1(SYSTEM_AUTH_FILE, 'pam_faillock.so', 'auth', 'sufficient')
@@ -220,7 +228,7 @@ def S04_loginLock():
     if OS_ID.lower() in [ 'bclinux', 'openeuler']:
         if OS_DISTRO in ['7']:
             el7_set_deny()
-        elif OS_DISTRO in [ '21.10', '22.10', '8', '22.10U1', '22.10U2', 'v24', '24']:
+        elif OS_DISTRO in [ '21.10', '22.10', '8', '22.10U1', '22.10U2', 'v24', '24', '21.10U4']:
             set_deny()
         else:
             logger.info(f"we do not support {OS_ID}-{OS_DISTRO} at this moment")
