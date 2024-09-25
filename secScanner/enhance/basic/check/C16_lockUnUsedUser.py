@@ -19,11 +19,16 @@ def C16_lockUnUsedUser():
         try:
             output = subprocess.check_output(["grep", "-i", f"^{i}:", "/etc/shadow"])
             output = output.decode("utf-8").strip()
-            if "!*" not in output:
+            password_field = output.split(':')[1] if ':' in output else None
+
+            if password_field is not None and not password_field.startswith(('!', '*')):
                 error_user.append(i)
                 counter += 1
         except subprocess.CalledProcessError:
             pass
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
 
     if counter > 0:
         with open(RESULT_FILE, "a") as file:
