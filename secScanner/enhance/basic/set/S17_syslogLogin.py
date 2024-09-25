@@ -14,7 +14,7 @@ def S17_syslogLogin():
 
     if SET_RECORDING_LOGIN_EVENTS == 'yes':
         if os.path.exists('/etc/rsyslog.conf') and not os.path.exists('/etc/rsyslog.conf_bak'):
-                shutil.copy2('/etc/rsyslog.conf', '/etc/rsyslog.conf_bak')
+            shutil.copy2('/etc/rsyslog.conf', '/etc/rsyslog.conf_bak')
         add_bak_file('/etc/rsyslog.conf_bak')
         if os.path.exists('/etc/rsyslog.conf'):
             IS_EXIST = 0

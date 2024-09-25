@@ -13,7 +13,7 @@ def S31_anonymousFTP():
         if os.path.exists('/etc/vsftpd/vsftpd.conf') and not os.path.exists('/etc/vsftpd/vsftpd.conf_bak'):
             shutil.copy2('/etc/vsftpd/vsftpd.conf', '/etc/vsftpd/vsftpd.conf_bak')
         add_bak_file('/etc/vsftpd/vsftpd.conf_bak')
-        # -----------------set the restrictFTPdir----------------
+            # -----------------set the restrictFTPdir----------------
         if os.path.exists('/etc/vsftpd/vsftpd.conf'):
             with open('/etc/vsftpd/vsftpd.conf', 'r+') as f:
                 lines = f.readlines()

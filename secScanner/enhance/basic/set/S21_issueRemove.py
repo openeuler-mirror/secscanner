@@ -23,6 +23,7 @@ def S21_issueRemove():
                     os.remove('/etc/issue.net')
             add_bak_file('/etc/issue_bak')
             add_bak_file('/etc/issue.net_bak')
+
             if os.path.exists('/etc/issue'):
                 logger.info("Still remain issue file, setting failed")
                 Display("- Remove the issue file...", "FAILED")

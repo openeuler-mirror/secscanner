@@ -10,10 +10,11 @@ def S26_setaliases():
     InsertSection("Set ls and rm aliases...")
     set_bashrc_alias = seconf.get('basic', 'set_bashrc_alias')
     if set_bashrc_alias == 'yes':
-        if os.path.exists('/root/.bashrc_bak'):
+        if os.path.exists('/root/.bashrc'):
             if not os.path.exists('/root/.bashrc_bak'):
                 shutil.copy2('/root/.bashrc', '/root/.bashrc_bak')
             add_bak_file('/root/.bashrc_bak')
+
             config_ls = False
             config_rm = False
             with open('/root/.bashrc', 'r') as read_file:

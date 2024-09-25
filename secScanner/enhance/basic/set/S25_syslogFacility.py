@@ -12,7 +12,6 @@ def S25_syslogFacility():
         if not os.path.exists('/etc/ssh/sshd_config_bak'):
             shutil.copy2('/etc/ssh/sshd_config', '/etc/ssh/sshd_config_bak')
         add_bak_file('/etc/ssh/sshd_config_bak')
-
         # -----------------set the syslogfacility----------------
         IS_EXIST = 0
         with open('/etc/ssh/sshd_config', 'r') as read_file:
