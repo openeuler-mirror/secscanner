@@ -77,11 +77,11 @@ def S38_limitUserResources():
 
             if set01 and set02 and set03 and set04 and set05 and set_pam: 
                 logger.info("set the limit of system resources successfully")
-                Display(f"- Setting the the limit of system resources...", "FINISHED")
+                Display(f"- Setting the limit of system resources...", "FINISHED")
 
             else:
                 logger.info("Set the limit of system resources failed")
-                Display("- Set the the limit of system resources...", "FAILED")
+                Display("- Set the limit of system resources...", "FAILED")
 
         else:
             logger.info("no filepath /etc/security/limits.conf")
