@@ -53,25 +53,25 @@ Operating System Security Scanning Tool
 #exit 0
 
 %build
-do_virtualenv() {
-    python3 -m venv virtualenv
-    source virtualenv/bin/activate
-    pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
-    pip3 install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-    search_directory="virtualenv/bin"
-    new_first_line="#!\/opt\/secScanner\/virtualenv\/bin\/python3"
-    find "${search_directory}" -type f -name "*pip*" -exec sed -i '1s/.*/'"$new_first_line"'/' {} +
-    sed -i '1s/.*/#!\/opt\/secScanner\/virtualenv\/bin\/python3/' virtualenv/bin/normalizer
-    sed -i 's/VIRTUAL_ENV=.*/VIRTUAL_ENV="\/opt\/secScanner\/virtualenv"/' virtualenv/bin/activate
-    pushd ${PWD}
-    tar zcf virtualenv.tar.gz virtualenv
-    popd
-}
+#do_virtualenv() {
+#    python3 -m venv virtualenv
+#    source virtualenv/bin/activate
+#    pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+#    pip3 install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+#    search_directory="virtualenv/bin"
+#    new_first_line="#!\/opt\/secScanner\/virtualenv\/bin\/python3"
+#    find "${search_directory}" -type f -name "*pip*" -exec sed -i '1s/.*/'"$new_first_line"'/' {} +
+#    sed -i '1s/.*/#!\/opt\/secScanner\/virtualenv\/bin\/python3/' virtualenv/bin/normalizer
+#    sed -i 's/VIRTUAL_ENV=.*/VIRTUAL_ENV="\/opt\/secScanner\/virtualenv"/' virtualenv/bin/activate
+#    pushd ${PWD}
+#    tar zcf virtualenv.tar.gz virtualenv
+#    popd
+#}
 
-echo "start build secscanner ..."
-echo ${PWD}
-do_virtualenv
-echo "build secscanner end........"
+#echo "start build secscanner ..."
+#echo ${PWD}
+#do_virtualenv
+#echo "build secscanner end........"
 
 
 %install
@@ -95,13 +95,13 @@ mkdir -p %{buildroot}/etc/secscanner.d/
 mkdir -p %{buildroot}/usr/lib/systemd/system/
 cp -p %{buildroot}/opt/secScanner/secScanner/services/service_file/* %{buildroot}/usr/lib/systemd/system/
 cp -p %{buildroot}/opt/secScanner/secScanner/services/timer_file/* %{buildroot}/usr/lib/systemd/system/
-cp virtualenv.tar.gz  %{buildroot}/opt/secScanner/
+#cp virtualenv.tar.gz  %{buildroot}/opt/secScanner/
 
 %post
-pushd /opt/secScanner
-tar -xvf virtualenv.tar.gz
-rm -rf virtualenv.tar.gz
-popd
+#pushd /opt/secScanner
+#tar -xvf virtualenv.tar.gz
+#rm -rf virtualenv.tar.gz
+#popd
 
 
 %clean
