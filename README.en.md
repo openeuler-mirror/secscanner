@@ -47,7 +47,7 @@ yum install chkrootkit
 
 #### Directions for use
 
-Run the secscanner -h command command in the CLI terminal to display the following parameter prompts: 
+Run the secscanner -h command in the CLI terminal to display the following parameter prompts: 
 
 ```
 usage: secscanner [-h] [--config] [-q] [-V] {auto,fix,check,restore,db,vulner} ...
