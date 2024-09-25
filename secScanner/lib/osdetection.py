@@ -25,6 +25,7 @@ MACHINE = platform.machine()
 HOMEDIRS = ['/home', '/root']
 OS_FULLNAME = platform.uname().release
 # 初始化变量
+set_value("SHELL_IS_BUSYBOX", "0")
 set_value("OS_NAME", "")
 if "OS_VERSION" in show_dict():
     OS_VERSION = get_value("OS_VERSION")
@@ -403,5 +404,4 @@ if pathlib.Path('/bin/busybox').exists():
     if pathlib.Path('/bin/ps').is_symlink():
         SYMLINK_PATH = pathlib.Path('/bin/ps').resolve()
         if SYMLINK_PATH == pathlib.Path('/bin/busybox'):
-            SHELL_IS_BUSYBOX = 1
             set_value("SHELL_ISBUSYBOX", "1")
