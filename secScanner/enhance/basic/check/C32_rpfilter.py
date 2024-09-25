@@ -26,7 +26,7 @@ def C32_rpfilter():
                     default_set = 'right'
     if all_set == 'unset' and default_set == 'unset':
         with open(RESULT_FILE, "a") as file:
-            file.write("\nC33\n")
+            file.write("\nC32\n")
         logger.warning("WRN_C32_01: %s", WRN_C32_01)
         logger.warning("SUG_C32: %s", SUG_C32)
         Display("- No reverse path filtering config set...", "WARNING")
@@ -35,7 +35,7 @@ def C32_rpfilter():
         Display("- Check the reverse path filtering set...", "OK")
     else:
         with open(RESULT_FILE, "a") as file:
-            file.write("\nC33\n")
+            file.write("\nC32\n")
         logger.warning("WRN_C32_02: %s", WRN_C32_02)
         logger.warning("SUG_C32: %s", SUG_C32)
         Display("- Wrong reverse path filtering config set...", "WARNING")
