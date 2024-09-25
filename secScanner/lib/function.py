@@ -325,6 +325,32 @@ def gen_cve_json_file(data):
     with open(f"/var/log/secScanner/CVE_info.json", 'w') as write_file:
         write_file.write(json.dumps(result))
 
+def service_restart(service_name):
+    cmd = 'systemctl restart ' + service_name
+    ret, result = subprocess.getstatusoutput(cmd)
+    if ret != 0:
+        logger.error(f"systemd service restart failed —— {result}")
+        print(result)
+        sys.exit(1)
+
+def service_start(service_name):
+    cmd = 'systemctl start ' + service_name
+    ret, result = subprocess.getstatusoutput(cmd)
+    if ret != 0:
+        logger.error(f"systemd service start failed —— {result}")
+        print(result)
+        sys.exit(1)
+
+def service_enable(service_name):
+    cmd = 'systemctl is-enabled ' + service_name
+    ret, result = subprocess.getstatusoutput(cmd)
+    if ret != 0:
+        en, output = subprocess.getstatusoutput(f'systemctl enable {service_name}')
+        if en != 0:
+            logger.error(f"systemd service enable failed —— {output}")
+            print(output)
+            sys.exit(1)
+
 def add_bak_file(file_name):
     # add bak file name to global dict
     # bak file name is /etc/motd
@@ -354,4 +380,3 @@ def write_bak_file():
         bak_string += f"{bak_file_name}\n"
     with open(f'{dir}/bak.py', "w") as f:
         f.write(bak_string)
-    

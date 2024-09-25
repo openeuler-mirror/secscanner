@@ -10,6 +10,7 @@
    See the Mulan PSL v2 for more details.
 '''
 
+#basic
 WRN_C01 = "No /etc/motd set"
 
 WRN_C02_01 = "No password remember times"
