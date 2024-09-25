@@ -32,6 +32,6 @@ def S21_issueRemove():
 
         else:
             logger.info("This is virtual machine, can't remove the issue file")
-            Display("- This is virtual machine, can't remove the issue file", "SKIPPED")
+            Display("- This is virtual machine, can't remove the issue file", "SKIPPING")
     else:
         Display("- Skip hide issue file due to config file...", "SKIPPING")
