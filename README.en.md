@@ -2,34 +2,39 @@
 
 #### introduce
 
-secScanner is an operating system security scanning tool designed to provide  security hardening, vulnerability scanning, rootkit intrusion detection, and other functions for the operating system. Users can scan and detect the security aspects of the system through customized parameter  configurations, and at the same time meet the security hardening of the  system baseline and scan the vulnerabilities of the customized software  packages selected by the user, and the system intrusion detection uses  the chkrootkit tool. 
+secScanner is an operating system security scanning tool designed to provide security reinforcement, vulnerability scanning, rootkit intrusion detection, and other functions for operating systems. Users can perform security scanning and detection on the system through customized parameter configuration. While meeting the requirements of system baseline security reinforcement, users can also scan for vulnerabilities in the customized software packages they have selected. Intrusion detection scanning uses chkrootkit and secDetector tools.
 
 #### Software Architecture
-1. Configure the system security baseline 
+1. System security baseline configuration 
 
-- One-click configuration: The configuration with security weaknesses on the system can be modified at one time to meet compliance requirements. 
-- Configuration restoration: provides a one-click configuration restoration function to ensure that the original state can be restored in time after the system is abnormal. 
-- Automatic detection: It can detect the insecure configuration information of the current system at one time; 
-- Solution tip: Reinforcement items that do not meet security requirements will be reported to recommend reasonable configuration steps to users. 
-- Parameter control: All reinforcement configurations can be parameterized, and  users can customize whether they need to configure relevant function  points; 
+-One click configuration: capable of modifying configurations with security vulnerabilities on the system at once to meet compliance requirements; 
+-Configuration restoration: Provides a one click restoration function for configuration, ensuring that the original state can be restored in a timely manner after system anomalies caused by reinforcement; 
+-Automatic detection: capable of detecting unsafe configuration information in the current system at once; 
+-Solution tip: Reinforcement items that do not meet security requirements will be recommended to users through a report with reasonable configuration steps; 
+-Parameter control: All reinforcement configurations can be parameterized and controlled, and users can customize whether to configure relevant functional points; 
 
-2. System package vulnerability detection 
+2. System software package vulnerability detection 
 
-- One-click scanning of system vulnerabilities: supports traversing data in the  database to scan for vulnerabilities in the system; 
-- Targeted detection: You can detect CVE vulnerabilities in specified software  packages, and you can select the software packages you want to detect. 
-- Rich content: Software package vulnerability detection needs to include  information such as vulnerability score, vulnerability fix version,  vulnerability status, and mitigation plan. 
+-One click system vulnerability scanning: supports traversing data in the database and scanning for vulnerabilities in the system; 
+-Targeted detection: supports detecting CVE vulnerabilities in specified software packages, and users can choose the software packages they need to detect; 
+-Rich content: Software package vulnerability detection requires information such as vulnerability rating, vulnerability repair version, vulnerability status, mitigation plan, etc; 
 
 3. System rootkit detection 
 
-- Automatic detection: It can detect possible rootkit intrusion information in the current system at one time; 
-- Solution tip: Report and display possible rootkit intrusions and provide relevant suggestions; 
+-Automatic detection: capable of detecting possible rootkit intrusion issues in the current system at once; 
+-Solution tip: Report and display possible rootkit intrusions, and provide relevant suggestions; 
 
-4. Report output 
+4. System intrusion detection and file integrity scanning services 
 
-- The report output should include three parts: console report output, /var/log/xxx .log log file output, and html report output; 
-- For the scanning of system security baselines, the detection results,  hardening solution prompts, and other content can be output in HTML  format, which is clear and intuitive. 
-- For system package vulnerability detection, the detection results should be output in HTML format. 
-- For system rootkit intrusion detection, you can output the detection results in HTML format. 
+-Timed scanning: Can use chkrootkit and aide to scan the current system at regular intervals; 
+-Log check: Use Journalctl to query the logs and check for any security issues; 
+
+5. Report output 
+
+-The report output should include three main parts: console report output,/var/log/xx.log log log file output, and HTML report output; 
+-For the scanning of system security baselines, relevant reports such as detection results and reinforcement plan prompts can be output in HTML format, which is clear and intuitive; 
+-For system software package vulnerability detection, it should support outputting relevant reports in HTML format based on the detection results; 
+-For system rootkit intrusion detection, it should support outputting relevant reports in HTML format based on the detection results.
 
 #### Installation tutorial
 
@@ -50,24 +55,26 @@ yum install chkrootkit
 Run the secscanner -h command in the CLI terminal to display the following parameter prompts: 
 
 ```
-usage: secscanner [-h] [--config] [-q] [-V] {auto,fix,check,restore,db,vulner} ...
+usage: secscanner [-h] [--config] [-q] [-V] {useradd,fix,check,restore,db,service,ssh} ...
 
 SecScanner command
 
 positional arguments:
-  {auto,fix,check,restore,db,vulner}
-    auto                auto command
+  {useradd,fix,check,restore,db,service,ssh}
+    useradd             Create a new user to achieve permission separation
     fix                 Fix command
     check               Check command
     restore             Restore command
     db                  Database command
-    vulner              Scan vulner command
+    service             Services command
+    ssh                 SSH ban&unban command
 
 optional arguments:
   -h, --help            show this help message and exit
   --config              Show settings file path
   -q, --quiet           Quiet mode
   -V, --version         Show version
+
 ```
 
 
@@ -75,7 +82,7 @@ optional arguments:
 
 1.Fork this repository
 
- 2.During the current rapid iteration, only the master  branch, so you only need to submit it after the master makes changes  
+2.During the current rapid iteration, only the master  branch, so you only need to submit it after the master makes changes  
 
 3.Create a PR and describe the specific functions and functions of the  PR 
 
