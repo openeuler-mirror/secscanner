@@ -2,7 +2,6 @@ import logging
 import re
 from secScanner.gconfig import *
 from secScanner.lib import *
-from secScanner.lib.TextInfo import *
 logger = logging.getLogger("secscanner")
 
 
