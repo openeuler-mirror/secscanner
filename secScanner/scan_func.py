@@ -329,6 +329,7 @@ def scan_restore_basic_inline():
                         pro_val = int(pro_val, 8)
                         os.chmod(name, pro_val)
                     Display(f"- Restoring property of file or dir:{name}...", "FINISHED")
+            os.remove(i)
 
     restore_unused_user()
 
