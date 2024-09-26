@@ -2,8 +2,7 @@ import logging
 import os
 import re
 from secScanner.gconfig import *
-from secScanner.lib.function import InsertSection, Display
-from secScanner.lib.TextInfo import *
+from secScanner.lib import *
 
 logger = logging.getLogger("secscanner")
 
@@ -16,11 +15,12 @@ def C34_noCtrlAltDelBurstAction():
         with open('/etc/systemd/system.conf', 'r') as file:
             lines = file.readlines()
             for line in lines:
+                line = line.strip()
                 if re.match('CtrlAltDelBurstAction', line) and not re.match('^#|^$', line):
                     CONFIG_SET = 'wrong'
                     temp = line.split("=")
                     if len(temp) == 2 and temp[1] == 'none':
-                        CONFIGL_SET = 'right'
+                        CONFIG_SET = 'right'
 
     if CONFIG_SET == 'unset':
         with open(RESULT_FILE, "a") as file:
