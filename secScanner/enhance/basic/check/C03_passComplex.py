@@ -2,6 +2,7 @@ import logging
 import re
 from secScanner.gconfig import *
 from secScanner.lib import *
+
 logger = logging.getLogger("secscanner")
 
 def C03_passComplex():
@@ -51,122 +52,104 @@ def C03_passComplex():
 
     # decide part
     # ------------------------------------------------------------------------------------------------
-    try:
-        t_minlen_int = int(t_minlen)
-    except ValueError:
+    if t_minlen == '':
         # minlen not found or no numbers after minlen
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
         logger.warning("WRN_C03_02: %s", WRN_C03_02)
         logger.warning("SUG_C03_01: %s", SUG_C03_01)
         Display("- No Password Minlen set...", "WARNING")
+    elif t_minlen <= '7':  # '' < '7' but '' cant enter here
+        with open(RESULT_FILE, "a") as file:
+            file.write("\nC03\n")
+        logger.warning("WRN_C03_01: %s", WRN_C03_01)
+        logger.warning("SUG_C03_01: %s", SUG_C03_01)
+        Display("- Wrong Password Minlen set...", "WARNING")
     else:
-        if t_minlen_int <= 7:  # '' < '7' but '' cant enter here
-            with open(RESULT_FILE, "a") as file:
-                file.write("\nC03\n")
-            logger.warning("WRN_C03_01: %s", WRN_C03_01)
-            logger.warning("SUG_C03_01: %s", SUG_C03_01)
-            Display("- Wrong Password Minlen set...", "WARNING")
-        else:
-            logger.info("Has Password Minlen set, checking OK")
-            Display("- Has Password Minlen set...", "OK")
+        logger.info("Has Password Minlen set, checking OK")
+        Display("- Has Password Minlen set...", "OK")
 
     # ------------------------------------------------------------------------------------------------
-    try:
-        t_minclass_int = int(t_minclass)
-    except ValueError:
+    if t_minclass == '':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
         logger.warning("WRN_C03_04: %s", WRN_C03_04)
         logger.warning("SUG_C03_02: %s", SUG_C03_02)
         Display("- No Password Minclass set...", "WARNING")
+    elif t_minclass < '2':  # should >= 2
+        with open(RESULT_FILE, "a") as file:
+            file.write("\nC03\n")
+        logger.warning("WRN_C03_03: %s", WRN_C03_03)
+        logger.warning("SUG_C03_02: %s", SUG_C03_02)
+        Display("- Wrong Password Minclass set...", "WARNING")
     else:
-        if t_minclass_int < 2:  # should >= 2
-            with open(RESULT_FILE, "a") as file:
-                file.write("\nC03\n")
-            logger.warning("WRN_C03_03: %s", WRN_C03_03)
-            logger.warning("SUG_C03_02: %s", SUG_C03_02)
-            Display("- Wrong Password Minclass set...", "WARNING")
-        else:
-            logger.info("Has Password Minclass set, checking OK")
-            Display("- Has Password Minclass set...", "OK")
+        logger.info("Has Password Minclass set, checking OK")
+        Display("- Has Password Minclass set...", "OK")
 
     # ------------------------------------------------------------------------------------------------
-    try:
-        n_ucredit_int = int(n_ucredit)
-    except ValueError:
+    if n_ucredit == '':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
         logger.warning("WRN_C03_06: %s", WRN_C03_06)
         logger.warning("SUG_C03_03: %s", SUG_C03_03)
         Display("- No Password ucredit set...", "WARNING")
+    elif n_ucredit > '-1':  # '' < '7' but '' cant enter here
+        with open(RESULT_FILE, "a") as file:
+            file.write("\nC03\n")
+        logger.warning("WRN_C03_05: %s", WRN_C03_05)
+        logger.warning("SUG_C03_03: %s", SUG_C03_03)
+        Display("- Wrong Password ucredit set...", "WARNING")
     else:
-        if n_ucredit_int > -1:  # '' < '7' but '' cant enter here
-            with open(RESULT_FILE, "a") as file:
-                file.write("\nC03\n")
-            logger.warning("WRN_C03_05: %s", WRN_C03_05)
-            logger.warning("SUG_C03_03: %s", SUG_C03_03)
-            Display("- Wrong Password ucredit set...", "WARNING")
-        else:
-            logger.info("Has Password ucredit set, checking OK")
-            Display("- Has Password ucredit set...", "OK")
+        logger.info("Has Password ucredit set, checking OK")
+        Display("- Has Password ucredit set...", "OK")
 
     # ------------------------------------------------------------------------------------------------
-    try:
-        n_lcredit_int = int(n_lcredit)
-    except ValueError:
+    if n_lcredit == '':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
         logger.warning("WRN_C03_08: %s", WRN_C03_08)
         logger.warning("SUG_C03_04: %s", SUG_C03_04)
         Display("- No Password lcredit set...", "WARNING")
+    elif n_lcredit > '-1':  # '' < '7' but '' cant enter here
+        with open(RESULT_FILE, "a") as file:
+            file.write("\nC03\n")
+        logger.warning("WRN_C03_07: %s", WRN_C03_07)
+        logger.warning("SUG_C03_04: %s", SUG_C03_04)
+        Display("- Wrong Password lcredit set...", "WARNING")
     else:
-        if n_lcredit_int > -1:  # '' < '7' but '' cant enter here
-            with open(RESULT_FILE, "a") as file:
-                file.write("\nC03\n")
-            logger.warning("WRN_C03_07: %s", WRN_C03_07)
-            logger.warning("SUG_C03_04: %s", SUG_C03_04)
-            Display("- Wrong Password lcredit set...", "WARNING")
-        else:
-            logger.info("Has Password lcredit set, checking OK")
-            Display("- Has Password lcredit set...", "OK")
+        logger.info("Has Password lcredit set, checking OK")
+        Display("- Has Password lcredit set...", "OK")
 
     # ------------------------------------------------------------------------------------------------
-    try:
-        n_dcredit_int = int(n_dcredit)
-    except ValueError:
+    if n_dcredit == '':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
         logger.warning("WRN_C03_10: %s", WRN_C03_10)
         logger.warning("SUG_C03_05: %s", SUG_C03_05)
         Display("- No Password dcredit set...", "WARNING")
+    elif n_dcredit > '-1':  # '' < '7' but '' cant enter here
+        with open(RESULT_FILE, "a") as file:
+            file.write("\nC03\n")
+        logger.warning("WRN_C03_09: %s", WRN_C03_09)
+        logger.warning("SUG_C03_05: %s", SUG_C03_05)
+        Display("- Wrong Password dcredit set...", "WARNING")
     else:
-        if n_dcredit_int > -1:  # '' < '7' but '' cant enter here
-            with open(RESULT_FILE, "a") as file:
-                file.write("\nC03\n")
-            logger.warning("WRN_C03_09: %s", WRN_C03_09)
-            logger.warning("SUG_C03_05: %s", SUG_C03_05)
-            Display("- Wrong Password dcredit set...", "WARNING")
-        else:
-            logger.info("Has Password dcredit set, checking OK")
-            Display("- Has Password dcredit set...", "OK")
+        logger.info("Has Password dcredit set, checking OK")
+        Display("- Has Password dcredit set...", "OK")
 
     # ------------------------------------------------------------------------------------------------
-    try:
-        n_ocredit_int = int(n_ocredit)
-    except ValueError:
+    if n_ocredit == '':
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
         logger.warning("WRN_C03_12: %s", WRN_C03_12)
         logger.warning("SUG_C03_06: %s", SUG_C03_06)
         Display("- No Password ocredit set...", "WARNING")
+    elif n_ocredit > '-1':  # '' < '7' but '' cant enter here
+        with open(RESULT_FILE, "a") as file:
+            file.write("\nC03\n")
+        logger.warning("WRN_C03_11: %s", WRN_C03_11)
+        logger.warning("SUG_C03_06: %s", SUG_C03_06)
+        Display("- Wrong Password ocredit set...", "WARNING")
     else:
-        if n_ocredit_int > -1:  # '' < '7' but '' cant enter here
-            with open(RESULT_FILE, "a") as file:
-                file.write("\nC03\n")
-            logger.warning("WRN_C03_11: %s", WRN_C03_11)
-            logger.warning("SUG_C03_06: %s", SUG_C03_06)
-            Display("- Wrong Password ocredit set...", "WARNING")
-        else:
-            logger.info("Has Password ocredit set, checking OK")
-            Display("- Has Password ocredit set...", "OK")
+        logger.info("Has Password ocredit set, checking OK")
+        Display("- Has Password ocredit set...", "OK")
