@@ -496,7 +496,8 @@ def vulnerabilities_db_update():
         response = requests.get(url=cve_url, timeout=2)
         if response.status_code != 200:
             print(f"请求失败，状态码：{response.status_code}, 请重试！")
-            return
+            # return
+            continue
 
         if 'Required String parameter' in response.text:
             continue
@@ -628,6 +629,9 @@ def scan_vulnerabilities_rpm_check():
     elif euler_version in ['v24 LTS', '22.03 (LTS-SP3)', '24.e1011']:
         euler_version = 'openEuler-22.03-LTS-SP3'
         ver_rpm = 'oe2203sp3'
+    elif euler_version == '22.03 (LTS-SP4)':
+        euler_version = 'openEuler-22.03-LTS-SP4'
+        ver_rpm = 'oe2203sp4'
     elif euler_version == '21.10U3 LTS' or euler_version == '20.03 LTS SP3':
         euler_version = 'openEuler-20.03-LTS-SP3'
     elif euler_version == '21.10 LTS' or euler_version == '20.03 LTS SP2':
