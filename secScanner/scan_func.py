@@ -702,9 +702,19 @@ def scan_vulnerabilities_rpm_check():
                 break
         if len(sys_rpm_version) == len(sa_rpm_version):
             for j in range(len(sys_rpm_version)):
-                if sys_rpm_version[j] < sa_rpm_version[j]:
-                    result_dict[sa_info] = [sa_info, cve_info, found_rpm, aff_component, sys_package]
-                    break
+                if sys_rpm_version[j].isdigit() and sa_rpm_version[j].isdigit():
+                    if int(sys_rpm_version[j]) < int(sa_rpm_version[j]):
+                        result_dict[sa_info] = [sa_info, cve_info, found_rpm, aff_component, sys_package]
+                        break
+                    elif int(sys_rpm_version[j]) > int(sa_rpm_version[j]):
+                        break
+                else:
+                    if sys_rpm_version[j] < sa_rpm_version[j]:
+                        result_dict[sa_info] = [sa_info, cve_info, found_rpm, aff_component, sys_package]
+                        break
+                    elif sys_rpm_version[j] > sa_rpm_version[j]:
+                        break
+    
     Display(f"Found {len(result_dict)} pieces of information about component vulnerabilities", "WARNING")
     for s in result_dict:
         print("------------------------------------------------------------------------\n")
