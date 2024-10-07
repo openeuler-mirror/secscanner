@@ -33,11 +33,13 @@ secScanner是操作系统安全扫描工具，旨在为操作系统提供安全�
 #### 安装教程
 ```shell
 git clone https://gitee.com/openeuler/secscanner
-mv secscanner secScanner-1.3
-tar -cvf secScanner-0.1.tar.gz secScanner-1.3
-cp secScanner-1.3/secscanner.spec rpmbuild/SPECS
-rpmbuild -ba rpmbuild/SPECS/secscanner.spec
-rpm -ivh secScanner-1.3-0.xxxx.xxxx.rpm
+mv secscanner secScanner-1.2
+tar -cvf secScanner-1.2.tar.gz secScanner-1.2
+mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+mv secScanner-1.2.tar.gz ~/rpmbuild/SOURCES
+cp secScanner-1.2/secscanner.spec ~/rpmbuild/SPECS
+rpmbuild -ba ~/rpmbuild/SPECS/secscanner.spec
+rpm -ivh ~/rpmbuild/RPMS/xxxx/secScanner-1.2-0.xxxx.xxxx.rpm
 若提示需安装chkrootkit和aide，则
 yum install chkrootkit aide
 或相关系统架构的chkrootkit和aide，目前暂无版本要求
