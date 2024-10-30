@@ -103,7 +103,7 @@ def S01_loginLock():
     OS_ID = get_value("OS_ID")
     OS_DISTRO = get_value("OS_DISTRO")
     InsertSection("set user deny time and unlock time")
-    if OS_ID.lower() == 'bclinux'] and OS_DISTRO == '7':
+    if OS_ID.lower() == 'bclinux' and OS_DISTRO == '7':
         el7_set_deny()
     else:
         logger.info(f"we do not support {OS_ID}-{OS_DISTRO} at this moment")
