@@ -51,6 +51,20 @@ class TestC10_sshBanner(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C10_01: %s", WRN_C10_01)
         mock_logger.warning.assert_any_call("SUG_C10: %s", SUG_C10)
+    
+    @patch('secScanner.enhance.basic.check.C10_sshBanner.Display')
+    @patch('secScanner.enhance.basic.check.C10_sshBanner.InsertSection')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.exists', side_effect=[False, True])  # 第一次调用返回False，第二次调用返回True
+    @patch('secScanner.enhance.basic.check.C10_sshBanner.logger')
+    def test_no_sshbanner_file(self, mock_logger, mock_exists, mock_file, mock_insert, mock_display):
+
+        # 运行测试的函数
+        C10_sshBanner()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C10_02: %s", WRN_C10_02)
+        mock_logger.warning.assert_any_call("SUG_C10: %s", SUG_C10)
 
     
 if __name__ == '__main__':
