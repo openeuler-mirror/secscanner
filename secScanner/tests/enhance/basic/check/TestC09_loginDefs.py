@@ -40,6 +40,17 @@ class TestC09_loginDefs(unittest.TestCase):
         secScanner.enhance.basic.check.C09_loginDefs.C09_loginDefs()
         mock_logger.warning.assert_any_call("WRN_C09_01: %s", WRN_C09_01)
         mock_display.assert_any_call("- PASS_MAX_DAYS value is not safe...", "WARNING")
+    
+    @patch('secScanner.enhance.basic.check.C09_loginDefs.InsertSection')
+    @patch('secScanner.enhance.basic.check.C09_loginDefs.open', new_callable=mock_open, read_data="")
+    @patch('secScanner.enhance.basic.check.C09_loginDefs.logger')
+    @patch('secScanner.enhance.basic.check.C09_loginDefs.Display')
+    #@patch('secScanner.enhance.basic.check.C09_loginDefs.InsertSection')
+    def test_values_missing(self, mock_display, mock_logger, mock_file, mock_insert):
+        """配置文件缺少所有设置的情况"""
+        secScanner.enhance.basic.check.C09_loginDefs.C09_loginDefs()
+        mock_logger.warning.assert_any_call("WRN_C09_02: %s", WRN_C09_02)
+        mock_display.assert_any_call("- PASS_MAX_DAYS value is null...", "WARNING")
 
 
 # 如果是作为脚本运行，自动执行测试
