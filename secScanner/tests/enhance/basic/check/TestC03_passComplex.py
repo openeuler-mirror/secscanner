@@ -50,6 +50,37 @@ class TestC03_passComplex(unittest.TestCase):
         mock_display.assert_any_call("- No Password lcredit set...", "WARNING")
         mock_display.assert_any_call("- No Password dcredit set...", "WARNING")
         mock_display.assert_any_call("- No Password ocredit set...", "WARNING")
+    
+    @patch('secScanner.enhance.basic.check.C03_passComplex.InsertSection')
+    @patch('secScanner.enhance.basic.check.C03_passComplex.open', new_callable=mock_open)
+    @patch('secScanner.enhance.basic.check.C03_passComplex.logger')
+    @patch('secScanner.enhance.basic.check.C03_passComplex.Display')
+    def test_correct_minlen(self, mock_display, mock_logger, mock_open, mock_insert):
+        data = self.base_data + "minlen=9"
+        mock_open.return_value.readlines.return_value = [data]
+        secScanner.enhance.basic.check.C03_passComplex.C03_passComplex()
+        mock_display.assert_any_call("- Has Password Minlen set...", "OK")
+        mock_display.assert_any_call("- No Password Minclass set...", "WARNING")
+        mock_display.assert_any_call("- No Password ucredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password lcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password dcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password ocredit set...", "WARNING")
+
+
+    @patch('secScanner.enhance.basic.check.C03_passComplex.InsertSection')
+    @patch('secScanner.enhance.basic.check.C03_passComplex.open', new_callable=mock_open)
+    @patch('secScanner.enhance.basic.check.C03_passComplex.logger')
+    @patch('secScanner.enhance.basic.check.C03_passComplex.Display')
+    def test_incorrect_minclass(self, mock_display, mock_logger, mock_open, mock_insert):
+        data = self.base_data + "minclass=1"
+        mock_open.return_value.readlines.return_value = [data]
+        secScanner.enhance.basic.check.C03_passComplex.C03_passComplex()
+        mock_display.assert_any_call("- No Password Minlen set...", "WARNING")
+        mock_display.assert_any_call("- Wrong Password Minclass set...", "WARNING")
+        mock_display.assert_any_call("- No Password ucredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password lcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password dcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password ocredit set...", "WARNING")
 
 
 if __name__ == '__main__':
