@@ -4,7 +4,7 @@ import os
 import sys
 import secScanner
 from secScanner.lib.textInfo_basic import *
-from secScanner.enhance.basic.check.C01_motd import C01_motd  # 替换your_module_name为包含C01_motd函数的模块名
+from secScanner.enhance.basic.check.C01_motd import C01_motd
 
 class TestC01_Motd(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C01_motd.os.path.exists')
