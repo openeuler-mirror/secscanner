@@ -47,6 +47,16 @@ class TestC37_Kernelopps(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C37: %s", SUG_C37)
         mock_display.assert_called_with("- Wrong kernel panic on oops set set...", "WARNING")
 
+    @patch('secScanner.enhance.basic.check.C37_Kernelopps.InsertSection')
+    @patch('os.path.exists', return_value=False)
+    @patch('secScanner.enhance.basic.check.C37_Kernelopps.Display')
+    def test_config_file_does_not_exist(self, mock_display, mock_exists, mock_insert):
+        # 运行测试的函数
+        C37_Kernelopps()
+
+        # 检查文件不存在时的显示信息
+        mock_display.assert_called_with("- No path /etc/sysctl.conf exists", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
 
