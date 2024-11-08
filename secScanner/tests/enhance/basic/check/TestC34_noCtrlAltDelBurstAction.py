@@ -47,6 +47,20 @@ class TestC34_noCtrlAltDelBurstAction(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C34: %s", SUG_C34)
         mock_display.assert_called_with("- Wrong system CtrlAltDel burst action config set...", "WARNING")
 
+    @patch('secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction.InsertSection')
+    @patch('os.path.exists', side_effect=lambda x: x not in ["/etc/systemd/system/ctrl-alt-del.target_bak", "/usr/lib/systemd/system/ctrl-alt-del.target"])
+    @patch('builtins.open', new_callable=mock_open, read_data="")
+    @patch('secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction.logger')
+    @patch('secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction.Display')
+    def test_no_ctrlaltdel_burst_action_set(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
+        # 运行测试的函数
+        C34_noCtrlAltDelBurstAction()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C34_01: %s", WRN_C34_01)
+        mock_logger.warning.assert_any_call("SUG_C34: %s", SUG_C34)
+        mock_display.assert_called_with("- No system CtrlAltDel burst action config set...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
 
