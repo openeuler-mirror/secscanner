@@ -45,6 +45,19 @@ class TestC32_rpfilter(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C32: %s", SUG_C32)
         mock_display.assert_called_with("- Wrong reverse path filtering config set...", "WARNING")
 
+    @patch('secScanner.enhance.basic.check.C32_rpfilter.InsertSection')
+    @patch('builtins.open', new_callable=mock_open, read_data="")
+    @patch('secScanner.enhance.basic.check.C32_rpfilter.logger')
+    @patch('secScanner.enhance.basic.check.C32_rpfilter.Display')
+    def test_no_rp_filter_set(self, mock_display, mock_logger, mock_file, mock_insert):
+        # 运行测试的函数
+        C32_rpfilter()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C32_01: %s", WRN_C32_01)
+        mock_logger.warning.assert_any_call("SUG_C32: %s", SUG_C32)
+        mock_display.assert_called_with("- No reverse path filtering config set...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
 
