@@ -47,6 +47,30 @@ class TestC30_ftpBanner(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C30: %s", SUG_C30)
         mock_display.assert_called_with("- Wrong ftp banner config set...", "WARNING")
 
+    @patch('secScanner.enhance.basic.check.C30_ftpBanner.InsertSection')
+    @patch('os.path.exists', return_value=True)
+    @patch('builtins.open', new_callable=mock_open, read_data="")
+    @patch('secScanner.enhance.basic.check.C30_ftpBanner.logger')
+    @patch('secScanner.enhance.basic.check.C30_ftpBanner.Display')
+    def test_no_ftp_banner_set(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
+        # 运行测试的函数
+        C30_ftpBanner()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C30_01: %s", WRN_C30_01)
+        mock_logger.warning.assert_any_call("SUG_C30: %s", SUG_C30)
+        mock_display.assert_called_with("- No ftp banner config set...", "WARNING")
+
+    @patch('secScanner.enhance.basic.check.C30_ftpBanner.InsertSection')
+    @patch('os.path.exists', return_value=False)
+    @patch('secScanner.enhance.basic.check.C30_ftpBanner.Display')
+    def test_config_file_does_not_exist(self, mock_display, mock_exists, mock_insert):
+        # 运行测试的函数
+        C30_ftpBanner()
+
+        # 检查是否显示文件不存在的消息
+        mock_display.assert_called_with("- Path /etc/vsftpd/vsftpd.conf not exists...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
 
