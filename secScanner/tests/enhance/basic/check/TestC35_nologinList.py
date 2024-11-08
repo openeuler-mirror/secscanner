@@ -47,6 +47,21 @@ class TestC35_nologinList(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C35: %s", SUG_C35)
         mock_display.assert_called_with("- No path /etc/login.user.deny...", "WARNING")
 
+
+    @patch('secScanner.enhance.basic.check.C35_nologinList.InsertSection')
+    @patch('builtins.open', new_callable=mock_open, read_data="auth required something.so")
+    @patch('os.path.exists', return_value=True)
+    @patch('secScanner.enhance.basic.check.C35_nologinList.logger')
+    @patch('secScanner.enhance.basic.check.C35_nologinList.Display')
+    def test_no_prohibition_config_set(self, mock_display, mock_logger, mock_exists, mock_file, mock_insert):
+        # 运行测试的函数
+        C35_nologinList()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C35_01: %s", WRN_C35_01)
+        mock_logger.warning.assert_any_call("SUG_C35: %s", SUG_C35)
+        mock_display.assert_called_with("- No list of users prohibited from login set...", "WARNING")
+    
 if __name__ == '__main__':
     unittest.main()
 
