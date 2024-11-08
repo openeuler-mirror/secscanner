@@ -47,6 +47,16 @@ class TestC36_disMagicKeys(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C36: %s", SUG_C36)
         mock_display.assert_called_with("- Wrong disable magic keys set...", "WARNING")
 
+    @patch('secScanner.enhance.basic.check.C36_disMagicKeys.InsertSection')
+    @patch('os.path.exists', return_value=False)
+    @patch('secScanner.enhance.basic.check.C36_disMagicKeys.Display')
+    def test_sysctl_conf_not_exist(self, mock_display, mock_exists, mock_insert):
+        # 运行测试的函数
+        C36_disMagicKeys()
+
+        # 检查文件不存在时的显示信息
+        mock_display.assert_called_with("- No path /etc/sysctl.conf exists", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
 
