@@ -45,6 +45,19 @@ class TestC33_noEmptyPasswd(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C33: %s", SUG_C33)
         mock_display.assert_called_with("- Wrong ssh PermitEmptyPasswords config set...", "WARNING")
 
+    @patch('secScanner.enhance.basic.check.C33_noEmptyPasswd.InsertSection')
+    @patch('builtins.open', new_callable=mock_open, read_data="")
+    @patch('secScanner.enhance.basic.check.C33_noEmptyPasswd.logger')
+    @patch('secScanner.enhance.basic.check.C33_noEmptyPasswd.Display')
+    def test_no_permit_empty_passwords_set(self, mock_display, mock_logger, mock_file, mock_insert):
+        # 运行测试的函数
+        C33_noEmptyPasswd()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C33_01: %s", WRN_C33_01)
+        mock_logger.warning.assert_any_call("SUG_C33: %s", SUG_C33)
+        mock_display.assert_called_with("- No ssh PermitEmptyPasswords config set...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
 
