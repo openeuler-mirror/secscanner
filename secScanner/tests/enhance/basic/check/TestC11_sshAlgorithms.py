@@ -46,6 +46,18 @@ class TestC11_sshAlgorithms(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C11: %s", WRN_C11)
         mock_logger.warning.assert_any_call("SUG_C11: %s", SUG_C11)
+    
+    @patch('secScanner.enhance.basic.check.C11_sshAlgorithms.Display')
+    @patch('secScanner.enhance.basic.check.C11_sshAlgorithms.InsertSection')
+    @patch('builtins.open', new_callable=mock_open, read_data="")
+    @patch('secScanner.enhance.basic.check.C11_sshAlgorithms.logger')
+    def test_no_algorithms_file(self, mock_logger, mock_file, mock_insert, mock_display):
+        # 运行测试的函数
+        C11_sshAlgorithms()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C11: %s", WRN_C11)
+        mock_logger.warning.assert_any_call("SUG_C11: %s", SUG_C11)
 
 
 if __name__ == '__main__':
