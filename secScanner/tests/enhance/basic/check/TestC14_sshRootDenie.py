@@ -54,6 +54,34 @@ class TestC14_sshRootDenie(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C14_01: %s", WRN_C14_01)
         mock_logger.warning.assert_any_call("SUG_C14: %s", SUG_C14)
         mock_display.assert_any_call("- No ssh Root denie set...", "WARNING")
+    
+    @patch('secScanner.enhance.basic.check.C14_sshRootDenie.InsertSection')
+    @patch('secScanner.enhance.basic.check.C14_sshRootDenie.get_value', return_value='any_other_value')
+    @patch('builtins.open', new_callable=mock_open, read_data="PermitRootLogin no\n")
+    @patch('secScanner.enhance.basic.check.C14_sshRootDenie.Display')
+    @patch('secScanner.enhance.basic.check.C14_sshRootDenie.logger')
+    def test_ssh_config_right_setting(self, mock_logger, mock_display, mock_file, mock_get_value, mock_insert):
+        # 运行测试的函数
+        C14_sshRootDenie()
+
+        # 检查预期的日志信息是否已正确记录
+        mock_logger.info.assert_any_call("Has ssh Root denie set, checking OK")
+        mock_display.assert_any_call("- Check the ssh Root denie...", "OK")
+
+    
+    @patch('secScanner.enhance.basic.check.C14_sshRootDenie.InsertSection')
+    @patch('secScanner.enhance.basic.check.C14_sshRootDenie.get_value', return_value='any_other_value')
+    @patch('builtins.open', new_callable=mock_open, read_data="PermitRootLogin yes\n")
+    @patch('secScanner.enhance.basic.check.C14_sshRootDenie.logger')
+    @patch('secScanner.enhance.basic.check.C14_sshRootDenie.Display')
+    def test_ssh_config_wrong_setting(self, mock_display, mock_logger, mock_file, mock_get_value, mock_insert):
+        # 运行测试的函数
+        C14_sshRootDenie()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C14_02: %s", WRN_C14_02)
+        mock_logger.warning.assert_any_call("SUG_C14: %s", SUG_C14) 
+        mock_display.assert_any_call("- Wrong ssh Root denie set...", "WARNING")
 
 if __name__ == '__main__':
     unittest.main()
