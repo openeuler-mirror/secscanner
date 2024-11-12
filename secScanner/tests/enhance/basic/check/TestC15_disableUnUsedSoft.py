@@ -51,6 +51,18 @@ class TestC15_disableUnUsedSoft(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C15_02: %s", WRN_C15_02)
         mock_display.assert_called_with("- No service need stop...", "OK")
+    
+    @patch('secScanner.enhance.basic.check.C15_disableUnUsedSoft.InsertSection')
+    @patch('secScanner.enhance.basic.check.C15_disableUnUsedSoft.get_value', side_effect=['unknown', 'unknown'])
+    @patch('secScanner.enhance.basic.check.C15_disableUnUsedSoft.logger')
+    @patch('secScanner.enhance.basic.check.C15_disableUnUsedSoft.Display')
+    def test_unsupported_os(self, mock_display, mock_logger, mock_get_value, mock_insert):
+        # 运行测试的函数
+        C15_disableUnUsedSoft()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_called_with(f"C15: This is unknown os-distro, we do not support unknown-unknown at this moment")
+        mock_display.assert_called_with("- We do not support unknown-unknown at this moment...", "WARNING")
 
 if __name__ == '__main__':
     unittest.main()
