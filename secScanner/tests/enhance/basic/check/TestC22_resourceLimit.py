@@ -50,6 +50,20 @@ class TestC22_resourceLimit(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C22_03: %s", WRN_C22_03)
         mock_display.assert_any_call("- Check if the soft core limits is ok...", "WARNING")
         mock_display.assert_any_call("- Check if the hard core limits is ok...", "WARNING")
+    
+    @patch('secScanner.enhance.basic.check.C22_resourceLimit.InsertSection')
+    @patch('builtins.open', new_callable=mock_open, read_data="# Commented out line\n")
+    @patch('secScanner.enhance.basic.check.C22_resourceLimit.logger')
+    @patch('secScanner.enhance.basic.check.C22_resourceLimit.Display')
+    def test_no_core_limits_set(self, mock_display, mock_logger, mock_file, mock_insert):
+        # 运行测试的函数
+        C22_resourceLimit()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C22_02: %s", WRN_C22_02)
+        mock_logger.warning.assert_any_call("WRN_C22_04: %s", WRN_C22_04)
+        mock_display.assert_any_call("- This system has no soft core limit set...", "WARNING")
+        mock_display.assert_any_call("- This system has no hard core limit set...", "WARNING")
 
 if __name__ == '__main__':
     unittest.main()
