@@ -21,8 +21,8 @@ def C22_resourceLimit():
                     logger.info("The system soft core limit is '0, checking ok")
                     Display("- Check if the soft core limits is ok...", "OK")
                 else:
-                    with open(RESULT_FILE, "a") as file:
-                        file.write("\nC22\n")
+                    with open(RESULT_FILE, "a") as resultFile:
+                        resultFile.write("\nC22\n")
                     logger.warning("WRN_C22_01: %s", WRN_C22_01)
                     logger.warning("SUG_C22_01: %s", SUG_C22_01)
                     Display("- Check if the soft core limits is ok...", "WARNING")
@@ -36,8 +36,8 @@ def C22_resourceLimit():
                     logger.info("The system hard core limit is '0, checking ok")
                     Display("- Check if the hard core limits is ok...", "OK")
                 else:
-                    with open(RESULT_FILE, "a") as file:
-                        file.write("\nC22\n")
+                    with open(RESULT_FILE, "a") as resultFile:
+                        resultFile.write("\nC22\n")
                     logger.warning("WRN_C22_03: %s", WRN_C22_03)
                     logger.warning("SUG_C22_02: %s", SUG_C22_02)
                     Display("- Check if the hard core limits is ok...", "WARNING")
