@@ -48,6 +48,19 @@ class TestC21_issueRemove(unittest.TestCase):
         # 检查预期的OK信息是否已正确记录
         mock_logger.info.assert_called_with("There is no issue file remain, check ok")
         mock_display.assert_called_with("- Check if there is issue file...", "OK")
+    
+    @patch('secScanner.enhance.basic.check.C21_issueRemove.InsertSection')
+    @patch('secScanner.enhance.basic.check.C21_issueRemove.get_value', return_value=1)
+    @patch('secScanner.enhance.basic.check.C21_issueRemove.logger')
+    @patch('secScanner.enhance.basic.check.C21_issueRemove.Display')
+    @patch('secScanner.enhance.basic.check.C21_issueRemove.open')
+    def test_virtual_machine_skipped(self, mock_open, mock_display, mock_logger, mock_get_value, mock_insert):
+        # 运行测试的函数
+        C21_issueRemove()
+
+        # 检查是否跳过删除issue文件的操作
+        mock_logger.info.assert_called_with("This is virtual machine, can't remove the issue file")
+        mock_display.assert_called_with("- This is virtual machine, can't remove the issue file", 'SKIPPED')
 
 if __name__ == '__main__':
     unittest.main()
