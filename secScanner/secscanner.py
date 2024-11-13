@@ -28,7 +28,7 @@ def check_python_version():
 if __name__ == "__main__":
     check_python_version()
     gconfig.prepare_seconf()
-    logger = logging.getLogger("secscanner")
+    logger = logging.getLogger("secScanner")
     gconfig.seconf.LOGFILE = gconfig.seconf.get('main', 'LOGFILE')
     gconfig.seconf.LOG_LEVEL = gconfig.seconf.get('main', 'LOG_LEVEL')
 
