@@ -41,6 +41,17 @@ class TestC0221_loginDefs(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C0221_01: %s", WRN_C0221_01)
         mock_display.assert_any_call("- PASS_MAX_DAYS value is not safe...", "WARNING")
 
+    @patch('secScanner.enhance.euler.check.C0221_loginDefs.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0221_loginDefs.open', new_callable=mock_open, read_data="")
+    @patch('secScanner.enhance.euler.check.C0221_loginDefs.logger')
+    @patch('secScanner.enhance.euler.check.C0221_loginDefs.Display')
+    #@patch('secScanner.enhance.euler.check.C0221_loginDefs.InsertSection')
+    def test_values_missing(self, mock_display, mock_logger, mock_file, mock_insert):
+        """配置文件缺少所有设置的情况"""
+        secScanner.enhance.euler.check.C0221_loginDefs.C0221_loginDefs()
+        mock_logger.warning.assert_any_call("WRN_C0221_02: %s", WRN_C0221_02)
+        mock_display.assert_any_call("- PASS_MAX_DAYS value is null...", "WARNING")
+
 # 如果是作为脚本运行，自动执行测试
 if __name__ == '__main__':
     unittest.main()
