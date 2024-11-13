@@ -31,7 +31,7 @@ class TestC19_syslogError(unittest.TestCase):
         C19_syslogError()
 
         # 检查预期的日志信息是否已正确记录
-        mock_logger.info.assert_called_with("The security audit modle *.err is set, checking OK")
+        mock_logger.info.assert_called_with("The security audit module *.err is set, checking OK")
         mock_display.assert_called_with("- Check if there have *.err set...", "OK")
 
     @patch('secScanner.enhance.basic.check.C19_syslogError.InsertSection')

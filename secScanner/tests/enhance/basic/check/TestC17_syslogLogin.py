@@ -31,7 +31,7 @@ class TestC17_syslogLogin(unittest.TestCase):
         C17_syslogLogin()
 
         # 检查预期的日志信息是否已正确记录
-        mock_logger.info.assert_called_with("The security audit modle authpriv.info is set, checking OK")
+        mock_logger.info.assert_called_with("The security audit module authpriv.info is set, checking OK")
         mock_display.assert_called_with("- Check if there have authpriv.info set...", "OK")
 
     @patch('secScanner.enhance.basic.check.C17_syslogLogin.InsertSection')

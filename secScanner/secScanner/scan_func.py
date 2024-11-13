@@ -639,7 +639,7 @@ def scan_vulnerabilities_rpm_check():
     elif euler_version == '20.03 LTS SP1':
         euler_version = 'openEuler-20.03-LTS-SP1'
 
-    #check system archtecture
+    #check system architecture
     ret, sys_arch = subprocess.getstatusoutput('uname -m')
     if sys_arch not in ['arm', 'x86_64']:
         print("This architecture is not supported by the vulnerability scanning feature at this time")
@@ -787,7 +787,7 @@ def scan_vulnerabilities_by_items():
         euler_version = 'openEuler-20.03-LTS-SP2'
     elif euler_version == '20.03 LTS SP1':
         euler_version = 'openEuler-20.03-LTS-SP1'
-    #check system archtecture
+    #check system architecture
     ret, sys_arch = subprocess.getstatusoutput('uname -m')
     if sys_arch not in ['arm', 'x86_64']:
         print("This architecture is not supported by the vulnerability scanning feature at this time")

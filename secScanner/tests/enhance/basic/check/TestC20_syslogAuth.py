@@ -31,7 +31,7 @@ class TestC20_syslogAuth(unittest.TestCase):
         C20_syslogAuth()
 
         # 检查预期的日志信息是否已正确记录
-        mock_logger.info.assert_called_with("The security audit modle auth.none is set, checking OK")
+        mock_logger.info.assert_called_with("The security audit module auth.none is set, checking OK")
         mock_display.assert_called_with("- Check if there have auth.none set...", "OK")
 
     @patch('secScanner.enhance.basic.check.C20_syslogAuth.InsertSection')
