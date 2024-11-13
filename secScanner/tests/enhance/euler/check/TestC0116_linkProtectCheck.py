@@ -51,5 +51,26 @@ class TestC0116_linkProtectCheck(unittest.TestCase):
             mock_logger.warning.assert_any_call("SUG_C0116_0%d: %s", (i + 1), sugMessage[i])
             mock_Display.assert_any_call("- %s protection is disabled..." % linkType, "WARNING")
             
+
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.subprocess.run')
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.Display')
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.logger')
+    def test_link_protection_enabled(self, mock_logger, mock_Display, mock_InsertSection, mock_subprocess):
+        # 设置模拟返回值
+        mock_subprocess.return_value.stdout = b'fs.protected_symlinks = 1\n'
+        
+        # 调用测试函数
+        C0116_linkProtectCheck()
+
+        # 检查期望的调用和行为
+        mock_InsertSection.assert_called_once_with("Check whether link file protection is enabled")
+        linkTypes = ["symlinks", "hardlinks"]
+
+        for i in range(len(linkTypes)):
+            linkType = linkTypes[i]
+            mock_logger.info.assert_any_call("Link type (%s) protection is enabled", linkType)
+            mock_Display.assert_any_call("- Check whether %s fileprotection is enabled..." % linkType, "OK")
+            
 if __name__ == '__main__':
     unittest.main()
