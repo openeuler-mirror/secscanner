@@ -47,6 +47,16 @@ class TestC19_syslogError(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C19: %s", WRN_C19)
         mock_display.assert_called_with("- Check if there have *.err set...", "WARNING")
+    
+    @patch('secScanner.enhance.basic.check.C19_syslogError.InsertSection')
+    @patch('os.path.isfile', return_value=False)
+    @patch('secScanner.enhance.basic.check.C19_syslogError.Display')
+    def test_file_does_not_exist(self, mock_display, mock_isfile, mock_insert):
+        # 运行测试的函数
+        C19_syslogError()
+
+        # 检查是否显示文件不存在的消息
+        mock_display.assert_called_with("- file /etc/rsyslog.conf does not exist...", "SKIPPED")
 
 if __name__ == '__main__':
     unittest.main()
