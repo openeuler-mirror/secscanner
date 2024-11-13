@@ -37,6 +37,9 @@ class TestC0205_fileProperty(unittest.TestCase):
         mock_logger.info.assert_any_call('file644.txt is safe, checking ok')
         mock_logger.warning.assert_any_call('WRN_C0205_1: %s', WRN_C0205_1)
         mock_logger.warning.assert_any_call('SUG_C0205_1: %s', SUG_C0205_1)
+        mock_logger.info.assert_any_call('file000.txt is safe, checking ok')
+        mock_logger.warning.assert_any_call('WRN_C0205_1: %s', WRN_C0205_1)
+        mock_logger.warning.assert_any_call('SUG_C0205_1: %s', SUG_C0205_1)
 
 if __name__ == '__main__':
     unittest.main()
