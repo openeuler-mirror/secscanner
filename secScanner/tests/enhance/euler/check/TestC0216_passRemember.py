@@ -39,6 +39,23 @@ class TestC0216_passRemember(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0216: %s", SUG_C0216)
         mock_display.assert_called_with("- Password Remember times is not right...", "WARNING")
 
+    @patch('secScanner.enhance.euler.check.C0216_passRemember.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0216_passRemember.open', new_callable=mock_open, read_data='password required pam_unix.so remember=5\n')
+    @patch('secScanner.enhance.euler.check.C0216_passRemember.logger')
+    @patch('secScanner.enhance.euler.check.C0216_passRemember.Display')
+    def test_remember_set_high(self, mock_display, mock_logger, mock_file, mock_insert):
+        C0216_passRemember()
+        mock_logger.info.assert_called_with("has passwd Remember times set, checking ok")
+        mock_display.assert_called_with("- Has Password Remember set...", "OK")
+
+    @patch('secScanner.enhance.euler.check.C0216_passRemember.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0216_passRemember.open', new_callable=mock_open, read_data='password required pam_unix.so remember=#@$**\n')
+    @patch('secScanner.enhance.euler.check.C0216_passRemember.logger')
+    @patch('secScanner.enhance.euler.check.C0216_passRemember.Display')
+    def test_remember_set_invalid(self, mock_display, mock_logger, mock_file, mock_insert):
+        C0216_passRemember()
+        mock_display.assert_called_with("- Password Remember times is invalid...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
 
