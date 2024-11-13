@@ -58,5 +58,23 @@ class TestS01_motd(unittest.TestCase):
         mock_Display.assert_called_once_with("- Set motd banner finished...", "FINISHED")
         mock_logger.info.assert_called_once_with("set the motd banner successfully")
 
+    @patch('secScanner.enhance.basic.set.S01_motd.seconf.get')
+    @patch('secScanner.enhance.basic.set.S01_motd.os.path.exists')
+    @patch('secScanner.enhance.basic.set.S01_motd.logger')
+    @patch('secScanner.enhance.basic.set.S01_motd.Display')
+    @patch('secScanner.enhance.basic.set.S01_motd.InsertSection')
+    def test_skip_set_motd(self, mock_InsertSection, mock_Display, mock_logger, mock_exists, mock_get):
+        # 设置模拟返回值
+        mock_get.side_effect = lambda section, option: 'no' if option == 'set_motd' else 'Authorized users only. All activity may be monitored and reported'
+        mock_exists.return_value = False
+
+        # 调用测试函数
+        S01_motd()
+
+        # 检查期望的调用和行为
+        mock_InsertSection.assert_called_once_with("set /etc/motd banner")
+        mock_Display.assert_called_once_with("- Skip set motd banner due to config file...", "SKIPPING")
+        mock_logger.info.assert_not_called()
+
 if __name__ == '__main__':
     unittest.main()
