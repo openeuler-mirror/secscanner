@@ -25,7 +25,7 @@ def C17_syslogLogin():
                 logger.warning("SUG_C17: %s", SUG_C17)
                 Display("- Check if there have authpriv.info set...", "WARNING")
             else:
-                logger.info("The security audit modle authpriv.info is set, checking OK")
+                logger.info("The security audit module authpriv.info is set, checking OK")
                 Display("- Check if there have authpriv.info set...", "OK")
         else:
             Display(f"- file {i} does not exist...", "SKIPPED")

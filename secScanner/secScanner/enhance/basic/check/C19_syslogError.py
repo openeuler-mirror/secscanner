@@ -25,7 +25,7 @@ def C19_syslogError():
                 logger.warning("SUG_C19: %s", SUG_C19)
                 Display("- Check if there have *.err set...", "WARNING")
             else:
-                logger.info("The security audit modle *.err is set, checking OK")
+                logger.info("The security audit module *.err is set, checking OK")
                 Display("- Check if there have *.err set...", "OK")
         else:
             Display(f"- file {i} does not exist...", "SKIPPED")

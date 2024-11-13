@@ -25,7 +25,7 @@ def C20_syslogAuth():
                 logger.warning("SUG_C20: %s", SUG_C20)
                 Display("- Check if there have auth.none set...", "WARNING")
             else:
-                logger.info("The security audit modle auth.none is set, checking OK")
+                logger.info("The security audit module auth.none is set, checking OK")
                 Display("- Check if there have auth.none set...", "OK")
         else:
             Display(f"- file {i} does not exist...", "SKIPPED")
