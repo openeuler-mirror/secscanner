@@ -50,6 +50,18 @@ class TestC24_addUser(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C24: %s", WRN_C24)
         mock_display.assert_called_with("- No additional user found, check warning", "WARNING")
+    
+    @patch('secScanner.enhance.basic.check.C24_addUser.InsertSection')
+    @patch('secScanner.enhance.basic.check.C24_addUser.seconf.options', return_value=[])
+    @patch('secScanner.enhance.basic.check.C24_addUser.logger')
+    @patch('secScanner.enhance.basic.check.C24_addUser.Display')
+    def test_no_username_in_config(self, mock_display, mock_logger, mock_options, mock_insert):
+        # 运行测试的函数
+        C24_addUser()
+
+        # 检查预期的信息是否已正确记录
+        mock_logger.info.assert_called_with("No vaild userName found, please check config file...")
+        mock_display.assert_called_with("- No vaild userName found, please check config file...", "FAILED")
 
 if __name__ == '__main__':
     unittest.main()
