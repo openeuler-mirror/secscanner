@@ -18,7 +18,7 @@ from pathlib import Path
 import configparser
 
 '''
-The following functions is a dict to save global values
+The following functions are a dict to save global values
 '''
 def g_init():  # initiation
     global _global_dict
@@ -43,7 +43,7 @@ def show_dict():
     # use :  if "key" in show_dict():
     return _global_dict
 '''
-The above functions is a dict to save global values
+The above functions are a dict to save global values
 '''
 # Program information
 PROGRAM_VERSION = "1.2.0"

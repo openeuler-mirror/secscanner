@@ -758,7 +758,7 @@ def scan_vulnerabilities_by_items():
     print(WHITE)
     print(" " * 2 + "#" * 67)
     print(" " * 2 + "#" + " " * 65 + "#")
-    print(f"  #   {MAGENTA}Check system compounents targeted according to cfg file..." + WHITE + " " * 4 + "#")
+    print(f"  #   {MAGENTA}Check system components targeted according to cfg file..." + WHITE + " " * 4 + "#")
     print(" " * 2 + "#" + " " * 65 + "#")
     print(" " * 2 + "#" * 67)
     print(NORMAL)
