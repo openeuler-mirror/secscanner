@@ -115,7 +115,113 @@ class TestC115_passComplex(unittest.TestCase):
         mock_display.assert_any_call("- No Password lcredit set...", "WARNING")
         mock_display.assert_any_call("- No Password dcredit set...", "WARNING")
         mock_display.assert_any_call("- No Password ocredit set...", "WARNING")
- 
+    
+    @patch('secScanner.enhance.level3.check.C115_passComplex.InsertSection')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.open', new_callable=mock_open)
+    @patch('secScanner.enhance.level3.check.C115_passComplex.logger')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.Display')
+    def test_correct_ucredit(self, mock_display, mock_logger, mock_open, mock_insert):
+        data = self.base_data + "ucredit=-2"
+        mock_open.return_value.readlines.return_value = [data]
+        secScanner.enhance.level3.check.C115_passComplex.C115_passComplex()
+        mock_display.assert_any_call("- No Password Minlen set...", "WARNING")
+        mock_display.assert_any_call("- No Password Minclass set...", "WARNING")
+        mock_display.assert_any_call("- Wrong Password ucredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password lcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password dcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password ocredit set...", "WARNING")
+
+
+    @patch('secScanner.enhance.level3.check.C115_passComplex.InsertSection')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.open', new_callable=mock_open)
+    @patch('secScanner.enhance.level3.check.C115_passComplex.logger')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.Display')
+    def test_incorrect_lcredit(self, mock_display, mock_logger, mock_open, mock_insert):
+        data = self.base_data + "lcredit=0"
+        mock_open.return_value.readlines.return_value = [data]
+        secScanner.enhance.level3.check.C115_passComplex.C115_passComplex()
+        mock_display.assert_any_call("- No Password Minlen set...", "WARNING")
+        mock_display.assert_any_call("- No Password Minclass set...", "WARNING")
+        mock_display.assert_any_call("- No Password ucredit set...", "WARNING")
+        mock_display.assert_any_call("- Wrong Password lcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password dcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password ocredit set...", "WARNING")
+
+    @patch('secScanner.enhance.level3.check.C115_passComplex.InsertSection')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.open', new_callable=mock_open)
+    @patch('secScanner.enhance.level3.check.C115_passComplex.logger')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.Display')
+    def test_correct_lcredit(self, mock_display, mock_logger, mock_open, mock_insert):
+        data = self.base_data + "lcredit=-2"
+        mock_open.return_value.readlines.return_value = [data]
+        secScanner.enhance.level3.check.C115_passComplex.C115_passComplex()
+        mock_display.assert_any_call("- No Password Minlen set...", "WARNING")
+        mock_display.assert_any_call("- No Password Minclass set...", "WARNING")
+        mock_display.assert_any_call("- No Password ucredit set...", "WARNING")
+        mock_display.assert_any_call("- Wrong Password lcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password dcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password ocredit set...", "WARNING")
+
+    @patch('secScanner.enhance.level3.check.C115_passComplex.InsertSection')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.open', new_callable=mock_open)
+    @patch('secScanner.enhance.level3.check.C115_passComplex.logger')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.Display')
+    def test_incorrect_dcredit(self, mock_display, mock_logger, mock_open, mock_insert):
+        data = self.base_data + "dcredit=0"
+        mock_open.return_value.readlines.return_value = [data]
+        secScanner.enhance.level3.check.C115_passComplex.C115_passComplex()
+        mock_display.assert_any_call("- No Password Minlen set...", "WARNING")
+        mock_display.assert_any_call("- No Password Minclass set...", "WARNING")
+        mock_display.assert_any_call("- No Password ucredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password lcredit set...", "WARNING")
+        mock_display.assert_any_call("- Wrong Password dcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password ocredit set...", "WARNING")
+
+    @patch('secScanner.enhance.level3.check.C115_passComplex.InsertSection')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.open', new_callable=mock_open)
+    @patch('secScanner.enhance.level3.check.C115_passComplex.logger')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.Display')
+    def test_correct_dcredit(self, mock_display, mock_logger, mock_open, mock_insert):
+        data = self.base_data + "dcredit=-2"
+        mock_open.return_value.readlines.return_value = [data]
+        secScanner.enhance.level3.check.C115_passComplex.C115_passComplex()
+        mock_display.assert_any_call("- No Password Minlen set...", "WARNING")
+        mock_display.assert_any_call("- No Password Minclass set...", "WARNING")
+        mock_display.assert_any_call("- No Password ucredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password lcredit set...", "WARNING")
+        mock_display.assert_any_call("- Wrong Password dcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password ocredit set...", "WARNING")
+
+    @patch('secScanner.enhance.level3.check.C115_passComplex.InsertSection')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.open', new_callable=mock_open)
+    @patch('secScanner.enhance.level3.check.C115_passComplex.logger')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.Display')
+    def test_incorrect_ocredit(self, mock_display, mock_logger, mock_open, mock_insert):
+        data = self.base_data + "ocredit=0"
+        mock_open.return_value.readlines.return_value = [data]
+        secScanner.enhance.level3.check.C115_passComplex.C115_passComplex()
+        mock_display.assert_any_call("- No Password Minlen set...", "WARNING")
+        mock_display.assert_any_call("- No Password Minclass set...", "WARNING")
+        mock_display.assert_any_call("- No Password ucredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password lcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password dcredit set...", "WARNING")
+        mock_display.assert_any_call("- Wrong Password ocredit set...", "WARNING")
+
+    @patch('secScanner.enhance.level3.check.C115_passComplex.InsertSection')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.open', new_callable=mock_open)
+    @patch('secScanner.enhance.level3.check.C115_passComplex.logger')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.Display')
+    def test_correct_ocredit(self, mock_display, mock_logger, mock_open, mock_insert):
+        data = self.base_data + "ocredit=-2"
+        mock_open.return_value.readlines.return_value = [data]
+        secScanner.enhance.level3.check.C115_passComplex.C115_passComplex()
+        mock_display.assert_any_call("- No Password Minlen set...", "WARNING")
+        mock_display.assert_any_call("- No Password Minclass set...", "WARNING")
+        mock_display.assert_any_call("- No Password ucredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password lcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password dcredit set...", "WARNING")
+        mock_display.assert_any_call("- Wrong Password ocredit set...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
 
