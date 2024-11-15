@@ -31,6 +31,17 @@ class TestC001_loginLock(unittest.TestCase):
         secScanner.enhance.group.check.C001_loginLock.C001_loginLock()
         mock_logger.info.assert_any_call("Has user login lock Deny set, checking OK")
         mock_display.assert_any_call("- Has user login lock Deny set...", "OK")
+   
+    @patch("secScanner.enhance.group.check.C001_loginLock.InsertSection")
+    @patch("secScanner.enhance.group.check.C001_loginLock.get_value")
+    @patch("secScanner.enhance.group.check.C001_loginLock.open", new_callable=mock_open, read_data="")
+    @patch("secScanner.enhance.group.check.C001_loginLock.logger")
+    @patch("secScanner.enhance.group.check.C001_loginLock.Display")
+    def test_unsupported_os(self, mock_display, mock_logger, mock_file, mock_get_value, mock_insert):
+        mock_get_value.side_effect = ["unknown_os", "unknown_version"]
+        secScanner.enhance.group.check.C001_loginLock.C001_loginLock()
+        mock_logger.warning.assert_any_call("We do not support unknown_os-unknown_version at this moment")
+        mock_display.assert_any_call("- We do not support unknown_os-unknown_version at this moment...", "WARNING")
 
 if __name__ == '__main__':
     unittest.main()
