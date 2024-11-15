@@ -52,6 +52,20 @@ class TestC0229_sshBanner(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C0229_01: %s", WRN_C0229_01)
         mock_logger.warning.assert_any_call("SUG_C0229: %s", SUG_C0229)
 
+    @patch('secScanner.enhance.euler.check.C0229_sshBanner.Display')
+    @patch('secScanner.enhance.euler.check.C0229_sshBanner.InsertSection')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.exists', side_effect=[False, True])  # 第一次调用返回False，第二次调用返回True
+    @patch('secScanner.enhance.euler.check.C0229_sshBanner.logger')
+    def test_no_sshbanner_file(self, mock_logger, mock_exists, mock_file, mock_insert, mock_display):
+
+        # 运行测试的函数
+        C0229_sshBanner()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C0229_02: %s", WRN_C0229_02)
+        mock_logger.warning.assert_any_call("SUG_C0229: %s", SUG_C0229)
+    
 if __name__ == '__main__':
     unittest.main()
 
