@@ -45,6 +45,19 @@ class TestC0237_initUserPath(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0237: %s", SUG_C0237)
         mock_display.assert_called_with("- Wrong ALWAYS_SET_PATH config set...", "WARNING")
 
+    @patch('secScanner.enhance.euler.check.C0237_initUserPath.InsertSection')
+    @patch('builtins.open', new_callable=mock_open, read_data="")
+    @patch('secScanner.enhance.euler.check.C0237_initUserPath.logger')
+    @patch('secScanner.enhance.euler.check.C0237_initUserPath.Display')
+    def test_no_always_set_path_set(self, mock_display, mock_logger, mock_file, mock_insert):
+        # 运行测试的函数
+        C0237_initUserPath()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C0237_01: %s", WRN_C0237_01)
+        mock_logger.warning.assert_any_call("SUG_C0237: %s", SUG_C0237)
+        mock_display.assert_called_with("- No ALWAYS_SET_PATH config set...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
 
