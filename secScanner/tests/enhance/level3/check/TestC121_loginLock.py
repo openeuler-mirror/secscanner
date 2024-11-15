@@ -49,6 +49,35 @@ class TestC121_loginLock(unittest.TestCase):
         mock_logger.info.assert_any_call("Has user login lock Deny set, checking OK")
         mock_display.assert_any_call("- Has user login lock Deny set...", "OK")
 
+    @patch("secScanner.enhance.level3.check.C121_loginLock.InsertSection")
+    @patch("secScanner.enhance.level3.check.C121_loginLock.get_value")
+    @patch("secScanner.enhance.level3.check.C121_loginLock.open", new_callable=mock_open)
+    @patch("secScanner.enhance.level3.check.C121_loginLock.logger")
+    @patch("secScanner.enhance.level3.check.C121_loginLock.Display")
+    def test_oe_el8_check_deny_incorrect_setting(self, mock_display, mock_logger, mock_open_instance, mock_get_value, mock_insert):
+        # Set up two different file reads for the two different files
+        mock_open_instance.side_effect = [
+            mock_open(read_data="auth required pam_faillock.so deny=6\nauth required pam_env.so").return_value,
+            mock_open(read_data="auth required pam_faillock.so deny=6\nauth required pam_env.so").return_value,
+            mock_open().return_value
+        ]
+        mock_get_value.side_effect = ["rhel", "8"]
+        secScanner.enhance.level3.check.C121_loginLock.C121_loginLock()
+        mock_logger.warning.assert_any_call("WRN_C121_01: %s", WRN_C121_01)
+        mock_logger.warning.assert_any_call("SUG_C121: %s", SUG_C121)
+        mock_display.assert_any_call("- Wrong user login lock Deny set...", "WARNING")
+
+    @patch("secScanner.enhance.level3.check.C121_loginLock.InsertSection")
+    @patch("secScanner.enhance.level3.check.C121_loginLock.get_value")
+    @patch("secScanner.enhance.level3.check.C121_loginLock.open", new_callable=mock_open, read_data="")
+    @patch("secScanner.enhance.level3.check.C121_loginLock.logger")
+    @patch("secScanner.enhance.level3.check.C121_loginLock.Display")
+    def test_unsupported_os(self, mock_display, mock_logger, mock_file, mock_get_value, mock_insert):
+        mock_get_value.side_effect = ["unknown_os", "unknown_version"]
+        secScanner.enhance.level3.check.C121_loginLock.C121_loginLock()
+        mock_logger.warning.assert_any_call("We do not support unknown_os-unknown_version at this moment")
+        mock_display.assert_any_call("- We do not support unknown_os-unknown_version at this moment...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
 
