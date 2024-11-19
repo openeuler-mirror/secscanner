@@ -50,6 +50,25 @@ class TestC0140_DHCPserver(unittest.TestCase):
         mock_InsertSection.assert_called_once_with("Check whether the status of DHCP Server in your Linux System ")
         mock_logger.info.assert_called_with("The DHCP-Server status is: disabled")
         mock_display.assert_called_with("- Check the DHCP-Server is disabled...", "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0140_DHCPserver.InsertSection')
+    @patch('subprocess.getstatusoutput')
+    @patch('secScanner.enhance.euler.check.C0140_DHCPserver.logger')
+    @patch('secScanner.enhance.euler.check.C0140_DHCPserver.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_dhcp_installed_enabled(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection):
+        # 模拟 dhcp 安装，且 dhcp 服务启用的情况
+        mock_getstatusoutput.side_effect = [(0, 'package dhcp is installed'), (0, 'enabled')]
+        # 假设的全局变量
+        secScanner.enhance.euler.check.C0140_DHCPserver.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+
+        # 调用测试函数
+        C0140_DHCPserver()
+        mock_InsertSection.assert_called_once_with("Check whether the status of DHCP Server in your Linux System ")
+        mock_logger.warning.assert_any_call("WRN_C0140: %s", WRN_C0140)
+        mock_logger.warning.assert_any_call("SUG_C0140: %s", SUG_C0140)
+        mock_display.assert_called_with("- Check the DHCP-Server is enabled...", "WARNING")
+        mock_open.assert_any_call("result_file_path", "a+")  # 检查是否尝试写入文件
 
 if __name__ == '__main__':
     unittest.main()
