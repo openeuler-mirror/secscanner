@@ -49,5 +49,19 @@ class TestC134_removeTFTP(unittest.TestCase):
         mock_logger.info.assert_called_with("TFTP not installed, checking ok...")
         mock_display.assert_called_with("- check TFTP not installed...", "OK")
 
+    @patch('secScanner.enhance.level3.check.C134_removeTFTP.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'Error'))
+    @patch('secScanner.enhance.level3.check.C134_removeTFTP.logger')
+    @patch('secScanner.enhance.level3.check.C134_removeTFTP.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_command_execution_failed(self, mock_file, mock_display, mock_logger, mock_subproc, mock_insert):
+        # 运行测试的函数
+        C134_removeTFTP()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C134_02: %s", WRN_C134_02)
+        mock_logger.warning.assert_any_call("SUG_C134_02: %s", SUG_C134_02)
+        mock_display.assert_called_with("- Query command execution failed...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
