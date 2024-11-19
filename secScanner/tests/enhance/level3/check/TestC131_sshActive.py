@@ -61,5 +61,34 @@ class TestC131_sshActive(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C131_01: %s", SUG_C131_01)
         mock_display.assert_called_with("- The SSH service startup failed...", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C131_sshActive.InsertSection')
+    @patch('os.path.exists', return_value=True)
+    @patch('subprocess.getstatusoutput', return_value=(1, 'error'))
+    @patch('secScanner.enhance.level3.check.C131_sshActive.logger')
+    @patch('secScanner.enhance.level3.check.C131_sshActive.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_check_service_failed(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_exists, mock_insert):
+        # 运行测试的函数
+        C131_sshActive()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C131_02: %s", WRN_C131_02)
+        mock_logger.warning.assert_any_call("SUG_C131_02: %s", SUG_C131_02)
+        mock_display.assert_called_with("- Failed to check if the service is available", "WARNING")
+
+    @patch('secScanner.enhance.level3.check.C131_sshActive.InsertSection')
+    @patch('os.path.exists', return_value=False)
+    @patch('secScanner.enhance.level3.check.C131_sshActive.logger')
+    @patch('secScanner.enhance.level3.check.C131_sshActive.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_service_file_not_exist(self, mock_file, mock_display, mock_logger, mock_exists, mock_insert):
+        # 运行测试的函数
+        C131_sshActive()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C131_03: %s", WRN_C131_03)
+        mock_logger.warning.assert_any_call("SUG_C131_03: %s", SUG_C131_03)
+        mock_display.assert_called_with("- file /usr/lib/systemd/system/sshd.service dose not exist...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
