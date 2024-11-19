@@ -116,5 +116,30 @@ class TestC0122_CheckSoftwareInstall(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C0122_4: %s", WRN_C0122_4)
         mock_logger.warning.assert_any_call("SUG_C0122_4: %s", SUG_C0122_4)
         mock_Display.assert_any_call("- Check the Net-snmpsoftware is installed...", "WARNING")
+    
+    @patch('subprocess.getstatusoutput')
+    @patch('builtins.open', new_callable=unittest.mock.mock_open)
+    @patch('secScanner.enhance.euler.check.C0122_checkSoftwareInstall.logger')
+    @patch('secScanner.enhance.euler.check.C0122_checkSoftwareInstall.Display')
+    @patch('secScanner.enhance.euler.check.C0122_checkSoftwareInstall.InsertSection')
+    def test_python2_installed(self, mock_InsertSection, mock_Display, mock_logger, mock_open, mock_getstatusoutput):
+        # Mock the subprocess.getstatusoutput to return Python2 installed status
+        mock_getstatusoutput.side_effect = [
+            (1, 'package ftp is not installed'),
+            (1, 'package tftp is not installed'),
+            (1, 'package telnet is not installed'),
+            (1, 'package net-snmp is not installed'),
+            (0, 'package python2 is installed'),
+        ]
+
+        # Execute the function
+        C0122_checkSoftwareInstall()
+
+        # Validate Python2 installed
+        mock_open().write.assert_any_call("\nC0122_5\n")
+        mock_logger.warning.assert_any_call("WRN_C0122_5: %s", WRN_C0122_5)
+        mock_logger.warning.assert_any_call("SUG_C0122_5: %s", SUG_C0122_5)
+        mock_Display.assert_any_call("- Check the Python2 software is installed...", "WARNING")
+        
 if __name__ == '__main__':
     unittest.main()
