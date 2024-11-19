@@ -543,7 +543,6 @@ def vulnerabilities_db_update():
 
         cve.packageName = json_data['packageName']
 
-        pkg_name = json_data['packageName']
         extra_url = f'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/getCVEProductPackageList?cveId={cve_init[0]}&packageName={cve_init[1]}'
         response_extra = requests.get(url=extra_url, timeout=(10, 30))
         if 'Required String parameter' in response_extra.text:
