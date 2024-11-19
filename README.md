@@ -46,7 +46,7 @@ yum install chkrootkit aide
 ```
 
 #### 使用说明
-在命令行终端执行“secscanner -h”，显示命令参数提示信息，具体显示如下所示：
+在命令行终端执行“secscanner -h”，显示命令参数提示信息如下：
 ```shell
 usage: secscanner [-h] [--config] [-q] [-V] {useradd,fix,check,restore,db,service,ssh} ...
 
