@@ -51,5 +51,24 @@ class TestC0138_nfsServer(unittest.TestCase):
         mock_logger.info.assert_called_with("The nfs-Server status is: disabled")
         mock_display.assert_called_with("- Check the nfs-Server is disabled...", "OK")
     
+    @patch('secScanner.enhance.euler.check.C0138_nfsServer.InsertSection')
+    @patch('subprocess.getstatusoutput')
+    @patch('secScanner.enhance.euler.check.C0138_nfsServer.logger')
+    @patch('secScanner.enhance.euler.check.C0138_nfsServer.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_nfs_installed_enabled(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection):
+        # 模拟 nfs-utils 安装，且nfs服务启用的情况
+        mock_getstatusoutput.side_effect = [(0, 'package nfs-utils is installed'), (0, 'enabled')]
+        # 假设的全局变量
+        secScanner.enhance.euler.check.C0138_nfsServer.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+
+        # 调用测试函数
+        C0138_nfsServer()
+        mock_InsertSection.assert_called_once_with("Check whether the status of nfs-Server in your Linux System ")
+        mock_logger.warning.assert_any_call("WRN_C0138: %s", WRN_C0138)
+        mock_logger.warning.assert_any_call("SUG_C0138: %s", SUG_C0138)
+        mock_display.assert_called_with("- Check the nfs-Server is enabled...", "WARNING")
+        mock_open.assert_any_call("result_file_path", "a+")  # 检查是否尝试写入文件
+    
 if __name__ == '__main__':
     unittest.main()
