@@ -47,5 +47,34 @@ class TestC113_GIDunique(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C113_01: %s", WRN_C113_01)
         mock_logger.warning.assert_any_call("SUG_C113_01: %s", SUG_C113_01)
 
+    @patch('secScanner.enhance.level3.check.C113_GIDunique.InsertSection')
+    @patch('os.path.exists', return_value=True)
+    @patch('subprocess.getstatusoutput', return_value=(1, 'Error'))
+    @patch('secScanner.enhance.level3.check.C113_GIDunique.logger')
+    @patch('secScanner.enhance.level3.check.C113_GIDunique.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_command_failed(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_exists, mock_insert):
+        # 运行测试的函数
+        C113_GIDunique()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C113_02: %s", WRN_C113_02)
+        mock_logger.warning.assert_any_call("SUG_C113_02: %s", SUG_C113_02)
+        mock_display.assert_called_with("- Failed to retrieve GID information...", "WARNING")
+
+    @patch('secScanner.enhance.level3.check.C113_GIDunique.InsertSection')
+    @patch('os.path.exists', return_value=False)
+    @patch('secScanner.enhance.level3.check.C113_GIDunique.logger')
+    @patch('secScanner.enhance.level3.check.C113_GIDunique.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_group_file_not_exists(self, mock_file, mock_display, mock_logger, mock_exists, mock_insert):
+        # 运行测试的函数
+        C113_GIDunique()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C113_03: %s", WRN_C113_03)
+        mock_logger.warning.assert_any_call("SUG_C113_03: %s", SUG_C113_03)
+        mock_display.assert_called_with("- file /etc/group not exists...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
