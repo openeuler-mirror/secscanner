@@ -54,5 +54,39 @@ class TestC0210_GIDunique(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0210_01: %s", SUG_C0210_01)
         mock_display.assert_called_once_with("- Duplicate GID ['1000']...", "WARNING")
         mock_open.assert_called_with("result_file_path", "a")
+    
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0210_GIDunique.InsertSection')
+    @patch('subprocess.getstatusoutput')
+    @patch('secScanner.enhance.euler.check.C0210_GIDunique.logger')
+    @patch('secScanner.enhance.euler.check.C0210_GIDunique.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_failed_to_get_gid(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
+        # 模拟 /etc/group 文件存在但无法获取 GID 信息
+        mock_getstatusoutput.return_value = (1, '')
+        secScanner.enhance.euler.check.C0210_GIDunique.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        # 调用测试函数
+        C0210_GIDunique()
+        mock_logger.warning.assert_any_call("WRN_C0210_02: %s", WRN_C0210_02)
+        mock_logger.warning.assert_any_call("SUG_C0210_02: %s", SUG_C0210_02)
+        mock_display.assert_called_once_with("- Failed to retrieve GID information...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0210_GIDunique.InsertSection')
+    @patch('subprocess.getstatusoutput')
+    @patch('secScanner.enhance.euler.check.C0210_GIDunique.logger')
+    @patch('secScanner.enhance.euler.check.C0210_GIDunique.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_group_file_not_exists(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
+        # 模拟 /etc/group 文件不存在
+        mock_exists.return_value = False
+        # 调用测试函数
+        C0210_GIDunique()
+        mock_InsertSection.assert_called_with("Check if GID is unique")
+        mock_logger.warning.assert_any_call("WRN_C0210_03: %s", WRN_C0210_03)
+        mock_logger.warning.assert_any_call("SUG_C0210_03: %s", SUG_C0210_03)
+        mock_display.assert_called_once_with("- file /etc/group not exists...", "WARNING")
+        
 if __name__ == '__main__':
     unittest.main()
