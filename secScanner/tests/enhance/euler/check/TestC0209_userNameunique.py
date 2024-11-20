@@ -79,5 +79,21 @@ class TestC0209_userNameunique(unittest.TestCase):
         mock_display.assert_any_call("- Duplicate users found in /etc/passwd ...", "WARNING")
         mock_open.assert_called_with("result_file_path", "a")
     
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0209_userNameunique.InsertSection')
+    @patch('subprocess.getstatusoutput')
+    @patch('secScanner.enhance.euler.check.C0209_userNameunique.logger')
+    @patch('secScanner.enhance.euler.check.C0209_userNameunique.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data=passwd_content_no_duplicate)
+    def test_username_unique_no_duplicate(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
+        # 模拟 /etc/passwd 文件存在的情况
+        mock_exists.return_value = True
+        secScanner.enhance.euler.check.C0209_userNameunique.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        # 调用测试函数
+        C0209_userNameunique()
+        mock_InsertSection.assert_called_with("Check if the account is unique")
+        mock_logger.info.assert_any_call("No duplicate users found in /etc/passwd, checking ok")
+        mock_display.assert_any_call("- No duplicate users found in /etc/passwd...", "OK")
+    
 if __name__ == '__main__':
     unittest.main()
