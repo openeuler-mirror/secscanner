@@ -52,6 +52,39 @@ class TestC0207_passwdGroupexists(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C0207_02: %s", WRN_C0207_02)
         mock_logger.warning.assert_any_call("SUG_C0207_02: %s", SUG_C0207_02)
         mock_display.assert_called_once_with("- file /etc/group or /etc/passwd does not exist...", "WARNING")
+    
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.logger')
+    @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_passwd_file_not_found(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
+        # 模拟 /etc/passwd不存在，/etc/group 存在
+        mock_exists.side_effect = [False, True]
+
+        # 调用测试函数
+        C0207_passwdGroupexists()
+        mock_InsertSection.assert_called_once_with("check if all groups in /etc/passwd exist")
+        mock_logger.warning.assert_any_call("WRN_C0207_02: %s", WRN_C0207_02)
+        mock_logger.warning.assert_any_call("SUG_C0207_02: %s", SUG_C0207_02)
+        mock_display.assert_called_once_with("- file /etc/group or /etc/passwd does not exist...", "WARNING")
+
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.logger')
+    @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.check_group_in_group')
+    def test_group_found(self, mock_check_group_in_group, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
+        # 模拟 /etc/passwd和/etc/group 都存在
+        mock_exists.side_effect = [True, True]
+        # 模拟 /etc/passwd 中的组都存在
+        mock_check_group_in_group.return_value = True
+        # 调用测试函数
+        C0207_passwdGroupexists()
+        mock_InsertSection.assert_called_once_with("check if all groups in /etc/passwd exist")
+        mock_logger.info.assert_any_call("All groups in /etc/passwd exist, checking ok")
+        mock_display.assert_called_once_with("- Check if all groups in /etc/passwd exist...", "OK")
 
 if __name__ == "__main__":
     unittest.main()
