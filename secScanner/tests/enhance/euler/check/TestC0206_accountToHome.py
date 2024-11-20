@@ -59,6 +59,53 @@ class TestC0206_accountToHome(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0206_01: %s", SUG_C0206_01)
         mock_display.assert_called_with("- Failed to obtain passwd user list ...", "FAILED")
         mock_open.assert_any_call("result_file_path", "a")  # 检查是否尝试写入文件
+    
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0206_accountToHome.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, "user1:x:1000:1000::/home/user1:/bin/bash"))
+    @patch('secScanner.enhance.euler.check.C0206_accountToHome.logger')
+    @patch('secScanner.enhance.euler.check.C0206_accountToHome.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.isdir')
+    def test_no_home_directory(self, mock_isdir, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
+        # 模拟用户的home目录不存在
+        mock_exists.return_value = True
+        mock_isdir.return_value = False
+        secScanner.enhance.euler.check.C0206_accountToHome.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+
+        # 调用测试函数
+        C0206_accountToHome()
+        mock_InsertSection.assert_called_once_with("check if account has its own home directory")
+        mock_logger.warning.assert_any_call("WRN_C0206_01: %s", WRN_C0206_01)
+        mock_logger.warning.assert_any_call("SUG_C0206_01: %s", SUG_C0206_01)
+        mock_display.assert_called_with("- At least one account does not have a home folder ...", "WARNING")
+        mock_open.assert_any_call("result_file_path", "a")  # 检查是否尝试写入文件
+    
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0206_accountToHome.InsertSection')
+    @patch('subprocess.getstatusoutput')
+    @patch('secScanner.enhance.euler.check.C0206_accountToHome.logger')
+    @patch('secScanner.enhance.euler.check.C0206_accountToHome.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.isdir')
+    def test_incorrect_home_directory_owner(self, mock_isdir, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
+        # 模拟用户的home目录不匹配
+        mock_exists.return_value = True
+        mock_isdir.return_value = True
+        mock_getstatusoutput.side_effect = [
+            (0, "user1:x:1000:1000::/home/user1:/bin/bash"),
+            (0, "drwxr-xr-x 2 otheruser user1 4096 May 14  2021 /home/user1")  # 所有者不匹配
+        ]
+
+        secScanner.enhance.euler.check.C0206_accountToHome.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+
+        # 调用测试函数
+        C0206_accountToHome()
+        mock_InsertSection.assert_called_once_with("check if account has its own home directory")
+        mock_logger.warning.assert_any_call("WRN_C0206_02: %s", WRN_C0206_02)
+        mock_logger.warning.assert_any_call("SUG_C0206_01: %s", SUG_C0206_01)
+        mock_display.assert_called_with("- At least one home directory does not match the user ...", "WARNING")
+        mock_open.assert_any_call("result_file_path", "a")  # 检查是否尝试写入文件
 
 if __name__ == "__main__":
     unittest.main()
