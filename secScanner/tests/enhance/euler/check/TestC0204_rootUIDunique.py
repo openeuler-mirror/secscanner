@@ -57,6 +57,43 @@ class TestC0204_rootUIDunique(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C0204_01: %s", WRN_C0204_01)
         mock_logger.warning.assert_any_call("SUG_C0204_01: %s", SUG_C0204_01)
         mock_Display.assert_called_with("- There are users with UID 0 who are not root ...", "WARNING")
+    
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('secScanner.enhance.euler.check.C0204_rootUIDunique.logger')
+    @patch('secScanner.enhance.euler.check.C0204_rootUIDunique.Display')
+    @patch('secScanner.enhance.euler.check.C0204_rootUIDunique.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0204_rootUIDunique.os.path.exists')
+    @patch('subprocess.getstatusoutput', return_value = (1, ""))
+    def test_command_fails(self, mock_subprocess, mock_exists, mock_InsertSection, mock_Display, mock_logger, mock_file):
+        # 模拟 /etc/passwd 存在
+        mock_exists.return_value = True
+        
+        # 调用被测试函数
+        C0204_rootUIDunique()
+        
+        # 验证函数行为
+        mock_InsertSection.assert_called_with("Check if root UID is unique")
+        mock_logger.warning.assert_any_call("WRN_C0204_02: %s", WRN_C0204_02)
+        mock_logger.warning.assert_any_call("SUG_C0204_02: %s", SUG_C0204_02)
+        mock_Display.assert_called_with("- Failed to obtain information with UID 0 ...", "WARNING")
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('secScanner.enhance.euler.check.C0204_rootUIDunique.logger')
+    @patch('secScanner.enhance.euler.check.C0204_rootUIDunique.Display')
+    @patch('secScanner.enhance.euler.check.C0204_rootUIDunique.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0204_rootUIDunique.os.path.exists')
+    def test_passwd_file_missing(self, mock_exists, mock_InsertSection, mock_Display, mock_logger, mock_file):
+        # 模拟 /etc/passwd 不存在
+        mock_exists.return_value = False
+        
+        # 调用被测试函数
+        C0204_rootUIDunique()
+        
+        # 验证函数行为
+        mock_InsertSection.assert_called_with("Check if root UID is unique")
+        mock_logger.warning.assert_any_call("WRN_C0204_03: %s", WRN_C0204_03)
+        mock_logger.warning.assert_any_call("SUG_C0204_03: %s", SUG_C0204_03)
+        mock_Display.assert_called_with("- file /etc/passwd does not exist...", "WARNING")
 
 if __name__ == "__main__":
     unittest.main()
