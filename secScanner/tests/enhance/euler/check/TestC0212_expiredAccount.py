@@ -58,6 +58,24 @@ class TestC0212_expiredAccount(unittest.TestCase):
         mock_InsertSection.assert_any_call("check for expired account")
         mock_logger.info.assert_any_call('No expired account exists, checking ok')
         mock_display.assert_called_once_with("- No expired account exists", "OK")
+    
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0212_expiredAccount.InsertSection')
+    @patch('subprocess.getstatusoutput')
+    @patch('secScanner.enhance.euler.check.C0212_expiredAccount.logger')
+    @patch('secScanner.enhance.euler.check.C0212_expiredAccount.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_shadow_file_not_exists(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
+        # 模拟/etc/shadow文件不存在
+        mock_exists.return_value = False
+        secScanner.enhance.euler.check.C0212_expiredAccount.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        # 调用测试函数
+        C0212_expiredAccount()
+        mock_InsertSection.assert_any_call("check for expired account")
+        mock_logger.warning.assert_any_call("WRN_C0212_02: %s", WRN_C0212_02)
+        mock_logger.warning.assert_any_call("SUG_C0212_02: %s", SUG_C0212_02)
+        mock_display.assert_called_once_with("- file /etc/shadow dose not exist...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
 
 if __name__ == '__main__':
     unittest.main()
