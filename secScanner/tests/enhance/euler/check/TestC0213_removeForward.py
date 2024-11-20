@@ -63,6 +63,44 @@ class TestC0213_removeForward(unittest.TestCase):
         mock_InsertSection.assert_any_call("Confirm the existence of the .forward file in the Home directory")
         mock_logger.info.assert_any_call("Confirm the existence of the .forward file in the Home directory, checking ok")
         mock_display.assert_called_once_with("- check if the .forward file in the Home directory...", "OK")
+    
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0213_removeForward.InsertSection')
+    @patch('subprocess.getstatusoutput')
+    @patch('secScanner.enhance.euler.check.C0213_removeForward.logger')
+    @patch('secScanner.enhance.euler.check.C0213_removeForward.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_fail_obtain_user_home_list(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
+        # 模拟 /etc/passwd 文件存在
+        mock_exists.return_value = True
+        # 模拟读取home目录失败
+        mock_getstatusoutput.return_value = (1, "")
+        secScanner.enhance.euler.check.C0213_removeForward.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        # 调用测试函数
+        C0213_removeForward()
+        mock_InsertSection.assert_any_call("Confirm the existence of the .forward file in the Home directory")
+        mock_logger.warning.assert_any_call("WRN_C0213_02: %s", WRN_C0213_02)
+        mock_logger.warning.assert_any_call("SUG_C0213_01: %s", SUG_C0213_01)
+        mock_display.assert_called_once_with("- Failed to obtain passwd user's home list ...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0213_removeForward.InsertSection')
+    @patch('subprocess.getstatusoutput')
+    @patch('secScanner.enhance.euler.check.C0213_removeForward.logger')
+    @patch('secScanner.enhance.euler.check.C0213_removeForward.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_passwd_file_not_exists(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
+        # 模拟 /etc/passwd 文件不存在
+        mock_exists.return_value = False
+        secScanner.enhance.euler.check.C0213_removeForward.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        # 调用测试函数
+        C0213_removeForward()
+        mock_InsertSection.assert_any_call("Confirm the existence of the .forward file in the Home directory")
+        mock_logger.warning.assert_any_call("WRN_C0213_03: %s", WRN_C0213_03)
+        mock_logger.warning.assert_any_call("SUG_C0213_02: %s", SUG_C0213_02)
+        mock_display.assert_called_once_with("- file /etc/passwd does not exist...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
 
 if __name__ == '__main__':
     unittest.main()
