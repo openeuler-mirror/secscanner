@@ -46,5 +46,15 @@ class TestC251_passwdProperty(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C251: %s", SUG_C251)
         mock_display.assert_called_with("- Check if /etc/passwd property is not 644...", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C251_passwdProperty.InsertSection')
+    @patch('os.path.exists', return_value=False)
+    @patch('secScanner.enhance.level3.check.C251_passwdProperty.Display')
+    def test_passwd_file_not_exist(self, mock_display, mock_exists, mock_insert):
+        # 运行测试的函数
+        C251_passwdProperty()
+
+        # 检查是否显示文件不存在的消息
+        mock_display.assert_called_with("- file '/etc/passwd' does not exist...", "SKIPPED")
+
 if __name__ == '__main__':
     unittest.main()
