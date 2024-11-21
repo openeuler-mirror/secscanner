@@ -56,6 +56,20 @@ class TestC222_lockUnUsedUser(unittest.TestCase):
         mock_logger.info.assert_called_with("All unused user is locked, checking ok")
         mock_display.assert_called_with("- Check if there have unused user...", "OK")
 
+
+    @patch('secScanner.enhance.level3.check.C222_lockUnUsedUser.InsertSection')
+    @patch('secScanner.lib.seconf.get', return_value='adm lp')
+    @patch('subprocess.check_output', side_effect=subprocess.CalledProcessError(1, ['grep']))
+    @patch('secScanner.enhance.level3.check.C222_lockUnUsedUser.logger')
+    @patch('secScanner.enhance.level3.check.C222_lockUnUsedUser.Display')
+    def test_user_not_found(self, mock_display, mock_logger, mock_subproc, mock_config, mock_insert):
+        # 运行测试的函数
+        C222_lockUnUsedUser()
+
+        # 检查是否没有发出警告信息
+        mock_logger.info.assert_called_with("All unused user is locked, checking ok")
+        mock_display.assert_called_with("- Check if there have unused user...", "OK")
+
 if __name__ == '__main__':
     unittest.main()
 
