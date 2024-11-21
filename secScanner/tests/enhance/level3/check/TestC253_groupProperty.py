@@ -46,5 +46,15 @@ class TestC253_groupProperty(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C253: %s", SUG_C253)
         mock_display.assert_called_with("- Check if /etc/group property is not 644...", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C253_groupProperty.InsertSection')
+    @patch('os.path.exists', return_value=False)
+    @patch('secScanner.enhance.level3.check.C253_groupProperty.Display')
+    def test_group_file_not_exist(self, mock_display, mock_exists, mock_insert):
+        # 运行测试的函数
+        C253_groupProperty()
+
+        # 验证文件不存在时的操作
+        mock_display.assert_called_with("- file '/etc/group' does not exist...", "SKIPPED")
+
 if __name__ == '__main__':
     unittest.main()
