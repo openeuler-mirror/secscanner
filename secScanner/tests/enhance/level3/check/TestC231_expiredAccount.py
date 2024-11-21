@@ -49,5 +49,18 @@ class TestC231_expiredAccount(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C231_01: %s", SUG_C231_01)
         mock_display.assert_called_with("- At least one account has expired", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C231_expiredAccount.InsertSection')
+    @patch('os.path.exists', return_value=False)
+    @patch('secScanner.enhance.level3.check.C231_expiredAccount.logger')
+    @patch('secScanner.enhance.level3.check.C231_expiredAccount.Display')
+    def test_shadow_file_not_exists(self, mock_display, mock_logger, mock_exists, mock_insert):
+        # 运行测试的函数
+        C231_expiredAccount()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C231_02: %s", WRN_C231_02)
+        mock_logger.warning.assert_any_call("SUG_C231_02: %s", SUG_C231_02)
+        mock_display.assert_called_with("- file /etc/shadow dose not exist...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
