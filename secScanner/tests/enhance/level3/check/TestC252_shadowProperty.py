@@ -46,5 +46,15 @@ class TestC252_shadowProperty(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C252: %s", SUG_C252)
         mock_display.assert_called_with("- Check if /etc/shadow property is not 0...", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C252_shadowProperty.InsertSection')
+    @patch('os.path.exists', return_value=False)
+    @patch('secScanner.enhance.level3.check.C252_shadowProperty.Display')
+    def test_shadow_file_not_exist(self, mock_display, mock_exists, mock_insert):
+        # 运行测试的函数
+        C252_shadowProperty()
+
+        # 验证文件不存在时的操作
+        mock_display.assert_called_with("- file '/etc/shadow' does not exist...", "SKIPPED")
+
 if __name__ == '__main__':
     unittest.main()
