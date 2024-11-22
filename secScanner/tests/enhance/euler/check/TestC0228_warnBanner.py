@@ -66,6 +66,58 @@ class TestC0228_warnBanner(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0228_03: %s", SUG_C0228_03)
         mock_display.assert_any_call("- No /etc/issue.net set...", "WARNING")
         mock_open.assert_any_call("result_file_path", "a")
+    
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0228_warnBanner.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0228_warnBanner.logger')
+    @patch('secScanner.enhance.euler.check.C0228_warnBanner.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.getsize')
+    def test_motd_file_no_exist(self, mock_getsize, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
+        # 模拟 /etc/motd 文件不存在
+        mock_exists.side_effect = lambda x: x in ["/etc/issue", "/etc/issue.net"]
+        mock_getsize.side_effect = lambda x : 100 if x in ["/etc/issue", "/etc/issue.net"] else 0
+        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        # 调用测试函数
+        C0228_warnBanner()
+
+        mock_InsertSection.assert_any_call("check system warning  banner")
+        mock_logger.warning.assert_any_call("WRN_C0228_01: %s", WRN_C0228_01)
+        mock_logger.warning.assert_any_call("SUG_C0228_01: %s", SUG_C0228_01)
+        mock_display.assert_any_call("- No /etc/motd set...", "WARNING")
+        
+        mock_logger.info.assert_any_call("Has /etc/issue set, checking ok")
+        mock_display.assert_any_call("- Has /etc/issue warning banner...",  "OK")
+        
+        mock_logger.info.assert_any_call("Has /etc/issue.net set, checking ok")
+        mock_display.assert_any_call("- Has /etc/issue.net warning banner...",  "OK")
+        mock_open.assert_any_call("result_file_path", "a")
+        
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0228_warnBanner.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0228_warnBanner.logger')
+    @patch('secScanner.enhance.euler.check.C0228_warnBanner.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.getsize')
+    def test_issue_file_no_exist(self, mock_getsize, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
+        # 模拟 /etc/issue 文件不存在
+        mock_exists.side_effect = lambda x: x in ["/etc/motd", "/etc/issue.net"]
+        mock_getsize.side_effect = lambda x : 100 if x in ["/etc/motd", "/etc/issue.net"] else 0
+        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        # 调用测试函数
+        C0228_warnBanner()
+
+        mock_InsertSection.assert_any_call("check system warning  banner")
+        mock_logger.info.assert_any_call("Has /etc/motd set, checking ok")
+        mock_display.assert_any_call("- Has /etc/motd warning banner...",  "OK")
+        
+        mock_logger.warning.assert_any_call("WRN_C0228_02: %s", WRN_C0228_02)
+        mock_logger.warning.assert_any_call("SUG_C0228_02: %s", SUG_C0228_02)
+        mock_display.assert_any_call("- No /etc/issue set...", "WARNING")
+
+        mock_logger.info.assert_any_call("Has /etc/issue.net set, checking ok")
+        mock_display.assert_any_call("- Has /etc/issue.net warning banner...",  "OK")
+        mock_open.assert_any_call("result_file_path", "a")
 
 if __name__ == '__main__':
     unittest.main()
