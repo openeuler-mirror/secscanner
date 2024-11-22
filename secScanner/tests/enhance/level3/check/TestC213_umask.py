@@ -39,6 +39,16 @@ class TestC213_umask(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C213: %s", SUG_C213)
         mock_display.assert_called_with("- Wrong umask set...", "WARNING")
 
+    @patch("secScanner.enhance.level3.check.C213_umask.InsertSection")
+    @patch("secScanner.enhance.level3.check.C213_umask.open", new_callable=mock_open, read_data="# umask setting is commented out")
+    @patch("secScanner.enhance.level3.check.C213_umask.logger")
+    @patch("secScanner.enhance.level3.check.C213_umask.Display")
+    def test_umask_not_set(self, mock_display, mock_logger, mock_file, mock_insert):
+        secScanner.enhance.level3.check.C213_umask.C213_umask()
+        mock_logger.warning.assert_any_call("WRN_C213: %s", WRN_C213)
+        mock_logger.warning.assert_any_call("SUG_C213: %s", SUG_C213)
+        mock_display.assert_called_with("- No umask set...", "WARNING")
+    
 if __name__ == '__main__':
     unittest.main()
 
