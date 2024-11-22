@@ -47,6 +47,18 @@ class TestC241_noOneSU(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C241: %s", WRN_C241)
         mock_display.assert_called_with("- There is no pam_wheel set, check warning", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C241_noOneSU.InsertSection')
+    @patch('builtins.open', new_callable=mock_open, read_data="")
+    @patch('secScanner.enhance.level3.check.C241_noOneSU.logger')
+    @patch('secScanner.enhance.level3.check.C241_noOneSU.Display')
+    def test_pam_file_empty(self, mock_display, mock_logger, mock_file, mock_insert):
+        # 运行测试的函数
+        C241_noOneSU()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C241: %s", WRN_C241)
+        mock_display.assert_called_with("- There is no pam_wheel set, check warning", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
 
