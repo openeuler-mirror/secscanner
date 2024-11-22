@@ -265,7 +265,7 @@ def scan_command():
     fix_parser = subparsers.add_parser('fix', help="Fix command")
     fix_subparsers = fix_parser.add_subparsers(dest='mode')
 
-    fix_basic_parser = fix_subparsers.add_parser('basic', help="Basicly fix the system")
+    fix_basic_parser = fix_subparsers.add_parser('basic', help="Basically fix the system")
     fix_basic_parser.set_defaults(func=fix_basic)
 
     #集团加固基线
@@ -288,7 +288,7 @@ def scan_command():
     check_parser = subparsers.add_parser('check', help="Check command")
     check_subparsers = check_parser.add_subparsers(dest='mode')
 
-    check_basic_parser = check_subparsers.add_parser('basic', help="Check the system basicly")
+    check_basic_parser = check_subparsers.add_parser('basic', help="Check the system basically")
     check_basic_parser.set_defaults(func=check_basic)
 
     check_group_parser = check_subparsers.add_parser('group', help="Check the system by group's baseline")
@@ -309,7 +309,7 @@ def scan_command():
     check_vulner_target_parser = check_subparsers.add_parser('cve_t', help="Check the system vulnerability targeted according to cfg file")
     check_vulner_target_parser.set_defaults(func=rpm_scan)
     
-    check_all_parser = check_subparsers.add_parser('all', help="Check the system basicly, rootkit and vulnerability, output html report")
+    check_all_parser = check_subparsers.add_parser('all', help="Check the system basically, rootkit and vulnerability, output html report")
     check_all_parser.set_defaults(func=get_report)
 
     restore_parser = subparsers.add_parser('restore', help="Restore command")

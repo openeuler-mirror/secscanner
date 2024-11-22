@@ -20,8 +20,8 @@ def C24_addUser():
             if temp[0] == USER_NAME:
                 count_user = count_user + 1
     if USER_NAME == '':
-        logger.info("No vaild userName found, please check config file...")
-        Display("- No vaild userName found, please check config file...",  "FAILED")
+        logger.info("No valid userName found, please check config file...")
+        Display("- No valid userName found, please check config file...",  "FAILED")
     else:
         if count_user == 0:
             with open(RESULT_FILE, "a") as file:

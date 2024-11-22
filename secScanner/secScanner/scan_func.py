@@ -185,7 +185,7 @@ def scan_fix_sys(baseline):
     print(WHITE)
     print(" "*2+"#"*67)
     print(" "*2+"#"+" "*65+"#")
-    print(f"  #   {MAGENTA}Basicly fix the system..."+WHITE+" "*37+"#")
+    print(f"  #   {MAGENTA}Basically fix the system..."+WHITE+" "*37+"#")
     print(" "*2+"#"+" "*65+"#")
     print(" "*2+"#"*67)
     print(NORMAL)
@@ -387,7 +387,7 @@ def scan_restore_basic_settings():
             print("  Leaving... Remain everything unchanged.")
             sys.exit()
 
-    print("\n" + GREEN +" Restore basicly finished... Now you can refix the system" + NORMAL + "\n")
+    print("\n" + GREEN +" Restore basically finished... Now you can refix the system" + NORMAL + "\n")
 
 
 def vulnerabilities_db_update():
@@ -664,7 +664,7 @@ def scan_vulnerabilities_rpm_check():
             db_package_euler = db_package_json[euler_version]
             rpm_list = db_package_euler[sys_arch]
         else:
-            # print("This SA didnt update rpm for this system, System maybe safe by now!")
+            # print("This SA didn't update rpm for this system, System maybe safe by now!")
             continue
 
         #Check system software version
