@@ -52,5 +52,22 @@ class TestC0232_targetSELinux(unittest.TestCase):
         mock_display.assert_any_call("- Incorrect SELinux policy settings...", "WARNING")
         mock_open.assert_called_with("result_file_path", "a")
 
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0232_targetSELinux.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0232_targetSELinux.logger')
+    @patch('secScanner.enhance.euler.check.C0232_targetSELinux.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('subprocess.getstatusoutput')
+    def test_fail_obtain_policy(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
+        mock_getstatusoutput.return_value = (1, '')
+        secScanner.enhance.euler.check.C0232_targetSELinux.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        # 调用测试函数
+        C0232_targetSELinux()
+        mock_InsertSection.assert_called_with("check SELinux policy")
+        mock_logger.warning.assert_any_call("WRN_C0232_02: %s", WRN_C0232_02)
+        mock_logger.warning.assert_any_call("SUG_C0232_02: %s", SUG_C0232_02)
+        mock_display.assert_any_call("- Failed to obtain SELinux policy...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+        
 if __name__ == '__main__':
     unittest.main()
