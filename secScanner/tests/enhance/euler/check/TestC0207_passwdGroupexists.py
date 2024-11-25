@@ -126,6 +126,26 @@ class TestC0207_passwdGroupexists(unittest.TestCase):
         mock_logger.warning.assert_any_call(f"WRN_C0207_01: Group for user [{username}] not found")
         mock_logger.warning.assert_any_call("SUG_C0207_01: %s", SUG_C0207_01)
         mock_display.assert_called_once_with("- Check if all groups in /etc/passwd exist...", "WARNING")
+    
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.logger')
+    @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.check_group_in_group')
+    @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.get_user_groups_from_passwd')
+    def test_user2_group_not_found(self, mock_get_user_groups_from_passwd, mock_check_group_in_group, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
+        mock_exists.side_effect = [True, True]
+        mock_get_user_groups_from_passwd.return_value = [("user1", "group1"), ("user2", "group2")]
+        mock_check_group_in_group.side_effect = [True, False]
+        # 调用测试函数
+        C0207_passwdGroupexists()
+        username = []
+        username.append("user2")
+        mock_InsertSection.assert_called_once_with("check if all groups in /etc/passwd exist")
+        mock_logger.warning.assert_any_call(f"WRN_C0207_01: Group for user [{username}] not found")
+        mock_logger.warning.assert_any_call("SUG_C0207_01: %s", SUG_C0207_01)
+        mock_display.assert_called_once_with("- Check if all groups in /etc/passwd exist...", "WARNING")
 
 if __name__ == "__main__":
     unittest.main()
