@@ -53,6 +53,32 @@ class TestC0231_enforceSELinux(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0231: %s", SUG_C0231)
         mock_display.assert_any_call("- Wrong selinux set...", "WARNING")
         mock_open.assert_called_with("result_file_path", "a")
+    
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0231_enforceSELinux.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0231_enforceSELinux.logger')
+    @patch('secScanner.enhance.euler.check.C0231_enforceSELinux.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data="SELINUX=enforcing")
+    def test_selinux_enforcing(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
+        mock_exists.return_value = True
+        # 调用测试函数
+        C0231_enforceSELinux()
+        mock_InsertSection.assert_called_with("check the selinux set")
+        mock_logger.info.assert_any_call("Has right selinux set, checking ok")
+        mock_display.assert_any_call("- Has right selinux set ...", "OK")
+
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0231_enforceSELinux.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0231_enforceSELinux.logger')
+    @patch('secScanner.enhance.euler.check.C0231_enforceSELinux.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data="SELINUX=permissive")
+    def test_selinux_permissive(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
+        mock_exists.return_value = True
+        # 调用测试函数
+        C0231_enforceSELinux()
+        mock_InsertSection.assert_called_with("check the selinux set")
+        mock_logger.info.assert_any_call("Has right selinux set, checking ok")
+        mock_display.assert_any_call("- Has right selinux set ...", "OK")
 
 if __name__ == '__main__':
     unittest.main()
