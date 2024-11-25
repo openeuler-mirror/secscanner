@@ -60,8 +60,8 @@ class TestC24_addUser(unittest.TestCase):
         C24_addUser()
 
         # 检查预期的信息是否已正确记录
-        mock_logger.info.assert_called_with("No vaild userName found, please check config file...")
-        mock_display.assert_called_with("- No vaild userName found, please check config file...", "FAILED")
+        mock_logger.info.assert_called_with("No valid userName found, please check config file...")
+        mock_display.assert_called_with("- No valid userName found, please check config file...", "FAILED")
 
 if __name__ == '__main__':
     unittest.main()
