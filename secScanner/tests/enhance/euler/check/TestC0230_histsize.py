@@ -46,5 +46,19 @@ class TestC0230_histsize(unittest.TestCase):
         mock_display.assert_called_once_with("- Wrong HISTSIZE set...", "WARNING")
         mock_open.assert_called_with("result_file_path", "a")
     
+    @patch('builtins.open', new_callable=mock_open, read_data="HISTSIZE=101")
+    @patch('secScanner.enhance.euler.check.C0230_histsize.logger')
+    @patch('secScanner.enhance.euler.check.C0230_histsize.Display')
+    @patch('secScanner.enhance.euler.check.C0230_histsize.InsertSection')
+    def test_C0230_histsize_too_large(self, mock_InsertSection, mock_display, mock_logger, mock_open):
+        secScanner.enhance.euler.check.C0230_histsize.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        # 调用测试函数
+        C0230_histsize()
+        mock_InsertSection.assert_any_call("check HISTSIZE of /etc/profile")
+        mock_logger.warning.assert_any_call("WRN_C0230: %s", WRN_C0230)
+        mock_logger.warning.assert_any_call("SUG_C0230: %s", SUG_C0230)
+        mock_display.assert_called_once_with("- Wrong HISTSIZE set...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+    
 if __name__ == '__main__':
     unittest.main()
