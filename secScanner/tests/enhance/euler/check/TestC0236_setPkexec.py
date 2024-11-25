@@ -62,6 +62,23 @@ class TestC0236_setPkexec(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0236_01: %s", SUG_C0236_01)
         mock_display.assert_any_call("- NO ordinary users cannot use pkexec to configure root privileges set...", "WARNING")
         mock_open.assert_any_call("result_file_path", "a")
+    
+    @patch('os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0236_setPkexec.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0236_setPkexec.logger')
+    @patch('secScanner.enhance.euler.check.C0236_setPkexec.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_file_not_exists(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
+        secScanner.enhance.euler.check.C0236_setPkexec.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        # 模拟文件不存在
+        mock_exists.return_value = False
+        # 调用测试函数
+        C0236_setPkexec()
+        mock_InsertSection.assert_any_call("check ordinary users cannot use pkexec to configure root privileges set")
+        mock_logger.warning.assert_any_call("WRN_C0236_02: %s", WRN_C0236_02)
+        mock_logger.warning.assert_any_call("SUG_C0236_02: %s", SUG_C0236_02)
+        mock_display.assert_any_call("- file /etc/polkit-1/rules.d/50-default.rules does not exist...", "WARNING")
+        mock_open.assert_any_call("result_file_path", "a")
 
 if __name__ == '__main__':
     unittest.main()
