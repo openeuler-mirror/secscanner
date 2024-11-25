@@ -43,10 +43,10 @@ def S28_initUserPath():
             logger.info("NO ALWAYS_SET_PATH set, setting failed")
             Display("- NO ALWAYS_SET_PATH set...", "FAILED")
         elif CHECK_EXIST == 0:
-            logger.info("Wrong ALWAYS_SET_PATH, seting failed")
+            logger.info("Wrong ALWAYS_SET_PATH, setting failed")
             Display("- Wrong ALWAYS_SET_PATH set...", "FAILED")
         else:
-            logger.info("Has ALWAYS_SET_PATH set, seting ok")
+            logger.info("Has ALWAYS_SET_PATH set, setting ok")
             Display("- Set ALWAYS_SET_PATH...", "FINISHED")
     else:
         Display(f"- Skip set ALWAYS_SET_PATH due to config file...", "SKIPPING")

@@ -32,10 +32,10 @@ def S14_sshRootDenie():
                 is_exist = sum(1 for line in file if not re.match('^#|^$', line) and "pts/" in line)
 
             if is_exist == 0:
-                logger.info("Has telnet deny set, seting ok")
+                logger.info("Has telnet deny set, setting ok")
                 Display("- set the telnet deny...", "FINISHED")
             else:
-                logger.info("No ssh telnet Denie, seting failed")
+                logger.info("No ssh telnet Denie, setting failed")
                 Display("- No Telnet Denie set...", "FAILED")
 
         # -----------------Denie Root ssh login----------------
