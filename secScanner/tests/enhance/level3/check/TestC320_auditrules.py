@@ -80,5 +80,33 @@ class TestC320_auditrules(unittest.TestCase):
         mock_logger.info.assert_called_with("audit.rules set correctly, checking ok")
         mock_display.assert_called_with("- Has set audit.rules correctly ...", "OK")
 
+    @patch('secScanner.enhance.level3.check.C320_auditrules.InsertSection')
+    @patch('os.path.exists', return_value=True)
+    @patch('builtins.open', new_callable=mock_open, read_data="incorrect audit rules content")
+    @patch('secScanner.enhance.level3.check.C320_auditrules.logger')
+    @patch('secScanner.enhance.level3.check.C320_auditrules.Display')
+    def test_audit_rules_set_incorrectly(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
+        # 运行测试的函数
+        C320_auditrules()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C320: %s", WRN_C320)
+        mock_logger.warning.assert_any_call("SUG_C320: %s", SUG_C320)
+        mock_display.assert_called_with("- Wrong audit.rules set...", "WARNING")
+
+    @patch('secScanner.enhance.level3.check.C320_auditrules.InsertSection')
+    @patch('os.path.exists', return_value=False)
+    @patch('secScanner.enhance.level3.check.C320_auditrules.logger')
+    @patch('secScanner.enhance.level3.check.C320_auditrules.Display')
+    def test_config_file_not_exists(self, mock_display, mock_logger, mock_exists, mock_insert):
+        # 运行测试的函数
+        C320_auditrules()
+
+        # 检查文件不存在时的显示信息
+        config_file = "/etc/audit/rules.d/audit.rules"
+        mock_logger.warning.assert_any_call(f"WRN_C320: {config_file} {WRN_no_file}")
+        mock_logger.warning.assert_any_call(f"SUG_C320: {config_file} {SUG_no_file}")
+        mock_display.assert_called_with(f"- Config file: {config_file} not found...", "SKIPPING")
+
 if __name__ == '__main__':
     unittest.main()
