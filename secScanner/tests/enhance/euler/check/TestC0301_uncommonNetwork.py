@@ -54,6 +54,25 @@ class TestC0301_uncommonNetwork(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0301_03: %s", SUG_C0301_03)
         mock_display.assert_any_call("- Check sctp should be avoided...", "WARNING")
         mock_open.assert_any_call("result_file_path", "a")
+    
+    @patch('secScanner.enhance.euler.check.C0301_uncommonNetwork.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0301_uncommonNetwork.logger')
+    @patch('secScanner.enhance.euler.check.C0301_uncommonNetwork.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('subprocess.getstatusoutput')
+    def test_sctp_disabled_and_tipc_enabled(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟 sctp 
+        mock_getstatusoutput.side_effect = [
+            (0, "install /bin/true"),  # sctp
+            (0, "insmod /lib/modules/")     # tipc
+        ]
+        secScanner.enhance.euler.check.C0301_uncommonNetwork.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0301_uncommonNetwork()
+        mock_InsertSection.assert_any_call("Check avoid using uncommon network service")
+        mock_logger.warning.assert_any_call("WRN_C0301_02: %s", WRN_C0301_02)
+        mock_logger.warning.assert_any_call("SUG_C0301_02: %s", SUG_C0301_02)
+        mock_display.assert_any_call("- Check tipc should be avoided...", "WARNING")
+        mock_open.assert_any_call("result_file_path", "a")
 
 if __name__ == '__main__':
     unittest.main()
