@@ -47,5 +47,18 @@ class TestC331_auditconf(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C331: %s", SUG_C331)
         mock_display.assert_called_with("- Wrong audit.conf set...", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C331_auditconf.InsertSection')
+    @patch('os.path.exists', return_value=False)
+    @patch('secScanner.enhance.level3.check.C331_auditconf.logger')
+    @patch('secScanner.enhance.level3.check.C331_auditconf.Display')
+    def test_config_file_does_not_exist(self, mock_display, mock_logger, mock_exists, mock_insert):
+        # 运行测试的函数
+        C331_auditconf()
+
+        # 检查是否显示文件不存在的消息
+        mock_logger.warning.assert_any_call(f"WRN_C331: /etc/audit/auditd.conf {WRN_no_file}")
+        mock_logger.warning.assert_any_call(f"SUG_C331: /etc/audit/auditd.conf {SUG_no_file}")
+        mock_display.assert_called_with("- Config file: /etc/audit/auditd.conf not found...", "SKIPPING")
+
 if __name__ == '__main__':
     unittest.main()
