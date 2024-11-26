@@ -47,5 +47,18 @@ class TestC271_selinux(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C271: %s", SUG_C271)
         mock_display.assert_called_with("- Wrong selinux set...", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C271_selinux.InsertSection')
+    @patch('os.path.exists', return_value=False)
+    @patch('secScanner.enhance.level3.check.C271_selinux.logger')
+    @patch('secScanner.enhance.level3.check.C271_selinux.Display')
+    def test_config_file_not_exists(self, mock_display, mock_logger, mock_exists, mock_insert):
+        # 运行测试的函数
+        C271_selinux()
+
+        # 检查文件不存在时的显示信息
+        mock_logger.warning.assert_any_call(f"WRN_C271: /etc/selinux/config {WRN_no_file}")
+        mock_logger.warning.assert_any_call(f"SUG_C271: /etc/selinux/config {SUG_no_file}")
+        mock_display.assert_called_with("- Config file: /etc/selinux/config not found...", "SKIPPING")
+
 if __name__ == '__main__':
     unittest.main()
