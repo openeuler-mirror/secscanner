@@ -15,7 +15,7 @@
 
 import unittest
 from unittest.mock import patch, mock_open, MagicMock
-from secScanner.lib.textInfo_level3 import *
+from secScanner.lib import *
 from secScanner.enhance.level3.check.C311_auditEnabled import C311_auditEnabled
 
 class TestC311_auditEnabled(unittest.TestCase):
