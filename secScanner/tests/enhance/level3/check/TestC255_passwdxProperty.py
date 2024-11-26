@@ -45,5 +45,15 @@ class TestC255_passwdxProperty(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C255: %s", SUG_C255)
         mock_display.assert_called_with("- Check if /etc/passwd- property is not 644...", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C255_passwdxProperty.InsertSection')
+    @patch('os.path.exists', return_value=False)
+    @patch('secScanner.enhance.level3.check.C255_passwdxProperty.Display')
+    def test_passwdx_file_not_exist(self, mock_display, mock_exists, mock_insert):
+        # 运行测试的函数
+        C255_passwdxProperty()
+
+        # 验证文件不存在时的操作
+        mock_display.assert_called_with("- file '/etc/passwd-' does not exist...", "SKIPPED")
+
 if __name__ == '__main__':
     unittest.main()
