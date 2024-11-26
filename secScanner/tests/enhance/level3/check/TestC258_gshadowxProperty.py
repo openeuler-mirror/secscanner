@@ -45,5 +45,15 @@ class TestC258_gshadowxProperty(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C258: %s", SUG_C258)
         mock_display.assert_called_with("- Check if /etc/gshadow- property is not 0...", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C258_gshadowxProperty.InsertSection')
+    @patch('os.path.exists', return_value=False)
+    @patch('secScanner.enhance.level3.check.C258_gshadowxProperty.Display')
+    def test_gshadowx_file_not_exist(self, mock_display, mock_exists, mock_insert):
+        # 运行测试的函数
+        C258_gshadowxProperty()
+
+        # 验证文件不存在时的操作
+        mock_display.assert_called_with("- file '/etc/gshadow-' does not exist...", "SKIPPED")
+
 if __name__ == '__main__':
     unittest.main()
