@@ -70,7 +70,7 @@ positional arguments:
     ssh                 SSH ban&unban command
 
 optional arguments:
-  -h, --help            show this help message and exit
+  -h, --help            Show this help message and exit
   --config              Show settings file path
   -q, --quiet           Quiet mode
   -V, --version         Show version
