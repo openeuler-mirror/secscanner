@@ -38,6 +38,19 @@ class TestC0320_sshAuthentication(unittest.TestCase):
         mock_logger.warning.assert_any_call(f"SUG_C0320: {config_file} {SUG_no_file}")
         mock_display.assert_any_call(f"- Config file: {config_file} not found...", "SKIPPING")
         mock_open.assert_called_with("result_file_path", "a")
+    
+    @patch('secScanner.enhance.euler.check.C0320_sshAuthentication.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0320_sshAuthentication.logger')
+    @patch('secScanner.enhance.euler.check.C0320_sshAuthentication.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data = "IgnoreRhosts yes\nHostbasedAuthentication no\nPasswordAuthentication yes\n")
+    @patch('os.path.exists')
+    def test_correct_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟文件存在
+        mock_exists.return_value = True
+        C0320_sshAuthentication()
+        mock_InsertSection.assert_any_call("Check config of ssh authentication")
+        mock_logger.info.assert_any_call("Check config of ssh authentication")
+        mock_display.assert_any_call("- Check config of ssh authentication", "OK")
 
 if __name__ == '__main__':
     unittest.main()
