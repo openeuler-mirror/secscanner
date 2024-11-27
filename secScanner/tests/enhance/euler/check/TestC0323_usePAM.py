@@ -39,5 +39,18 @@ class TestC0323_usePAM(unittest.TestCase):
         mock_display.assert_any_call(f"- Config file: {config_file} not found...", "SKIPPING")
         mock_open.assert_called_with("result_file_path", "a")
     
+    @patch('secScanner.enhance.euler.check.C0323_usePAM.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0323_usePAM.logger')
+    @patch('secScanner.enhance.euler.check.C0323_usePAM.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data = "UsePAM yes\n")
+    @patch('os.path.exists')
+    def test_correct_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟文件存在
+        mock_exists.return_value = True
+        C0323_usePAM()
+        mock_InsertSection.assert_any_call("Check set of PAM in sshd config file")
+        mock_logger.info.assert_any_call("Check set of PAM in sshd config file")
+        mock_display.assert_any_call("- Check set of PAM in sshd config file", "OK")
+    
 if __name__ == '__main__':
     unittest.main()
