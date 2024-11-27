@@ -32,6 +32,19 @@ class TestC0302_avoidWireless(unittest.TestCase):
         mock_InsertSection.assert_any_call("Check avoid using wireless network")
         mock_logger.warning.assert_any_call("Excute cmd: 'nmcli radio all' failed")
         mock_display.assert_any_call("- A error occurred while checking nmcli raido...", "WARNING")
+    
+    @patch('secScanner.enhance.euler.check.C0302_avoidWireless.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0302_avoidWireless.logger')
+    @patch('secScanner.enhance.euler.check.C0302_avoidWireless.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('subprocess.getstatusoutput')
+    def test_wireless_disabled(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟无线网络已禁用的情况
+        mock_getstatusoutput.return_value = (0, "WIFI-HW  WIFI     WWAN-HW  WWAN\nenabled  disabled  enabled  disabled")
+        C0302_avoidWireless()
+        mock_InsertSection.assert_any_call("Check avoid using wireless network")
+        mock_logger.info.assert_any_call("Checking wireless network is disabled")
+        mock_display.assert_any_call("- Checking wireless network is disabled", "OK")
 
 if __name__ == '__main__':
     unittest.main()
