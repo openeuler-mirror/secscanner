@@ -38,6 +38,19 @@ class TestC0330_maxStartups(unittest.TestCase):
         mock_logger.warning.assert_any_call(f"SUG_C0330: {config_file} {SUG_no_file}")
         mock_display.assert_any_call(f"- Config file: {config_file} not found...", "SKIPPING")
         mock_open.assert_called_with("result_file_path", "a")
+    
+    @patch('secScanner.enhance.euler.check.C0330_maxStartups.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0330_maxStartups.logger')
+    @patch('secScanner.enhance.euler.check.C0330_maxStartups.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data = "maxstartups 10:30:60\n")
+    @patch('os.path.exists')
+    def test_correct_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟文件存在
+        mock_exists.return_value = True
+        C0330_maxStartups()
+        mock_InsertSection.assert_any_call("Check set of maxstartups in sshd config file")
+        mock_logger.info.assert_any_call("Check set of maxstartups in sshd config file")
+        mock_display.assert_any_call("- Check set of maxstartups in sshd config file", "OK")
 
 if __name__ == '__main__':
     unittest.main()
