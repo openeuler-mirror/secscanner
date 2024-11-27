@@ -37,6 +37,20 @@ class TestC0322_pubkeyTypes(unittest.TestCase):
         mock_logger.warning.assert_any_call(f"SUG_C0322: {config_file} {SUG_no_file}")
         mock_display.assert_any_call(f"- Config file: {config_file} not found...", "SKIPPING")
         mock_open.assert_called_with("result_file_path", "a")
+    
+    @patch('secScanner.enhance.euler.check.C0322_pubkeyTypes.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0322_pubkeyTypes.logger')
+    @patch('secScanner.enhance.euler.check.C0322_pubkeyTypes.Display')
+    @patch('builtins.open', new_callable=mock_open, 
+        read_data = "PubkeyAcceptedKeyTypes ssh-ed25519,ssh-ed25519-cert-v01@openssh.com,rsa-sha2-256,rsa-sha2-512")
+    @patch('os.path.exists')
+    def test_set_correct(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟文件存在
+        mock_exists.return_value = True
+        C0322_pubkeyTypes()
+        mock_InsertSection.assert_any_call("Check set of PubkeyAcceptedKeyTypes")
+        mock_logger.info.assert_any_call("Check set of PubkeyAcceptedKeyTypes")
+        mock_display.assert_any_call("- Check set of PubkeyAcceptedKeyTypes", "OK")
 
 if __name__ == '__main__':
     unittest.main()
