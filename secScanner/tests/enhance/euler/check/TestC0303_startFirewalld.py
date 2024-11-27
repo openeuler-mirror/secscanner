@@ -36,6 +36,23 @@ class TestC0303_startFirewalld(unittest.TestCase):
         mock_InsertSection.assert_any_call("Check if firewalld is launched")
         mock_logger.error.assert_any_call("Unexpected error while checking firewalld status")
         mock_display.assert_any_call("- Unexpected error while checking firewalld status...", "FAILED")
+    
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.logger')
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('subprocess.getstatusoutput')
+    def test_only_firewalld_active(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
+        
+        mock_getstatusoutput.side_effect = [
+            (0, "active"),
+            (3, "inactive"),
+            (3, "inactive")
+        ]
+        C0303_startFirewalld()
+        mock_InsertSection.assert_any_call("Check if firewalld is launched")
+        mock_logger.info.assert_any_call("Checking Firewalld is active and iptables&nftables is inactive")
+        mock_display.assert_any_call("- Checking Firewalld is active", "OK")
 
 if __name__ == '__main__':
     unittest.main()
