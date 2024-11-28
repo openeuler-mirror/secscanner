@@ -46,5 +46,17 @@ class TestC415_aideInstall(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C415: %s", SUG_C415)
         mock_display.assert_called_with("- Don't have aide installed...", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C415_aideInstall.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(2, "some error occurred"))
+    @patch('secScanner.enhance.level3.check.C415_aideInstall.logger')
+    @patch('secScanner.enhance.level3.check.C415_aideInstall.Display')
+    def test_aide_check_failed(self, mock_display, mock_logger, mock_subprocess, mock_insert):
+        # 运行测试的函数
+        C415_aideInstall()
+
+        # 检查预期的错误信息是否已正确记录
+        mock_logger.error.assert_called_with("check the aide status failed")
+        mock_display.assert_called_with("- Error occured while checking aide status...", "FAILED")
+
 if __name__ == '__main__':
     unittest.main()
