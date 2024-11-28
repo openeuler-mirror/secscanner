@@ -51,6 +51,22 @@ class TestC0320_sshAuthentication(unittest.TestCase):
         mock_InsertSection.assert_any_call("Check config of ssh authentication")
         mock_logger.info.assert_any_call("Check config of ssh authentication")
         mock_display.assert_any_call("- Check config of ssh authentication", "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0320_sshAuthentication.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0320_sshAuthentication.logger')
+    @patch('secScanner.enhance.euler.check.C0320_sshAuthentication.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data = "IgnoreRhosts no\nHostbasedAuthentication no\nPasswordAuthentication yes\n")
+    @patch('os.path.exists')
+    def test_ignoreRhosts_wrong_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟文件存在
+        mock_exists.return_value = True
+        secScanner.enhance.euler.check.C0320_sshAuthentication.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0320_sshAuthentication()
+        mock_InsertSection.assert_any_call("Check config of ssh authentication")
+        mock_logger.warning.assert_any_call("WRN_C0320: %s", WRN_C0320)
+        mock_logger.warning.assert_any_call("SUG_C0320: %s", SUG_C0320)
+        mock_display.assert_any_call("- Check wrong set of ssh authentication...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
 
 if __name__ == '__main__':
     unittest.main()
