@@ -37,5 +37,17 @@ class TestC411_checkFtp(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C411: %s", SUG_C411)
         mock_display.assert_called_with("- Check the  FTP software is installed...", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C411_checkFtp.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, "package ftp is not installed"))
+    @patch('secScanner.enhance.level3.check.C411_checkFtp.logger')
+    @patch('secScanner.enhance.level3.check.C411_checkFtp.Display')
+    def test_ftp_not_installed(self, mock_display, mock_logger, mock_subprocess, mock_insert):
+        # 运行测试的函数
+        C411_checkFtp()
+
+        # 检查预期的日志信息是否已正确记录
+        mock_logger.info.assert_called_with("The Ftp status is: package ftp is not installed")
+        mock_display.assert_called_with("- Check the FTP software is uninstall...", "OK")
+
 if __name__ == '__main__':
     unittest.main()
