@@ -92,6 +92,22 @@ class TestC0301_uncommonNetwork(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0301_01: %s", SUG_C0301_01)
         mock_display.assert_any_call("- Check sctp and tipc should be avoided...", "WARNING")
         mock_open.assert_any_call("result_file_path", "a")
+    
+    @patch('secScanner.enhance.euler.check.C0301_uncommonNetwork.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0301_uncommonNetwork.logger')
+    @patch('secScanner.enhance.euler.check.C0301_uncommonNetwork.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('subprocess.getstatusoutput')
+    def test_sctp_chech_error(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟 sctp error
+        mock_getstatusoutput.side_effect = [
+            (1, ""),  # sctp
+            (0, "insmod /lib/modules/")     # tipc
+        ]
+        C0301_uncommonNetwork()
+        mock_InsertSection.assert_any_call("Check avoid using uncommon network service")
+        mock_logger.warning.assert_any_call("A error occurred while checking sctp")
+        mock_display.assert_any_call("- A error occurred while checking sctp...", "WARNING")
 
 if __name__ == '__main__':
     unittest.main()
