@@ -37,5 +37,17 @@ class TestC421_nfsServer(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C421: %s", SUG_C421)
         mock_display.assert_called_with("- Check the nfs-Server is enabled...", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C421_nfsServer.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'disabled'))
+    @patch('secScanner.enhance.level3.check.C421_nfsServer.logger')
+    @patch('secScanner.enhance.level3.check.C421_nfsServer.Display')
+    def test_nfs_server_disabled(self, mock_display, mock_logger, mock_subproc, mock_insert):
+        # 运行测试的函数
+        C421_nfsServer()
+
+        # 检查预期的日志信息是否已正确记录
+        mock_logger.info.assert_called_with("The nfs-Server status is: disabled")
+        mock_display.assert_called_with("- Check the nfs-Server is disabled...", "OK")
+
 if __name__ == '__main__':
     unittest.main()
