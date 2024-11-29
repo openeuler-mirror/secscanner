@@ -51,6 +51,20 @@ class TestC0322_pubkeyTypes(unittest.TestCase):
         mock_InsertSection.assert_any_call("Check set of PubkeyAcceptedKeyTypes")
         mock_logger.info.assert_any_call("Check set of PubkeyAcceptedKeyTypes")
         mock_display.assert_any_call("- Check set of PubkeyAcceptedKeyTypes", "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0322_pubkeyTypes.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0322_pubkeyTypes.logger')
+    @patch('secScanner.enhance.euler.check.C0322_pubkeyTypes.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data = "AllowTcpForwarding no\nAllowAgentForwarding no")
+    @patch('os.path.exists')
+    def test_without_set(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟文件存在
+        mock_exists.return_value = True
+        C0322_pubkeyTypes()
+        mock_InsertSection.assert_any_call("Check set of PubkeyAcceptedKeyTypes")
+        mock_logger.warning.assert_any_call("WRN_C0322: %s", WRN_C0322_02)
+        mock_logger.warning.assert_any_call("SUG_C0322: %s", SUG_C0322_02)
+        mock_display.assert_any_call("- Wrong set of PubkeyAcceptedKeyTypes...", "WARNING")
 
 if __name__ == '__main__':
     unittest.main()
