@@ -44,5 +44,31 @@ class TestC423_dhcpDisabled(unittest.TestCase):
         mock_logger.info.assert_called_with("No dhcp service, checking ok")
         mock_display.assert_called_with("- No dhcp service, checking ok...", "OK")
 
+    @patch('secScanner.enhance.level3.check.C423_dhcpDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'enabled'))
+    @patch('secScanner.enhance.level3.check.C423_dhcpDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C423_dhcpDisabled.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_dhcp_enabled(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_insert):
+        # 运行测试的函数
+        C423_dhcpDisabled()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C423: %s", WRN_C423)
+        mock_logger.warning.assert_any_call("SUG_C423: %s", SUG_C423)
+        mock_display.assert_called_with("- Wrong dhcp service status...", "WARNING")
+
+    @patch('secScanner.enhance.level3.check.C423_dhcpDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'unexpected'))
+    @patch('secScanner.enhance.level3.check.C423_dhcpDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C423_dhcpDisabled.Display')
+    def test_dhcp_unexpected_status(self, mock_display, mock_logger, mock_subprocess, mock_insert):
+        # 运行测试的函数
+        C423_dhcpDisabled()
+
+        # 检查预期的日志信息是否已正确记录
+        mock_logger.info.assert_called_with("Unexpected status of dhcpd")
+        mock_display.assert_called_with("- Unexpected status of dhcpd...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
