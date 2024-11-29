@@ -49,5 +49,17 @@ class TestC416_chronyInstall(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C416: %s", SUG_C416)
         mock_display.assert_called_with("- Don't have chrony installed...", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C416_chronyInstall.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'some unexpected error'))
+    @patch('secScanner.enhance.level3.check.C416_chronyInstall.logger')
+    @patch('secScanner.enhance.level3.check.C416_chronyInstall.Display')
+    def test_check_failed(self, mock_display, mock_logger, mock_subproc, mock_insert):
+        # 运行测试的函数
+        C416_chronyInstall()
+
+        # 检查预期的错误信息是否已正确记录
+        mock_logger.error.assert_called_with("check the chrony status failed")
+        mock_display.assert_called_with("- Error occured while checking chrony status...", "FAILED")
+
 if __name__ == '__main__':
     unittest.main()
