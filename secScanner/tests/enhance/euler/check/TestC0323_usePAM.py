@@ -52,5 +52,21 @@ class TestC0323_usePAM(unittest.TestCase):
         mock_logger.info.assert_any_call("Check set of PAM in sshd config file")
         mock_display.assert_any_call("- Check set of PAM in sshd config file", "OK")
     
+    @patch('secScanner.enhance.euler.check.C0323_usePAM.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0323_usePAM.logger')
+    @patch('secScanner.enhance.euler.check.C0323_usePAM.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data = "UsePAM no\n")
+    @patch('os.path.exists')
+    def test_incorrect_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟文件存在
+        mock_exists.return_value = True
+        secScanner.enhance.euler.check.C0323_usePAM.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0323_usePAM()
+        mock_InsertSection.assert_any_call("Check set of PAM in sshd config file")
+        mock_logger.warning.assert_any_call("WRN_C0323: %s", WRN_C0323)
+        mock_logger.warning.assert_any_call("SUG_C0323: %s", SUG_C0323)
+        mock_display.assert_any_call("- Wrong set of PAM in sshd config file...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+    
 if __name__ == '__main__':
     unittest.main()
