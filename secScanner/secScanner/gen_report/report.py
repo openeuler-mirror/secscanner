@@ -25,7 +25,6 @@ def warning_results():
         WRNS = []
         SUGS = []
         baseline_info = ""
-        data = ""
         #json_data = []
         with open(LOGFILE, "r") as file:
             lines = file.readlines()
@@ -103,7 +102,6 @@ def rootkit_get_context(rootkit_type, rootkit_count, rootkit_list, rootkit_sugge
     return ret_html_rootkit_context
 
 def rootkit_result():
-    rootkit_info = ""
     html_rootkit_content = ""
 
     with open(LOGFILE, 'r') as file:
