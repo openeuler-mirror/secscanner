@@ -42,7 +42,6 @@ def S30_ftpBanner():
                 lines = read_file.readlines()
                 for line in lines:
                     if (not re.match('#|$', line)) and re.search('ftpd_banner', line):
-                        IS_EXIST = 1
                         temp = line.strip('\n').split('=')
                         if temp[0] == 'ftpd_banner' and temp[1] == ('Authorized users only. All activity may be '
                                                                     'monitored and reported.'):
