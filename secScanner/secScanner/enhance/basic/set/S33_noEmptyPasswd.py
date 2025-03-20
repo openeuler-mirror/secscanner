@@ -39,7 +39,6 @@ def S33_noEmptyPasswd():
             lines = read_file.readlines()
             for line in lines:
                 if re.match('PermitEmptyPasswords', line):
-                    IS_EXIST = 1
                     temp = line.split()
                     if temp[0] == 'PermitEmptyPasswords' and temp[1] == 'no':
                         CHECK_EXIST = 1
