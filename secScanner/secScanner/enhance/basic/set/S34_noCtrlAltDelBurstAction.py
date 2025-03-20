@@ -49,7 +49,6 @@ def S34_noCtrlAltDelBurstAction():
             lines = read_file.readlines()
             for line in lines:
                 if re.match('CtrlAltDelBurstAction', line):
-                    IS_EXIST = 1
                     temp = line.strip('\n').split('=')
                     if temp[0] == 'CtrlAltDelBurstAction' and temp[1] == 'none':
                         CHECK_EXIST = 1
