@@ -41,7 +41,6 @@ def S31_anonymousFTP():
                 lines = read_file.readlines()
                 for line in lines:
                     if (not re.match('#|$', line)) and re.search('anonymous_enable', line):
-                        IS_EXIST = 1
                         temp = line.strip('\n').split('=')
                         if temp[0] == 'anonymous_enable' and temp[1] == 'NO':
                             CHECK_EXIST = 1
