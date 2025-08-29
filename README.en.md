@@ -40,14 +40,13 @@ secScanner is an operating system security scanning tool designed to provide sec
 
 ```
 git clone https://gitee.com/openeuler/secscanner
-mv secscanner secScanner-0.1
-tar -cvf secScanner-0.1.tar.gz secScanner-0.1
-cp secScanner-0.1/secscanner.spec rpmbuild/SPECS
+mv secscanner secScanner-1.2
+tar -cvf secScanner-1.2.tar.gz secScanner-1.2
+cp secScanner-1.2/secscanner.spec rpmbuild/SPECS
 rpmbuild -ba rpmbuild/SPECS/secscanner.spec
-rpm -ivh secScanner-1.0-0.xxxx.xxxx.noarch.rpm
-若提示需安装chkrootkit，则
+rpm -ivh rpmbuild/RPMS/xxxarch/secScanner-1.2.0.xxxx.xxxxrpm
+if need to install chkrootkit，then
 yum install chkrootkit
-或相关系统架构的chkrootkit，目前暂无版本要求
 ```
 
 #### Directions for use
