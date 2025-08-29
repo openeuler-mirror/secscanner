@@ -640,7 +640,7 @@ def scan_vulnerabilities_rpm_check():
 
     #check system architecture
     ret, sys_arch = subprocess.getstatusoutput('uname -m')
-    if sys_arch not in ['arm', 'x86_64']:
+    if sys_arch not in ['aarch64', 'x86_64']:
         print("This architecture is not supported by the vulnerability scanning feature at this time")
         sys.exit(1)
     # use "for" loop to traverse the cve database
