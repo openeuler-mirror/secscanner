@@ -50,10 +50,6 @@ def restore_all(args):
     AUTO_BASIC_RESTORE = set_value("AUTO_BASIC_RESTORE", AUTO_BASIC_RESTORE)  # auto basic restore
     scan_restore_basic_settings()
 
-def fix_group(args):
-    display_info()
-    check_isvirtualmachine()
-    scan_fix_sys('group')
 
 def fix_level3(args):
     display_info()
@@ -74,10 +70,6 @@ def fix_euler(args):
     check_isvirtualmachine()
     scan_fix_sys('euler')
 
-def check_group(args):
-    display_info()
-    check_isvirtualmachine()
-    scan_check_sys('group')
 
 def check_level3(args):
     display_info()
@@ -88,52 +80,6 @@ def check_euler(args):
     display_info()
     check_isvirtualmachine()
     scan_check_sys('euler')
-
-def fix_item(args):
-    display_info()
-    check_isvirtualmachine()
-    items = ['sshRootDenie', 'issueRemove', 'noOneSU', 'addUser', 'disableUnUsedaliases', 'syslogProperty']
-    if args.item not in items:
-        print("Invalid item option, please check...")
-    else:
-        print(WHITE)
-        print("  ###################################################################")
-        print("  #                                                                 #")
-        print(f"  #   {MAGENTA}Fix the specify items...{WHITE}                                      #")
-        print("  #                                                                 #")
-        print("  ###################################################################")
-        print(NORMAL)
-
-        pattern = rf'S([0-9]+)_{args.item}\.py'
-        path = r'./secScanner/bsc_set/'
-        if os.path.exists(path):
-            files = [filename for filename in os.listdir(path) if re.match(pattern, filename)]
-            matched_files = [os.path.join(path, filename) for filename in files]
-            confirmation = getpass.getpass(f"you are going to call the {args.item}. (y/n): ")
-            if confirmation.lower() == 'y' :
-                for file in matched_files:
-                    module_name = os.path.splitext(os.path.basename(file))[0]
-                    module_path = os.path.dirname(file)
-                    sys.path.append(module_path)
-                    try:
-                        module = __import__(module_name)
-                        getattr(module, module_name)()
-                    except ImportError as e:
-                        print(f"Failed to import module {module_name}: {e}")
-                        sys.exit(1)
-                    except AttributeError as e:
-                        print(f"Module {module_name} does not have the required function: {e}")
-                        sys.exit(1)
-            #需要增加重启服务，sshd或rsyslog代码
-
-            elif confirmation.lower() == 'n':
-                print("Access denied. Specified item format is invalid.")
-
-            else:
-                print("Wrong input")
-        else:
-            print(f"file {args.item} does not exist.")
-            sys.exit(1)
             
 def db_update(args):
     display_info()
@@ -268,10 +214,6 @@ def scan_command():
     fix_basic_parser = fix_subparsers.add_parser('basic', help="Basically fix the system")
     fix_basic_parser.set_defaults(func=fix_basic)
 
-    #集团加固基线
-    fix_group_parser = fix_subparsers.add_parser('group', help="According the group's baseline fix system")
-    fix_group_parser.set_defaults(func=fix_group)
-
     fix_level3_parser = fix_subparsers.add_parser('level3', help="According the level 3 of protection baseline fix system")
     fix_level3_parser.set_defaults(func=fix_level3)
 
@@ -279,20 +221,11 @@ def scan_command():
     fix_euler_parser.set_defaults(func=fix_euler)
 
 
-
-    # Item fix subcommand
-    fix_item_parser = fix_subparsers.add_parser('item', help="Fix a specific item")
-    fix_item_parser.add_argument('item', nargs='?', help="Custom item option", choices=['sshRootDenie', 'issueRemove', 'noOneSU', 'addUser', 'syslogProperty', 'ftpBanner', 'restrictFTPdir', 'anonymousFTP'])
-    fix_item_parser.set_defaults(func=fix_item)
-
     check_parser = subparsers.add_parser('check', help="Check command")
     check_subparsers = check_parser.add_subparsers(dest='mode')
 
     check_basic_parser = check_subparsers.add_parser('basic', help="Check the system basically")
     check_basic_parser.set_defaults(func=check_basic)
-
-    check_group_parser = check_subparsers.add_parser('group', help="Check the system by group's baseline")
-    check_group_parser.set_defaults(func=check_group)
 
     check_level3_parser = check_subparsers.add_parser('level3', help="Check the system by level 3 of protection baseline")
     check_level3_parser.set_defaults(func=check_level3)
@@ -361,7 +294,7 @@ def scan_command():
         parser.error('Command line parameters not provided. Please use - h or -- help to view help information.')
     
     if args.command == 'fix' and args.mode is None:
-        parser.error('fix command requires a subcommand (either "basic" or "item").')
+        parser.error('fix command requires a subcommand (choose "basic" , "level3" , "euler").')
 
     if args.command == 'check' and args.mode is None:
         parser.error('check command requires a subcommand (choose "basic" , "rootkit" , "cve" , "cve_t" , "all").')
