@@ -109,8 +109,9 @@ cp -p %{buildroot}/opt/secScanner/secScanner/services/timer_file/* %{buildroot}/
 exit 0
 
 %files
-%defattr(-,root,root)
+%defattr(600,root,root)
 /opt/secScanner/
+%attr(700, root, root) /opt/secScanner/secscanner.py
 /usr/bin/secscanner
 /usr/share/man/man8/secscanner.8.gz
 /etc/secScanner/secscanner.cfg
