@@ -444,6 +444,7 @@ def vulnerabilities_db_update():
         cvrf.packageInfo = str(pkg_dict)
         session.add(cvrf)
         session.commit()
+        print(f"{cvrf_xml_handler.node_get_securityNoticeNo()} updated")
         update_sa += 1
 
     ####################################################################################
@@ -553,6 +554,7 @@ def vulnerabilities_db_update():
 
         session.add(cve)
         session.commit()
+        print(f"{json_data['cveId']} updated")
         update_cve += 1
 
     session.close()
