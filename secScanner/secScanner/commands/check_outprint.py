@@ -43,6 +43,9 @@ def distro_detection():
                         OS_DISTRO = tmp_distro
                     elif tmp_distro.startswith("v"): #v24系列
                         OS_DISTRO = tmp_distro
+                    else:
+                        print("secScanner not support this system for now!")
+                        exit(1)
                     set_value("OS_DISTRO", OS_DISTRO)
                 elif line.startswith("VERSION"):
                     SYS_VERSION = line.split("=")[1].strip().strip("\"'")
