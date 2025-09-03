@@ -111,7 +111,6 @@ def display_info():
     report_datetime_start = datetime.now()
     set_value("report_datetime_start",report_datetime_start)
     current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    lib_dir = os.path.join(current_dir, 'lib')
 
     if subprocess.call('test -f /etc/os-release', shell=True) == 0:
         try:
