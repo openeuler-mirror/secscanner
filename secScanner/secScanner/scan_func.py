@@ -733,6 +733,16 @@ def scan_vulnerabilities_rpm_check():
 
 def cut_component_version(component, package):
     # get component's version   glibc-2.28-101.el8.src.rpm
+    if component == 'kernel':
+        # kernel-5.10.0-200.0.0.154.144.bclinux.21.10U4.x86_64
+        ver_arch = package.split(component)[1]  # -2.28-101.el8
+        ver_arch_list = ver_arch.split('-')  #
+        # ver_last_num: number after "-"
+        ver_last_five_num = ver_arch_list[2].split('.')  # ['101']
+        component_version = ver_arch_list[1].split('.')  # ['2', '28']
+        for i in range(5):
+            component_version.append(ver_last_five_num[i])  # ['2', '28', '101']
+        return component_version
     ver_arch = package.split(component)[1]  # -2.28-101.el8
     ver_arch_list = ver_arch.split('-')  #
     # ver_last_num: number after "-"
