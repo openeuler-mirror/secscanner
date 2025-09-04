@@ -1,0 +1,50 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+import unittest
+from unittest.mock import patch, mock_open, MagicMock
+from secScanner.lib.textInfo_level3 import *
+from secScanner.enhance.level3.check.C427_dovecotDisabled import C427_dovecotDisabled
+
+class TestC427_dovecotDisabled(unittest.TestCase):
+
+    @patch('secScanner.enhance.level3.check.C427_dovecotDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'disabled'))
+    @patch('secScanner.enhance.level3.check.C427_dovecotDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C427_dovecotDisabled.Display')
+    def test_dovecot_service_disabled(self, mock_display, mock_logger, mock_subprocess, mock_insert):
+        C427_dovecotDisabled()
+        mock_logger.info.assert_called_with("Has right dovecot service set, checking ok")
+        mock_display.assert_called_with("- Has right dovecot service set: disabled...", "OK")
+
+    @patch('secScanner.enhance.level3.check.C427_dovecotDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'masked'))
+    @patch('secScanner.enhance.level3.check.C427_dovecotDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C427_dovecotDisabled.Display')
+    def test_dovecot_service_masked(self, mock_display, mock_logger, mock_subprocess, mock_insert):
+        C427_dovecotDisabled()
+        mock_logger.info.assert_called_with("Has right dovecot service set, checking ok")
+        mock_display.assert_called_with("- Has right dovecot service set: masked...", "OK")
+
+    @patch('secScanner.enhance.level3.check.C427_dovecotDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'Failed to get unit file state'))
+    @patch('secScanner.enhance.level3.check.C427_dovecotDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C427_dovecotDisabled.Display')
+    def test_dovecot_service_not_exist(self, mock_display, mock_logger, mock_subprocess, mock_insert):
+        C427_dovecotDisabled()
+        mock_logger.info.assert_called_with("No dovecot service, checking ok")
+        mock_display.assert_called_with("- No dovecot service, checking ok...", "OK")
+
+if __name__ == '__main__':
+    unittest.main()
