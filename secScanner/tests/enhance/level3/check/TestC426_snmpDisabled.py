@@ -37,5 +37,34 @@ class TestC426_snmpDisabled(unittest.TestCase):
         mock_logger.info.assert_called_with("Has right snmpd service set, checking ok")
         mock_display.assert_called_with("- Has right snmpd service set: masked...", "OK")
 
+    @patch('secScanner.enhance.level3.check.C426_snmpDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'Failed to get unit file state'))
+    @patch('secScanner.enhance.level3.check.C426_snmpDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C426_snmpDisabled.Display')
+    def test_snmp_service_not_exist(self, mock_display, mock_logger, mock_subprocess, mock_insert):
+        C426_snmpDisabled()
+        mock_logger.info.assert_called_with("No snmpd service, checking ok")
+        mock_display.assert_called_with("- No snmpd service, checking ok...", "OK")
+
+    @patch('secScanner.enhance.level3.check.C426_snmpDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'enabled'))
+    @patch('secScanner.enhance.level3.check.C426_snmpDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C426_snmpDisabled.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_snmp_service_enabled(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_insert):
+        C426_snmpDisabled()
+        mock_logger.warning.assert_any_call("WRN_C426: %s", WRN_C426)
+        mock_logger.warning.assert_any_call("SUG_C426: %s", SUG_C426)
+        mock_display.assert_called_with("- Wrong snmpd service status...", "WARNING")
+
+    @patch('secScanner.enhance.level3.check.C426_snmpDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'unknown'))
+    @patch('secScanner.enhance.level3.check.C426_snmpDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C426_snmpDisabled.Display')
+    def test_snmp_service_unknown_status(self, mock_display, mock_logger, mock_subprocess, mock_insert):
+        C426_snmpDisabled()
+        mock_logger.info.assert_called_with("Unexpected status of snmpd")
+        mock_display.assert_called_with("- Unexpected status of snmpd...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
