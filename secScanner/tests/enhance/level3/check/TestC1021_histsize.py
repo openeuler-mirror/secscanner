@@ -54,5 +54,50 @@ class TestC1021_histsize(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C1021: %s", SUG_C1021)
         mock_display.assert_called_with("- Wrong HISTSIZE set...", "WARNING")
 
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('secScanner.enhance.level3.check.C1021_histsize.InsertSection')
+    @patch('secScanner.enhance.level3.check.C1021_histsize.os.path.exists')
+    @patch('secScanner.enhance.level3.check.C1021_histsize.Display')
+    @patch('secScanner.enhance.level3.check.C1021_histsize.logger')
+    def test_profile_file_not_found(self, mock_logger, mock_display, mock_exists, mock_insert, mock_file):
+
+        mock_exists.return_value = False
+        
+        C1021_histsize()
+
+        mock_logger.warning.assert_any_call(f"WRN_C1021: /etc/profile {WRN_no_file}")
+        mock_logger.warning.assert_any_call(f"SUG_C1021: /etc/profile {SUG_no_file}")
+        mock_display.assert_called_with("- Config file: /etc/profile not found...", "SKIPPING")
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('secScanner.enhance.level3.check.C1021_histsize.InsertSection')
+    @patch('secScanner.enhance.level3.check.C1021_histsize.os.path.exists')
+    @patch('secScanner.enhance.level3.check.C1021_histsize.Display')
+    @patch('secScanner.enhance.level3.check.C1021_histsize.logger')
+    def test_profile_file_not_found(self, mock_logger, mock_display, mock_exists, mock_insert, mock_file):
+
+        mock_exists.return_value = False
+        
+        C1021_histsize()
+
+        mock_logger.warning.assert_any_call(f"WRN_C1021: /etc/profile {WRN_no_file}")
+        mock_logger.warning.assert_any_call(f"SUG_C1021: /etc/profile {SUG_no_file}")
+        mock_display.assert_called_with("- Config file: /etc/profile not found...", "SKIPPING")
+
+    @patch('builtins.open', new_callable=mock_open, read_data="# Comment line\n")
+    @patch('secScanner.enhance.level3.check.C1021_histsize.InsertSection')
+    @patch('secScanner.enhance.level3.check.C1021_histsize.os.path.exists')
+    @patch('secScanner.enhance.level3.check.C1021_histsize.Display')
+    @patch('secScanner.enhance.level3.check.C1021_histsize.logger')
+    def test_hist_size_not_set(self, mock_logger, mock_display, mock_exists, mock_insert, mock_file):
+
+        mock_exists.return_value = True
+        
+        C1021_histsize()
+
+        mock_logger.warning.assert_any_call("WRN_C1021: %s", WRN_C1021)
+        mock_logger.warning.assert_any_call("SUG_C1021: %s", SUG_C1021)
+        mock_display.assert_called_with("- Wrong HISTSIZE set...", "WARNING")
+
 if __name__ == "__main__":
     unittest.main()
