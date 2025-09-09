@@ -46,5 +46,25 @@ class TestC427_dovecotDisabled(unittest.TestCase):
         mock_logger.info.assert_called_with("No dovecot service, checking ok")
         mock_display.assert_called_with("- No dovecot service, checking ok...", "OK")
 
+    @patch('secScanner.enhance.level3.check.C427_dovecotDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'enabled'))
+    @patch('secScanner.enhance.level3.check.C427_dovecotDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C427_dovecotDisabled.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_dovecot_service_enabled(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_insert):
+        C427_dovecotDisabled()
+        mock_logger.warning.assert_any_call("WRN_C427: %s", WRN_C427)
+        mock_logger.warning.assert_any_call("SUG_C427: %s", SUG_C427)
+        mock_display.assert_called_with("- Wrong dovecot service status...", "WARNING")
+
+    @patch('secScanner.enhance.level3.check.C427_dovecotDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'unknown'))
+    @patch('secScanner.enhance.level3.check.C427_dovecotDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C427_dovecotDisabled.Display')
+    def test_dovecot_service_unknown_status(self, mock_display, mock_logger, mock_subprocess, mock_insert):
+        C427_dovecotDisabled()
+        mock_logger.info.assert_called_with("Unexpected status of dovecot")
+        mock_display.assert_called_with("- Unexpected status of dovecot...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
