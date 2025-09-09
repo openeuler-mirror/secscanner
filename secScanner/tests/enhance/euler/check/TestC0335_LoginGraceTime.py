@@ -51,6 +51,55 @@ class TestC0335_LoginGraceTime(unittest.TestCase):
         mock_InsertSection.assert_any_call("Check set of LoginGraceTime in sshd config file")
         mock_logger.info.assert_any_call("Check set of LoginGraceTime in sshd config file")
         mock_display.assert_any_call("- Check set of LoginGraceTime in sshd config file", "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0335_LoginGraceTime.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0335_LoginGraceTime.logger')
+    @patch('secScanner.enhance.euler.check.C0335_LoginGraceTime.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data = "LoginGraceTime 61\n")
+    @patch('os.path.exists')
+    def test_incorrect_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟文件存在
+        mock_exists.return_value = True
+        secScanner.enhance.euler.check.C0335_LoginGraceTime.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0335_LoginGraceTime()
+        mock_InsertSection.assert_any_call("Check set of LoginGraceTime in sshd config file")
+        mock_logger.warning.assert_any_call("WRN_C0335: %s", WRN_C0335)
+        mock_logger.warning.assert_any_call("SUG_C0335: %s", SUG_C0335)
+        mock_display.assert_any_call("- Wrong set of LoginGraceTime in sshd config file...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+    
+    @patch('secScanner.enhance.euler.check.C0335_LoginGraceTime.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0335_LoginGraceTime.logger')
+    @patch('secScanner.enhance.euler.check.C0335_LoginGraceTime.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data = "LoginGraceTime 62\n")
+    @patch('os.path.exists')
+    def test_incorrect_config_else(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟文件存在
+        mock_exists.return_value = True
+        secScanner.enhance.euler.check.C0335_LoginGraceTime.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0335_LoginGraceTime()
+        mock_InsertSection.assert_any_call("Check set of LoginGraceTime in sshd config file")
+        mock_logger.warning.assert_any_call("WRN_C0335: %s", WRN_C0335)
+        mock_logger.warning.assert_any_call("SUG_C0335: %s", SUG_C0335)
+        mock_display.assert_any_call("- Wrong set of LoginGraceTime in sshd config file...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+    
+    @patch('secScanner.enhance.euler.check.C0335_LoginGraceTime.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0335_LoginGraceTime.logger')
+    @patch('secScanner.enhance.euler.check.C0335_LoginGraceTime.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data = "\n")
+    @patch('os.path.exists')
+    def test_without_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟文件存在
+        mock_exists.return_value = True
+        secScanner.enhance.euler.check.C0335_LoginGraceTime.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0335_LoginGraceTime()
+        mock_InsertSection.assert_any_call("Check set of LoginGraceTime in sshd config file")
+        mock_logger.warning.assert_any_call("WRN_C0335: %s", WRN_C0335)
+        mock_logger.warning.assert_any_call("SUG_C0335: %s", SUG_C0335)
+        mock_display.assert_any_call("- Wrong set of LoginGraceTime in sshd config file...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+    
 
 if __name__ == '__main__':
     unittest.main()
