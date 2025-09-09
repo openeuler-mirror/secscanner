@@ -46,5 +46,25 @@ class TestC429_rshDisabled(unittest.TestCase):
         mock_logger.info.assert_called_with("No rsh.socket service, checking ok")
         mock_display.assert_called_with("- No rsh.socket service, checking ok...", "OK")
 
+    @patch('secScanner.enhance.level3.check.C429_rshDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'enabled'))
+    @patch('secScanner.enhance.level3.check.C429_rshDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C429_rshDisabled.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_rsh_service_enabled(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_insert):
+        C429_rshDisabled()
+        mock_logger.warning.assert_any_call("WRN_C429: %s", WRN_C429)
+        mock_logger.warning.assert_any_call("SUG_C429: %s", SUG_C429)
+        mock_display.assert_called_with("- Wrong rsh.socket service status...", "WARNING")
+
+    @patch('secScanner.enhance.level3.check.C429_rshDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'unknown'))
+    @patch('secScanner.enhance.level3.check.C429_rshDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C429_rshDisabled.Display')
+    def test_rsh_service_unknown_status(self, mock_display, mock_logger, mock_subprocess, mock_insert):
+        C429_rshDisabled()
+        mock_logger.info.assert_called_with("Unexpected status of rsh.socket")
+        mock_display.assert_called_with("- Unexpected status of rsh.socket...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
