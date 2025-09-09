@@ -51,6 +51,39 @@ class TestC0334_permitUserEnv(unittest.TestCase):
         mock_InsertSection.assert_any_call("Check set of PermitUserEnvironment in sshd config file")
         mock_logger.info.assert_any_call("Check set of PermitUserEnvironment in sshd config file")
         mock_display.assert_any_call("- Check set of PermitUserEnvironment in sshd config file", "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0334_permitUserEnv.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0334_permitUserEnv.logger')
+    @patch('secScanner.enhance.euler.check.C0334_permitUserEnv.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data = "PermitUserEnvironment yes\n")
+    @patch('os.path.exists')
+    def test_incorrect_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟文件存在
+        mock_exists.return_value = True
+        secScanner.enhance.euler.check.C0334_permitUserEnv.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0334_permitUserEnv()
+        mock_InsertSection.assert_any_call("Check set of PermitUserEnvironment in sshd config file")
+        mock_logger.warning.assert_any_call("WRN_C0334: %s", WRN_C0334)
+        mock_logger.warning.assert_any_call("SUG_C0334: %s", SUG_C0334)
+        mock_display.assert_any_call("- Wrong set of PermitUserEnvironment in sshd config file...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+    
+    @patch('secScanner.enhance.euler.check.C0334_permitUserEnv.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0334_permitUserEnv.logger')
+    @patch('secScanner.enhance.euler.check.C0334_permitUserEnv.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data = "\n")
+    @patch('os.path.exists')
+    def test_without_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟文件存在
+        mock_exists.return_value = True
+        secScanner.enhance.euler.check.C0334_permitUserEnv.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0334_permitUserEnv()
+        mock_InsertSection.assert_any_call("Check set of PermitUserEnvironment in sshd config file")
+        mock_logger.warning.assert_any_call("WRN_C0334: %s", WRN_C0334)
+        mock_logger.warning.assert_any_call("SUG_C0334: %s", SUG_C0334)
+        mock_display.assert_any_call("- Wrong set of PermitUserEnvironment in sshd config file...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+    
 
 if __name__ == '__main__':
     unittest.main()
