@@ -46,5 +46,25 @@ class TestC428_ntalkDisabled(unittest.TestCase):
         mock_logger.info.assert_called_with("No ntalk service, checking ok")
         mock_display.assert_called_with("- No ntalk service, checking ok...", "OK")
 
+    @patch('secScanner.enhance.level3.check.C428_ntalkDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'enabled'))
+    @patch('secScanner.enhance.level3.check.C428_ntalkDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C428_ntalkDisabled.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_ntalk_service_enabled(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_insert):
+        C428_ntalkDisabled()
+        mock_logger.warning.assert_any_call("WRN_C428: %s", WRN_C428)
+        mock_logger.warning.assert_any_call("SUG_C428: %s", SUG_C428)
+        mock_display.assert_called_with("- Wrong ntalk service status...", "WARNING")
+
+    @patch('secScanner.enhance.level3.check.C428_ntalkDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'unknown'))
+    @patch('secScanner.enhance.level3.check.C428_ntalkDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C428_ntalkDisabled.Display')
+    def test_ntalk_service_unknown_status(self, mock_display, mock_logger, mock_subprocess, mock_insert):
+        C428_ntalkDisabled()
+        mock_logger.info.assert_called_with("Unexpected status of ntalk")
+        mock_display.assert_called_with("- Unexpected status of ntalk...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
