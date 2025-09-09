@@ -46,5 +46,25 @@ class TestC425_sambaDisabled(unittest.TestCase):
         mock_logger.info.assert_called_with("No smb service, checking ok")
         mock_display.assert_called_with("- No smb service, checking ok...", "OK")
 
+    @patch('secScanner.enhance.level3.check.C425_sambaDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'enabled'))
+    @patch('secScanner.enhance.level3.check.C425_sambaDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C425_sambaDisabled.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_samba_service_enabled(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_insert):
+        C425_sambaDisabled()
+        mock_logger.warning.assert_any_call("WRN_C425: %s", WRN_C425)
+        mock_logger.warning.assert_any_call("SUG_C425: %s", SUG_C425)
+        mock_display.assert_called_with("- Wrong smb service status...", "WARNING")
+
+    @patch('secScanner.enhance.level3.check.C425_sambaDisabled.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'unknown'))
+    @patch('secScanner.enhance.level3.check.C425_sambaDisabled.logger')
+    @patch('secScanner.enhance.level3.check.C425_sambaDisabled.Display')
+    def test_samba_service_unknown_status(self, mock_display, mock_logger, mock_subprocess, mock_insert):
+        C425_sambaDisabled()
+        mock_logger.info.assert_called_with("Unexpected status of smb")
+        mock_display.assert_called_with("- Unexpected status of smb...", "WARNING")
+
 if __name__ == '__main__':
     unittest.main()
