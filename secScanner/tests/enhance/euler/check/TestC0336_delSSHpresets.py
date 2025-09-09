@@ -45,6 +45,22 @@ class TestC0336_delSSHpresets(unittest.TestCase):
         mock_InsertSection.assert_any_call("Check ssh presets in /home/ /root/")
         mock_logger.info.assert_any_call("Not found ssh presets in /home/ /root/")
         mock_display.assert_any_call("- Not found ssh presets in /home/ /root/...", "OK")
+        
+    
+    @patch('secScanner.enhance.euler.check.C0336_delSSHpresets.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0336_delSSHpresets.logger')
+    @patch('secScanner.enhance.euler.check.C0336_delSSHpresets.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('subprocess.getstatusoutput')
+    def test_found_success(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
+        mock_getstatusoutput.return_value = (0, '/home/user/authorized_keys\n/root/authorized_keys')
+        secScanner.enhance.euler.check.C0336_delSSHpresets.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0336_delSSHpresets()
+        mock_InsertSection.assert_any_call("Check ssh presets in /home/ /root/")
+        mock_logger.warning.assert_any_call("WRN_C0336: %s", WRN_C0336)
+        mock_logger.warning.assert_any_call("SUG_C0336: %s", SUG_C0336)
+        mock_display.assert_any_call(f"- Found ssh presets: /home/user/authorized_keys,/root/authorized_keys...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
 
 if __name__ == '__main__':
     unittest.main()
