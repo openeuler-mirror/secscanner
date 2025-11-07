@@ -4,7 +4,7 @@ import re
 import sys
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
-from secScanner.lib.TextInfo import *
+from secScanner.lib import *
 
 logger = logging.getLogger("secscanner")
 

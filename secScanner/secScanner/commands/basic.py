@@ -189,10 +189,6 @@ def scan_command():
 
 
     # Item fix subcommand
-    fix_item_parser = fix_subparsers.add_parser('item', help="Fix a specific item")
-    fix_item_parser.add_argument('item', nargs='?', help="Custom item option", choices=['sshRootDenie', 'issueRemove', 'noOneSU', 'addUser', 'syslogProperty', 'ftpBanner', 'restrictFTPdir', 'anonymousFTP'])
-    fix_item_parser.set_defaults(func=fix_item)
-
     check_parser = subparsers.add_parser('check', help="Check command")
     check_subparsers = check_parser.add_subparsers(dest='mode')
 
