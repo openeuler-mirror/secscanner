@@ -55,7 +55,8 @@ class TestC16_lockUnUsedUser(unittest.TestCase):
         # 检查预期的日志信息是否已正确记录
         mock_logger.info.assert_called_with("All unused user is locked, checking ok")
         mock_display.assert_called_with("- Check if there have unused user...", "OK")
-    
+
+
     @patch('secScanner.enhance.basic.check.C16_lockUnUsedUser.InsertSection')
     @patch('secScanner.lib.seconf.get', return_value='adm lp')
     @patch('subprocess.check_output', side_effect=subprocess.CalledProcessError(1, ['grep']))
@@ -71,3 +72,4 @@ class TestC16_lockUnUsedUser(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

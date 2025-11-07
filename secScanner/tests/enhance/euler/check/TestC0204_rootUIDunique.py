@@ -57,7 +57,8 @@ class TestC0204_rootUIDunique(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C0204_01: %s", WRN_C0204_01)
         mock_logger.warning.assert_any_call("SUG_C0204_01: %s", SUG_C0204_01)
         mock_Display.assert_called_with("- There are users with UID 0 who are not root ...", "WARNING")
-    
+
+
     @patch('builtins.open', new_callable=mock_open)
     @patch('secScanner.enhance.euler.check.C0204_rootUIDunique.logger')
     @patch('secScanner.enhance.euler.check.C0204_rootUIDunique.Display')
@@ -97,3 +98,4 @@ class TestC0204_rootUIDunique(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

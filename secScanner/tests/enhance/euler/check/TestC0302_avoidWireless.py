@@ -32,7 +32,7 @@ class TestC0302_avoidWireless(unittest.TestCase):
         mock_InsertSection.assert_any_call("Check avoid using wireless network")
         mock_logger.warning.assert_any_call("Excute cmd: 'nmcli radio all' failed")
         mock_display.assert_any_call("- A error occurred while checking nmcli raido...", "WARNING")
-    
+        
     @patch('secScanner.enhance.euler.check.C0302_avoidWireless.InsertSection')
     @patch('secScanner.enhance.euler.check.C0302_avoidWireless.logger')
     @patch('secScanner.enhance.euler.check.C0302_avoidWireless.Display')

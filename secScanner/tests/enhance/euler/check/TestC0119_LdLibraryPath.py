@@ -56,8 +56,10 @@ class TestC0119_LdLibraryPath(unittest.TestCase):
         mock_InsertSection.assert_called_once_with("Check the value of LD_LIBRARY_PATH in your Linux System ")
         mock_logger.warning.assert_any_call("WRN_C0119: %s", WRN_C0119)
         mock_logger.warning.assert_any_call("SUG_C0119: %s", SUG_C0119)
-        mock_display.assert_any_call("- Wrong set of LD_LIBRARY_PATH in /etc/profile file...", "WARNING")
-    
+        mock_display.assert_any_call("- Wrong set of LD_LIBRARY_PATH in /etc/profile file...", "WARNING")        
+
+
+
     @patch('secScanner.enhance.euler.check.C0119_LdLibraryPath.os.path.exists')
     @patch('secScanner.enhance.euler.check.C0119_LdLibraryPath.os.path.getsize')
     @patch('secScanner.enhance.euler.check.C0119_LdLibraryPath.InsertSection')
@@ -75,7 +77,7 @@ class TestC0119_LdLibraryPath(unittest.TestCase):
         mock_InsertSection.assert_called_once_with("Check the value of LD_LIBRARY_PATH in your Linux System ")
         mock_logger.warning.assert_any_call(f"WRN_C0119: /etc/profile {WRN_no_file}")
         mock_logger.warning.assert_any_call(f"SUG_C0119: /etc/profile {SUG_no_file}")
-        mock_display.assert_any_call("- Config file: /etc/profile not found...", "SKIPPING")      
+        mock_display.assert_any_call("- Config file: /etc/profile not found...", "SKIPPING")        
 
 if __name__ == '__main__':
     unittest.main()

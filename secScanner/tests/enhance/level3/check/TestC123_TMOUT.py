@@ -16,7 +16,7 @@
 import unittest
 from unittest.mock import patch, mock_open
 import secScanner
-from secScanner.lib import *
+from secScanner.lib.textInfo_level3 import *
 
 class TestC123_TMOUT(unittest.TestCase):
 

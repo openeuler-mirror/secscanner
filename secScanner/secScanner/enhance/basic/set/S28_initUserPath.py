@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
 import os
 import re
 from secScanner.lib import *
@@ -43,10 +58,10 @@ def S28_initUserPath():
             logger.info("NO ALWAYS_SET_PATH set, setting failed")
             Display("- NO ALWAYS_SET_PATH set...", "FAILED")
         elif CHECK_EXIST == 0:
-            logger.info("Wrong ALWAYS_SET_PATH, setting failed")
+            logger.info("Wrong ALWAYS_SET_PATH, seting failed")
             Display("- Wrong ALWAYS_SET_PATH set...", "FAILED")
         else:
-            logger.info("Has ALWAYS_SET_PATH set, setting ok")
+            logger.info("Has ALWAYS_SET_PATH set, seting ok")
             Display("- Set ALWAYS_SET_PATH...", "FINISHED")
     else:
         Display(f"- Skip set ALWAYS_SET_PATH due to config file...", "SKIPPING")

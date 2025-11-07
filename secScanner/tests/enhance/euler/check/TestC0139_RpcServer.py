@@ -50,7 +50,7 @@ class TestC0139_RpcServer(unittest.TestCase):
         mock_InsertSection.assert_called_once_with("Check whether the status of Rpc Server in your Linux System ")
         mock_logger.info.assert_called_with("The rpc-Server status is: disabled")
         mock_display.assert_called_with("- Check the rpc-Server is disabled...", "OK")
-    
+
     @patch('secScanner.enhance.euler.check.C0139_RpcServer.InsertSection')
     @patch('subprocess.getstatusoutput')
     @patch('secScanner.enhance.euler.check.C0139_RpcServer.logger')

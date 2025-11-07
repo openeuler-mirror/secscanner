@@ -50,7 +50,7 @@ class TestC0140_DHCPserver(unittest.TestCase):
         mock_InsertSection.assert_called_once_with("Check whether the status of DHCP Server in your Linux System ")
         mock_logger.info.assert_called_with("The DHCP-Server status is: disabled")
         mock_display.assert_called_with("- Check the DHCP-Server is disabled...", "OK")
-    
+
     @patch('secScanner.enhance.euler.check.C0140_DHCPserver.InsertSection')
     @patch('subprocess.getstatusoutput')
     @patch('secScanner.enhance.euler.check.C0140_DHCPserver.logger')

@@ -50,7 +50,7 @@ class TestC0137_DNSserver(unittest.TestCase):
         mock_InsertSection.assert_called_once_with("Check whether the status of DNS server in your Linux System ")
         mock_logger.info.assert_called_with("The DNS-Server status is: disabled")
         mock_display.assert_called_with("- Check the DNS-Server is disabled...", "OK")
-    
+
     @patch('secScanner.enhance.euler.check.C0137_DNSserver.InsertSection')
     @patch('subprocess.getstatusoutput')
     @patch('secScanner.enhance.euler.check.C0137_DNSserver.logger')

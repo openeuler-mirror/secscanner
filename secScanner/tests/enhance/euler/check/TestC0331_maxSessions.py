@@ -51,6 +51,55 @@ class TestC0331_maxSessions(unittest.TestCase):
         mock_InsertSection.assert_any_call("Check set of MaxSessions in sshd config file")
         mock_logger.info.assert_any_call("Check set of MaxSessions in sshd config file")
         mock_display.assert_any_call("- Check set of MaxSessions in sshd config file", "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0331_maxSessions.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0331_maxSessions.logger')
+    @patch('secScanner.enhance.euler.check.C0331_maxSessions.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data = "MaxSessions 6\n")
+    @patch('os.path.exists')
+    def test_incorrect_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟文件存在
+        mock_exists.return_value = True
+        secScanner.enhance.euler.check.C0331_maxSessions.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0331_maxSessions()
+        mock_InsertSection.assert_any_call("Check set of MaxSessions in sshd config file")
+        mock_logger.warning.assert_any_call("WRN_C0331: %s", WRN_C0331)
+        mock_logger.warning.assert_any_call("SUG_C0331: %s", SUG_C0331)
+        mock_display.assert_any_call("- Wrong set of MaxSessions in sshd config file...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+    
+    @patch('secScanner.enhance.euler.check.C0331_maxSessions.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0331_maxSessions.logger')
+    @patch('secScanner.enhance.euler.check.C0331_maxSessions.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data = "MaxSessions 7\n")
+    @patch('os.path.exists')
+    def test_incorrect_config_else(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟文件存在
+        mock_exists.return_value = True
+        secScanner.enhance.euler.check.C0331_maxSessions.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0331_maxSessions()
+        mock_InsertSection.assert_any_call("Check set of MaxSessions in sshd config file")
+        mock_logger.warning.assert_any_call("WRN_C0331: %s", WRN_C0331)
+        mock_logger.warning.assert_any_call("SUG_C0331: %s", SUG_C0331)
+        mock_display.assert_any_call("- Wrong set of MaxSessions in sshd config file...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+    
+    @patch('secScanner.enhance.euler.check.C0331_maxSessions.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0331_maxSessions.logger')
+    @patch('secScanner.enhance.euler.check.C0331_maxSessions.Display')
+    @patch('builtins.open', new_callable=mock_open, read_data = "\n")
+    @patch('os.path.exists')
+    def test_without_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
+        # 模拟文件存在
+        mock_exists.return_value = True
+        secScanner.enhance.euler.check.C0331_maxSessions.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0331_maxSessions()
+        mock_InsertSection.assert_any_call("Check set of MaxSessions in sshd config file")
+        mock_logger.warning.assert_any_call("WRN_C0331: %s", WRN_C0331)
+        mock_logger.warning.assert_any_call("SUG_C0331: %s", SUG_C0331)
+        mock_display.assert_any_call("- Wrong set of MaxSessions in sshd config file...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+   
 
 if __name__ == '__main__':
     unittest.main()

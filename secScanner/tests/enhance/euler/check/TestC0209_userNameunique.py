@@ -94,6 +94,7 @@ class TestC0209_userNameunique(unittest.TestCase):
         mock_InsertSection.assert_called_with("Check if the account is unique")
         mock_logger.info.assert_any_call("No duplicate users found in /etc/passwd, checking ok")
         mock_display.assert_any_call("- No duplicate users found in /etc/passwd...", "OK")
-    
+
+
 if __name__ == '__main__':
     unittest.main()

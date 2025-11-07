@@ -6,7 +6,9 @@
    You can use this software according to the terms and conditions of the Mulan PSL v2.
    You may obtain a copy of Mulan PSL v2 at:
             http://license.coscl.org.cn/MulanPSL2
-   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
    See the Mulan PSL v2 for more details.
 '''
 
@@ -28,7 +30,7 @@ WRN_C03_09 = "wrong Password dcredit set"
 WRN_C03_10 = "No Password dcredit set"
 WRN_C03_11 = "wrong Password ocredit set"
 WRN_C03_12 = "No Password ocredit set"
-
+WRN_C03_13 = "No enforce for root set"
 WRN_C04_01 = "wrong user login lock Deny set"
 WRN_C04_02 = "No user login lock Deny set"
 
@@ -196,6 +198,12 @@ SUG_C03_06 = ("1、执行备份："
               "</br>2、修改策略设置："
               "</br>#vi /etc/pam.d/system-auth"
               "</br>password    requisite     pam_pwquality.so ... ocredit=-1 ..."
+              "</br>password    sufficient    pam_unix.so ...")
+SUG_C03_07 = ("1、执行备份："
+              "</br>#cp -np /etc/pam.d/system-auth /etc/pam.d/system-auth_bak "
+              "</br>2、修改策略设置："
+              "</br>#vi /etc/pam.d/system-auth "
+              "</br>password    requisite     pam_pwquality.so ... enforce_for_root ..."
               "</br>password    sufficient    pam_unix.so ...")
 SUG_C04 = ("1、执行备份："
            "</br>#cp -np /etc/pam.d/system-auth /etc/pam.d/system-auth_bak "

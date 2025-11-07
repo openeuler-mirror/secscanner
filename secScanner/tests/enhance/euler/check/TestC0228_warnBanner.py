@@ -66,7 +66,7 @@ class TestC0228_warnBanner(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0228_03: %s", SUG_C0228_03)
         mock_display.assert_any_call("- No /etc/issue.net set...", "WARNING")
         mock_open.assert_any_call("result_file_path", "a")
-    
+
     @patch('os.path.exists')
     @patch('secScanner.enhance.euler.check.C0228_warnBanner.InsertSection')
     @patch('secScanner.enhance.euler.check.C0228_warnBanner.logger')
@@ -118,7 +118,7 @@ class TestC0228_warnBanner(unittest.TestCase):
         mock_logger.info.assert_any_call("Has /etc/issue.net set, checking ok")
         mock_display.assert_any_call("- Has /etc/issue.net warning banner...",  "OK")
         mock_open.assert_any_call("result_file_path", "a")
-    
+
     @patch('os.path.exists')
     @patch('secScanner.enhance.euler.check.C0228_warnBanner.InsertSection')
     @patch('secScanner.enhance.euler.check.C0228_warnBanner.logger')

@@ -31,7 +31,7 @@ class TestC20_syslogAuth(unittest.TestCase):
         C20_syslogAuth()
 
         # 检查预期的日志信息是否已正确记录
-        mock_logger.info.assert_called_with("The security audit module auth.none is set, checking OK")
+        mock_logger.info.assert_called_with("The security audit modle auth.none is set, checking OK")
         mock_display.assert_called_with("- Check if there have auth.none set...", "OK")
 
     @patch('secScanner.enhance.basic.check.C20_syslogAuth.InsertSection')
@@ -47,7 +47,7 @@ class TestC20_syslogAuth(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C20: %s", WRN_C20)
         mock_display.assert_called_with("- Check if there have auth.none set...", "WARNING")
-    
+
     @patch('secScanner.enhance.basic.check.C20_syslogAuth.InsertSection')
     @patch('os.path.isfile', return_value=False)
     @patch('secScanner.enhance.basic.check.C20_syslogAuth.Display')
@@ -60,3 +60,4 @@ class TestC20_syslogAuth(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

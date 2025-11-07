@@ -58,7 +58,8 @@ class TestC0212_expiredAccount(unittest.TestCase):
         mock_InsertSection.assert_any_call("check for expired account")
         mock_logger.info.assert_any_call('No expired account exists, checking ok')
         mock_display.assert_called_once_with("- No expired account exists", "OK")
-    
+
+
     @patch('os.path.exists')
     @patch('secScanner.enhance.euler.check.C0212_expiredAccount.InsertSection')
     @patch('subprocess.getstatusoutput')

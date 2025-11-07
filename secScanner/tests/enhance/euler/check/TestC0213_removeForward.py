@@ -63,7 +63,7 @@ class TestC0213_removeForward(unittest.TestCase):
         mock_InsertSection.assert_any_call("Confirm the existence of the .forward file in the Home directory")
         mock_logger.info.assert_any_call("Confirm the existence of the .forward file in the Home directory, checking ok")
         mock_display.assert_called_once_with("- check if the .forward file in the Home directory...", "OK")
-    
+
     @patch('os.path.exists')
     @patch('secScanner.enhance.euler.check.C0213_removeForward.InsertSection')
     @patch('subprocess.getstatusoutput')

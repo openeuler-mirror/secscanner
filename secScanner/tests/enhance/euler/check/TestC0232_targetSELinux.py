@@ -51,7 +51,7 @@ class TestC0232_targetSELinux(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0232_01: %s", SUG_C0232_01)
         mock_display.assert_any_call("- Incorrect SELinux policy settings...", "WARNING")
         mock_open.assert_called_with("result_file_path", "a")
-
+    
     @patch('os.path.exists')
     @patch('secScanner.enhance.euler.check.C0232_targetSELinux.InsertSection')
     @patch('secScanner.enhance.euler.check.C0232_targetSELinux.logger')
@@ -68,6 +68,6 @@ class TestC0232_targetSELinux(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0232_02: %s", SUG_C0232_02)
         mock_display.assert_any_call("- Failed to obtain SELinux policy...", "WARNING")
         mock_open.assert_called_with("result_file_path", "a")
-        
+
 if __name__ == '__main__':
     unittest.main()

@@ -43,7 +43,7 @@ class TestC12_sshGssapi(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C12_01: %s", WRN_C12_01)
         mock_logger.warning.assert_any_call("SUG_C12: %s", SUG_C12)
-    
+
     @patch('secScanner.enhance.basic.check.C12_sshGssapi.Display')
     @patch('secScanner.enhance.basic.check.C12_sshGssapi.InsertSection')
     @patch('builtins.open', new_callable=mock_open, read_data="")
@@ -55,7 +55,6 @@ class TestC12_sshGssapi(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C12_02: %s", WRN_C12_02)
         mock_logger.warning.assert_any_call("SUG_C12: %s", SUG_C12)
-
 
 if __name__ == '__main__':
     unittest.main()

@@ -52,7 +52,7 @@ class TestC0207_passwdGroupexists(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C0207_02: %s", WRN_C0207_02)
         mock_logger.warning.assert_any_call("SUG_C0207_02: %s", SUG_C0207_02)
         mock_display.assert_called_once_with("- file /etc/group or /etc/passwd does not exist...", "WARNING")
-    
+   
     @patch('os.path.exists')
     @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.InsertSection')
     @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.logger')
@@ -85,7 +85,7 @@ class TestC0207_passwdGroupexists(unittest.TestCase):
         mock_InsertSection.assert_called_once_with("check if all groups in /etc/passwd exist")
         mock_logger.info.assert_any_call("All groups in /etc/passwd exist, checking ok")
         mock_display.assert_called_once_with("- Check if all groups in /etc/passwd exist...", "OK")
-    
+
     @patch('os.path.exists')
     @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.InsertSection')
     @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.logger')
@@ -126,7 +126,7 @@ class TestC0207_passwdGroupexists(unittest.TestCase):
         mock_logger.warning.assert_any_call(f"WRN_C0207_01: Group for user [{username}] not found")
         mock_logger.warning.assert_any_call("SUG_C0207_01: %s", SUG_C0207_01)
         mock_display.assert_called_once_with("- Check if all groups in /etc/passwd exist...", "WARNING")
-    
+   
     @patch('os.path.exists')
     @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.InsertSection')
     @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.logger')

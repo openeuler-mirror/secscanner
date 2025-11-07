@@ -51,7 +51,7 @@ class TestC10_sshBanner(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C10_01: %s", WRN_C10_01)
         mock_logger.warning.assert_any_call("SUG_C10: %s", SUG_C10)
-    
+
     @patch('secScanner.enhance.basic.check.C10_sshBanner.Display')
     @patch('secScanner.enhance.basic.check.C10_sshBanner.InsertSection')
     @patch('builtins.open', new_callable=mock_open)
@@ -65,7 +65,6 @@ class TestC10_sshBanner(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C10_02: %s", WRN_C10_02)
         mock_logger.warning.assert_any_call("SUG_C10: %s", SUG_C10)
-
     
 if __name__ == '__main__':
     unittest.main()

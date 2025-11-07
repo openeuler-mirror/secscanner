@@ -50,7 +50,7 @@ class TestC22_resourceLimit(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C22_03: %s", WRN_C22_03)
         mock_display.assert_any_call("- Check if the soft core limits is ok...", "WARNING")
         mock_display.assert_any_call("- Check if the hard core limits is ok...", "WARNING")
-    
+
     @patch('secScanner.enhance.basic.check.C22_resourceLimit.InsertSection')
     @patch('builtins.open', new_callable=mock_open, read_data="# Commented out line\n")
     @patch('secScanner.enhance.basic.check.C22_resourceLimit.logger')
@@ -67,3 +67,4 @@ class TestC22_resourceLimit(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

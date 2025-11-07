@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
 import logging
 import re
 from secScanner.gconfig import *
@@ -14,6 +29,7 @@ def C03_passComplex():
     regex_lcredit = r'(?<=lcredit=).[0-9]*'
     regex_dcredit = r'(?<=dcredit=).[0-9]*'
     regex_ocredit = r'(?<=ocredit=).[0-9]*'
+    enforce_root = ''
     t_minlen = ''  # if not match minlen, t_minlen= ''
     t_minclass = ''
     n_ucredit = ''
@@ -49,17 +65,18 @@ def C03_passComplex():
                 temp = re.findall(regex_ocredit, line)
                 if temp != []:
                     n_ocredit = temp[0]
-
+            if re.match('password', line) and re.search('pam_pwquality.so', line) and re.search('enforce_for_root', line):
+                enforce_root = 'set'
     # decide part
     # ------------------------------------------------------------------------------------------------
-    if t_minlen == '':
+    if not t_minlen.strip().isdigit():
         # minlen not found or no numbers after minlen
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
         logger.warning("WRN_C03_02: %s", WRN_C03_02)
         logger.warning("SUG_C03_01: %s", SUG_C03_01)
         Display("- No Password Minlen set...", "WARNING")
-    elif t_minlen <= '7':  # '' < '7' but '' cant enter here
+    elif int(t_minlen) < 10:  # '' < '7' but '' cant enter here
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
         logger.warning("WRN_C03_01: %s", WRN_C03_01)
@@ -76,7 +93,7 @@ def C03_passComplex():
         logger.warning("WRN_C03_04: %s", WRN_C03_04)
         logger.warning("SUG_C03_02: %s", SUG_C03_02)
         Display("- No Password Minclass set...", "WARNING")
-    elif t_minclass < '2':  # should >= 2
+    elif int(t_minclass) < 4:  # should >= 4
         with open(RESULT_FILE, "a") as file:
             file.write("\nC03\n")
         logger.warning("WRN_C03_03: %s", WRN_C03_03)
@@ -153,3 +170,16 @@ def C03_passComplex():
     else:
         logger.info("Has Password ocredit set, checking OK")
         Display("- Has Password ocredit set...", "OK")
+
+    # ------------------------------------------------------------------------------------------------
+
+    if enforce_root == 'unset':
+        with open(RESULT_FILE, "a") as file:
+            file.write("\nC03\n")
+        logger.warning("WRN_C03_13: %s", WRN_C03_13)
+        logger.warning("SUG_C03_07: %s", SUG_C03_07)
+        Display("- No enforce for root set...", "WARNING")
+    else:
+        logger.info("Has enforce for root set, checking OK")
+        Display("- Has enforce for root set...", "OK")
+

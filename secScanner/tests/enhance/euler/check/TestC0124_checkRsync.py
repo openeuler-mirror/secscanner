@@ -33,7 +33,7 @@ class TestC0124_checkRsync(unittest.TestCase):
         mock_logger.info.assert_any_call('The status of Rsync is :rsync-3.1.2-1.el7.x86_64')
         mock_logger.info.assert_any_call('The status of rsyncd is disabled')
         mock_Display.assert_called_with("- Check the status of rsyncd is disabled...","OK")
-    
+
     @patch('secScanner.enhance.euler.check.C0124_checkRsync.InsertSection')
     @patch('subprocess.getstatusoutput')
     @patch('secScanner.enhance.euler.check.C0124_checkRsync.logger')

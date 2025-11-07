@@ -62,7 +62,7 @@ class TestC0236_setPkexec(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0236_01: %s", SUG_C0236_01)
         mock_display.assert_any_call("- NO ordinary users cannot use pkexec to configure root privileges set...", "WARNING")
         mock_open.assert_any_call("result_file_path", "a")
-    
+
     @patch('os.path.exists')
     @patch('secScanner.enhance.euler.check.C0236_setPkexec.InsertSection')
     @patch('secScanner.enhance.euler.check.C0236_setPkexec.logger')
@@ -79,6 +79,6 @@ class TestC0236_setPkexec(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0236_02: %s", SUG_C0236_02)
         mock_display.assert_any_call("- file /etc/polkit-1/rules.d/50-default.rules does not exist...", "WARNING")
         mock_open.assert_any_call("result_file_path", "a")
-
+        
 if __name__ == '__main__':
     unittest.main()

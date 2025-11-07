@@ -75,6 +75,6 @@ class TestC0238_denyRootLocalaccess(unittest.TestCase):
         mock_InsertSection.assert_any_call("check prevent root users from accessing the system locally")
         mock_logger.info.assert_any_call("check prevent root users from accessing the system locally, checking ok")
         mock_display.assert_any_call("- check prevent root users from accessing the system locally...", "OK")
-
+  
 if __name__ == '__main__':
     unittest.main()

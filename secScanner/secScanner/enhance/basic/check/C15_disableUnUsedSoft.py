@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
 import logging
 import os
 import subprocess
@@ -40,7 +55,7 @@ def C15_disableUnUsedSoft():
     OS_ID = get_value("OS_ID")
     OS_DISTRO = get_value("OS_DISTRO")
     if OS_ID.lower() in ['openeuler', 'bclinux']:
-        if OS_DISTRO in ['7', '8', '22.03', '22.10', '22.10U1', '22.10U2', 'v24', '24', '21.10U4']:
+        if OS_DISTRO in ['7', '8', '22.03', '22.10', '22.10U1', '22.10U2', 'v24', '24', '21.10U4', '21.10 U4', 'V25']:
             softck()
         else:
             logger.warning(f"C15: Detected this system is {OS_ID}-{OS_DISTRO} , and not in os-distro ")

@@ -47,7 +47,7 @@ class TestC27_syslogProperty(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C27: %s", WRN_C27)
         mock_logger.warning.assert_any_call("SUG_C27: %s", SUG_C27)
         mock_display.assert_called_with("- Check if /var/log/messages property is not 600...", "WARNING")
-    
+
     @patch('secScanner.enhance.basic.check.C27_syslogProperty.InsertSection')
     @patch('os.path.exists', return_value=False)
     @patch('secScanner.enhance.basic.check.C27_syslogProperty.Display')
@@ -58,6 +58,6 @@ class TestC27_syslogProperty(unittest.TestCase):
         # 验证配置文件不存在时的操作
         mock_display.assert_called_with("- file '/etc/rsyslog.conf' does not exist...", "SKIPPED")
 
-
 if __name__ == '__main__':
     unittest.main()
+

@@ -63,7 +63,7 @@ class TestC0214_removeNetrc(unittest.TestCase):
         mock_InsertSection.assert_any_call("Confirm the existence of the .netrc file in the Home directory")
         mock_logger.info.assert_any_call("Confirm the existence of the .netrc file in the Home directory, checking ok")
         mock_display.assert_called_once_with("- check if the .netrc file in the Home directory...", "OK")
-    
+
     @patch('os.path.exists')
     @patch('secScanner.enhance.euler.check.C0214_removeNetrc.InsertSection')
     @patch('subprocess.getstatusoutput')
@@ -101,6 +101,6 @@ class TestC0214_removeNetrc(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0214_02: %s", SUG_C0214_02)
         mock_display.assert_called_once_with("- file /etc/passwd does not exist...", "WARNING")
         mock_open.assert_called_with("result_file_path", "a")
-        
+
 if __name__ == '__main__':
     unittest.main()

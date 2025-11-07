@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
 import os
 import re
 from secScanner.lib import *
@@ -35,7 +50,7 @@ def S11_sshAlgorithms():
                     IS_EXIST1 = 1
                 if (not re.match('#|$', line) and re.search('MACs', line)):
                     IS_EXIST2 = 1
-        if IS_EXIST == 0 :
+        if IS_EXIST == 0:
             with open('/etc/ssh/sshd_config', 'a') as add_file:
                 add_file.write('\n')
                 add_file.write(SSH_KexAlgorithms_VALUE)
@@ -44,7 +59,7 @@ def S11_sshAlgorithms():
                 add_file.write('\n')
                 add_file.write(SSH_KexAlgorithms_VALUE)
                 add_file.write('\n')
-        if IS_EXIST1 == 0 :
+        if IS_EXIST1 == 0:
             with open('/etc/ssh/sshd_config', 'a') as add_file:
                 add_file.write('\n')
                 add_file.write(SSH_CIPHER_VALUE)

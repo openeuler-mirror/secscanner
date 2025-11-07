@@ -57,7 +57,7 @@ class TestC115_passComplex(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C115_passComplex.logger')
     @patch('secScanner.enhance.level3.check.C115_passComplex.Display')
     def test_correct_minlen(self, mock_display, mock_logger, mock_open, mock_insert):
-        data = self.base_data + "minlen=9"
+        data = self.base_data + "minlen=11"
         mock_open.return_value.readlines.return_value = [data]
         secScanner.enhance.level3.check.C115_passComplex.C115_passComplex()
         mock_display.assert_any_call("- Has Password Minlen set...", "OK")

@@ -54,7 +54,7 @@ class TestC0210_GIDunique(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0210_01: %s", SUG_C0210_01)
         mock_display.assert_called_once_with("- Duplicate GID ['1000']...", "WARNING")
         mock_open.assert_called_with("result_file_path", "a")
-    
+
     @patch('os.path.exists')
     @patch('secScanner.enhance.euler.check.C0210_GIDunique.InsertSection')
     @patch('subprocess.getstatusoutput')
@@ -87,6 +87,7 @@ class TestC0210_GIDunique(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C0210_03: %s", WRN_C0210_03)
         mock_logger.warning.assert_any_call("SUG_C0210_03: %s", SUG_C0210_03)
         mock_display.assert_called_once_with("- file /etc/group not exists...", "WARNING")
-        
+
+
 if __name__ == '__main__':
     unittest.main()
