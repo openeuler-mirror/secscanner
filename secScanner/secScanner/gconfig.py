@@ -47,6 +47,7 @@ The above functions is a dict to save global values
 '''
 # Program information
 PROGRAM_VERSION = "1.3"
+<<<<<<< HEAD
 PROGRAM_RELEASE = "v1.3.1"
 PROGRAM_NAME = "secScanner"
 PROGRAM_UPDATEDATE = "2025-11-07"
@@ -56,6 +57,7 @@ PROGRAM_WEBSITE = "https://gitee.com/openeuler/secscanner"
 PROGRAM_COPYRIGHT = "Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved."
 
 # Script Info
+<<<<<<< HEAD
 VER_ID = "SecurityHarden, by wangweize, 2025-11-07"
 
 LOGDIR = "/var/log/secScanner/"
