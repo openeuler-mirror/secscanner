@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
 import os
 import re
 from secScanner.lib import *
@@ -115,7 +130,7 @@ def S09_loginDefs():
                     temp = line.strip('\n').split()
                     if len(temp) == 2 and temp[1].isdigit():
                         PASS_RESULT = temp[1]
-        if PASS_RESULT < '8':
+        if int(PASS_RESULT) < 10:
             logger.info("the PASS_MIN_LEN is not safe")
             Display("- Set the PASS_MIN_LEN value...", "FAILED")
         else:

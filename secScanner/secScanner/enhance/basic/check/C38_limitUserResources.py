@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
 import logging
 import os
 import re
@@ -31,7 +46,7 @@ def C38_limitUserResources():
     with open('/etc/pam.d/login', 'r') as read_file:
         lines = read_file.readlines()
         for line in lines:
-            if (not re.match('#|$', line)) and re.match('session', line) and re.search('/lib/security/pam_limits.so', line):
+            if (not re.match('#|$', line)) and re.match('session', line) and re.search('/lib64/security/pam_limits.so', line):
                 set_pam = True
 
     if not (set01 and set02 and set03 and set04 and set05 and set_pam):

@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
 import os
 import re
 from secScanner.lib import *
@@ -17,6 +32,8 @@ def S26_setaliases():
 
             config_ls = False
             config_rm = False
+            config_userdel = False
+            
             with open('/root/.bashrc', 'r') as read_file:
                 lines = read_file.readlines()
                 for line in lines:
@@ -24,6 +41,8 @@ def S26_setaliases():
                         config_ls = True
                     if re.search('alias rm', line) and not re.match('#|$', line):
                         config_rm = True
+                    if re.search('alias userdel', line) and not re.match('#|$', line):
+                        config_userdel = True
 
             if not config_rm:
                 with open('/root/.bashrc', 'a') as add_file:
@@ -46,8 +65,19 @@ def S26_setaliases():
                             write_file.write("alias ls='ls -al'\n")
                         else:
                             write_file.write(line)
+            if not config_userdel:
+                with open('/root/.bashrc', 'a') as add_file:
+                    add_file.write("alias userdel='userdel -r'\n")
+            else:
+                with open('/root/.bashrc', 'w') as write_file:
+                    for line in lines:
+                        if re.match('alias userdel', line):
+                            write_file.write("alias userdel='userdel -r'\n")
+                        else:
+                            write_file.write(line)
             check_ls = 'unset'
             check_rm = 'unset'
+            check_userdel = 'unset'
 
             with open('/root/.bashrc', 'r') as read_file:
                 lines = read_file.readlines()
@@ -66,11 +96,20 @@ def S26_setaliases():
                         temp = line.strip('\n').split('=')
                         if temp[0] == 'alias ls' and temp[1] == '\'ls -al\'':
                             check_ls = 'right'
+            
+            with open('/root/.bashrc', 'r') as read_file:
+                lines = read_file.readlines()
+                for line in lines:
+                    if (not re.match('#|$', line)) and re.search('alias userdel', line):
+                        check_userdel = 'set'
+                        temp = line.strip('\n').split('=')
+                        if temp[0] == 'alias userdel' and temp[1] == '\'userdel -r\'':
+                            check_userdel = 'right'
 
-            if check_ls == 'unset' and check_rm == 'unset':
+            if check_ls == 'unset' and check_rm == 'unset' and check_userdel == 'unset':
                 logger.info("set ls and rm aliases failed, no set option")
                 Display("- Set ls and rm aliases...", "FAILED")
-            elif check_ls == 'right' and check_rm == 'right':
+            elif check_ls == 'right' and check_rm == 'right' and check_userdel == 'right':
                 logger.info("set ls and rm aliases successfully")
                 Display("- Set ls and rm aliases...", "FINISHED")
             else:

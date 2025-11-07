@@ -19,15 +19,15 @@ from secScanner.gconfig import *
 from secScanner.lib import *
 logger = logging.getLogger("secscanner")
 
-def C0135_checkHttpd():
-    InsertSection("Check whether the httpd software is installed in your Linux System ")
-    ret,res = subprocess.getstatusoutput('rpm -q httpd')
+def C0136_checkSamba():
+    InsertSection("Check whether the Samba software is installed in your Linux System ")
+    ret,res = subprocess.getstatusoutput('rpm -q samba')
     if ret == 0:
         with open(RESULT_FILE,'a+') as file:
-            file.write("\nC0135\n")
-        logger.warning("WRN_C0135: %s", WRN_C0135)
-        logger.warning("SUG_C0135: %s", SUG_C0135)
-        Display(f"- Check the httpd software is installed...", "WARNING")
+            file.write("\nC0136\n")
+        logger.warning("WRN_C0136: %s", WRN_C0136)
+        logger.warning("SUG_C0136: %s", SUG_C0136)
+        Display(f"- Check the samba software is installed...", "WARNING")
     else:
-        logger.info(f"The httpd status is: {res}")
-        Display(f"- Check the httpd software is uninstall...", "OK")
+        logger.info(f"The samba status is: {res}")
+        Display(f"- Check the samba software is uninstall...", "OK")

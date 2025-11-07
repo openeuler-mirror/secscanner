@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
 import logging
 import re
 from secScanner.gconfig import *
@@ -43,7 +58,7 @@ def C09_loginDefs():
         logger.warning("WRN_C09_02: %s", WRN_C09_02)
         logger.warning("SUG_C09_01: %s", SUG_C09_01)
         Display("- PASS_MAX_DAYS value is null...", "WARNING")
-    elif PASS_MAX_DAYS_VAL > '90':
+    elif int(PASS_MAX_DAYS_VAL) > 90:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC09\n")
         logger.warning("WRN_C09_01: %s", WRN_C09_01)
@@ -61,7 +76,7 @@ def C09_loginDefs():
         logger.warning("WRN_C09_03: %s", WRN_C09_03)
         logger.warning("SUG_C09_02: %s", SUG_C09_02)
         Display("- PASS_MIN_DAYS value is null...", "WARNING")
-    elif PASS_MIN_DAYS_VAL < '6':
+    elif int(PASS_MIN_DAYS_VAL) < 6:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC09\n")
         logger.warning("WRN_C09_04: %s", WRN_C09_04)
@@ -78,7 +93,7 @@ def C09_loginDefs():
         logger.info("WRN_C09_06: %s", WRN_C09_06)
         logger.warning("SUG_C09_03: %s", SUG_C09_03)
         Display("- PASS_MIN_LEN value is null...", "WARNING")
-    elif PASS_MIN_LEN_VAL < '8':
+    elif int(PASS_MIN_LEN_VAL) < 10:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC09\n")
         logger.warning("WRN_C09_05: %s", WRN_C09_05)
@@ -96,7 +111,7 @@ def C09_loginDefs():
         logger.warning("WRN_C09_08: %s", WRN_C09_08)
         logger.warning("SUG_C09_04: %s", SUG_C09_04)
         Display("- PASS_WARN_AGE value is null...", "WARNING")
-    elif PASS_WARN_AGE_VAL < '30':
+    elif int(PASS_WARN_AGE_VAL) < 30:
         with open(RESULT_FILE, "a") as file:
             file.write("\nC09\n")
         logger.warning("WRN_C09_07: %s", WRN_C09_07)
