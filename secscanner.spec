@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 %define name secScanner
-%define version 1.2
-%define release 0
+%define version 1.3
+%define release 1
 %define os_version %(source /etc/os-release; echo ${VERSION})
 %define os_id %(source /etc/os-release; echo ${ID})
 
@@ -14,7 +14,7 @@ Group: Applications/System
 URL: https://gitee.com/openeuler/secscanner
 #Distribution: openEuler 22.03
 Vendor: China Mobile (Suzhou) Software Technology Co., Ltd.
-Packager: pengyuan_yewu@cmss.chinamobile.com
+Packager: wangweize_yewu@cmss.chinamobile.com
 Provides: secscanner
 
 
@@ -120,6 +120,9 @@ exit 0
 /usr/lib/systemd/system/
 
 %changelog
+* Fri Nov 07 2025 wangweize <wangweize@cmss.chinamobile.com> 1.3-1
+- Update code from CMSS develop
+
 * Fri Mar 22 2024 pengyuan <pengyuan@cmss.chinamobile.com> 1.2-0
 - modify subprocess func and add error prompts when entering commands
 

@@ -1,7 +1,7 @@
 # Makefile for source rpm
 SPECFILE := secscanner.spec
 NAME := secScanner
-VERSION := 1.2
+VERSION := 1.3
 
 .PHONY: help
 help:

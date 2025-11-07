@@ -14,11 +14,14 @@
 '''
 import unittest
 import platform
-from secScanner.gconfig import *
-g_init()
+from secScanner import gconfig
+gconfig.g_init()
 from secScanner.commands.basic import *
 
 def check_python_version():
+    """
+    Check whether the python version is 3.x.x.
+    """
     python_version = platform.python_version().split('.')[0]
     if python_version == "3":
         return
@@ -43,7 +46,7 @@ def add_module_tests(benchmark, op_type, suite):
     pattern = r'Test[CS]([0-9]+)_.*\.py'
     dir = os.path.dirname(os.path.abspath(__file__))
     path = os.path.join(dir, "tests", "enhance", benchmark, op_type)
-    CHECK_ITEMS = sorted(glob.glob( path + '/*' ))
+    CHECK_ITEMS = sorted(glob.glob(path + '/*'))
 
     print("%4s\t%-30s\t%s" % ("Seq", "Module Name", "Num of TestCases"))
     print("-" * 70)
@@ -51,7 +54,7 @@ def add_module_tests(benchmark, op_type, suite):
         match = re.search(pattern, i)
         if match:
             s_num = int(match.group(1))
-            if 1 <= s_num <= 1021 : # 范围验证
+            if 1 <= s_num <= 1021: # 范围验证
                 module_name = os.path.splitext(os.path.basename(i))[0]
                 module_path = os.path.dirname(i)
                 sys.path.append(module_path)
@@ -108,7 +111,24 @@ def test_check_sys():
                     sys.exit(1)
     '''
     runner = unittest.TextTestRunner(verbosity=0)
-    runner.run(suite)
+    result = runner.run(suite)
+    # 获取成功、失败、错误的测试用例数量
+    num_successes = result.testsRun - len(result.failures) - len(result.errors)
+    num_failures = len(result.failures)
+    num_errors = len(result.errors)
+
+    # 打印运行结果
+    print(f"Tests run: {result.testsRun}")
+    print(f"Successes: {num_successes}")
+    print(f"Failures: {num_failures}")
+    print(f"Errors: {num_errors}")
+
+    # 判断是否构建失败
+    if num_failures > 0 or num_errors > 0:
+        print("Test failed")
+        exit(1)
+    else:
+        print("All tests passed")
 
 if __name__ == "__main__":
     check_python_version()
