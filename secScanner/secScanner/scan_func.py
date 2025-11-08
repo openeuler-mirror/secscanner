@@ -451,118 +451,8 @@ def vulnerabilities_db_update():
         print(f"{cvrf_xml_handler.node_get_securityNoticeNo()} updated")
         update_sa += 1
 
-    ####################################################################################
-    # get data from api url
-    ####################################################################################
-    api_url = 'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/findAll'
-    page_size = 100  # 单页请求的数量
-    cveDatabaseList = []  # 用于存储所有查询结果
-
-    # 初始化参数
-    params = {
-        "keyword": "",
-        "pages": {
-            "page": 1,  # 起始页
-            "size": page_size
-        }
-    }
-    for i in range(1, 150):
-        response = requests.post(url=api_url, json=params, timeout=(10, 30))
-        # 检查响应状态
-        if response.status_code != 200:
-            print(f"请求失败，状态码：{response.status_code}")
-            return
-        # 获取并解析当前页的数据
-        current_page_data = json.loads(response.text)
-        # 如果当前页无数据，说明已获取完所有数据，退出循环
-        if current_page_data["result"]["cveDatabaseList"] == []:
-            break
-
-        # 将当前页数据添加到总结果中
-        cveDatabaseList.append(current_page_data)
-
-        # 更新下一页参数
-        params["pages"]["page"] += 1  # 前往下一页
-    cve_list = []
-    for cvedata in cveDatabaseList:
-        for single in cvedata['result']["cveDatabaseList"]:
-            cve_list.append([single['cveId'], single['packageName']])
-    ###################################################################################
-    # create sqlite database and save data
-    ###################################################################################
-
-    count = 0
-    for cve_init in reversed(cve_list):
-        count = 1 + count
-        # only add new data
-        if session.query(CVE).filter_by(cveId=f'{cve_init[0]}', packageName=f'{cve_init[1]}').first():
-            continue
-        cve_url = f'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/getByCveIdAndPackageName?cveId={cve_init[0]}&packageName={cve_init[1]}'
-        response = requests.get(url=cve_url, timeout=2)
-        if response.status_code != 200:
-            print(f"请求失败，状态码：{response.status_code}, 请重试！")
-            # return
-            continue
-
-        if 'Required String parameter' in response.text:
-            continue
-        json_data = json.loads(response.text)['result']
-
-        cve = CVE()
-        cve.cveId = json_data['cveId']
-        cve.summary = json_data['summary']
-        cve.level = json_data['type']
-
-        cve.cvsssCoreNVD = json_data['cvsssCoreNVD']
-        cve.cvsssCoreOE = json_data['cvsssCoreOE']
-
-        cve.attackVectorNVD = json_data['attackVectorNVD']
-        cve.attackVectorOE = json_data['attackVectorOE']
-
-        cve.attackComplexityNVD = json_data['attackComplexityNVD']
-        cve.attackComplexityOE = json_data['attackComplexityOE']
-
-        cve.privilegesRequiredNVD = json_data['privilegesRequiredNVD']
-        cve.privilegesRequiredOE = json_data['privilegesRequiredOE']
-
-        cve.userInteractionNVD = json_data['userInteractionNVD']
-        cve.userInteractionOE = json_data['userInteractionOE']
-
-        cve.scopeNVD = json_data['scopeNVD']
-        cve.scopeOE = json_data['scopeOE']
-
-        cve.confidentialityNVD = json_data['confidentialityNVD']
-        cve.confidentialityOE = json_data['confidentialityOE']
-
-        cve.integrityNVD = json_data['integrityNVD']
-        cve.integrityOE = json_data['integrityOE']
-
-        cve.availabilityNVD = json_data['availabilityNVD']
-        cve.availabilityOE = json_data['availabilityOE']
-
-        cve.status = json_data['status']
-
-        cve.announcementTime = json_data['announcementTime']
-        cve.createTime = json_data['createTime']
-        cve.updateTime = json_data['updateTime']
-
-        cve.packageName = json_data['packageName']
-
-        extra_url = f'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/getCVEProductPackageList?cveId={cve_init[0]}&packageName={cve_init[1]}'
-        response_extra = requests.get(url=extra_url, timeout=(10, 30))
-        if 'Required String parameter' in response_extra.text:
-            pass
-        else:
-            extra_data = json.loads(response_extra.text)['result']
-            cve.extra_data = str(extra_data)
-
-        session.add(cve)
-        session.commit()
-        print(f"{json_data['cveId']} updated")
-        update_cve += 1
-
     session.close()
-    Display(f"{update_sa} SAs and {update_cve} CVEs are updated!", "OK")
+    Display(f"{update_sa} SAs are updated!", "OK")
 
 
 def scan_vulnerabilities_rpm_check():
@@ -580,30 +470,45 @@ def scan_vulnerabilities_rpm_check():
     engine = create_engine(f'sqlite:///{dir}/db/cvedatabase.db', echo=False)
     Session = sessionmaker(bind=engine)
     session = Session()
-    euler_version = get_value('SYS_VERSION')
+    sys_version = get_value('SYS_VERSION')
     # all 20.30 openeulers' rpm contains "oe1" suffix, when Euler version >= 22.03, change oe1 to oe2203 instead
     ver_rpm = 'oe1'
-    if euler_version == '22.10U1 LTS' or euler_version == '22.03 LTS SP1':
+    if sys_version == '22.10U1 LTS' or sys_version == '22.03 LTS SP1':
         euler_version = 'openEuler-22.03-LTS-SP1'
         ver_rpm = 'oe2203sp1'
-    elif euler_version == '22.10 LTS' or euler_version == '22.03 LTS':
+    elif sys_version == '22.10 LTS' or sys_version == '22.03 LTS':
         euler_version = 'openEuler-22.03-LTS'
         ver_rpm = 'oe2203'
-    elif euler_version == '22.10U2 LTS' or euler_version == '22.03 LTS SP2':
+    elif sys_version == '22.10U2 LTS' or sys_version == '22.03 LTS SP2':
         euler_version = 'openEuler-22.03-LTS-SP2'
         ver_rpm = 'oe2203sp2'
-    elif euler_version in ['v24 LTS', '22.03 (LTS-SP3)', '24.e1011']:
+    elif sys_version in ['v24 LTS', '22.03 (LTS-SP3)', '24.e1011', '21.10 U4']:
         euler_version = 'openEuler-22.03-LTS-SP3'
         ver_rpm = 'oe2203sp3'
-    elif euler_version == '22.03 (LTS-SP4)':
+    elif sys_version == '22.03 (LTS-SP4)':
         euler_version = 'openEuler-22.03-LTS-SP4'
         ver_rpm = 'oe2203sp4'
-    elif euler_version == '21.10U3 LTS' or euler_version == '20.03 LTS SP3':
+    elif sys_version == '21.10U3 LTS' or sys_version == '20.03 LTS SP3':
         euler_version = 'openEuler-20.03-LTS-SP3'
-    elif euler_version == '21.10 LTS' or euler_version == '20.03 LTS SP2':
+    elif sys_version == '21.10 LTS' or sys_version == '20.03 LTS SP2':
         euler_version = 'openEuler-20.03-LTS-SP2'
-    elif euler_version == '20.03 LTS SP1':
+    elif sys_version == '20.03 LTS SP1':
         euler_version = 'openEuler-20.03-LTS-SP1'
+    elif sys_version == '24.03 LTS':
+        euler_version = 'openEuler-24.03-LTS'
+        ver_rpm = 'oe2403'
+    elif sys_version == '24.03 LTS SP1':
+        euler_version = 'openEuler-24.03-LTS-SP1'
+        ver_rpm = 'oe2403sp1'
+    elif sys_version == '24.03 LTS SP2':
+        euler_version = 'openEuler-24.03-LTS-SP2'
+        ver_rpm = 'oe2403sp2'
+    elif sys_version == '24.03 LTS SP3':
+        euler_version = 'openEuler-24.03-LTS-SP3'
+        ver_rpm = 'oe2403sp3'
+    else:
+        print("This system is not supported by the vulnerability scanning feature at this time")
+        sys.exit(1)
 
     #check system architecture
     ret, sys_arch = subprocess.getstatusoutput('uname -m')
@@ -681,7 +586,10 @@ def scan_vulnerabilities_rpm_check():
                     elif sys_rpm_version[j] > sa_rpm_version[j]:
                         break
     
-    Display(f"Found {len(result_dict)} pieces of information about component vulnerabilities", "WARNING")
+    if len(result_dict) == 0:
+        Display(f"Found 0 pieces of information about component vulnerabilities", "OK")
+    else:
+        Display(f"Found {len(result_dict)} pieces of information about component vulnerabilities", "WARNING")
     for s in result_dict:
         print("------------------------------------------------------------------------\n")
         # sa_dict[result_dict[s][0]] = result_dict[s][1].strip(';').split(';')
@@ -742,27 +650,45 @@ def scan_vulnerabilities_by_items():
     engine = create_engine(f'sqlite:///{dir}/db/cvedatabase.db', echo=False)
     Session = sessionmaker(bind=engine)
     session = Session()
-    euler_version = get_value('SYS_VERSION')
+    sys_version = get_value('SYS_VERSION')
     # all 20.30 openeulers' rpm contains "oe1" suffix, when Euler version >= 22.03, change oe1 to oe2203 instead
     ver_rpm = 'oe1'
-    if euler_version == '22.10U1 LTS' or euler_version == '22.03 LTS SP1':
+    if sys_version == '22.10U1 LTS' or sys_version == '22.03 LTS SP1':
         euler_version = 'openEuler-22.03-LTS-SP1'
         ver_rpm = 'oe2203sp1'
-    elif euler_version == '22.10 LTS' or euler_version == '22.03 LTS':
+    elif sys_version == '22.10 LTS' or sys_version == '22.03 LTS':
         euler_version = 'openEuler-22.03-LTS'
         ver_rpm = 'oe2203'
-    elif euler_version == '22.10U2 LTS' or euler_version == '22.03 LTS SP2':
+    elif sys_version == '22.10U2 LTS' or sys_version == '22.03 LTS SP2':
         euler_version = 'openEuler-22.03-LTS-SP2'
         ver_rpm = 'oe2203sp2'
-    elif euler_version in ['v24 LTS', '22.03 (LTS-SP3)', '24.e1011']:
+    elif sys_version in ['v24 LTS', '22.03 (LTS-SP3)', '24.e1011', '21.10 U4']:
         euler_version = 'openEuler-22.03-LTS-SP3'
         ver_rpm = 'oe2203sp3'
-    elif euler_version == '21.10U3 LTS' or euler_version == '20.03 LTS SP3':
+    elif sys_version == '22.03 (LTS-SP4)':
+        euler_version = 'openEuler-22.03-LTS-SP4'
+        ver_rpm = 'oe2203sp4'
+    elif sys_version == '21.10U3 LTS' or sys_version == '20.03 LTS SP3':
         euler_version = 'openEuler-20.03-LTS-SP3'
-    elif euler_version == '21.10 LTS' or euler_version == '20.03 LTS SP2':
+    elif sys_version == '21.10 LTS' or sys_version == '20.03 LTS SP2':
         euler_version = 'openEuler-20.03-LTS-SP2'
-    elif euler_version == '20.03 LTS SP1':
+    elif sys_version == '20.03 LTS SP1':
         euler_version = 'openEuler-20.03-LTS-SP1'
+    elif sys_version == '24.03 LTS':
+        euler_version = 'openEuler-24.03-LTS'
+        ver_rpm = 'oe2403'
+    elif sys_version == '24.03 LTS SP1':
+        euler_version = 'openEuler-24.03-LTS-SP1'
+        ver_rpm = 'oe2403sp1'
+    elif sys_version == '24.03 LTS SP2':
+        euler_version = 'openEuler-24.03-LTS-SP2'
+        ver_rpm = 'oe2403sp2'
+    elif sys_version == '24.03 LTS SP3':
+        euler_version = 'openEuler-24.03-LTS-SP3'
+        ver_rpm = 'oe2403sp3'
+    else:
+        print("This system is not supported by the vulnerability scanning feature at this time")
+        sys.exit(1)
     #check system architecture
     ret, sys_arch = subprocess.getstatusoutput('uname -m')
     if sys_arch not in ['arm', 'x86_64']:
