@@ -451,8 +451,88 @@ def vulnerabilities_db_update():
         print(f"{cvrf_xml_handler.node_get_securityNoticeNo()} updated")
         update_sa += 1
 
+    ###################################################################################
+    # create sqlite database and save data
+    ###################################################################################
+    csaf_index = scrapy_CSAF_index()
+    for i, url in enumerate(csaf_index):
+        if not re.match('202', url):
+            continue
+        cveid = url.split('cve-')[1].split('.json')[0]
+        if session.query(CVE).filter_by(cveId=f'CVE-{cveid}').first():
+            continue
+
+        download_url = os.path.join("https://dl-cdn.openeuler.openatom.cn/security/data/csaf/cve/", url)
+        # print(download_url)
+        for try_index in range(10):
+            try:
+                request = urllib.request.Request(download_url)
+            except Exception as e:
+                print(f"scrapy from api {download_url} error!", str(e))
+                if try_index == 9:
+                    print(f"try 10 times failed! exit.")
+                    exit(1)
+                print(f" try again [{try_index + 1}/{10}] ")
+                continue
+            break
+
+        request.add_header("Range", "bytes={}-".format(0))
+        cve_json = json.loads(urllib.request.urlopen(request).read().decode('utf-8'))
+        cve = CVE()
+        cve.cveId = cve_json["vulnerabilities"][0]["cve"]
+        print(cve_json["vulnerabilities"][0]["cve"])
+        cve.summary = cve_json["vulnerabilities"][0]["notes"][0]["text"]
+        cve.level = cve_json["vulnerabilities"][0]["threats"][0]["details"]
+
+        #if "cvss_v3" in cve_json["vulnerabilities"][0]["scores"][0]:
+        #    cvss_verison = "cvss_v3"
+        #elif "cvss_v2" in cve_json["vulnerabilities"][0]["scores"][0]:
+        #    cvss_verison = "cvss_v2"
+        #else:
+        #    continue
+
+        cve.cvsssCoreNVD = cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["baseScore"]
+        cve.cvsssCoreOE = cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["baseScore"]
+
+        cve.attackVectorNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "AV")
+        cve.attackVectorOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "AV")
+
+        cve.attackComplexityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "AC")
+        cve.attackComplexityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "AC")
+
+        cve.privilegesRequiredNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "PR")
+        cve.privilegesRequiredOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "PR")
+
+        cve.userInteractionNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "UI")
+        cve.userInteractionOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "UI")
+
+        cve.scopeNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "S")
+        cve.scopeOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "S")
+
+        cve.confidentialityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "C")
+        cve.confidentialityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "C")
+
+        cve.integrityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "I")
+        cve.integrityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "I")
+
+        cve.availabilityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "A")
+        cve.availabilityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "A")
+
+        # cve.status = cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"]
+        #
+        cve.announcementTime = cve_json["document"]["tracking"]["initial_release_date"].split("T")[0]
+        cve.createTime = cve_json["document"]["tracking"]["initial_release_date"].split("T")[0]
+        cve.updateTime = cve_json["document"]["tracking"]["initial_release_date"].split("T")[0]
+
+
+
+        session.add(cve)
+        session.commit()
+        update_cve += 1
+
     session.close()
-    Display(f"{update_sa} SAs are updated!", "OK")
+    Display(f"{update_sa} SAs and {update_cve} CVEs are updated!", "OK")
+
 
 
 def scan_vulnerabilities_rpm_check():
