@@ -75,7 +75,7 @@ def C0226_loginLock():
     OS_DISTRO = get_value("OS_DISTRO")
     InsertSection("check User login lock deny times and unlock time")
     if OS_ID.lower() in ["centos", "rhel", "redhat", "openeuler", "bclinux"]:
-        if OS_DISTRO in ["21.10", "20.12", "8", "22.10U1", "22.10", "22.10U2", "22.03", "v24", "24", "21.10U4", "21.10 U4", "V25"]:
+        if OS_DISTRO in SUPPORT_VER:
             oe_el8_check_deny()
         else:
             logger.warning(f"We do not support {OS_ID}-{OS_DISTRO} at this moment")

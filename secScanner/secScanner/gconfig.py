@@ -63,6 +63,7 @@ LOGFILE = os.path.join(LOGDIR, "secscanner.log")
 
 RESULT_FILE = os.path.join(LOGDIR, "check_result.relt")
 QUIET = 0
+SUPPORT_VER = ['7', '8', '21.10', '22.10', '22.10U1', '22.10U2', '22.03', 'v24', '24', '21.10 U4', '24.03']
 #
 #################################################################################
 #
