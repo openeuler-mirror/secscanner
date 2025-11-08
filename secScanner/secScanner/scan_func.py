@@ -461,7 +461,7 @@ def vulnerabilities_db_update():
         cveid = url.split('cve-')[1].split('.json')[0]
         if session.query(CVE).filter_by(cveId=f'CVE-{cveid}').first():
             continue
-
+        
         download_url = os.path.join("https://dl-cdn.openeuler.openatom.cn/security/data/csaf/cve/", url)
         # print(download_url)
         for try_index in range(10):
@@ -477,46 +477,53 @@ def vulnerabilities_db_update():
             break
 
         request.add_header("Range", "bytes={}-".format(0))
-        cve_json = json.loads(urllib.request.urlopen(request).read().decode('utf-8'))
+        try:
+            cve_json = json.loads(urllib.request.urlopen(request).read().decode('utf-8'))
+        except json.JSONDecodeError as e:
+            print(f"/nJSON decode error: {e}") 
+            continue
+        except Exception as e:
+            print(f"/nupdate {url} error")
+            continue
         cve = CVE()
         cve.cveId = cve_json["vulnerabilities"][0]["cve"]
         print(cve_json["vulnerabilities"][0]["cve"])
         cve.summary = cve_json["vulnerabilities"][0]["notes"][0]["text"]
         cve.level = cve_json["vulnerabilities"][0]["threats"][0]["details"]
 
-        #if "cvss_v3" in cve_json["vulnerabilities"][0]["scores"][0]:
-        #    cvss_verison = "cvss_v3"
-        #elif "cvss_v2" in cve_json["vulnerabilities"][0]["scores"][0]:
-        #    cvss_verison = "cvss_v2"
-        #else:
-        #    continue
+        if "cvss_v3" in cve_json["vulnerabilities"][0]["scores"][0]:
+            cvss_verison = "cvss_v3"
+        elif "cvss_v2" in cve_json["vulnerabilities"][0]["scores"][0]:
+            cvss_verison = "cvss_v2"
+        else:
+            continue
 
-        cve.cvsssCoreNVD = cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["baseScore"]
-        cve.cvsssCoreOE = cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["baseScore"]
+        cve.cvsssCoreNVD = cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["baseScore"]
+        cve.cvsssCoreOE = cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["baseScore"]
 
-        cve.attackVectorNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "AV")
-        cve.attackVectorOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "AV")
+        cve.attackVectorNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "AV")
+        cve.attackVectorOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "AV")
 
-        cve.attackComplexityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "AC")
-        cve.attackComplexityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "AC")
+        cve.attackComplexityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "AC")
+        cve.attackComplexityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "AC")
 
-        cve.privilegesRequiredNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "PR")
-        cve.privilegesRequiredOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "PR")
+        cve.privilegesRequiredNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "PR")
+        cve.privilegesRequiredOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "PR")
 
-        cve.userInteractionNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "UI")
-        cve.userInteractionOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "UI")
+        cve.userInteractionNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "UI")
+        cve.userInteractionOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "UI")
 
-        cve.scopeNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "S")
-        cve.scopeOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "S")
+        cve.scopeNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "S")
+        cve.scopeOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "S")
 
-        cve.confidentialityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "C")
-        cve.confidentialityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "C")
+        cve.confidentialityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "C")
+        cve.confidentialityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "C")
 
-        cve.integrityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "I")
-        cve.integrityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "I")
+        cve.integrityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "I")
+        cve.integrityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "I")
 
-        cve.availabilityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "A")
-        cve.availabilityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"], "A")
+        cve.availabilityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "A")
+        cve.availabilityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "A")
 
         # cve.status = cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"]
         #

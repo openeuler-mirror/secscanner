@@ -6,6 +6,8 @@ from sqlalchemy import Integer
 import requests
 
 def parse_cvss_vector(cvss_vector, metric=None):
+    if 'AV' not in cvss_vector:
+        return 'None'
     # 定义字段名称和值的映射关系
     metric_names = {
         "AV": "Attack Vector",
