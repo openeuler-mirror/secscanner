@@ -494,7 +494,7 @@ def scan_vulnerabilities_rpm_check():
         euler_version = 'openEuler-20.03-LTS-SP2'
     elif sys_version == '20.03 LTS SP1':
         euler_version = 'openEuler-20.03-LTS-SP1'
-    elif sys_version == '24.03 LTS':
+    elif sys_version == '24.03 (LTS)':
         euler_version = 'openEuler-24.03-LTS'
         ver_rpm = 'oe2403'
     elif sys_version == '24.03 LTS SP1':
@@ -674,16 +674,16 @@ def scan_vulnerabilities_by_items():
         euler_version = 'openEuler-20.03-LTS-SP2'
     elif sys_version == '20.03 LTS SP1':
         euler_version = 'openEuler-20.03-LTS-SP1'
-    elif sys_version == '24.03 LTS':
+    elif sys_version == '24.03 (LTS)':
         euler_version = 'openEuler-24.03-LTS'
         ver_rpm = 'oe2403'
-    elif sys_version == '24.03 LTS SP1':
+    elif sys_version == '24.03 (LTS-SP1)':
         euler_version = 'openEuler-24.03-LTS-SP1'
         ver_rpm = 'oe2403sp1'
-    elif sys_version == '24.03 LTS SP2':
+    elif sys_version == '24.03 (LTS-SP2)':
         euler_version = 'openEuler-24.03-LTS-SP2'
         ver_rpm = 'oe2403sp2'
-    elif sys_version == '24.03 LTS SP3':
+    elif sys_version == '24.03 (LTS-SP3)':
         euler_version = 'openEuler-24.03-LTS-SP3'
         ver_rpm = 'oe2403sp3'
     else:
@@ -696,7 +696,7 @@ def scan_vulnerabilities_by_items():
         sys.exit(1)
 
     # Check system software version
-    RPM_ASSEMBLY = seconf.get('basic', 'rpm_assembly').split()
+    RPM_ASSEMBLY = gconfig.seconf.get('basic', 'rpm_assembly').split()
     InsertSection("Vulnerability targeted scanning...")
     result_dict = {}
     sa_dict = {}
