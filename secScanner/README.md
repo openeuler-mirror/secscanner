@@ -66,6 +66,35 @@ optional arguments:
   --config              Show settings file path
   -q, --quiet           Quiet mode
   -V, --version         Show version
+
+Instructions for use:
+安全检测：secscanner check {basic, euler, level3} 
+安全加固：secscanner fix {basic, euler, level3} 
+	安全检测/加固命令后接参数说明：
+		baisc：参照《电信网和互联网安全防护基线配置要求及检测要求 操作系统》编写
+		euler：参照《openEuler安全配置基线》 编写
+		level3：参照《信息安全技术网络安全等级保护基本要求》编写
+	通过执行check安全检测，可以检测出系统当前的薄弱项，并记录日志，再次执行fix命令，可以针对系统薄弱项进行安全加固。
+	通过/etc/secScanner/secscanner.cfg配置文件，可以针对性设置每一条基线配置项是否进行安全加固。
+
+漏洞扫描：secscanner check {cve, cve_t}
+	使用说明：secscanner check cve表示根据当前数据库中的所有漏洞信息，全量扫描整个系统，给出风险组件更新建议。
+		  secscanner check cve_t表示根据/etc/secScanner/secscanner.cfg中的重点观测组件，定向扫描，并给出风险组件更新建议。
+	secscanner db update: 从openEuler安全中心拉取漏洞信息，以供漏洞扫描功能。	
+
+
+入侵检测： secscanner check rootkit
+	使用说明：该命令会调用chkrootkit及secDetector对系统进行入侵检测扫描。
+
+全量检测：
+	secscanner check all ：一键执行安全检测、漏洞扫描及入侵检测，并提供完整的报告，路径：/var/log/secScanner/html_report
+
+定期执行：
+	secscanner service {secaide, sechkrootkit} {on, off, status}
+	执行secscanner service sechkrootkit on :开启chkrootkit定期扫描，保护系统安全
+	执行secscanner service sechkrootkit off :关闭chkrootkit定期扫描
+	执行secscanner service sechkrootkit status :查看chkrootkit定期扫描任务状态
+
 ```
 
 #### 参与贡献
