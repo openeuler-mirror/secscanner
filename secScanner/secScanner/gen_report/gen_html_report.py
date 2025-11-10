@@ -180,7 +180,7 @@ def gen_html_report():
                           <td style='width:25px'>漏洞评分</td>
                           <td style='width:40px'>利用方式</td>
                           <td style='width:35px'>利用复杂度</td>
-                          <td style='width:60px'>BLSA</td>
+                          <td style='width:60px'>SA</td>
                           <td >CVE漏洞描述</td>
                         </tr>
                       </thead>

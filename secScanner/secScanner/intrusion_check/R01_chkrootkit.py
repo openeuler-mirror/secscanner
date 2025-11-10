@@ -2,15 +2,20 @@ import logging
 import subprocess
 import re
 import sys
-from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib import *
+from secScanner.gconfig import *
 
 logger = logging.getLogger("secscanner")
 
 
 def check_rootkit():
     InsertSection("using chkrootkit check the system rootkit")
+    ret, result = subprocess.getstatusoutput('rpm -q chkrootkit')
+    if ret !=0:
+        logger.warning("chkrootkit not installed")
+        Display("- No chkrootkit install...", "WARNING")
+        return
     ret, result = subprocess.getstatusoutput('rpm -qa')
     if ret !=0:
         logger.warning("'rpm -qa' command execution failed")
