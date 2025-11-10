@@ -40,7 +40,7 @@ class TestC09_loginDefs(unittest.TestCase):
         secScanner.enhance.basic.check.C09_loginDefs.C09_loginDefs()
         mock_logger.warning.assert_any_call("WRN_C09_01: %s", WRN_C09_01)
         mock_display.assert_any_call("- PASS_MAX_DAYS value is not safe...", "WARNING")
-    
+
     @patch('secScanner.enhance.basic.check.C09_loginDefs.InsertSection')
     @patch('secScanner.enhance.basic.check.C09_loginDefs.open', new_callable=mock_open, read_data="")
     @patch('secScanner.enhance.basic.check.C09_loginDefs.logger')
@@ -51,7 +51,6 @@ class TestC09_loginDefs(unittest.TestCase):
         secScanner.enhance.basic.check.C09_loginDefs.C09_loginDefs()
         mock_logger.warning.assert_any_call("WRN_C09_02: %s", WRN_C09_02)
         mock_display.assert_any_call("- PASS_MAX_DAYS value is null...", "WARNING")
-
 
 # 如果是作为脚本运行，自动执行测试
 if __name__ == '__main__':

@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
 import os
 import re
 import sys
@@ -17,7 +32,7 @@ def S34_noCtrlAltDelBurstAction():
         add_bak_file('/etc/systemd/system/ctrl-alt-del.target_bak')
         if not os.path.exists('/usr/lib/systemd/system/ctrl-alt-del.target_bak') and os.path.exists('/usr/lib/systemd/system/ctrl-alt-del.target'):
             shutil.copy2('/usr/lib/systemd/system/ctrl-alt-del.target', '/usr/lib/systemd/system/ctrl-alt-del.target_bak')
-            os.remove( '/usr/lib/systemd/system/ctrl-alt-del.target')
+            os.remove('/usr/lib/systemd/system/ctrl-alt-del.target')
         add_bak_file('/usr/lib/systemd/system/ctrl-alt-del.target_bak')
 
         if not os.path.exists('/etc/systemd/system.conf_bak') and os.path.exists('/etc/systemd/system.conf'):
@@ -49,6 +64,7 @@ def S34_noCtrlAltDelBurstAction():
             lines = read_file.readlines()
             for line in lines:
                 if re.match('CtrlAltDelBurstAction', line):
+                    IS_EXIST = 1
                     temp = line.strip('\n').split('=')
                     if temp[0] == 'CtrlAltDelBurstAction' and temp[1] == 'none':
                         CHECK_EXIST = 1
@@ -56,7 +72,7 @@ def S34_noCtrlAltDelBurstAction():
                         if ret != 0:
                             logger.warning('Command execution failed')
                             Display("- Command execution failed...", "FAILED")
-                            sys.exit(1)
+                            return
         if not config_exists:
             logger.info("set the system CtrlAltDel Burst Action failed, no set option")
             Display("- Set the system CtrlAltDel Burst Action...", "FAILED")

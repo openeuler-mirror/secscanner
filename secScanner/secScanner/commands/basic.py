@@ -50,7 +50,6 @@ def restore_all(args):
     AUTO_BASIC_RESTORE = set_value("AUTO_BASIC_RESTORE", AUTO_BASIC_RESTORE)  # auto basic restore
     scan_restore_basic_settings()
 
-
 def fix_level3(args):
     display_info()
     check_isvirtualmachine()
@@ -70,7 +69,6 @@ def fix_euler(args):
     check_isvirtualmachine()
     scan_fix_sys('euler')
 
-
 def check_level3(args):
     display_info()
     check_isvirtualmachine()
@@ -80,16 +78,11 @@ def check_euler(args):
     display_info()
     check_isvirtualmachine()
     scan_check_sys('euler')
-            
+
 def db_update(args):
     display_info()
     check_isvirtualmachine()
     vulnerabilities_db_update()
-
-def db_oval(args):
-    display_info()
-    check_isvirtualmachine()
-    scan_vulnerabilities_db_create_oval()
 
 def rpm_check(args):
     display_info()
@@ -167,32 +160,6 @@ def service_status(args):
             obj_status = sec_service()
             obj_status.status(service_name)
 
-def ssh_ban(args):
-    ret, result = subprocess.getstatusoutput(f'fail2ban-client set sshd banip {args.ipaddress}')
-    if ret == 0 and result == '1':
-        print(f'Ban IP {args.ipaddress} success!')
-    else:
-        print(f'Ban IP {args.ipaddress} failed, please check if fail2ban is installed correctly！')
-
-def ssh_unban(args):
-    ret, result = subprocess.getstatusoutput(f'fail2ban-client set sshd unbanip {args.ipaddress}')
-    if ret == 0 and result == '1':
-        print(f'Unban IP {args.ipaddress} success!')
-    else:
-        print(f'Unban IP {args.ipaddress} failed, please check if fail2ban is installed correctly！')
-
-def ssh_status(args):
-    ret, result = subprocess.getstatusoutput('iptables -L -n -v')
-    if ret == 0:
-        result = result.split('\n')
-        print_flag = 0
-        for line in result:
-            if re.match('Chain f2b-sshd', line):
-                print_flag = 1
-            if print_flag == 1:
-                    print(line)
-    else:
-        print('An error may appear in iptables')
 
 def scan_command():
 
@@ -201,7 +168,7 @@ def scan_command():
     parser.add_argument('--config', action='store_true',  help='Show settings file path')
 
     parser.add_argument('-q', '--quiet', dest='quiet', action='store_true',default=False, help='Quiet mode')
-    parser.add_argument('-V', '--version', action='version', version='SecScanner 1.2.0', help='Show version')
+    parser.add_argument('-V', '--version', action='version', version='SecScanner 1.3.1', help='Show version')
 
     subparsers = parser.add_subparsers(dest='command')
 
@@ -211,7 +178,7 @@ def scan_command():
     fix_parser = subparsers.add_parser('fix', help="Fix command")
     fix_subparsers = fix_parser.add_subparsers(dest='mode')
 
-    fix_basic_parser = fix_subparsers.add_parser('basic', help="Basically fix the system")
+    fix_basic_parser = fix_subparsers.add_parser('basic', help="Basicly fix the system")
     fix_basic_parser.set_defaults(func=fix_basic)
 
     fix_level3_parser = fix_subparsers.add_parser('level3', help="According the level 3 of protection baseline fix system")
@@ -221,10 +188,11 @@ def scan_command():
     fix_euler_parser.set_defaults(func=fix_euler)
 
 
+    # Item fix subcommand
     check_parser = subparsers.add_parser('check', help="Check command")
     check_subparsers = check_parser.add_subparsers(dest='mode')
 
-    check_basic_parser = check_subparsers.add_parser('basic', help="Check the system basically")
+    check_basic_parser = check_subparsers.add_parser('basic', help="Check the system basicly")
     check_basic_parser.set_defaults(func=check_basic)
 
     check_level3_parser = check_subparsers.add_parser('level3', help="Check the system by level 3 of protection baseline")
@@ -241,8 +209,8 @@ def scan_command():
     
     check_vulner_target_parser = check_subparsers.add_parser('cve_t', help="Check the system vulnerability targeted according to cfg file")
     check_vulner_target_parser.set_defaults(func=rpm_scan)
-    
-    check_all_parser = check_subparsers.add_parser('all', help="Check the system basically, rootkit and vulnerability, output html report")
+
+    check_all_parser = check_subparsers.add_parser('all', help="Check the system basicly, rootkit and vulnerability, output html report")
     check_all_parser.set_defaults(func=get_report)
 
     restore_parser = subparsers.add_parser('restore', help="Restore command")
@@ -254,12 +222,9 @@ def scan_command():
 
     db_parser = subparsers.add_parser('db', help="Database command")
     db_subparsers = db_parser.add_subparsers(dest='mode')
-    
+
     db_update_parser = db_subparsers.add_parser('update', help="Update the database")
     db_update_parser.set_defaults(func=db_update)
-    
-    db_oval_parser = db_subparsers.add_parser('oval', help="Generate xml from the database")
-    db_oval_parser.set_defaults(func=db_oval)
 
     # service commands
     service_parser = subparsers.add_parser('service', help="Services command")
@@ -275,32 +240,23 @@ def scan_command():
     service_status_parser = service_subparsers.add_parser('status', help="Check service status")
     service_status_parser.set_defaults(func=service_status)
 
-    # ssh commands
-    ssh_parser = subparsers.add_parser('ssh', help="SSH ban&unban command")
-    ssh_parser.add_argument('ipaddress', nargs='?', type=str, help="IP address")
-    ssh_subparsers = ssh_parser.add_subparsers(dest='action')
-
-    ssh_ban_parser = ssh_subparsers.add_parser('ban', help="Ban IP")
-    ssh_ban_parser.set_defaults(func=ssh_ban)
-    ssh_unban_parser = ssh_subparsers.add_parser('unban', help="Unban IP")
-    ssh_unban_parser.set_defaults(func=ssh_unban)
-    ssh_status_parser = ssh_subparsers.add_parser('status', help="SSH status")
-    ssh_status_parser.set_defaults(func=ssh_status)
-
     args = parser.parse_args()
-    
+
 
     if args.command == None:
         parser.error('Command line parameters not provided. Please use - h or -- help to view help information.')
-    
+
     if args.command == 'fix' and args.mode is None:
-        parser.error('fix command requires a subcommand (choose "basic" , "level3" , "euler").')
+        parser.error('fix command requires a subcommand ("basic", "euler", "level3").')
 
     if args.command == 'check' and args.mode is None:
-        parser.error('check command requires a subcommand (choose "basic" , "rootkit" , "cve" , "cve_t" , "all").')
+        parser.error('check command requires a subcommand (choose "basic" , "euler", "level3", "rootkit" , "cve" , "cve_t" , "all").')
 
     if args.command == 'restore' and args.mode is None:
-        parser.error('restore command requires a subcommand - "basic".')
+        parser.error('restore command requires a subcommand - "all".')
+
+    if args.command == 'db' and args.mode is None:
+        parser.error('db command requires a subcommand - "update".')
 
     if args.command == 'service':
         if args.action is None or (args.action in ['on', 'off', 'status'] and not args.servicename):
@@ -319,3 +275,4 @@ def scan_command():
 
     if args.quiet:
         quiet_output(args)
+

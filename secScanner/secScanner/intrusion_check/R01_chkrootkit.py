@@ -4,7 +4,7 @@ import re
 import sys
 from secScanner.gconfig import *
 from secScanner.lib.function import InsertSection, Display
-from secScanner.lib.TextInfo import *
+from secScanner.lib import *
 
 logger = logging.getLogger("secscanner")
 
@@ -16,7 +16,10 @@ def check_rootkit():
         logger.warning("'rpm -qa' command execution failed")
     temp = result.split('\n', -1)  # cut the byte stream by lines
     is_exist = 0
-    command_path = '/opt/secScanner/secScanner/.commands/'
+    try:
+        command_path = seconf.get('main', 'command_path')
+    except Exception as e:
+        command_path = '/opt/secScanner/secScanner/.commands/'
     for i in range(len(temp)):
         line = temp[i]
         if 'chkrootkit' in line:
@@ -69,7 +72,7 @@ def R01_chkrootkit():
     OS_ID = get_value("OS_ID")
     OS_DISTRO = get_value("OS_DISTRO")
     if OS_ID.lower() in ['centos', 'rhel', 'redhat', 'bclinux', 'openeuler']:
-        if OS_DISTRO in ['7', '8', '21.10', '22.10', '22.10U1', '22.10U2', '22.03', 'v24', '24']:
+        if OS_DISTRO in SUPPORT_VER:
             check_rootkit()
         else:
             logger.info(f"we do not support {OS_ID}-{OS_DISTRO} at this moment")

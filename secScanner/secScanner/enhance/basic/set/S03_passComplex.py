@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
 import os
 import shutil
 import pathlib
@@ -52,14 +67,15 @@ def S03_passComplex():
                     passwd_complex_set = 'set'
                     if (re.search(f'minclass={minclass}', line) and re.search(f'minlen={minlen}', line) and
                             re.search(f'ucredit={ucredit}', line) and re.search(f'lcredit={lcredit}', line) and
-                            re.search(f'dcredit={dcredit}', line) and re.search(f'ocredit={ocredit}', line)):
+                            re.search(f'dcredit={dcredit}', line) and re.search(f'ocredit={ocredit}', line) and
+                            re.search(f'enforce_for_root', line)):
                         passwd_complex_set = 'right'
         if passwd_complex_set == 'unset':  # no password complex set, add the following line in target file
             with open(file_name, 'a') as add_file:
                 add_file.write(
                     f'\npassword    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 '
                     f'difok=3 minclass={minclass} minlen={minlen} ucredit={ucredit} lcredit={lcredit} dcredit='
-                    f'{dcredit} ocredit={ocredit} authtok_type=\n')
+                    f'{dcredit} ocredit={ocredit} enforce_for_root\n')
         else:
             with open(file_name, 'w') as write_file:  # have password complex set, no matter its right or wrong
                 # delete that line and write the following line
@@ -68,7 +84,7 @@ def S03_passComplex():
                         write_file.write(
                             f'password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 '
                             f'difok=3 minclass={minclass} minlen={minlen} ucredit={ucredit} lcredit={lcredit} '
-                            f'dcredit={dcredit} ocredit={ocredit} authtok_type=\n')
+                            f'dcredit={dcredit} ocredit={ocredit} enforce_for_root\n')
                     else:
                         write_file.write(line)
         check_complex_set('pam_pwquality.so', minclass, minlen, ucredit, lcredit, dcredit, ocredit)

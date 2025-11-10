@@ -36,7 +36,7 @@ class TestC0303_startFirewalld(unittest.TestCase):
         mock_InsertSection.assert_any_call("Check if firewalld is launched")
         mock_logger.error.assert_any_call("Unexpected error while checking firewalld status")
         mock_display.assert_any_call("- Unexpected error while checking firewalld status...", "FAILED")
-    
+        
     @patch('secScanner.enhance.euler.check.C0303_startFirewalld.InsertSection')
     @patch('secScanner.enhance.euler.check.C0303_startFirewalld.logger')
     @patch('secScanner.enhance.euler.check.C0303_startFirewalld.Display')
@@ -72,6 +72,102 @@ class TestC0303_startFirewalld(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C0303_01: %s", WRN_C0303_01)
         mock_logger.warning.assert_any_call("SUG_C0303_01: %s", SUG_C0303_01)
         mock_display.assert_any_call("- Checking Firewalld is active, iptables or nftables actice too...", "WARNING")
+    
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.logger')
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('subprocess.getstatusoutput')
+    def test_firewalld_and_nftables_active(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
+        
+        mock_getstatusoutput.side_effect = [
+            (0, "active"),
+            (3, "inactive"),
+            (0, "active")
+        ]
+        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0303_startFirewalld()
+        mock_InsertSection.assert_any_call("Check if firewalld is launched")
+        mock_logger.warning.assert_any_call("WRN_C0303_01: %s", WRN_C0303_01)
+        mock_logger.warning.assert_any_call("SUG_C0303_01: %s", SUG_C0303_01)
+        mock_display.assert_any_call("- Checking Firewalld is active, iptables or nftables actice too...", "WARNING")
+    
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.logger')
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('subprocess.getstatusoutput')
+    def test_firewalld_inactive(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
+        mock_getstatusoutput.side_effect = [
+            (3, "inactive"),
+            (0, "active"),
+            (0, "active")
+        ]
+        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0303_startFirewalld()
+        mock_InsertSection.assert_any_call("Check if firewalld is launched")
+        mock_logger.warning.assert_any_call("WRN_C0303_02: %s", WRN_C0303_02)
+        mock_logger.warning.assert_any_call("SUG_C0303_02: %s", SUG_C0303_02)
+        mock_display.assert_any_call("- Checking Firewalld is inactive(dead)...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+    
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.logger')
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('subprocess.getstatusoutput')
+    def test_firewalld_and_iptables_inactive(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
+        mock_getstatusoutput.side_effect = [
+            (3, "inactive"),
+            (3, "inactive"),
+            (0, "active")
+        ]
+        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0303_startFirewalld()
+        mock_InsertSection.assert_any_call("Check if firewalld is launched")
+        mock_logger.warning.assert_any_call("WRN_C0303_02: %s", WRN_C0303_02)
+        mock_logger.warning.assert_any_call("SUG_C0303_02: %s", SUG_C0303_02)
+        mock_display.assert_any_call("- Checking Firewalld is inactive(dead)...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+    
+    
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.logger')
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('subprocess.getstatusoutput')
+    def test_firewalld_and_nftables_inactive(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
+        mock_getstatusoutput.side_effect = [
+            (3, "inactive"),
+            (0, "active"),
+            (3, "inactive")
+        ]
+        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0303_startFirewalld()
+        mock_InsertSection.assert_any_call("Check if firewalld is launched")
+        mock_logger.warning.assert_any_call("WRN_C0303_02: %s", WRN_C0303_02)
+        mock_logger.warning.assert_any_call("SUG_C0303_02: %s", SUG_C0303_02)
+        mock_display.assert_any_call("- Checking Firewalld is inactive(dead)...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
+    
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.logger')
+    @patch('secScanner.enhance.euler.check.C0303_startFirewalld.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('subprocess.getstatusoutput')
+    def test_all_inactive(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
+        mock_getstatusoutput.side_effect = [
+            (3, "inactive"),
+            (3, "inactive"),
+            (3, "inactive")
+        ]
+        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        C0303_startFirewalld()
+        mock_InsertSection.assert_any_call("Check if firewalld is launched")
+        mock_logger.warning.assert_any_call("WRN_C0303_02: %s", WRN_C0303_02)
+        mock_logger.warning.assert_any_call("SUG_C0303_02: %s", SUG_C0303_02)
+        mock_display.assert_any_call("- Checking Firewalld is inactive(dead)...", "WARNING")
+        mock_open.assert_called_with("result_file_path", "a")
 
 if __name__ == '__main__':
     unittest.main()

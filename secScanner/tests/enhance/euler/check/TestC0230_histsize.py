@@ -45,7 +45,8 @@ class TestC0230_histsize(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0230: %s", SUG_C0230)
         mock_display.assert_called_once_with("- Wrong HISTSIZE set...", "WARNING")
         mock_open.assert_called_with("result_file_path", "a")
-    
+
+
     @patch('builtins.open', new_callable=mock_open, read_data="HISTSIZE=101")
     @patch('secScanner.enhance.euler.check.C0230_histsize.logger')
     @patch('secScanner.enhance.euler.check.C0230_histsize.Display')
@@ -59,6 +60,7 @@ class TestC0230_histsize(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0230: %s", SUG_C0230)
         mock_display.assert_called_once_with("- Wrong HISTSIZE set...", "WARNING")
         mock_open.assert_called_with("result_file_path", "a")
-    
+
+
 if __name__ == '__main__':
     unittest.main()

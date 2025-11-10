@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
 import re
 import shutil
 import logging
@@ -57,7 +72,7 @@ def sed_i2(a, b, file):
                             f"unlock_time={unlock_time}\n")
                 elif num == 3:
                     w.write(line)
-                    w.write(f"auth        sufficient    pam_faillock.so authfail audit deny={deny_times} even_deny_root "
+                    w.write(f"auth        sufficient    pam_faillock.so authsucc audit deny={deny_times} even_deny_root "
                             f"unlock_time={unlock_time}\n")
                 elif num == 4:
                     w.write(line)
@@ -180,8 +195,8 @@ def el7_set_deny():
                     temp = re.findall(regex, line)
                     if temp:
                         CHECK_DENY_2 = temp[0]
-        if CHECK_DENY_1 != '' and CHECK_DENY_1 <= 6:
-            if CHECK_DENY_2 != '' and CHECK_DENY_2 <= 6:
+        if CHECK_DENY_1 != '' and int(CHECK_DENY_1) <= 6:
+            if CHECK_DENY_2 != '' and int(CHECK_DENY_2) <= 6:
                 logger.info("Set the user login lock Deny, checking ok")
                 Display("- Set user login lock ...", "FINISHED")
             else:
@@ -225,10 +240,10 @@ def S04_loginLock():
     OS_ID = get_value("OS_ID")
     OS_DISTRO = get_value("OS_DISTRO")
     InsertSection("set user deny time and unlock time")
-    if OS_ID.lower() in [ 'bclinux', 'openeuler']:
+    if OS_ID.lower() in ['bclinux', 'openeuler']:
         if OS_DISTRO in ['7']:
             el7_set_deny()
-        elif OS_DISTRO in [ '21.10', '22.10', '8', '22.10U1', '22.10U2', 'v24', '24', '21.10U4']:
+        elif OS_DISTRO in SUPPORT_VER:
             set_deny()
         else:
             logger.info(f"we do not support {OS_ID}-{OS_DISTRO} at this moment")

@@ -46,7 +46,7 @@ class TestC26_setaliases(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C26_02: %s", WRN_C26_02)
         mock_logger.warning.assert_any_call("SUG_C26: %s", SUG_C26)
         mock_display.assert_called_with("- Wrong ls and rm aliases set...", "WARNING")
-    
+
     @patch('secScanner.enhance.basic.check.C26_setaliases.InsertSection')
     @patch('os.path.exists', return_value=True)
     @patch('builtins.open', new_callable=mock_open, read_data="")
@@ -70,6 +70,7 @@ class TestC26_setaliases(unittest.TestCase):
 
         # 检查是否显示文件不存在的消息
         mock_display.assert_called_with("- file '/root/.bashrc' does not exist...", "SKIPPED")
-        
+
 if __name__ == '__main__':
     unittest.main()
+

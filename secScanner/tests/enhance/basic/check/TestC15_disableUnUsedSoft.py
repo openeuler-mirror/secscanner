@@ -51,7 +51,7 @@ class TestC15_disableUnUsedSoft(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C15_02: %s", WRN_C15_02)
         mock_display.assert_called_with("- No service need stop...", "OK")
-    
+
     @patch('secScanner.enhance.basic.check.C15_disableUnUsedSoft.InsertSection')
     @patch('secScanner.enhance.basic.check.C15_disableUnUsedSoft.get_value', side_effect=['unknown', 'unknown'])
     @patch('secScanner.enhance.basic.check.C15_disableUnUsedSoft.logger')
@@ -66,3 +66,4 @@ class TestC15_disableUnUsedSoft(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

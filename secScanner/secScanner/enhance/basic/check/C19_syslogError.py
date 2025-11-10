@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
 import logging
 import os
 import re
@@ -25,7 +40,7 @@ def C19_syslogError():
                 logger.warning("SUG_C19: %s", SUG_C19)
                 Display("- Check if there have *.err set...", "WARNING")
             else:
-                logger.info("The security audit module *.err is set, checking OK")
+                logger.info("The security audit modle *.err is set, checking OK")
                 Display("- Check if there have *.err set...", "OK")
         else:
             Display(f"- file {i} does not exist...", "SKIPPED")

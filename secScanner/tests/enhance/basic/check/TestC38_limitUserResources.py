@@ -28,7 +28,7 @@ class TestC38_limitUserResources(unittest.TestCase):
         # 创建mock_open对象并设置side_effect以根据文件名返回不同内容
         m_open = mock_open()
         limits_conf_data = "* soft stack 10240\n* hard stack 20480\n* hard rss 10000\n* hard nproc 200\n* hard maxlogins 10\n"
-        pam_data = "session required /lib/security/pam_limits.so\n"
+        pam_data = "session required /lib64/security/pam_limits.so\n"
         file_effects = {'/etc/security/limits.conf': mock_open(read_data=limits_conf_data).return_value,
                         '/etc/pam.d/login': mock_open(read_data=pam_data).return_value}
         
@@ -52,7 +52,7 @@ class TestC38_limitUserResources(unittest.TestCase):
         # 创建mock_open对象并设置side_effect以根据文件名返回不同内容
         m_open = mock_open()
         limits_conf_data = "* soft stack 10240\n* hard nproc 200\n"
-        pam_data = "session required /lib/security/pam_limits.so\n"
+        pam_data = "session required /lib64/security/pam_limits.so\n"
         file_effects = {'/etc/security/limits.conf': mock_open(read_data=limits_conf_data).return_value,
                         '/etc/pam.d/login': mock_open(read_data=pam_data).return_value,
                         '/var/log/secScanner/check_result.relt': mock_open(read_data="").return_value}

@@ -46,7 +46,7 @@ class TestC23_noOneSU(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C23: %s", WRN_C23)
         mock_display.assert_called_with("- There is no pam_wheel set, check warning", "WARNING")
-    
+
     @patch('secScanner.enhance.basic.check.C23_noOneSU.InsertSection')
     @patch('builtins.open', new_callable=mock_open, read_data="")
     @patch('secScanner.enhance.basic.check.C23_noOneSU.logger')
@@ -61,3 +61,4 @@ class TestC23_noOneSU(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

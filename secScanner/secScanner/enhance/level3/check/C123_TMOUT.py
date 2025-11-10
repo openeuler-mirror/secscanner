@@ -1,0 +1,49 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
+import logging
+import re
+from secScanner.lib import *
+from secScanner.gconfig import *
+logger = logging.getLogger("secscanner")
+
+def C123_TMOUT():
+    InsertSection("check the TMOUT set")
+    with open("/etc/profile", "r") as file:
+        lines = file.readlines()
+        IS_EXIST = sum(1 for line in lines if not re.match('^#|^$', line) and "TMOUT=" in line)
+
+    if IS_EXIST == 0:
+        with open(RESULT_FILE, "a") as file:
+            file.write("\nC123\n")
+        logger.warning("WRN_C123_01: %s", WRN_C123_01)
+        logger.warning("SUG_C123: %s", SUG_C123)
+        Display("- No TMOUT set...", "WARNING")
+    else:
+        for line in lines:
+            if (not re.match('^#|^$', line)) and "TMOUT=" in line:
+                regex = r'(?<=TMOUT=).[0-9]*'
+                TMO = re.findall(regex, line)
+                if not TMO:
+                    Display("--indent 2 --text - No TMOUT set...  --result WARNING --color RED")
+                elif TMO[0] > str(300):
+                    with open(RESULT_FILE, "a") as file:
+                        file.write("\nC123\n")
+                    logger.warning("WRN_C123_02: %s", WRN_C123_02)
+                    logger.warning("SUG_C123: %s", SUG_C123)
+                    Display("- Wrong TMOUT set, must less than 300...", "WARNING")
+                else:
+                    logger.info("Has right TMOUT set, checking ok")
+                    Display("- Has right TMOUT set ...", "OK")

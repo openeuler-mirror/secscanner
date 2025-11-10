@@ -51,7 +51,7 @@ class TestC0243_enANDdePolicy(unittest.TestCase):
         mock_InsertSection.assert_any_call("check global encryption and decryption policies set...")
         mock_logger.info.assert_any_call("Confirm that global encryption and decryption policies have been set")
         mock_display.assert_any_call("- check global encryption and decryption policies set...", "OK")
-    
+
     @patch('os.path.exists')
     @patch('secScanner.enhance.euler.check.C0243_enANDdePolicy.InsertSection')
     @patch('secScanner.enhance.euler.check.C0243_enANDdePolicy.logger')
@@ -68,6 +68,7 @@ class TestC0243_enANDdePolicy(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0243_01: %s", SUG_C0243_01)
         mock_display.assert_any_call("- No global encryption and decryption policy set ...", "WARNING")
         mock_open.assert_any_call("result_file_path", "a")
+
 
 if __name__ == '__main__':
     unittest.main()

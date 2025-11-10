@@ -48,7 +48,7 @@ class TestC21_issueRemove(unittest.TestCase):
         # 检查预期的OK信息是否已正确记录
         mock_logger.info.assert_called_with("There is no issue file remain, check ok")
         mock_display.assert_called_with("- Check if there is issue file...", "OK")
-    
+
     @patch('secScanner.enhance.basic.check.C21_issueRemove.InsertSection')
     @patch('secScanner.enhance.basic.check.C21_issueRemove.get_value', return_value=1)
     @patch('secScanner.enhance.basic.check.C21_issueRemove.logger')
@@ -64,3 +64,4 @@ class TestC21_issueRemove(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

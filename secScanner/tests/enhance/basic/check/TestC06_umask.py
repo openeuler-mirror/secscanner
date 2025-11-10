@@ -38,7 +38,7 @@ class TestC06_umask(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C06: %s", WRN_C06)
         mock_logger.warning.assert_any_call("SUG_C06: %s", SUG_C06)
         mock_display.assert_called_with("- Wrong umask set...", "WARNING")
-    
+
     @patch("secScanner.enhance.basic.check.C06_umask.InsertSection")
     @patch("secScanner.enhance.basic.check.C06_umask.open", new_callable=mock_open, read_data="# umask setting is commented out")
     @patch("secScanner.enhance.basic.check.C06_umask.logger")

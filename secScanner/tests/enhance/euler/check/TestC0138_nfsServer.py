@@ -50,7 +50,7 @@ class TestC0138_nfsServer(unittest.TestCase):
         mock_InsertSection.assert_called_once_with("Check whether the status of nfs-Server in your Linux System ")
         mock_logger.info.assert_called_with("The nfs-Server status is: disabled")
         mock_display.assert_called_with("- Check the nfs-Server is disabled...", "OK")
-    
+
     @patch('secScanner.enhance.euler.check.C0138_nfsServer.InsertSection')
     @patch('subprocess.getstatusoutput')
     @patch('secScanner.enhance.euler.check.C0138_nfsServer.logger')
@@ -69,6 +69,6 @@ class TestC0138_nfsServer(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0138: %s", SUG_C0138)
         mock_display.assert_called_with("- Check the nfs-Server is enabled...", "WARNING")
         mock_open.assert_any_call("result_file_path", "a+")  # 检查是否尝试写入文件
-    
+
 if __name__ == '__main__':
     unittest.main()

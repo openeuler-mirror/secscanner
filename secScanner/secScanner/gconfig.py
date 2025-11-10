@@ -18,7 +18,7 @@ from pathlib import Path
 import configparser
 
 '''
-The following functions are a dict to save global values
+The following functions is a dict to save global values
 '''
 def g_init():  # initiation
     global _global_dict
@@ -43,29 +43,27 @@ def show_dict():
     # use :  if "key" in show_dict():
     return _global_dict
 '''
-The above functions are a dict to save global values
+The above functions is a dict to save global values
 '''
 # Program information
-PROGRAM_VERSION = "1.2.0"
-PROGRAM_RELEASE = "v1.2.0"
+PROGRAM_VERSION = "1.3"
+PROGRAM_RELEASE = "v1.3.1"
 PROGRAM_NAME = "secScanner"
-PROGRAM_UPDATEDATE = "2024-03-22"
-PROGRAM_AUTHOR = "Yuan Peng"
-PROGRAM_CONTACTEMAIL = "pengyuan_yewu@cmss.chinamobile.com"
+PROGRAM_UPDATEDATE = "2025-11-07"
+PROGRAM_AUTHOR = "wangweize"
+PROGRAM_CONTACTEMAIL = "wangweize_yewu@cmss.chinamobile.com"
 PROGRAM_WEBSITE = "https://gitee.com/openeuler/secscanner"
 PROGRAM_COPYRIGHT = "Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved."
 
 # Script Info
-VER_ID = "SecurityHarden, by pengyuan, 2024-03-22"
-
-if not os.path.exists("/var/log/secScanner"):
-    os.makedirs("/var/log/secScanner")
+VER_ID = "SecurityHarden, by wangweize, 2025-11-07"
 
 LOGDIR = "/var/log/secScanner/"
 LOGFILE = os.path.join(LOGDIR, "secscanner.log")
 
 RESULT_FILE = os.path.join(LOGDIR, "check_result.relt")
 QUIET = 0
+SUPPORT_VER = ['7', '8', '21.10', '22.10', '22.10U1', '22.10U2', '22.03', 'v24', '24', '21.10 U4', '24.03']
 #
 #################################################################################
 #

@@ -1,0 +1,132 @@
+.TH secscanner 8 "30 Jun 2023" "1.0" "Unix System Administrator's Manual"
+
+
+.SH "NAME"
+\fB
+\fB
+\fB
+secScanner \fP\- System auditing and harding tool
+\fB
+.SH "SYNOPSIS"
+.nf
+.fam C
+
+\fBsecscanner\fP [run mode] [other options]
+.fam T
+.fi
+.SH "DESCRIPTION"
+
+\fBsecScanner\fP is a security checking tool for systems of Linux.
+It checks the system configuration and the software vunlenrabilities, to see if there is any room for
+improvement the security defenses. All details are stored in a log file. Findings
+and other discovered data is stored in a report file. This can be used to compare
+differences between audits. \fBsecscanner\fP can run interactively or as a cronjob. 
+Root permissions (e.g. sudo) are not required, however provide more details during the check.
+.PP
+The following system areas may be checked:
+.IP
+\- Configuration files
+.IP
+\- Software packages vulenrabilities
+.IP
+\- Directories and files related to logging and checking
+.IP
+
+.SH "COMMANDS"
+.IP "auto"
+ Auto check and basicly fix the system bugs
+.IP "check \<type\>"
+Perform an check of the selected type. Type can be: "basic", "adv" can check settings of deny root, host.allow and etc.
+If you not sure which to use, take "basic" always.
+.IP "fix \<type\>"
+Perform an fix of the selected mode. Type can be: "basic", "adv" can set deny root, host.allow and etc.
+If you not sure which to use, take "basic" always.
+.IP "restore \<type\>"
+Perform an restore action of the selected mode. Type can be: "basic", "adv" can restore the settings of deny root, host.allow and etc.
+If you not sure which to use, take "basic" always.
+.IP "update \<type\>"
+Perform updatings accroding to selected type. Type can be "info|database".
+If choose "info", secscanner will activities check system update info regarding updating.
+If choose "database", secscanner will update vulenrabilities database for sofeware auditing.
+Be ware of this, if you want to check system sofeware vulenrabilities, do "secscanner update database" first.
+
+
+.SH "check TYPES"
+
+.IP "check basic"
+Performs a basicly system check, which is the most common check.
+
+If you not sure which to use, take "basic" always.
+
+.SH "fix TYPES"
+.IP "fix basic"
+Performs a basicly fix, which only fix common bugs.
+If you not sure which to use, take "basic" always.
+
+.SH "restore TYPES"
+.IP "restore basic"
+Performs a basicly restore, which will restore all setting by "fix basic" command.
+If you not sure which to use, take "basic" always.
+
+.SH "OPTIONS"
+
+.IP
+In case the outcome of a scan needs to be automated, use the report file.
+.TP
+.B \-\-no\-colors
+Do not use colors for messages, warnings and sections.
+.TP
+.B \-\-no\-log
+Redirect all logging information to /dev/null, prevent sensitive information to
+be written to disk.
+.TP
+.B \-\-quiet (\-q)
+Run quietly and do not show anything to the screen. Will also enable quick mode.
+.RE
+.PP
+.RS
+Multiple parameters are allowed, though some parameters can only be used together
+with others. When running bse without any parameters, help will be shown and
+the program will exit.
+.RE
+.PP
+.SH "HELPERS"
+secscanner has special helpers to do certain tasks. This way the framework of secscanner is
+used, while at the same time storing most of the functionality in a separated
+file. This speeds up execution and keeps the code clean.
+
+.IP "check"
+Run check on the system or on other targets
+.IP "fix"
+Provide fix the system bugs by secScanner
+.IP "update"
+Run updater utility
+.PP
+To use a helper, run bse followed by the helper name.
+
+.SH "EXIT CODES"
+secscanner uses exit codes to signal any invoking script. Currently the following codes are used:
+.IP 0
+Program exited normally
+.IP 1
+Fatal error
+.IP 64
+An unknown parameter is used, or incomplete
+.IP 65
+Incorrect data encountered
+.IP 66
+Can't open file or directory
+.IP 78
+secscanner found 1 or more warnings or configurations errors (with error-on-warnings=yes)
+
+.SH "BUGS"
+Bugs can be reported via Gitee at https://gitee.com/openeuler/secscanner
+
+.SH "DOCUMENTATION"
+Supporting documentation can be found via https://gitee.com/openeuler/secscanner
+
+.SH "LICENSING"
+secScanner is licensed as MulanPSL2
+
+.SH "CONTACT INFORMATION"
+Support requests and project related questions can be addressed via e-mail: pengyuan_yewu@cmss.chinamobile.com

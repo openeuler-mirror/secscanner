@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
 import logging
 import os
 import re
@@ -21,8 +36,8 @@ def C22_resourceLimit():
                     logger.info("The system soft core limit is '0, checking ok")
                     Display("- Check if the soft core limits is ok...", "OK")
                 else:
-                    with open(RESULT_FILE, "a") as resultFile:
-                        resultFile.write("\nC22\n")
+                    with open(RESULT_FILE, "a") as file:
+                        file.write("\nC22\n")
                     logger.warning("WRN_C22_01: %s", WRN_C22_01)
                     logger.warning("SUG_C22_01: %s", SUG_C22_01)
                     Display("- Check if the soft core limits is ok...", "WARNING")
@@ -36,8 +51,8 @@ def C22_resourceLimit():
                     logger.info("The system hard core limit is '0, checking ok")
                     Display("- Check if the hard core limits is ok...", "OK")
                 else:
-                    with open(RESULT_FILE, "a") as resultFile:
-                        resultFile.write("\nC22\n")
+                    with open(RESULT_FILE, "a") as file:
+                        file.write("\nC22\n")
                     logger.warning("WRN_C22_03: %s", WRN_C22_03)
                     logger.warning("SUG_C22_02: %s", SUG_C22_02)
                     Display("- Check if the hard core limits is ok...", "WARNING")

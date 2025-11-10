@@ -44,7 +44,7 @@ class TestC25_syslogFacility(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C25_02: %s", WRN_C25_02)
         mock_logger.warning.assert_any_call("SUG_C25: %s", SUG_C25)
         mock_display.assert_called_with("- Wrong ssh syslogfacility config set...", "WARNING")
-    
+
     @patch('secScanner.enhance.basic.check.C25_syslogFacility.InsertSection')
     @patch('builtins.open', new_callable=mock_open, read_data="")
     @patch('secScanner.enhance.basic.check.C25_syslogFacility.logger')
@@ -60,3 +60,4 @@ class TestC25_syslogFacility(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

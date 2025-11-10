@@ -84,7 +84,7 @@ class TestC0242_activeHaveged(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0242_01: %s", SUG_C0242_01)
         mock_display.assert_any_call("- Haveged service inactive...", "WARNING")
         mock_open.assert_any_call("result_file_path", "a")
-    
+
     @patch('os.path.exists')
     @patch('secScanner.enhance.euler.check.C0242_activeHaveged.InsertSection')
     @patch('secScanner.enhance.euler.check.C0242_activeHaveged.logger')

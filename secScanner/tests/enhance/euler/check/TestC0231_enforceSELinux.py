@@ -53,7 +53,7 @@ class TestC0231_enforceSELinux(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0231: %s", SUG_C0231)
         mock_display.assert_any_call("- Wrong selinux set...", "WARNING")
         mock_open.assert_called_with("result_file_path", "a")
-    
+
     @patch('os.path.exists')
     @patch('secScanner.enhance.euler.check.C0231_enforceSELinux.InsertSection')
     @patch('secScanner.enhance.euler.check.C0231_enforceSELinux.logger')

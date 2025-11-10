@@ -1,0 +1,44 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
+import logging
+import re
+from secScanner.gconfig import *
+from secScanner.lib import *
+logger = logging.getLogger("secscanner")
+
+
+def C0229_sshBanner():
+    InsertSection("check the ssh banner")
+    TMP_V = False
+    if os.path.exists("/etc/sshbanner"):
+        with open("/etc/ssh/sshd_config", "r") as file:
+            lines = file.readlines()
+            for line in lines:
+                if re.search('Banner', line) and re.search('/etc/sshbanner', line) and (not re.match('^#|^$', line)):
+                    TMP_V = True
+        if TMP_V:
+            logger.info("Has ssh banner set, checking ok")
+            Display("- Check the ssh banner...", "OK")
+        else:
+            logger.warning("WRN_C0229_01: %s", WRN_C0229_01)
+            logger.warning("SUG_C0229: %s", SUG_C0229)
+            Display("- No ssh banner config set...", "WARNING")
+    else:
+        with open(RESULT_FILE, "a") as file:
+            file.write("\nC0229\n")
+        logger.warning("WRN_C0229_02: %s", WRN_C0229_02)
+        logger.warning("SUG_C0229: %s", SUG_C0229)
+        Display("- No sshbanner file...", "WARNING")

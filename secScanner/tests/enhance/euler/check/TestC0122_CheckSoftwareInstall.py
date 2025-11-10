@@ -68,7 +68,7 @@ class TestC0122_CheckSoftwareInstall(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C0122_2: %s", WRN_C0122_2)
         mock_logger.warning.assert_any_call("SUG_C0122_2: %s", SUG_C0122_2)
         mock_Display.assert_any_call("- Check the TFTP software is installed...", "WARNING")
-    
+
     @patch('subprocess.getstatusoutput')
     @patch('builtins.open', new_callable=unittest.mock.mock_open)
     @patch('secScanner.enhance.euler.check.C0122_checkSoftwareInstall.logger')
@@ -116,7 +116,7 @@ class TestC0122_CheckSoftwareInstall(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C0122_4: %s", WRN_C0122_4)
         mock_logger.warning.assert_any_call("SUG_C0122_4: %s", SUG_C0122_4)
         mock_Display.assert_any_call("- Check the Net-snmpsoftware is installed...", "WARNING")
-    
+
     @patch('subprocess.getstatusoutput')
     @patch('builtins.open', new_callable=unittest.mock.mock_open)
     @patch('secScanner.enhance.euler.check.C0122_checkSoftwareInstall.logger')
@@ -140,6 +140,7 @@ class TestC0122_CheckSoftwareInstall(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C0122_5: %s", WRN_C0122_5)
         mock_logger.warning.assert_any_call("SUG_C0122_5: %s", SUG_C0122_5)
         mock_Display.assert_any_call("- Check the Python2 software is installed...", "WARNING")
-        
+
 if __name__ == '__main__':
     unittest.main()
+

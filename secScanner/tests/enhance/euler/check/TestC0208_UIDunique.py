@@ -100,5 +100,6 @@ class TestC0208_UIDunique(unittest.TestCase):
         mock_display.assert_any_call("- Duplicate UID (1002): uuid_duplicate_username...", "WARNING")
         mock_open.assert_called_with("result_file_path", "a")
 
+
 if __name__ == '__main__':
     unittest.main()

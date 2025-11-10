@@ -31,7 +31,7 @@ class TestC17_syslogLogin(unittest.TestCase):
         C17_syslogLogin()
 
         # 检查预期的日志信息是否已正确记录
-        mock_logger.info.assert_called_with("The security audit module authpriv.info is set, checking OK")
+        mock_logger.info.assert_called_with("The security audit modle authpriv.info is set, checking OK")
         mock_display.assert_called_with("- Check if there have authpriv.info set...", "OK")
 
     @patch('secScanner.enhance.basic.check.C17_syslogLogin.InsertSection')
@@ -47,7 +47,7 @@ class TestC17_syslogLogin(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C17: %s", WRN_C17)
         mock_display.assert_called_with("- Check if there have authpriv.info set...", "WARNING")
-    
+
     @patch('secScanner.enhance.basic.check.C17_syslogLogin.InsertSection')
     @patch('os.path.isfile', return_value=False)
     @patch('secScanner.enhance.basic.check.C17_syslogLogin.Display')
@@ -60,3 +60,4 @@ class TestC17_syslogLogin(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
+
 '''
    Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
    secScanner is licensed under Mulan PSL v2.
    You can use this software according to the terms and conditions of the Mulan PSL v2.
    You may obtain a copy of Mulan PSL v2 at:
             http://license.coscl.org.cn/MulanPSL2
-   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
    See the Mulan PSL v2 for more details.
 '''
 
 
-from secScanner.gconfig import *
+from secScanner import gconfig
 from secScanner.lib import *
 import os
 import subprocess
@@ -25,6 +28,7 @@ import gen_report.report as report
 from datetime import datetime
 
 import json
+import requests
 from db.cvrf import *
 from db.cve import *
 import urllib.request
@@ -55,20 +59,20 @@ def start_service(service_name):
 
 # show the check result overview
 def scan_show_result():
-    print(WHITE)
+    print(gconfig.WHITE)
     print(" "*2+"#"*67)
     print(" "*2+"#"+" "*65+"#")
-    print(f"  #  {MAGENTA}For details, please check /var/log/secScanner/secscanner.log "+WHITE+" "*2+"#")
+    print(f"  #  {gconfig.MAGENTA}For details, please check /var/log/secScanner/secscanner.log "+gconfig.WHITE+" "*2+"#")
     print(" "*2+"#"+" "*65+"#")
     print(" "*2+"#"*67)
-    print(NORMAL)
+    print(gconfig.NORMAL)
 
     report_datetime_end = datetime.now()
-    set_value("report_datetime_end",report_datetime_end)
+    gconfig.set_value("report_datetime_end",report_datetime_end)
     report.main()
 
 def scan_check_all():
-    baseline = seconf.get('main','baseline')
+    baseline = gconfig.seconf.get('main','baseline')
     scan_check_sys(baseline)
     scan_check_rootkit()
     scan_vulnerabilities_rpm_check()
@@ -97,7 +101,7 @@ def scan_check_sys(baseline):
     baseline_path = os.path.join(main_path, baseline)
     path = os.path.join(baseline_path, 'check')
 
-    CHECK_ITEMS = sorted(glob.glob( path + '/*' ))
+    CHECK_ITEMS = sorted(glob.glob(path + '/*'))
     numbers = []
 
     for i in CHECK_ITEMS:
@@ -105,12 +109,12 @@ def scan_check_sys(baseline):
         if match:
             s_num = int(match.group(1))
             numbers.append(s_num)
-
+    
     for i in CHECK_ITEMS:
         match = re.search(pattern, i)
         if match:
             s_num = int(match.group(1))
-            if min(numbers) <= s_num <= max(numbers) and os.path.isfile(i) : # 范围验证
+            if min(numbers) <= s_num <= max(numbers) and os.path.isfile(i): # 范围验证
                 module_name = os.path.splitext(os.path.basename(i))[0]
                 module_path = os.path.dirname(i)
                 sys.path.append(module_path)
@@ -163,7 +167,7 @@ def scan_check_rootkit():
         match = re.search(pattern, i)
         if match:
             s_num = int(match.group(1))
-            if min(numbers) <= s_num <= max(numbers) and os.path.isfile(i) :  # 范围验证
+            if min(numbers) <= s_num <= max(numbers) and os.path.isfile(i):  # 范围验证
                 module_name = os.path.splitext(os.path.basename(i))[0]
                 module_path = os.path.dirname(i)
                 sys.path.append(module_path)
@@ -185,12 +189,13 @@ def scan_fix_sys(baseline):
     print(WHITE)
     print(" "*2+"#"*67)
     print(" "*2+"#"+" "*65+"#")
-    print(f"  #   {MAGENTA}Basically fix the system..."+WHITE+" "*37+"#")
+    print(f"  #   {MAGENTA}Basicly fix the system..."+WHITE+" "*37+"#")
     print(" "*2+"#"+" "*65+"#")
     print(" "*2+"#"*67)
     print(NORMAL)
 
     OS_ID = get_value("OS_ID")
+    set_value('bak_files_list', [])
     dir = os.path.dirname(os.path.abspath(__file__))
     main_path = os.path.join(dir, "enhance")
     baseline_path = os.path.join(main_path, baseline)
@@ -209,7 +214,7 @@ def scan_fix_sys(baseline):
                     ifix = line.split()[0].split('C')[-1]
                     s_pattern = r'S' + ifix + r'_.*\.py'
                     for index, i in enumerate(CHECK_SET):
-                        match = re.search(s_pattern, i )
+                        match = re.search(s_pattern, i)
                         if match and index not in fix_indices:
                             fix_indices.add(index)
                             module_name = os.path.splitext(os.path.basename(i))[0]
@@ -236,7 +241,7 @@ def scan_fix_sys(baseline):
             match = re.search(pattern, iFix)
             if match:
                 s_num = int(match.group(1))
-                if min(numbers) <= s_num and os.path.isfile(iFix):
+                if min(numbers) <= s_num <= max(numbers) and os.path.isfile(iFix):
                     if iFix == CHECK_SET[-1]:
                         break
                     module_name = os.path.splitext(os.path.basename(iFix))[0]
@@ -253,7 +258,7 @@ def scan_fix_sys(baseline):
                         print(f"Module {module_name} does not have the required function: {e}")
                         sys.exit(1)
     # save bak files' name from global dict into bak.py file
-    write_bak_file()            
+    write_bak_file()
     # restart service
     cmd_sshd = 'systemctl is-active sshd'
     ret, result = subprocess.getstatusoutput(cmd_sshd)
@@ -274,7 +279,7 @@ def scan_fix_sys(baseline):
 
 # restore unused  user
 def restore_unused_user():
-    unused_users = seconf.get('basic', 'unused_user_value').split()
+    unused_users = gconfig.seconf.get('basic', 'unused_user_value').split()
     for user in unused_users:
         ret, result = subprocess.getstatusoutput(f'grep {user} /etc/passwd')
         if ret != 0:
@@ -300,7 +305,6 @@ def scan_restore_basic_inline():
     # clear bak.py file
     with open(f'{dir}/lib/bak.py', "w") as write_file:
         write_file.write('')
-    
     for i in BAK_FILES:
         dest_path = i
         source_path = dest_path.strip("_bak")
@@ -322,10 +326,10 @@ def scan_restore_basic_inline():
         if os.path.isfile(i):
             with open(i, 'r') as file:
                 restore_file = file.read().splitlines()
-                for i in restore_file:
-                    name = i.split('=')[0]
+                for j in restore_file:
+                    name = j.split('=')[0]
                     if os.path.exists(name):
-                        pro_val = i.split('=')[1]
+                        pro_val = j.split('=')[1]
                         pro_val = int(pro_val, 8)
                         os.chmod(name, pro_val)
                     Display(f"- Restoring property of file or dir:{name}...", "FINISHED")
@@ -387,7 +391,7 @@ def scan_restore_basic_settings():
             print("  Leaving... Remain everything unchanged.")
             sys.exit()
 
-    print("\n" + GREEN +" Restore basically finished... Now you can refix the system" + NORMAL + "\n")
+    print("\n" + GREEN +" Restore basicly finished... Now you can refix the system" + NORMAL + "\n")
 
 
 def vulnerabilities_db_update():
@@ -447,157 +451,95 @@ def vulnerabilities_db_update():
         print(f"{cvrf_xml_handler.node_get_securityNoticeNo()} updated")
         update_sa += 1
 
-    ####################################################################################
-    # get data from api url
-    ####################################################################################
-    api_url = 'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/findAll'
-    page_size = 100  # 单页请求的数量
-    cveDatabaseList = []  # 用于存储所有查询结果
-
-    # 初始化参数
-    params = {
-        "keyword": "",
-        "pages": {
-            "page": 1,  # 起始页
-            "size": page_size
-        }
-    }
-    for i in range(1, 150):
-        response = requests.post(url=api_url, json=params, timeout=(10, 30))
-        # 检查响应状态
-        if response.status_code != 200:
-            print(f"请求失败，状态码：{response.status_code}")
-            return
-        # 获取并解析当前页的数据
-        current_page_data = json.loads(response.text)
-        # 如果当前页无数据，说明已获取完所有数据，退出循环
-        if current_page_data["result"]["cveDatabaseList"] == []:
-            break
-
-        # 将当前页数据添加到总结果中
-        cveDatabaseList.append(current_page_data)
-
-        # 更新下一页参数
-        params["pages"]["page"] += 1  # 前往下一页
-    cve_list = []
-    for cvedata in cveDatabaseList:
-        for single in cvedata['result']["cveDatabaseList"]:
-            cve_list.append([single['cveId'], single['packageName']])
     ###################################################################################
     # create sqlite database and save data
     ###################################################################################
-
-    count = 0
-    for cve_init in reversed(cve_list):
-        count = 1 + count
-        # only add new data
-        if session.query(CVE).filter_by(cveId=f'{cve_init[0]}', packageName=f'{cve_init[1]}').first():
+    csaf_index = scrapy_CSAF_index()
+    for i, url in enumerate(csaf_index):
+        if not re.match('202', url):
             continue
-        cve_url = f'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/getByCveIdAndPackageName?cveId={cve_init[0]}&packageName={cve_init[1]}'
-        response = requests.get(url=cve_url, timeout=2)
-        if response.status_code != 200:
-            print(f"请求失败，状态码：{response.status_code}, 请重试！")
-            # return
+        cveid = url.split('cve-')[1].split('.json')[0]
+        if session.query(CVE).filter_by(cveId=f'CVE-{cveid}').first():
             continue
+        
+        download_url = os.path.join("https://dl-cdn.openeuler.openatom.cn/security/data/csaf/cve/", url)
+        # print(download_url)
+        for try_index in range(10):
+            try:
+                request = urllib.request.Request(download_url)
+            except Exception as e:
+                print(f"scrapy from api {download_url} error!", str(e))
+                if try_index == 9:
+                    print(f"try 10 times failed! exit.")
+                    exit(1)
+                print(f" try again [{try_index + 1}/{10}] ")
+                continue
+            break
 
-        if 'Required String parameter' in response.text:
+        request.add_header("Range", "bytes={}-".format(0))
+        try:
+            cve_json = json.loads(urllib.request.urlopen(request).read().decode('utf-8'))
+        except json.JSONDecodeError as e:
+            print(f"/nJSON decode error: {e}") 
             continue
-        json_data = json.loads(response.text)['result']
-
+        except Exception as e:
+            print(f"/nupdate {url} error")
+            continue
         cve = CVE()
-        cve.cveId = json_data['cveId']
-        cve.summary = json_data['summary']
-        cve.level = json_data['type']
+        cve.cveId = cve_json["vulnerabilities"][0]["cve"]
+        print(cve_json["vulnerabilities"][0]["cve"])
+        cve.summary = cve_json["vulnerabilities"][0]["notes"][0]["text"]
+        cve.level = cve_json["vulnerabilities"][0]["threats"][0]["details"]
 
-        cve.cvsssCoreNVD = json_data['cvsssCoreNVD']
-        cve.cvsssCoreOE = json_data['cvsssCoreOE']
-
-        cve.attackVectorNVD = json_data['attackVectorNVD']
-        cve.attackVectorOE = json_data['attackVectorOE']
-
-        cve.attackComplexityNVD = json_data['attackComplexityNVD']
-        cve.attackComplexityOE = json_data['attackComplexityOE']
-
-        cve.privilegesRequiredNVD = json_data['privilegesRequiredNVD']
-        cve.privilegesRequiredOE = json_data['privilegesRequiredOE']
-
-        cve.userInteractionNVD = json_data['userInteractionNVD']
-        cve.userInteractionOE = json_data['userInteractionOE']
-
-        cve.scopeNVD = json_data['scopeNVD']
-        cve.scopeOE = json_data['scopeOE']
-
-        cve.confidentialityNVD = json_data['confidentialityNVD']
-        cve.confidentialityOE = json_data['confidentialityOE']
-
-        cve.integrityNVD = json_data['integrityNVD']
-        cve.integrityOE = json_data['integrityOE']
-
-        cve.availabilityNVD = json_data['availabilityNVD']
-        cve.availabilityOE = json_data['availabilityOE']
-
-        cve.status = json_data['status']
-
-        cve.announcementTime = json_data['announcementTime']
-        cve.createTime = json_data['createTime']
-        cve.updateTime = json_data['updateTime']
-
-        cve.packageName = json_data['packageName']
-
-        extra_url = f'https://www.openeuler.org/api-euler/api-cve/cve-security-notice-server/cvedatabase/getCVEProductPackageList?cveId={cve_init[0]}&packageName={cve_init[1]}'
-        response_extra = requests.get(url=extra_url, timeout=(10, 30))
-        if 'Required String parameter' in response_extra.text:
-            pass
+        if "cvss_v3" in cve_json["vulnerabilities"][0]["scores"][0]:
+            cvss_verison = "cvss_v3"
+        elif "cvss_v2" in cve_json["vulnerabilities"][0]["scores"][0]:
+            cvss_verison = "cvss_v2"
         else:
-            extra_data = json.loads(response_extra.text)['result']
-            cve.extra_data = str(extra_data)
+            continue
+
+        cve.cvsssCoreNVD = cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["baseScore"]
+        cve.cvsssCoreOE = cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["baseScore"]
+
+        cve.attackVectorNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "AV")
+        cve.attackVectorOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "AV")
+
+        cve.attackComplexityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "AC")
+        cve.attackComplexityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "AC")
+
+        cve.privilegesRequiredNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "PR")
+        cve.privilegesRequiredOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "PR")
+
+        cve.userInteractionNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "UI")
+        cve.userInteractionOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "UI")
+
+        cve.scopeNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "S")
+        cve.scopeOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "S")
+
+        cve.confidentialityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "C")
+        cve.confidentialityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "C")
+
+        cve.integrityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "I")
+        cve.integrityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "I")
+
+        cve.availabilityNVD = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "A")
+        cve.availabilityOE = parse_cvss_vector(cve_json["vulnerabilities"][0]["scores"][0][cvss_verison]["vectorString"], "A")
+
+        # cve.status = cve_json["vulnerabilities"][0]["scores"][0]["cvss_v3"]["vectorString"]
+        #
+        cve.announcementTime = cve_json["document"]["tracking"]["initial_release_date"].split("T")[0]
+        cve.createTime = cve_json["document"]["tracking"]["initial_release_date"].split("T")[0]
+        cve.updateTime = cve_json["document"]["tracking"]["initial_release_date"].split("T")[0]
+
+
 
         session.add(cve)
         session.commit()
-        print(f"{json_data['cveId']} updated")
         update_cve += 1
 
     session.close()
     Display(f"{update_sa} SAs and {update_cve} CVEs are updated!", "OK")
 
-
-def scan_vulnerabilities_db_create_oval(xml_path = '/db/', table = CVRF):
-    # clear the counter, make this function re-call-able.
-    # these two counters are used for scan_show_result() function.
-    print(WHITE)
-    print(" " * 2 + "#" * 67)
-    print(" " * 2 + "#" + " " * 65 + "#")
-    print(f"  #   {MAGENTA}Generate an OVAL file from existing cvedatabase..." + WHITE + " " * 18 + "#")
-    print(" " * 2 + "#" + " " * 65 + "#")
-    print(" " * 2 + "#" * 67)
-    print(NORMAL)
-    dir = os.path.dirname(os.path.abspath(__file__))
-    engine = create_engine(f'sqlite:///{dir}/db/cvedatabase.db', echo=False)
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    t = time.strftime("%Y-%m-%dT%X", time.localtime())
-    dir = os.path.dirname(os.path.abspath(__file__))
-    all_samples = session.query(table).order_by(desc('id')).all()
-    with open(dir + xml_path+table.__tablename__+'_oval.xml', 'w') as write_file:
-        write_file.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-        write_file.write("<oval_definitions \n")
-        write_file.write("xsi:schemaLocation=\"http://oval.mitre.org/XMLSchema/oval-definitions-5#linux linux-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#unix unix-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5 oval-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd\"\n")
-        write_file.write("xmlns=\"http://oval.mitre.org/XMLSchema/oval-definitions-5\"\n")
-        write_file.write("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n")
-        write_file.write("xmlns:oval=\"http://oval.mitre.org/XMLSchema/oval-common-5\"\n")
-        write_file.write("xmlns:oval-def=\"http://oval.mitre.org/XMLSchema/oval-definitions-5\">\n")
-        write_file.write("<generator>\n")
-        write_file.write("<oval:product_name>Marcus Updateinfo to OVAL Converter</oval:product_name>\n")
-        write_file.write("<oval:schema_version>5.5</oval:schema_version>\n")
-        write_file.write(f"<oval:timestamp>{t}</oval:timestamp>\n")
-        write_file.write("</generator>\n")
-        write_file.write("<definitions>\n")
-        for take_a_sample in all_samples:
-            field_list = list(take_a_sample.__dict__)
-            make_oval_definition(take_a_sample, field_list, write_file)
-        write_file.write("</definitions>\n")
-        write_file.write("</oval_definitions>\n")
-    session.close()
 
 
 def scan_vulnerabilities_rpm_check():
@@ -615,30 +557,45 @@ def scan_vulnerabilities_rpm_check():
     engine = create_engine(f'sqlite:///{dir}/db/cvedatabase.db', echo=False)
     Session = sessionmaker(bind=engine)
     session = Session()
-    euler_version = get_value('SYS_VERSION')
+    sys_version = get_value('SYS_VERSION')
     # all 20.30 openeulers' rpm contains "oe1" suffix, when Euler version >= 22.03, change oe1 to oe2203 instead
     ver_rpm = 'oe1'
-    if euler_version == '22.10U1 LTS' or euler_version == '22.03 LTS SP1':
+    if sys_version == '22.10U1 LTS' or sys_version == '22.03 LTS SP1':
         euler_version = 'openEuler-22.03-LTS-SP1'
         ver_rpm = 'oe2203sp1'
-    elif euler_version == '22.10 LTS' or euler_version == '22.03 LTS':
+    elif sys_version == '22.10 LTS' or sys_version == '22.03 LTS':
         euler_version = 'openEuler-22.03-LTS'
         ver_rpm = 'oe2203'
-    elif euler_version == '22.10U2 LTS' or euler_version == '22.03 LTS SP2':
+    elif sys_version == '22.10U2 LTS' or sys_version == '22.03 LTS SP2':
         euler_version = 'openEuler-22.03-LTS-SP2'
         ver_rpm = 'oe2203sp2'
-    elif euler_version in ['v24 LTS', '22.03 (LTS-SP3)', '24.e1011']:
+    elif sys_version in ['v24 LTS', '22.03 (LTS-SP3)', '24.e1011', '21.10 U4']:
         euler_version = 'openEuler-22.03-LTS-SP3'
         ver_rpm = 'oe2203sp3'
-    elif euler_version == '22.03 (LTS-SP4)':
+    elif sys_version == '22.03 (LTS-SP4)':
         euler_version = 'openEuler-22.03-LTS-SP4'
         ver_rpm = 'oe2203sp4'
-    elif euler_version == '21.10U3 LTS' or euler_version == '20.03 LTS SP3':
+    elif sys_version == '21.10U3 LTS' or sys_version == '20.03 LTS SP3':
         euler_version = 'openEuler-20.03-LTS-SP3'
-    elif euler_version == '21.10 LTS' or euler_version == '20.03 LTS SP2':
+    elif sys_version == '21.10 LTS' or sys_version == '20.03 LTS SP2':
         euler_version = 'openEuler-20.03-LTS-SP2'
-    elif euler_version == '20.03 LTS SP1':
+    elif sys_version == '20.03 LTS SP1':
         euler_version = 'openEuler-20.03-LTS-SP1'
+    elif sys_version == '24.03 (LTS)':
+        euler_version = 'openEuler-24.03-LTS'
+        ver_rpm = 'oe2403'
+    elif sys_version == '24.03 LTS SP1':
+        euler_version = 'openEuler-24.03-LTS-SP1'
+        ver_rpm = 'oe2403sp1'
+    elif sys_version == '24.03 LTS SP2':
+        euler_version = 'openEuler-24.03-LTS-SP2'
+        ver_rpm = 'oe2403sp2'
+    elif sys_version == '24.03 LTS SP3':
+        euler_version = 'openEuler-24.03-LTS-SP3'
+        ver_rpm = 'oe2403sp3'
+    else:
+        print("This system is not supported by the vulnerability scanning feature at this time")
+        sys.exit(1)
 
     #check system architecture
     ret, sys_arch = subprocess.getstatusoutput('uname -m')
@@ -716,7 +673,10 @@ def scan_vulnerabilities_rpm_check():
                     elif sys_rpm_version[j] > sa_rpm_version[j]:
                         break
     
-    Display(f"Found {len(result_dict)} pieces of information about component vulnerabilities", "WARNING")
+    if len(result_dict) == 0:
+        Display(f"Found 0 pieces of information about component vulnerabilities", "OK")
+    else:
+        Display(f"Found {len(result_dict)} pieces of information about component vulnerabilities", "WARNING")
     for s in result_dict:
         print("------------------------------------------------------------------------\n")
         # sa_dict[result_dict[s][0]] = result_dict[s][1].strip(';').split(';')
@@ -777,27 +737,45 @@ def scan_vulnerabilities_by_items():
     engine = create_engine(f'sqlite:///{dir}/db/cvedatabase.db', echo=False)
     Session = sessionmaker(bind=engine)
     session = Session()
-    euler_version = get_value('SYS_VERSION')
+    sys_version = get_value('SYS_VERSION')
     # all 20.30 openeulers' rpm contains "oe1" suffix, when Euler version >= 22.03, change oe1 to oe2203 instead
     ver_rpm = 'oe1'
-    if euler_version == '22.10U1 LTS' or euler_version == '22.03 LTS SP1':
+    if sys_version == '22.10U1 LTS' or sys_version == '22.03 LTS SP1':
         euler_version = 'openEuler-22.03-LTS-SP1'
         ver_rpm = 'oe2203sp1'
-    elif euler_version == '22.10 LTS' or euler_version == '22.03 LTS':
+    elif sys_version == '22.10 LTS' or sys_version == '22.03 LTS':
         euler_version = 'openEuler-22.03-LTS'
         ver_rpm = 'oe2203'
-    elif euler_version == '22.10U2 LTS' or euler_version == '22.03 LTS SP2':
+    elif sys_version == '22.10U2 LTS' or sys_version == '22.03 LTS SP2':
         euler_version = 'openEuler-22.03-LTS-SP2'
         ver_rpm = 'oe2203sp2'
-    elif euler_version in ['v24 LTS', '22.03 (LTS-SP3)', '24.e1011']:
+    elif sys_version in ['v24 LTS', '22.03 (LTS-SP3)', '24.e1011', '21.10 U4']:
         euler_version = 'openEuler-22.03-LTS-SP3'
         ver_rpm = 'oe2203sp3'
-    elif euler_version == '21.10U3 LTS' or euler_version == '20.03 LTS SP3':
+    elif sys_version == '22.03 (LTS-SP4)':
+        euler_version = 'openEuler-22.03-LTS-SP4'
+        ver_rpm = 'oe2203sp4'
+    elif sys_version == '21.10U3 LTS' or sys_version == '20.03 LTS SP3':
         euler_version = 'openEuler-20.03-LTS-SP3'
-    elif euler_version == '21.10 LTS' or euler_version == '20.03 LTS SP2':
+    elif sys_version == '21.10 LTS' or sys_version == '20.03 LTS SP2':
         euler_version = 'openEuler-20.03-LTS-SP2'
-    elif euler_version == '20.03 LTS SP1':
+    elif sys_version == '20.03 LTS SP1':
         euler_version = 'openEuler-20.03-LTS-SP1'
+    elif sys_version == '24.03 (LTS)':
+        euler_version = 'openEuler-24.03-LTS'
+        ver_rpm = 'oe2403'
+    elif sys_version == '24.03 (LTS-SP1)':
+        euler_version = 'openEuler-24.03-LTS-SP1'
+        ver_rpm = 'oe2403sp1'
+    elif sys_version == '24.03 (LTS-SP2)':
+        euler_version = 'openEuler-24.03-LTS-SP2'
+        ver_rpm = 'oe2403sp2'
+    elif sys_version == '24.03 (LTS-SP3)':
+        euler_version = 'openEuler-24.03-LTS-SP3'
+        ver_rpm = 'oe2403sp3'
+    else:
+        print("This system is not supported by the vulnerability scanning feature at this time")
+        sys.exit(1)
     #check system architecture
     ret, sys_arch = subprocess.getstatusoutput('uname -m')
     if sys_arch not in ['arm', 'x86_64']:
@@ -805,7 +783,7 @@ def scan_vulnerabilities_by_items():
         sys.exit(1)
 
     # Check system software version
-    RPM_ASSEMBLY = seconf.get('basic', 'rpm_assembly').split()
+    RPM_ASSEMBLY = gconfig.seconf.get('basic', 'rpm_assembly').split()
     InsertSection("Vulnerability targeted scanning...")
     result_dict = {}
     sa_dict = {}
@@ -868,67 +846,4 @@ def scan_vulnerabilities_by_items():
                 Display(f"[{component}] is safe by now...", "OK")
     set_value('vulner_info', sa_dict)
     report.cve_result()
-
-def check_fail2ban_client():
-    ###判断是否成功安装fail2ban
-    ret, result = subprocess.getstatusoutput('fail2ban-client -h')
-    if ret == 0:
-        #print('fail2ban is installed!')
-        pass
-    else:
-        print('fail2ban is not installed! System exit......')
-        sys.exit(1)
-
-    ###判断是否存在jail.local文件， 如果没有则复制一个
-    jail_path = '/etc/fail2ban/jail.local'
-    if os.path.exists(jail_path):
-        #print('jail.local path exists!')
-        pass
-    else:
-        print('Creating jail.local file!')
-        ret, result = subprocess.getstatusoutput('cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local')
-        if ret == 0:
-            print('Creating jail.local successfully!')
-        else:
-            print('Creating jail.local failed!')
-            sys.exit(1)
-
-
-    ###将cfg文件中的内容写入jail.local文件
-    ##读取cfg文件的内容
-    #cfg_file_path = '/etc/secScanner/secscanner.cfg'
-    jail_content = seconf.get('basic', 'jail_content')
-    #jail_content = 'enabled = true\nport = 22\nlogpath = /var/log/secure\nbackend = auto\nbantime = 60m\nfindtime = 1m\nmaxretry = 2\n'
-    #print(f'jail_content: {jail_content}')
-    with open(jail_path, 'r') as read_file:
-        jail_lines = read_file.readlines()
-    SSH_WRITE = 0
-    with open(jail_path, 'w') as write_file:
-        for line in jail_lines:
-            if SSH_WRITE == 0:
-                write_file.write(line)
-                if line == '[sshd]\n':
-                    #print("Found [sshd]")
-                    SSH_WRITE = 1
-                    write_file.write(jail_content)
-            else:
-                if line == '[dropbear]\n':
-                    write_file.write(line)
-                    SSH_WRITE = 0
-                continue
-    ###restart fail2ban-client
-    ret, result = subprocess.getstatusoutput('fail2ban-client restart')
-    if ret == 0 and result == 'Shutdown successful\nServer ready':
-        #print('restart fail2ban-client success!')
-        pass
-    else:
-        print('restart fail2ban-client failed, sys exit!')
-        sys.exit(1)
-
-    ###检查systemd中是否设置开机启动服务
-    if os.path.exists("/usr/lib/systemd/system/fail2ban_start.service"):
-        #print('fail2ban start service exists!')
-        pass
-    else:
-        print('Need to establish fail2ban start service!')
 

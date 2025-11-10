@@ -31,7 +31,7 @@ class TestC18_syslogKern(unittest.TestCase):
         C18_syslogKern()
 
         # 检查预期的日志信息是否已正确记录
-        mock_logger.info.assert_called_with("The security audit module kern.warning is set, checking OK")
+        mock_logger.info.assert_called_with("The security audit modle kern.warning is set, checking OK")
         mock_display.assert_called_with("- Check if there have kern.warning set...", "OK")
 
     @patch('secScanner.enhance.basic.check.C18_syslogKern.InsertSection')
@@ -47,7 +47,7 @@ class TestC18_syslogKern(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C18: %s", WRN_C18)
         mock_display.assert_called_with("- Check if there have kern.warning set...", "WARNING")
-    
+
     @patch('secScanner.enhance.basic.check.C18_syslogKern.InsertSection')
     @patch('os.path.isfile', return_value=False)
     @patch('secScanner.enhance.basic.check.C18_syslogKern.Display')
@@ -58,6 +58,6 @@ class TestC18_syslogKern(unittest.TestCase):
         # 检查是否显示文件不存在的消息
         mock_display.assert_called_with("- file /etc/rsyslog.conf does not exist...", "SKIPPED")
 
-
 if __name__ == '__main__':
     unittest.main()
+

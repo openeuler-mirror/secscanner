@@ -1,5 +1,4 @@
 from secScanner.gconfig import *
-from secScanner.lib import *
 import logging
 import subprocess
 import re
@@ -7,8 +6,8 @@ import os
 import shutil
 import itertools
 import secScanner.gen_report.gen_html_report as gen_report
+from secScanner.lib import *
 from secScanner.db.cve import *
-from secScanner.lib.function import *
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import *
 import json
@@ -25,6 +24,7 @@ def warning_results():
         WRNS = []
         SUGS = []
         baseline_info = ""
+        data = ""
         #json_data = []
         with open(LOGFILE, "r") as file:
             lines = file.readlines()
@@ -102,6 +102,7 @@ def rootkit_get_context(rootkit_type, rootkit_count, rootkit_list, rootkit_sugge
     return ret_html_rootkit_context
 
 def rootkit_result():
+    rootkit_info = ""
     html_rootkit_content = ""
 
     with open(LOGFILE, 'r') as file:
@@ -156,10 +157,10 @@ def cve_result():
         for single_data in sa_dict[single_sa][0]:
             temp = []
             temp.append(single_data)
-            cve_sample = session.query(CVE).filter_by(cveId=f'{single_data}', packageName=f'{sa_dict[single_sa][1]}').first()
+            cve_sample = session.query(CVE).filter_by(cveId=f'{single_data}').first()
             if not cve_sample:
                 continue
-            temp.append(cve_sample.packageName)
+            temp.append(sa_dict[single_sa][1])
             temp.append(sa_dict[single_sa][2])
             temp.append(cve_sample.cvsssCoreOE)
             temp.append(cve_sample.attackVectorOE)

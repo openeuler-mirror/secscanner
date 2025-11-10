@@ -1,4 +1,5 @@
 import re
+import subprocess
 import socket
 import psutil
 
@@ -22,6 +23,10 @@ def gen_html_report():
     TOTAL_WARNINGS = get_value("TOTAL_WARNINGS")
     vulne_info = get_value("vulne_info")
     TOTAL_CVES = get_value("TOTAL_CVES")
+    ret, sys_arch = subprocess.getstatusoutput('uname -m')
+    if sys_arch not in ['aarch64', 'x86_64']:
+        vulne_info = ''
+        TOTAL_CVES = f'不支持{sys_arch}架构'
     html_rootkit_content = get_value("html_rootkit_content")
     TOTAL_INFECTED = get_value("TOTAL_INFECTED")
 

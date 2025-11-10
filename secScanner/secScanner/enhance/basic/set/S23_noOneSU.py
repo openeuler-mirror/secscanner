@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, 
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, 
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
 import os
 import re
 from secScanner.lib import *
@@ -15,14 +30,15 @@ def S23_noOneSU():
         add_bak_file('/etc/pam.d/su_bak')
 
         IS_EXIST = 0
-        USE_UID_EXIST = 0
+        GROUP_EXIST = 0
         with open('/etc/pam.d/su', 'r') as read_file:
             lines = read_file.readlines()
             for line in lines:
-                if re.match('auth', line) and re.search('pam_wheel.so', line):
+                if re.match('auth', line) and re.search('pam_wheel.so', line) \
+                        and re.search('use_uid', line):
                     IS_EXIST = 1
-                    if re.search('use_uid', line):
-                        USE_UID_EXIST = 1
+                    if re.search('group=wheel', line):
+                        GROUP_EXIST = 1
 
         if IS_EXIST == 0:
             logger.info("no pam_wheel.so, adding...")
@@ -36,7 +52,7 @@ def S23_noOneSU():
 
             with open('/etc/pam.d/su', 'w') as write_file:
                 write_file.writelines(new_lines)
-        elif USE_UID_EXIST == 0:
+        elif GROUP_EXIST == 0:
             logger.info("has pam_wheel.so but no group=wheel or use_uid, adding...")
             write_flag = 0
             new_lines = []
@@ -54,7 +70,8 @@ def S23_noOneSU():
         with open('/etc/pam.d/su', 'r') as read_file:
             lines = read_file.readlines()
             for line in lines:
-                if (not re.match('auth', line)) and re.search('pam_wheel.so', line):
+                if (not re.match('auth', line)) and\
+                        re.search('pam_wheel.so', line) and re.search('group=wheel', line):
                     IS_EXIST = 1
         if IS_EXIST == 0:
             logger.info("set pam.d/su, add pam_wheel.so failed,no  set option")
