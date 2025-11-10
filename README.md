@@ -84,7 +84,7 @@ Instructions for use:
 
 
 入侵检测： secscanner check rootkit
-	使用说明：该命令会调用chkrootkit及secDetector对系统进行入侵检测扫描。
+	使用说明：该命令会调用chkrootkit对系统进行入侵检测扫描。
 
 全量检测：
 	secscanner check all ：一键执行安全检测、漏洞扫描及入侵检测，并提供完整的报告，路径：/var/log/secScanner/html_report
