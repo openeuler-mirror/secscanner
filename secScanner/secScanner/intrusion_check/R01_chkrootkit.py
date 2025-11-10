@@ -11,6 +11,11 @@ logger = logging.getLogger("secscanner")
 
 def check_rootkit():
     InsertSection("using chkrootkit check the system rootkit")
+    ret, result = subprocess.getstatusoutput('rpm -q chkrootkit')
+    if ret !=0:
+        logger.warning("chkrootkit not installed")
+        Display("- No chkrootkit install...", "WARNING")
+        sys.exit(1)
     ret, result = subprocess.getstatusoutput('rpm -qa')
     if ret !=0:
         logger.warning("'rpm -qa' command execution failed")

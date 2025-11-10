@@ -584,13 +584,13 @@ def scan_vulnerabilities_rpm_check():
     elif sys_version == '24.03 (LTS)':
         euler_version = 'openEuler-24.03-LTS'
         ver_rpm = 'oe2403'
-    elif sys_version == '24.03 LTS SP1':
+    elif sys_version == '24.03 (LTS-SP1)':
         euler_version = 'openEuler-24.03-LTS-SP1'
         ver_rpm = 'oe2403sp1'
-    elif sys_version == '24.03 LTS SP2':
+    elif sys_version == '24.03 (LTS-SP2)':
         euler_version = 'openEuler-24.03-LTS-SP2'
         ver_rpm = 'oe2403sp2'
-    elif sys_version == '24.03 LTS SP3':
+    elif sys_version == '24.03 (LTS-SP3)':
         euler_version = 'openEuler-24.03-LTS-SP3'
         ver_rpm = 'oe2403sp3'
     else:
