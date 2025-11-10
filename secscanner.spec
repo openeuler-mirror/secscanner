@@ -28,11 +28,6 @@ BuildRequires: python3
 BuildRequires: gcc
 BuildRequires: python3-devel
 
-Requires: rpmdevtools
-Requires: python3
-Requires: python3-pip
-Requires: chkrootkit
-Requires: aide
 
 
 %if 0%{?openEuler}
@@ -96,7 +91,11 @@ mkdir -p %{buildroot}/etc/secscanner.d/
 mkdir -p %{buildroot}/usr/lib/systemd/system/
 cp -p %{buildroot}/opt/secScanner/secScanner/services/service_file/* %{buildroot}/usr/lib/systemd/system/
 cp -p %{buildroot}/opt/secScanner/secScanner/services/timer_file/* %{buildroot}/usr/lib/systemd/system/
-#cp virtualenv.tar.gz  %{buildroot}/opt/secScanner/
+
+cp virtualenv.tar.gz  %{buildroot}/opt/secScanner/
+mkdir -p  %{buildroot}/var/log/secScanner/
+touch %{buildroot}/var/log/secScanner/secscanner.log
+chmod 600 %{buildroot}/var/log/secScanner/secscanner.log
 
 %post
 pushd /opt/secScanner
@@ -118,6 +117,7 @@ exit 0
 /etc/secScanner/secscanner.cfg
 /etc/secscanner.d
 /usr/lib/systemd/system/
+/var/log/secScanner/secscanner.log
 
 %changelog
 * Fri Nov 07 2025 wangweize <wangweize@cmss.chinamobile.com> 1.3-1

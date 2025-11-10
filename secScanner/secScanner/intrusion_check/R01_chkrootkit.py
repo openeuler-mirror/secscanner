@@ -15,7 +15,7 @@ def check_rootkit():
     if ret !=0:
         logger.warning("chkrootkit not installed")
         Display("- No chkrootkit install...", "WARNING")
-        sys.exit(1)
+        return
     ret, result = subprocess.getstatusoutput('rpm -qa')
     if ret !=0:
         logger.warning("'rpm -qa' command execution failed")
