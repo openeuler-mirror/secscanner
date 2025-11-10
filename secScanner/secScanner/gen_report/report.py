@@ -1,4 +1,3 @@
-from secScanner.gconfig import *
 import logging
 import subprocess
 import re
@@ -11,6 +10,7 @@ from secScanner.db.cve import *
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import *
 import json
+from secScanner import gconfig
 
 logger = logging.getLogger('secscanner')
 
@@ -175,9 +175,14 @@ def cve_result():
 
     vulne_info += f"Vulnerabilities Details ({cve_count}):\n"
     vulne_info += "----------------------------\n"
-
+    
+    max_cve = int(gconfig.seconf.get('main', 'MAX_CVE'))
+    if max_cve >= 1 and max_cve < 2000:
+        pass
+    else:
+        max_cve = 1000
     for i in range(len(cve_list)):
-        if i + 1 <= 1000:
+        if i + 1 <= max_cve:
             vulne_info += f"  <tr style=\"cursor:pointer; border:solid 1px \#ddd;\">"
             vulne_info += f"    <td>{i+1}</td>\n"
             vulne_info += f"    <td>{cve_list[i][0]}</td>\n"
@@ -192,7 +197,7 @@ def cve_result():
 
         else:
             if cve_report_max_items == 0:  # 判断是否是第一次超过最大项数
-                vulne_info += "This system has more than 10000 CVEs, skip output too much info on shell console. You can see html report for details.\n"
+                vulne_info += "This system has more than {} CVEs, skip output too much info on shell console. You can see html report for details.\n".format(max_cve)
                 vulne_info += "Also you can change the max cve output count:cve_report_max_items={} in {}.txt, and rerun the program to see all cve info.\n".format(
                     len(cve_list), '.bash_profile')
                 cve_report_max_items = 1
