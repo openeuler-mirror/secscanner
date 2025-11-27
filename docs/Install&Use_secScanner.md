@@ -42,7 +42,7 @@ optional arguments:
 Instructions for use:
 1、安全检测/加固：secscanner check/fix {basic, euler, level3} 
 	  安全检测/加固命令后接参数说明：
-      baisc：参照《电信网和互联网安全防护基线配置要求及检测要求 操作系统》编写
+      basic：参照《电信网和互联网安全防护基线配置要求及检测要求 操作系统》编写
       euler：参照《openEuler安全配置基线》 编写
       level3：参照《信息安全技术网络安全等级保护基本要求》编写
 
