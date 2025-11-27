@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 %define name secScanner
 %define version 1.3
-%define release 1
+%define release 3
 %define os_version %(source /etc/os-release; echo ${VERSION})
 %define os_id %(source /etc/os-release; echo ${ID})
 
@@ -12,7 +12,6 @@ Release: %{release}%{?dist}
 License: MulanPSL-2.0
 Group: Applications/System
 URL: https://gitee.com/openeuler/secscanner
-#Distribution: openEuler 22.03
 Vendor: China Mobile (Suzhou) Software Technology Co., Ltd.
 Packager: wangweize_yewu@cmss.chinamobile.com
 Provides: secscanner
@@ -30,12 +29,10 @@ BuildRequires: python3-devel
 
 
 
-%if 0%{?openEuler}
 Requires: python3-psutil
 Requires: python3-beautifulsoup4
 Requires: python3-requests
 Requires: python3-sqlalchemy
-%endif
 
 Source0: %{name}-%{version}.tar.gz
 
@@ -48,25 +45,9 @@ Operating System Security Scanning Tool
 #exit 0
 
 %build
-do_virtualenv() {
-    python3 -m venv virtualenv
-    source virtualenv/bin/activate
-    pip3 install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
-    pip3 install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-    #search_directory="virtualenv/bin"
-    new_first_line="#!\/opt\/secScanner\/virtualenv\/bin\/python3"
-    find virtualenv/bin -type f -exec sed -i '1s/^#!.*/#!\/opt\/secScanner\/virtualenv\/bin\/python3/' {} +
-    #find "${search_directory}" -type f -name "*pip*" -exec sed -i '1s/.*/'"$new_first_line"'/' {} +
-    #sed -i '1s/.*/#!\/opt\/secScanner\/virtualenv\/bin\/python3/' virtualenv/bin/normalizer
-    sed -i 's/VIRTUAL_ENV=.*/VIRTUAL_ENV="\/opt\/secScanner\/virtualenv"/' virtualenv/bin/activate
-    pushd ${PWD}
-    tar zcf virtualenv.tar.gz virtualenv
-    popd
-}
-
 echo "start build secscanner ..."
 echo ${PWD}
-do_virtualenv
+#do_virtualenv
 echo "build secscanner end........"
 
 
@@ -92,16 +73,16 @@ mkdir -p %{buildroot}/usr/lib/systemd/system/
 cp -p %{buildroot}/opt/secScanner/secScanner/services/service_file/* %{buildroot}/usr/lib/systemd/system/
 cp -p %{buildroot}/opt/secScanner/secScanner/services/timer_file/* %{buildroot}/usr/lib/systemd/system/
 
-cp virtualenv.tar.gz  %{buildroot}/opt/secScanner/
+#cp virtualenv.tar.gz  %{buildroot}/opt/secScanner/
 mkdir -p  %{buildroot}/var/log/secScanner/
 touch %{buildroot}/var/log/secScanner/secscanner.log
 chmod 600 %{buildroot}/var/log/secScanner/secscanner.log
 
 %post
-pushd /opt/secScanner
-tar -xvf virtualenv.tar.gz
-rm -rf virtualenv.tar.gz
-popd
+#pushd /opt/secScanner
+#tar -xvf virtualenv.tar.gz
+#rm -rf virtualenv.tar.gz
+#popd
 
 
 %clean
@@ -120,6 +101,12 @@ exit 0
 /var/log/secScanner/secscanner.log
 
 %changelog
+* Wed Nov 26 2025 wangweize <wangweize@cmss.chinamobile.com> 1.3-3
+- Add support secDetector
+
+* Tue Nov 25 2025 wangweize <wangweize@cmss.chinamobile.com> 1.3-2
+- Update code for openEuler 24.03
+
 * Fri Nov 07 2025 wangweize <wangweize@cmss.chinamobile.com> 1.3-1
 - Update code from CMSS develop
 
