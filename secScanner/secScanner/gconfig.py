@@ -47,7 +47,6 @@ The above functions is a dict to save global values
 '''
 # Program information
 PROGRAM_VERSION = "1.3"
-PROGRAM_RELEASE = "v1.3.1"
 PROGRAM_NAME = "secScanner"
 PROGRAM_UPDATEDATE = "2025-11-07"
 PROGRAM_AUTHOR = "wangweize"
