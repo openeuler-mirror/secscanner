@@ -39,7 +39,7 @@ def S1021_histsize():
             with open(config_file, 'r') as read_file:
                 lines = read_file.readlines()
                 for line in lines:
-                    if re.search(r'^HISTSIZE', line):
+                    if re.match('HISTSIZE', line):
                         if line.strip() == 'HISTSIZE=100':
                             logger.info("HISTSIZE is already set")
                             Display("- HISTSIZE already set correctly...", "FINISHED")
@@ -47,7 +47,7 @@ def S1021_histsize():
             WRITE_FLAG = False
             with open(config_file, 'w') as write_file:
                 for line in lines:
-                    if re.search(r'^HISTSIZE', line):
+                    if re.match('HISTSIZE', line):
                         write_file.write("HISTSIZE=100\n")
                         WRITE_FLAG = True
                     else:

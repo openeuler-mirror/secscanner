@@ -26,49 +26,47 @@ def S0230_histsize():
     SET_HISTSIZE = seconf.get('euler', 'set_histsize')
     config_file = "/etc/profile"
     if SET_HISTSIZE == 'yes':
-        if os.path.exists('/etc/profile'):
+        if os.path.exists(config_file):
             if not os.path.exists('/etc/profile_bak'):
                 shutil.copy2('/etc/profile', '/etc/profile_bak')
             add_bak_file('/etc/profile_bak')
             with open(config_file, 'r') as read_file:
                 lines = read_file.readlines()
-
-            new_lines = []
-            for line in lines:
-                if line.startswith('HISTSIZE='):
-                    new_line = 'HISTSIZE=100\n'
-                else:
-                    new_line = line
-                new_lines.append(new_line)
-            
-            with open(config_file, 'w') as file:
-                file.writelines(new_lines)
-
-            is_exist = False
-            right = False
+                for line in lines:
+                    if re.match('HISTSIZE', line):
+                        if line.strip() == 'HISTSIZE=100':
+                            logger.info("HISTSIZE is already set")
+                            Display("- HISTSIZE already set correctly...", "FINISHED")
+                            return
+            WRITE_FLAG = False
+            with open(config_file, 'w') as write_file:
+                for line in lines:
+                    if re.match('HISTSIZE', line):
+                        write_file.write("HISTSIZE=100\n")
+                        WRITE_FLAG = True
+                    else:
+                        write_file.write(line)
+            if WRITE_FLAG == False:
+                with open(config_file, 'a') as add_file:
+                    add_file.write("\nHISTSIZE=100\n")
+            FLAG = False
             with open(config_file, 'r') as read_file:
                 lines = read_file.readlines()
-            for line in lines:
-                if re.match('HISTSIZE', line):
-                    is_exist = True
-                    temp = line.strip('\n').split('=')
-                    if temp[0] == 'HISTSIZE' and temp[1] == '100':
-                        right = True
-
-            if is_exist and not right:
-                logger.warning("HISTSIZE set incorrectly")
+                for line in lines:
+                    if re.search(r'^HISTSIZE=100', line):
+                        logger.info("10.2.1 histsize is set")
+                        FLAG = True
+            if FLAG == False:
+                logger.error("HISTSIZE set incorrectly")
                 Display("- HISTSIZE set incorrectly...", "FAILED")
-            elif is_exist and right:
+            else:
                 logger.info("HISTSIZE set correctly")
                 Display("- HISTSIZE set correctly...", "FINISHED")
-            else:
-                logger.warning("HISTSIZE does not exist")
-                Display("- HISTSIZE does not exist...", "FAILED")
-
         else:
-            logger.warning("file /etc/profile does not exist")
-            Display("- file /etc/profile does not exist...","SKIPPING")
-
+            logger.error("Config file not found, HISTSIZE set incorrectly")
+            Display("- Config file not found...", "FAILED")
     else:
         Display("- Skip set HISTSIZE due to config file...", "SKIPPING")
+
+
 
