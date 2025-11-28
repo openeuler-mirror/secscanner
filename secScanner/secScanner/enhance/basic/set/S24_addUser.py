@@ -28,10 +28,10 @@ def S24_addUser():
     USERPASS = ''
     PROFILE = get_value("PROFILE")
     InsertSection(f"Add the customer user by {PROFILE}")
-    if 'username' in ADV_OPTIONS:
-        USERNAME = seconf.get('advance', 'username')
-    if 'userpass' in ADV_OPTIONS:
-        USERPASS = seconf.get('advance', 'userpass')
+    if 'userName' in ADV_OPTIONS:
+        USERNAME = seconf.get('advance', 'userName')
+    if 'userPass' in ADV_OPTIONS:
+        USERPASS = seconf.get('advance', 'userPass')
     SET_ADD_ADTIONAL_USER = seconf.get('advance', 'add_adtional_user')
     PASSWD_USER = []
     with open('/etc/passwd', 'r') as read_file:
@@ -45,13 +45,10 @@ def S24_addUser():
             if USERNAME != '':
                 if not os.path.exists('/etc/passwd_bak'):
                     shutil.copy2('/etc/passwd', '/etc/passwd_bak')
-                add_bak_file('/etc/passwd_bak')
                 if not os.path.exists('/etc/shadow_bak'):
                     shutil.copy2('/etc/shadow', '/etc/shadow_bak')
-                add_bak_file('/etc/shadow_bak')
                 if not os.path.exists('/etc/group_bak'):
                     shutil.copy2('/etc/group', '/etc/group_bak')
-                add_bak_file('/etc/group_bak')
                 count_user = 0
                 for i in PASSWD_USER:
                     if USERNAME == i:

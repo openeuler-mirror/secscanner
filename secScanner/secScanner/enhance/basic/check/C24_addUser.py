@@ -25,8 +25,8 @@ def C24_addUser():
     count_user = 0
     ADV_OPTIONS = seconf.options('advance')#search basic and show all options
     USER_NAME = ''
-    if ('username' in ADV_OPTIONS):# if there is a 'userName', save the value
-        USER_NAME = seconf.get('advance', 'username')
+    if ('userName' in ADV_OPTIONS):# if there is a 'userName', save the value
+        USER_NAME = seconf.get('advance', 'userName')
 
     with open('/etc/passwd', 'r') as file:
         lines = file.readlines()
