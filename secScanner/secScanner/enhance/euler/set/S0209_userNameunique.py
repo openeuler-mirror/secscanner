@@ -31,7 +31,6 @@ def S0209_userNameunique():
         if os.path.exists('/etc/passwd'):
             if not os.path.exists('/etc/passwd_bak'):
                 shutil.copy2('/etc/passwd', '/etc/passwd_bak')
-            add_bak_file('/etc/passwd_bak')
             with open('/etc/passwd', 'r') as passwd_file:
                 lines = passwd_file.readlines()
 
