@@ -24,7 +24,7 @@ class TestC24_addUser(unittest.TestCase):
         self.logger = MagicMock()
 
     @patch('secScanner.enhance.basic.check.C24_addUser.InsertSection')
-    @patch('secScanner.enhance.basic.check.C24_addUser.seconf.options', return_value=['username'])
+    @patch('secScanner.enhance.basic.check.C24_addUser.seconf.options', return_value=['userName'])
     @patch('secScanner.enhance.basic.check.C24_addUser.seconf.get', return_value='testuser')
     @patch('builtins.open', new_callable=mock_open, read_data="root:x:0:0:root:/root:/bin/bash\ntestuser:x:1001:1001::/home/testuser:/bin/bash\n")
     @patch('secScanner.enhance.basic.check.C24_addUser.logger')
@@ -38,7 +38,7 @@ class TestC24_addUser(unittest.TestCase):
         mock_display.assert_called_with("- Already have testuser...", "OK")
 
     @patch('secScanner.enhance.basic.check.C24_addUser.InsertSection')
-    @patch('secScanner.enhance.basic.check.C24_addUser.seconf.options', return_value=['username'])
+    @patch('secScanner.enhance.basic.check.C24_addUser.seconf.options', return_value=['userName'])
     @patch('secScanner.enhance.basic.check.C24_addUser.seconf.get', return_value='newuser')
     @patch('builtins.open', new_callable=mock_open, read_data="root:x:0:0:root:/root:/bin/bash\ntestuser:x:1001:1001::/home/testuser:/bin/bash\n")
     @patch('secScanner.enhance.basic.check.C24_addUser.logger')
