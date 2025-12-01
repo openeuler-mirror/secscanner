@@ -28,7 +28,6 @@ def S0204_rootUIDunique():
         if os.path.exists('/etc/passwd'):
             if not os.path.exists('/etc/passwd_bak'):
                 shutil.copy2('/etc/passwd', '/etc/passwd_bak')
-            add_bak_file('/etc/passwd_bak')
 
             with open('/etc/passwd', 'r') as file:
                 lines = file.readlines()

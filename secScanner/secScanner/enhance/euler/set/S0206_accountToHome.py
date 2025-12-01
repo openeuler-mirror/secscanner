@@ -29,10 +29,8 @@ def S0206_accountToHome():
         if os.path.exists('/etc/passwd'):
             if not os.path.exists('/etc/passwd_bak'):
                 shutil.copy2('/etc/passwd', '/etc/passwd_bak')
-            add_bak_file('/etc/passwd_bak')
             if not os.path.exists('/etc/shadow_bak'):
                 shutil.copy2('/etc/shadow', '/etc/shadow_bak')
-            add_bak_file('/etc/shadow_bak')
 
             count1 = 0
             count2 = 0

@@ -57,10 +57,8 @@ def S0207_passwdGroupexists():
         if os.path.exists(passwd_path) and os.path.exists(group_path):
             if not os.path.exists(passwd_bak):
                 shutil.copy2(passwd_path, passwd_bak)
-            add_bak_file(passwd_bak)
             if not os.path.exists(group_bak):
                 shutil.copy2(group_path, group_bak)
-            add_bak_file(group_bak)
             for user, user_group in get_user_groups_from_passwd(passwd_path):
                 if not check_group_in_group(group_path, user_group):
                     ret, result = subprocess.getstatusoutput(f'userdel -r {user}')
