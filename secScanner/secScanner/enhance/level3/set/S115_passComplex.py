@@ -70,12 +70,19 @@ def S115_passComplex():
                             re.search(f'dcredit={dcredit}', line) and re.search(f'ocredit={ocredit}', line) and
                             re.search(f'enforce_for_root', line)):
                         passwd_complex_set = 'right'
-        if passwd_complex_set == 'unset':  # no password complex set, add the following line in target file
-            with open(file_name, 'a') as add_file:
-                add_file.write(
-                    f'\npassword    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 '
-                    f'difok=3 minclass={minclass} minlen={minlen} ucredit={ucredit} lcredit={lcredit} dcredit='
-                    f'{dcredit} ocredit={ocredit} enforce_for_root\n')
+        if passwd_complex_set == 'unset':  # no password complex set, add the following line before password line
+            write_flag = 0
+            with open(file_name, 'w') as write_file:
+                for line in lines:
+                    if re.match('password', line) and write_flag == 0:
+                        write_file.write(
+                            f'password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 '
+                            f'difok=3 minclass={minclass} minlen={minlen} ucredit={ucredit} lcredit={lcredit} '
+                            f'dcredit={dcredit} ocredit={ocredit} enforce_for_root\n')
+                        write_file.write(line)
+                        write_flag = 1
+                    else:
+                        write_file.write(line)
         else:
             with open(file_name, 'w') as write_file:  # have password complex set, no matter its right or wrong
                 # delete that line and write the following line
@@ -91,3 +98,4 @@ def S115_passComplex():
 
     else:
         Display("- Skip set password complex due to config file...", "SKIPPING")
+
