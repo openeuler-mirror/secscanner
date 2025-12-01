@@ -26,7 +26,10 @@ BuildRequires: python3-pip
 BuildRequires: python3
 BuildRequires: gcc
 BuildRequires: python3-devel
-
+BuildRequires: python3-psutil
+BuildRequires: python3-beautifulsoup4
+BuildRequires: python3-requests
+BuildRequires: python3-sqlalchemy
 
 
 Requires: python3-psutil
