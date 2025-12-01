@@ -39,7 +39,8 @@ def get_lsmod():
     cmd = "lsmod"
     ret, result = subprocess.getstatusoutput(cmd)
     if ret != 0:
-        logger.info("R02 chkrootkit kmodule get lsmod error")
+        logger.warning("R02 chkrootkit kmodule get lsmod error")
+        Display("- secDetector get lsmod error...", "WARNING")
         return
 
     lsmod_list = result.splitlines()
@@ -60,9 +61,11 @@ def check_module(data_string: str =""):
     get_lsmod()
     module_diff = set(g_module_baseline).difference(set(g_module_lsmod))
     if module_diff:
-        logger.info(f"HIDEKMODULE {module_diff}")
+        logger.warning(f"HIDEKMODULE {module_diff}")
+        Display("- secDetector found hidekmoule...", "WARNING")
     else:
         logger.info("R02 chkrootkit kmodule no hide module")
+        Display("- secDetector check no hide module...", "OK")
 
 def thread_func_sub_and_read(num=0):
     global g_cli_reader
