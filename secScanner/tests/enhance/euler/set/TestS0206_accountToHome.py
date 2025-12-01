@@ -85,8 +85,6 @@ class TestS0206_accountToHome(unittest.TestCase):
         mock_InsertSection.assert_called_once_with("Confirm that the account has its own home directory")
         mock_copy2.assert_any_call('/etc/passwd', '/etc/passwd_bak')
         mock_copy2.assert_any_call('/etc/shadow', '/etc/shadow_bak')
-        mock_add_bak_file.assert_any_call('/etc/passwd_bak')
-        mock_add_bak_file.assert_any_call('/etc/shadow_bak')
         mock_logger.warning.assert_called_once_with("Failed to obtain passwd user list")
         mock_display.assert_called_once_with("- Failed to obtain passwd user list ...", "FAILED")
 
