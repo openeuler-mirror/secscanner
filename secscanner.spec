@@ -81,6 +81,13 @@ mkdir -p  %{buildroot}/var/log/secScanner/
 touch %{buildroot}/var/log/secScanner/secscanner.log
 chmod 600 %{buildroot}/var/log/secScanner/secscanner.log
 
+%check
+/usr/bin/python3 tests.py
+if [ $? -ne 0 ]; then
+	echo "Test failed"
+	exit 1
+fi
+
 %post
 #pushd /opt/secScanner
 #tar -xvf virtualenv.tar.gz
