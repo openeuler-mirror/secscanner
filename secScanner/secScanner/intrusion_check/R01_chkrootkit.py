@@ -15,6 +15,10 @@ def check_rootkit():
     if ret !=0:
         logger.warning("chkrootkit not installed")
         Display("- No chkrootkit install...", "WARNING")
+    ret, result = subprocess.getstatusoutput('yum list | grep chkrootkit')
+    if ret !=0:
+        logger.warning("chkrootkit not found from yum")
+        Display("- chkrootkit not found from yum...", "WARNING")    
         return
     ret, result = subprocess.getstatusoutput('rpm -qa')
     if ret !=0:
