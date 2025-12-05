@@ -36,9 +36,9 @@ def S0124_checkRsync():
                 logger.warning(f'The Status is {res} of rsyncd')
                 res2,_ = subprocess.getstatusoutput('systemctl --now disable rsyncd')
                 if res2 != 0:
-                    Display("- Set disbaled the rsyncd...", "FAILED")
-                    raise ValueError("Failed to disbaled the rsyncd")
+                    Display("- Set disabled the rsyncd...", "FAILED")
+                    raise ValueError("Failed to disabled the rsyncd")
                 Display("- Set disabled the rsyncd...", "FINISHED")
         else:
-            Display("- Skip set disable the rsyncd...", "SKIPPING")
+            Display("- Skip set disabled the rsyncd...", "SKIPPING")
         
