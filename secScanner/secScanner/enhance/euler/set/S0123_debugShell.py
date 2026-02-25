@@ -31,8 +31,8 @@ def S0123_debugShell():
             logger.warning(f'The Status is {res} of debug-shell')
             res1,_ = subprocess.getstatusoutput('systemctl --now disable debug-shell')
             if res1 != 0:
-                Display("- Set disbaled the debug-shell...", "FAILED")
-                raise ValueError("Failed to disbaled the debug-shell")
+                Display("- Set disabled the debug-shell...", "FAILED")
+                raise ValueError("Failed to disabled the debug-shell")
             Display("- Set disabled the debug-shell...", "FINISHED")
     else:
-        Display("- Skip set disable the debug-shell...", "SKIPPING")
+        Display("- Skip set disabled the debug-shell...", "SKIPPING")
