@@ -71,7 +71,7 @@ Instructions for use:
 安全检测：secscanner check {basic, euler, level3} 
 安全加固：secscanner fix {basic, euler, level3} 
 	安全检测/加固命令后接参数说明：
-		baisc：参照《电信网和互联网安全防护基线配置要求及检测要求 操作系统》编写
+		basic：参照《电信网和互联网安全防护基线配置要求及检测要求 操作系统》编写
 		euler：参照《openEuler安全配置基线》 编写
 		level3：参照《信息安全技术网络安全等级保护基本要求》编写
 	通过执行check安全检测，可以检测出系统当前的薄弱项，并记录日志，再次执行fix命令，可以针对系统薄弱项进行安全加固。
