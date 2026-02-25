@@ -50,5 +50,13 @@ class TestC0123_debugShell(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C0123: %s", WRN_C0123)
         mock_file.assert_called_once_with("result_file_path", "a+")  # 检查是否尝试写入文件
 
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'disabled'))
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.logger')
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.Display')
+    def test_001_ret1_disabled_insert_section_once(self, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection):
+        C0123_debugShell()
+        self.assertEqual(mock_InsertSection.call_count, 1)
+
 if __name__ == '__main':
     unittest.main()
