@@ -58,6 +58,17 @@ class TestC0117_prohibitUSBCheck(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C0117: %s", WRN_C0117)
         mock_logger.warning.assert_any_call("SUG_C0117: %s", SUG_C0117)
         mock_file.assert_called_once_with("result_file_path", "a")  # 检查是否尝试写入文件
+    
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.subprocess.run')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.logger')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.Display')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.InsertSection')
+    def test_001_stdout_with_trailing_newline_enabled(self, mock_InsertSection, mock_Display, mock_logger, mock_run):
+        mock_run.return_value = subprocess.CompletedProcess(args=["modprobe", "-n", "-v", "usb-storage"], returncode=0, stdout=b'install /bin/true\n')
+        C0117_prohibitUSBCheck()
+        mock_InsertSection.assert_called_once_with("Check whether the prohibition of USB devices  is enabled")
+        mock_Display.assert_called_once_with("- Check whether the prohibition of USB devices is enabled...", "OK")
+        mock_logger.info.assert_called_once_with("The prohibition of USB devices is enabled")
 
 if __name__ == '__main__':
     unittest.main()
