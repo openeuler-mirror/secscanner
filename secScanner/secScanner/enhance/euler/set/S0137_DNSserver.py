@@ -40,7 +40,7 @@ def S0137_DNSserver():
                 logger.warning(f'The Status is {res} of DNS-server')
                 res2 = os.system('systemctl disable named')
                 if res2 != 0:
-                    Display("- Set disbaled the DNS-server...", "FAILED")
+                    Display("- Set disabled the DNS-server...", "FAILED")
                     raise ValueError("Failed to disabled the DNS-server")
                 Display("- Set disabled the DNS-server...", "FINISHED")
     else:
