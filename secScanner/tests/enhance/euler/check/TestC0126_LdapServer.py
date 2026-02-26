@@ -64,5 +64,16 @@ class TestC0126_LdapServer(unittest.TestCase):
         mock_display.assert_called_with("- Check the openldap-servers software is installed...", "WARNING")        
         mock_file.assert_any_call("result_file_path", "a+")  # 检查是否尝试写入文件
 
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'uninstalled'))
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.logger')
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_001_ret1_insert_section_once(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        C0126_LdapServer()
+        self.assertEqual(mock_InsertSection.call_count, 1)
+
 if __name__ == '__main':
     unittest.main()    
