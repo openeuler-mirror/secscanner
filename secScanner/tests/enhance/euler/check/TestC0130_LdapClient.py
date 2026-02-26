@@ -63,6 +63,17 @@ class TestC0130_LdapClient(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0130: %s", SUG_C0130)
         mock_display.assert_called_with('- Check the openldap-clients software is installed...', 'WARNING')        
         mock_file.assert_any_call("result_file_path", "a+")  # 检查是否尝试写入文件
+    
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'uninstalled'))
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.logger')
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_001_ret1_insert_section_once(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        C0130_LdapClient()
+        self.assertEqual(mock_InsertSection.call_count, 1)
 
 if __name__ == '__main':
     unittest.main()    
