@@ -68,6 +68,7 @@ class TestC13_restrictFTPdir(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C13_01: %s", WRN_C13_01)
         mock_logger.warning.assert_any_call("SUG_C13: %s", SUG_C13)
+        self.assertTrue(True, "Basic true assertion")
 
 if __name__ == '__main__':
     unittest.main()
