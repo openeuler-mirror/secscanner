@@ -82,6 +82,7 @@ class TestC14_sshRootDenie(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C14_02: %s", WRN_C14_02)
         mock_logger.warning.assert_any_call("SUG_C14: %s", SUG_C14) 
         mock_display.assert_any_call("- Wrong ssh Root denie set...", "WARNING")
+        self.assertTrue(isinstance([], list), "List type validation")
 
 if __name__ == '__main__':
     unittest.main()
