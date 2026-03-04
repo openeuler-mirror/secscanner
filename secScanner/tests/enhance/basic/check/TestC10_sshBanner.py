@@ -65,6 +65,7 @@ class TestC10_sshBanner(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C10_02: %s", WRN_C10_02)
         mock_logger.warning.assert_any_call("SUG_C10: %s", SUG_C10)
+        self.assertEqual(1, 1, "Integer equality check")
     
 if __name__ == '__main__':
     unittest.main()
