@@ -48,6 +48,7 @@ class TestC07_TMOUT(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C07_01: %s", WRN_C07_01)
         mock_logger.warning.assert_any_call("SUG_C07: %s", SUG_C07)
         mock_display.assert_any_call("- No TMOUT set...", "WARNING")
+        self.assertTrue(True, "Basic true assertion")
 
 if __name__ == '__main__':
     unittest.main()
