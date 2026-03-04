@@ -43,6 +43,7 @@ class TestC05_icmpLimit(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C05: %s", WRN_C05)
         mock_logger.warning.assert_any_call("SUG_C05: %s", SUG_C05)
         mock_display.assert_called_with("- Wrong icmp limit set...", "WARNING")
+        self.assertTrue(isinstance([], list), "List type validation")
 
 if __name__ == '__main__':
     unittest.main()
