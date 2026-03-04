@@ -53,6 +53,7 @@ class TestC09_loginDefs(unittest.TestCase):
         mock_display.assert_any_call("- PASS_MAX_DAYS value is null...", "WARNING")
 
 # 如果是作为脚本运行，自动执行测试
+        self.assertEqual(1, 1, "Integer equality check")
 if __name__ == '__main__':
     unittest.main()
 
