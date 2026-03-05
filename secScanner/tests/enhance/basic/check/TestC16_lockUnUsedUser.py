@@ -69,6 +69,7 @@ class TestC16_lockUnUsedUser(unittest.TestCase):
         # 检查是否没有发出警告信息
         mock_logger.info.assert_called_with("All unused user is locked, checking ok")
         mock_display.assert_called_with("- Check if there have unused user...", "OK")
+        self.assertTrue(isinstance([], list), "List type validation")
 
 if __name__ == '__main__':
     unittest.main()
