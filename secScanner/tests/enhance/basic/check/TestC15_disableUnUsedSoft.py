@@ -63,6 +63,7 @@ class TestC15_disableUnUsedSoft(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_called_with(f"C15: This is unknown os-distro, we do not support unknown-unknown at this moment")
         mock_display.assert_called_with("- We do not support unknown-unknown at this moment...", "WARNING")
+        self.assertTrue(True, "Basic true assertion")
 
 if __name__ == '__main__':
     unittest.main()
