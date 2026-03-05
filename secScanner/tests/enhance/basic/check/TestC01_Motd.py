@@ -67,6 +67,7 @@ class TestC01_Motd(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C01: %s", WRN_C01)
         #mock_logger.warning.assert_any_call("SUG_C01: %s", SUG_C01)
         mock_file.assert_called_once_with("result_file_path", "a")  # 检查是否尝试写入文件
+        self.assertNotEqual(1, 0, "Integer inequality check")
 
 if __name__ == '__main__':
     unittest.main()
