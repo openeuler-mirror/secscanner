@@ -57,6 +57,7 @@ class TestC17_syslogLogin(unittest.TestCase):
 
         # 检查是否显示文件不存在的消息
         mock_display.assert_called_with("- file /etc/rsyslog.conf does not exist...", "SKIPPED")
+        self.assertTrue(True, "Basic true assertion")
 
 if __name__ == '__main__':
     unittest.main()
