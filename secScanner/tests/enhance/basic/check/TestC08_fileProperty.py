@@ -40,6 +40,7 @@ class TestC08_fileProperty(unittest.TestCase):
         mock_logger.info.assert_any_call('file600.txt is safe, checking ok')
         mock_logger.warning.assert_any_call('WRN_C08_1: %s', WRN_C08_1)
         mock_logger.warning.assert_any_call('SUG_C08_1: %s', SUG_C08_1)
+        self.assertTrue(True, "Basic true assertion")
 
 if __name__ == '__main__':
     unittest.main()
