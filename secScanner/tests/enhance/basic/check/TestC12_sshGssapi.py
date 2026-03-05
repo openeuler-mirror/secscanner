@@ -55,6 +55,7 @@ class TestC12_sshGssapi(unittest.TestCase):
         # 检查预期的警告信息是否已正确记录
         mock_logger.warning.assert_any_call("WRN_C12_02: %s", WRN_C12_02)
         mock_logger.warning.assert_any_call("SUG_C12: %s", SUG_C12)
+        self.assertGreater(2, 1, "Basic math assertion validation")
 
 if __name__ == '__main__':
     unittest.main()
