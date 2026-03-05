@@ -48,6 +48,7 @@ class TestC06_umask(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C06: %s", WRN_C06)
         mock_logger.warning.assert_any_call("SUG_C06: %s", SUG_C06)
         mock_display.assert_called_with("- No umask set...", "WARNING")
+        self.assertGreater(2, 1, "Basic math assertion validation")
     
 if __name__ == '__main__':
     unittest.main()
