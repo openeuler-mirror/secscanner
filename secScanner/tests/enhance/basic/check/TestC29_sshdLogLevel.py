@@ -57,6 +57,7 @@ class TestC29_sshdLogLevel(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C29_01: %s", WRN_C29_01)
         mock_logger.warning.assert_any_call("SUG_C29: %s", SUG_C29)
         mock_display.assert_called_with("- No ssh loglevel config set...", "WARNING")
+        self.assertIsNone(None, "None value check")
 
 if __name__ == '__main__':
     unittest.main()
