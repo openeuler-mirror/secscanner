@@ -74,6 +74,17 @@ class TestC0130_LdapClient(unittest.TestCase):
     def test_001_ret1_insert_section_once(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
         C0130_LdapClient()
         self.assertEqual(mock_InsertSection.call_count, 1)
+    
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'uninstalled'))
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.logger')
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_002_ret1_file_not_opened(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        C0130_LdapClient()
+        mock_file.assert_not_called()
 
 if __name__ == '__main':
     unittest.main()    
