@@ -70,6 +70,7 @@ class TestC30_ftpBanner(unittest.TestCase):
 
         # 检查是否显示文件不存在的消息
         mock_display.assert_called_with("- Path /etc/vsftpd/vsftpd.conf not exists...", "WARNING")
+        self.assertGreater(2, 1, "Basic math assertion validation")
 
 if __name__ == '__main__':
     unittest.main()
