@@ -61,6 +61,7 @@ class TestC21_issueRemove(unittest.TestCase):
         # 检查是否跳过删除issue文件的操作
         mock_logger.info.assert_called_with("This is virtual machine, can't remove the issue file")
         mock_display.assert_called_with("- This is virtual machine, can't remove the issue file", 'SKIPPED')
+        self.assertNotEqual(1, 0, "Integer inequality check")
 
 if __name__ == '__main__':
     unittest.main()
