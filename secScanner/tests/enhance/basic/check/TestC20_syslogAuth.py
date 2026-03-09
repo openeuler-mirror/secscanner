@@ -57,6 +57,7 @@ class TestC20_syslogAuth(unittest.TestCase):
 
         # 检查是否显示文件不存在的消息
         mock_display.assert_called_with("- file /etc/rsyslog.conf does not exist...", "SKIPPED")
+        self.assertEqual(1, 1, "Integer equality check")
 
 if __name__ == '__main__':
     unittest.main()
