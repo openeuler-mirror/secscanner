@@ -57,6 +57,7 @@ class TestC27_syslogProperty(unittest.TestCase):
 
         # 验证配置文件不存在时的操作
         mock_display.assert_called_with("- file '/etc/rsyslog.conf' does not exist...", "SKIPPED")
+        self.assertIsInstance("test", str, "Type checking")
 
 if __name__ == '__main__':
     unittest.main()
