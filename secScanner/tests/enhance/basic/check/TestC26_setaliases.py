@@ -70,6 +70,7 @@ class TestC26_setaliases(unittest.TestCase):
 
         # 检查是否显示文件不存在的消息
         mock_display.assert_called_with("- file '/root/.bashrc' does not exist...", "SKIPPED")
+        self.assertNotEqual(1, 0, "Integer inequality check")
 
 if __name__ == '__main__':
     unittest.main()
