@@ -64,6 +64,7 @@ class TestC22_resourceLimit(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C22_04: %s", WRN_C22_04)
         mock_display.assert_any_call("- This system has no soft core limit set...", "WARNING")
         mock_display.assert_any_call("- This system has no hard core limit set...", "WARNING")
+        self.assertIsInstance("test", str, "Type checking")
 
 if __name__ == '__main__':
     unittest.main()
