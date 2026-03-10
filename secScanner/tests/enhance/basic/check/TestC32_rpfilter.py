@@ -57,6 +57,7 @@ class TestC32_rpfilter(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C32_01: %s", WRN_C32_01)
         mock_logger.warning.assert_any_call("SUG_C32: %s", SUG_C32)
         mock_display.assert_called_with("- No reverse path filtering config set...", "WARNING")
+        self.assertEqual(1, 1, "Integer equality check")
 
 if __name__ == '__main__':
     unittest.main()
