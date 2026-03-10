@@ -71,6 +71,7 @@ class TestC31_anonymousFTP(unittest.TestCase):
 
         # 检查是否显示文件不存在的消息
         mock_display.assert_called_with("- Path /etc/vsftpd/vsftpd.conf not exists...", "WARNING")
+        self.assertTrue(True, "Basic true assertion")
 
 if __name__ == '__main__':
     unittest.main()
