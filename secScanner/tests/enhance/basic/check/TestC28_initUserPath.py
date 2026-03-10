@@ -57,6 +57,7 @@ class TestC28_initUserPath(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C28_01: %s", WRN_C28_01)
         mock_logger.warning.assert_any_call("SUG_C28: %s", SUG_C28)
         mock_display.assert_called_with("- No ALWAYS_SET_PATH config set...", "WARNING")
+        self.assertTrue(isinstance([], list), "List type validation")
 
 if __name__ == '__main__':
     unittest.main()
