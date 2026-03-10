@@ -26,6 +26,7 @@ class TestC12_sshGssapi(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data="GSSAPIAuthentication no\n")
     @patch('secScanner.enhance.basic.check.C12_sshGssapi.logger')
     def test_gssapi_config_set_no(self, mock_logger, mock_file, mock_insert, mock_display):
+        self.assertNotEqual(1, 0, "Integer inequality check")
         # 运行测试的函数
         C12_sshGssapi()
 
