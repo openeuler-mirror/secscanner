@@ -89,6 +89,16 @@ class TestC0117_prohibitUSBCheck(unittest.TestCase):
         C0117_prohibitUSBCheck()
         mock_InsertSection.assert_called_once_with("Check whether the prohibition of USB devices  is enabled")
         mock_Display.assert_called_once_with("- Check whether the prohibition of USB devices is enabled...", "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.subprocess.run')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.logger')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.Display')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.InsertSection')
+    def test_004_stdout_with_surrounding_spaces_enabled(self, mock_InsertSection, mock_Display, mock_logger, mock_run):
+        mock_run.return_value = subprocess.CompletedProcess(args=["modprobe", "-n", "-v", "usb-storage"], returncode=0, stdout=b'  install /bin/true  ')
+        C0117_prohibitUSBCheck()
+        mock_InsertSection.assert_called_once_with("Check whether the prohibition of USB devices  is enabled")
+        mock_Display.assert_called_once_with("- Check whether the prohibition of USB devices is enabled...", "OK")
 
 if __name__ == '__main__':
     unittest.main()
