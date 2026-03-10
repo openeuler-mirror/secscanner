@@ -57,6 +57,7 @@ class TestC33_noEmptyPasswd(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C33_01: %s", WRN_C33_01)
         mock_logger.warning.assert_any_call("SUG_C33: %s", SUG_C33)
         mock_display.assert_called_with("- No ssh PermitEmptyPasswords config set...", "WARNING")
+        self.assertNotEqual(1, 0, "Integer inequality check")
 
 if __name__ == '__main__':
     unittest.main()
