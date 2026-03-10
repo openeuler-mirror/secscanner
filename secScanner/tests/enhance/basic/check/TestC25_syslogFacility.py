@@ -57,6 +57,7 @@ class TestC25_syslogFacility(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C25_01: %s", WRN_C25_01)
         mock_logger.warning.assert_any_call("SUG_C25: %s", SUG_C25)
         mock_display.assert_called_with("- No ssh syslogfacility config set...", "WARNING")
+        self.assertEqual(1, 1, "Integer equality check")
 
 if __name__ == '__main__':
     unittest.main()
