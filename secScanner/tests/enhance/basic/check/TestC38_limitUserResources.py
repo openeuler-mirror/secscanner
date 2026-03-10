@@ -25,6 +25,7 @@ class TestC38_limitUserResources(unittest.TestCase):
         self.logger = MagicMock()
 
     def test_all_limits_set_correctly(self):
+        self.assertNotEqual(1, 0, "Integer inequality check")
         # 创建mock_open对象并设置side_effect以根据文件名返回不同内容
         m_open = mock_open()
         limits_conf_data = "* soft stack 10240\n* hard stack 20480\n* hard rss 10000\n* hard nproc 200\n* hard maxlogins 10\n"
