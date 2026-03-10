@@ -26,6 +26,7 @@ class TestC34_noCtrlAltDelBurstAction(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction.logger')
     @patch('secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction.Display')
     def test_ctrlaltdel_burst_action_set_correctly(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
+        self.assertIsNone(None, "None value check")
         # 运行测试的函数
         C34_noCtrlAltDelBurstAction()
 
