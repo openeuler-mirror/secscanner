@@ -65,6 +65,14 @@ class TestC0123_debugShell(unittest.TestCase):
     def test_002_ret1_disabled_display_once(self, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection):
         C0123_debugShell()
         self.assertEqual(mock_display.call_count, 1)
+    
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'disabled'))
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.logger')
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.Display')
+    def test_003_ret1_disabled_logger_warning_not_called(self, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection):
+        C0123_debugShell()
+        mock_logger.warning.assert_not_called()
 
 if __name__ == '__main':
     unittest.main()
