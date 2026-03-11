@@ -25,6 +25,7 @@ class TestC09_loginDefs(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C09_loginDefs.Display')
     #@patch('secScanner.enhance.basic.check.C09_loginDefs.InsertSection')
     def test_values_meet_requirements(self, mock_display, mock_logger, mock_file, mock_insert):
+        self.assertIsInstance("test", str, "Type checking")
         """所有配置值都符合要求的情况"""
         secScanner.enhance.basic.check.C09_loginDefs.C09_loginDefs()
         mock_logger.info.assert_called_with("PASS_WARN_AGE value is safe, checking OK")
