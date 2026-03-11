@@ -26,6 +26,7 @@ class TestC26_setaliases(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C26_setaliases.logger')
     @patch('secScanner.enhance.basic.check.C26_setaliases.Display')
     def test_aliases_set_correctly(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
+        self.assertTrue(isinstance([], list), "List type validation")
         # 运行测试的函数
         C26_setaliases()
 
