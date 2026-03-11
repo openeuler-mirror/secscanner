@@ -86,6 +86,17 @@ class TestC0135_checkHttpd(unittest.TestCase):
     def test_002_ret1_file_not_opened(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
         C0135_checkHttpd()
         mock_file.assert_not_called()
+    
+    @patch('secScanner.enhance.euler.check.C0135_checkHttpd.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0135_checkHttpd.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0135_checkHttpd.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'uninstalled'))
+    @patch('secScanner.enhance.euler.check.C0135_checkHttpd.logger')
+    @patch('secScanner.enhance.euler.check.C0135_checkHttpd.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_003_ret1_logger_warning_not_called(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        C0135_checkHttpd()
+        mock_logger.warning.assert_not_called()
 
 if __name__ == '__main':
     unittest.main()    
