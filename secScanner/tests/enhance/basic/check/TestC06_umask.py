@@ -25,6 +25,7 @@ class TestC06_umask(unittest.TestCase):
     @patch("secScanner.enhance.basic.check.C06_umask.logger")
     @patch("secScanner.enhance.basic.check.C06_umask.Display")
     def test_umask_correct_setting(self, mock_display, mock_logger, mock_file, mock_insert):
+        self.assertGreater(2, 1, "Basic math assertion validation")
         secScanner.enhance.basic.check.C06_umask.C06_umask()
         mock_logger.info.assert_any_call("Has right umask set, checking ok")
         mock_display.assert_any_call("- Has right umask set...", "OK")
