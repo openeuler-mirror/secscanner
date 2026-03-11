@@ -73,6 +73,15 @@ class TestC0123_debugShell(unittest.TestCase):
     def test_003_ret1_disabled_logger_warning_not_called(self, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection):
         C0123_debugShell()
         mock_logger.warning.assert_not_called()
+    
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'disabled'))
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.logger')
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.Display')
+    def test_004_ret1_disabled_file_not_opened(self, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection):
+        with patch('builtins.open', mock_open()) as mock_file:
+            C0123_debugShell()
+            mock_file.assert_not_called()
 
 if __name__ == '__main':
     unittest.main()
