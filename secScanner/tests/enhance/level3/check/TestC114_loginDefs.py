@@ -42,6 +42,17 @@ class TestC114_loginDefs(unittest.TestCase):
         mock_display.assert_any_call("- PASS_MAX_DAYS value is not safe...", "WARNING")
 
     @patch('secScanner.enhance.level3.check.C114_loginDefs.InsertSection')
+    @patch('secScanner.enhance.level3.check.C114_loginDefs.open', new_callable=mock_open, read_data="PASS_MAX_DAYS 1000\nPASS_MIN_DAYS 3\nPASS_MIN_LEN 6\nPASS_WARN_AGE 20\n")
+    @patch('secScanner.enhance.level3.check.C114_loginDefs.logger')
+    @patch('secScanner.enhance.level3.check.C114_loginDefs.Display')
+    #@patch('secScanner.enhance.level3.check.C114_loginDefs.InsertSection')
+    def test_values_do_not_meet_requirements(self, mock_display, mock_logger, mock_file, mock_insert):
+        """配置值不符合要求的情况"""
+        secScanner.enhance.level3.check.C114_loginDefs.C114_loginDefs()
+        mock_logger.warning.assert_any_call("WRN_C114_01: %s", WRN_C114_01)
+        mock_display.assert_any_call("- PASS_MAX_DAYS value is not safe...", "WARNING")        
+
+    @patch('secScanner.enhance.level3.check.C114_loginDefs.InsertSection')
     @patch('secScanner.enhance.level3.check.C114_loginDefs.open', new_callable=mock_open, read_data="")
     @patch('secScanner.enhance.level3.check.C114_loginDefs.logger')
     @patch('secScanner.enhance.level3.check.C114_loginDefs.Display')
