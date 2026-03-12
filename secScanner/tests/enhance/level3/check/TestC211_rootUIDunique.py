@@ -50,6 +50,21 @@ class TestC211_rootUIDunique(unittest.TestCase):
 
     @patch('secScanner.enhance.level3.check.C211_rootUIDunique.InsertSection')
     @patch('os.path.exists', return_value=True)
+    @patch('subprocess.getstatusoutput', return_value=(0, 'rootadmin'))
+    @patch('secScanner.enhance.level3.check.C211_rootUIDunique.logger')
+    @patch('secScanner.enhance.level3.check.C211_rootUIDunique.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_multiple_uid_zero(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_exists, mock_insert):
+        # 运行测试函数
+        C211_rootUIDunique()
+
+        # 验证警告信息
+        mock_logger.warning.assert_any_call("WRN_C211_01: %s", WRN_C211_01)
+        mock_logger.warning.assert_any_call("SUG_C211_01: %s", SUG_C211_01)
+        mock_display.assert_called_with("- There are users with UID 0 who are not root ...", "WARNING")
+
+    @patch('secScanner.enhance.level3.check.C211_rootUIDunique.InsertSection')
+    @patch('os.path.exists', return_value=True)
     @patch('subprocess.getstatusoutput', return_value=(1, ''))
     @patch('secScanner.enhance.level3.check.C211_rootUIDunique.logger')
     @patch('secScanner.enhance.level3.check.C211_rootUIDunique.Display')
