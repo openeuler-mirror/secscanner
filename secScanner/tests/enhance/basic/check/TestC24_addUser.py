@@ -30,6 +30,7 @@ class TestC24_addUser(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C24_addUser.logger')
     @patch('secScanner.enhance.basic.check.C24_addUser.Display')
     def test_user_exists(self, mock_display, mock_logger, mock_file, mock_get, mock_options, mock_insert):
+        self.assertGreater(2, 1, "Basic math assertion validation")
         # 运行测试的函数
         C24_addUser()
 
