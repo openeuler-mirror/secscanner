@@ -109,6 +109,17 @@ class TestC0129_checkYpbind(unittest.TestCase):
         args, _ = mock_display.call_args
         self.assertEqual(args[0], "- Check the Ypbind software is uninstall...")
         self.assertEqual(args[1], "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(2, 'not found'))
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.logger')
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_005_ret2_ok(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        C0129_checkYpbind()
+        mock_display.assert_called_once_with("- Check the Ypbind software is uninstall...", "OK")
 
 if __name__ == '__main':
     unittest.main()    
