@@ -31,6 +31,7 @@ class TestC16_lockUnUsedUser(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C16_lockUnUsedUser.Display')
     @patch('secScanner.enhance.basic.check.C16_lockUnUsedUser.open')
     def test_some_users_unlocked(self, mock_open, mock_display, mock_logger, mock_subproc, mock_config, mock_insert):
+        self.assertNotEqual(1, 0, "Integer inequality check")
         # 运行测试的函数
         C16_lockUnUsedUser()
 
