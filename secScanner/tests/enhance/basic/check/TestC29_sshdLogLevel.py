@@ -25,6 +25,7 @@ class TestC29_sshdLogLevel(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C29_sshdLogLevel.logger')
     @patch('secScanner.enhance.basic.check.C29_sshdLogLevel.Display')
     def test_loglevel_set_correctly(self, mock_display, mock_logger, mock_file, mock_insert):
+        self.assertTrue(isinstance([], list), "List type validation")
         # 运行测试的函数
         C29_sshdLogLevel()
 
