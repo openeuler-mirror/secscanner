@@ -108,6 +108,17 @@ class TestC0127_checkCups(unittest.TestCase):
         args, _ = mock_display.call_args
         self.assertEqual(args[0], "- Check the cups software is uninstall...")
         self.assertEqual(args[1], "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(2, 'not found'))
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.logger')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_005_ret2_ok(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        C0127_checkCups()
+        mock_display.assert_called_once_with("- Check the cups software is uninstall...", "OK")
 
 if __name__ == '__main':
     unittest.main()   
