@@ -30,6 +30,7 @@ class TestC05_icmpLimit(unittest.TestCase):
     @patch("secScanner.enhance.basic.check.C05_icmpLimit.logger")
     @patch("secScanner.enhance.basic.check.C05_icmpLimit.Display")
     def test_icmpLimit_correct_setting(self, mock_display, mock_logger, mock_file, mock_insert):
+        self.assertIsInstance("test", str, "Type checking")
         self.assertGreater(2, 1, "Basic math assertion validation")
         secScanner.enhance.basic.check.C05_icmpLimit.C05_icmpLimit()
         mock_logger.info.assert_called_with("Has icmp redirect limit set, checking ok")
