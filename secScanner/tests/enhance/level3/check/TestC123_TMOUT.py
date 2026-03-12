@@ -40,6 +40,16 @@ class TestC123_TMOUT(unittest.TestCase):
         mock_display.assert_any_call("- Wrong TMOUT set, must less than 300...", "WARNING")
 
     @patch("secScanner.enhance.level3.check.C123_TMOUT.InsertSection")
+    @patch("secScanner.enhance.level3.check.C123_TMOUT.open", new_callable=mock_open, read_data="TMOUT=-1\n")
+    @patch("secScanner.enhance.level3.check.C123_TMOUT.logger")
+    @patch("secScanner.enhance.level3.check.C123_TMOUT.Display")
+    def test_tmout_incorrect_setting(self, mock_display, mock_logger, mock_file, mock_insert):
+        secScanner.enhance.level3.check.C123_TMOUT.C123_TMOUT()
+        mock_logger.warning.assert_any_call("WRN_C123_02: %s", WRN_C123_02)
+        mock_logger.warning.assert_any_call("SUG_C123: %s", SUG_C123)
+        mock_display.assert_any_call("- Wrong TMOUT set, must less than 300...", "WARNING")
+
+    @patch("secScanner.enhance.level3.check.C123_TMOUT.InsertSection")
     @patch("secScanner.enhance.level3.check.C123_TMOUT.open", new_callable=mock_open, read_data="# TMOUT setting is commented out")
     @patch("secScanner.enhance.level3.check.C123_TMOUT.logger")
     @patch("secScanner.enhance.level3.check.C123_TMOUT.Display")
