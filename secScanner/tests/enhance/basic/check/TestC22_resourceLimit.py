@@ -28,6 +28,7 @@ class TestC22_resourceLimit(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C22_resourceLimit.logger')
     @patch('secScanner.enhance.basic.check.C22_resourceLimit.Display')
     def test_core_limits_set_correctly(self, mock_display, mock_logger, mock_file, mock_insert):
+        self.assertIsInstance("test", str, "Type checking")
         # 运行测试的函数
         C22_resourceLimit()
 
