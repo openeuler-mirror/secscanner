@@ -109,6 +109,17 @@ class TestC0128_checkYpserv(unittest.TestCase):
         args, _ = mock_display.call_args
         self.assertEqual(args[0], "- Check the ypserv software is uninstall...")
         self.assertEqual(args[1], "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0128_checkYpserv.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0128_checkYpserv.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0128_checkYpserv.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(2, 'not found'))
+    @patch('secScanner.enhance.euler.check.C0128_checkYpserv.logger')
+    @patch('secScanner.enhance.euler.check.C0128_checkYpserv.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_005_ret2_ok(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        C0128_checkYpserv()
+        mock_display.assert_called_once_with("- Check the ypserv software is uninstall...", "OK")
 
 if __name__ == '__main':
     unittest.main()   
