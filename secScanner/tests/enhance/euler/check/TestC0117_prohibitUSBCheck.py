@@ -111,6 +111,18 @@ class TestC0117_prohibitUSBCheck(unittest.TestCase):
         C0117_prohibitUSBCheck()
         mock_Display.assert_called_once_with("- The Prohibition of USB devices is disabled...", "WARNING")
         mock_logger.warning.assert_any_call("WRN_C0117: %s", WRN_C0117)
+    
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.subprocess.run')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.logger')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.Display')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.InsertSection')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_006_stdout_garbage_disabled(self, mock_file, mock_InsertSection, mock_Display, mock_logger, mock_run):
+        mock_run.return_value = subprocess.CompletedProcess(args=["modprobe", "-n", "-v", "usb-storage"], returncode=0, stdout=b'some random output')
+        secScanner.enhance.euler.check.C0117_prohibitUSBCheck.RESULT_FILE = "result_file_path"
+        C0117_prohibitUSBCheck()
+        mock_Display.assert_called_once_with("- The Prohibition of USB devices is disabled...", "WARNING")
+        mock_file.assert_called_once_with("result_file_path", "a")
 
 if __name__ == '__main__':
     unittest.main()
