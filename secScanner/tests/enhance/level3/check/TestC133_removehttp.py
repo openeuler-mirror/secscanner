@@ -40,6 +40,24 @@ class TestC133_removehttp(unittest.TestCase):
         # 检查文件操作
         mock_file.assert_called_once_with("result_file_path", "a")  # 检查是否尝试写入文件
 
+    @patch('subprocess.getstatusoutput', return_value=(0, "httpd"))
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('secScanner.enhance.level3.check.C133_removehttp.Display')
+    @patch('secScanner.enhance.level3.check.C133_removehttp.logger')
+    @patch('secScanner.enhance.level3.check.C133_removehttp.InsertSection')
+    def test_http_installed(self, mock_InsertSection, mock_logger, mock_display, mock_file, mock_getstatusoutput):
+        # 假设的全局变量
+        secScanner.enhance.level3.check.C133_removehttp.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+
+        C133_removehttp()
+        mock_InsertSection.assert_called_once_with("Check if software HTTP exists")
+        mock_logger.warning.assert_any_call("WRN_C133_01: %s", WRN_C133_01)
+        mock_logger.warning.assert_any_call("SUG_C133_01: %s", SUG_C133_01)
+        # 检查 Display 函数是否被调用
+        mock_display.assert_called_once_with("- HTTP not removed...", "WARNING")
+        # 检查文件操作
+        mock_file.assert_called_once_with("result_file_path", "a")  # 检查是否尝试写入文件
+
     @patch('subprocess.getstatusoutput', return_value=(0, ""))
     @patch('builtins.open', new_callable=mock_open)
     @patch('secScanner.enhance.level3.check.C133_removehttp.Display')
