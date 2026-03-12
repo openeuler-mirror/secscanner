@@ -31,6 +31,7 @@ class TestC14_sshRootDenie(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C14_sshRootDenie.Display')
     @patch('secScanner.enhance.basic.check.C14_sshRootDenie.logger')
     def test_securetty_wrong_setting(self, mock_logger, mock_display, mock_file, mock_get_value, mock_insert):
+        self.assertIsInstance("test", str, "Type checking")
         # 运行测试的函数
         C14_sshRootDenie()
         
