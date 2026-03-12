@@ -51,6 +51,20 @@ class TestC115_passComplex(unittest.TestCase):
         mock_display.assert_any_call("- No Password dcredit set...", "WARNING")
         mock_display.assert_any_call("- No Password ocredit set...", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C115_passComplex.InsertSection')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.open', new_callable=mock_open)
+    @patch('secScanner.enhance.level3.check.C115_passComplex.logger')
+    @patch('secScanner.enhance.level3.check.C115_passComplex.Display')
+    def test_incorrect_minlen(self, mock_display, mock_logger, mock_open, mock_insert):
+        data = self.base_data + "minlen=-1"
+        mock_open.return_value.readlines.return_value = [data]
+        secScanner.enhance.level3.check.C115_passComplex.C115_passComplex()
+        mock_display.assert_any_call("- Wrong Password Minlen set...", "WARNING")
+        mock_display.assert_any_call("- No Password Minclass set...", "WARNING")
+        mock_display.assert_any_call("- No Password ucredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password lcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password dcredit set...", "WARNING")
+        mock_display.assert_any_call("- No Password ocredit set...", "WARNING")
      
     @patch('secScanner.enhance.level3.check.C115_passComplex.InsertSection')
     @patch('secScanner.enhance.level3.check.C115_passComplex.open', new_callable=mock_open)
