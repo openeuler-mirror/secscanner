@@ -37,6 +37,22 @@ class TestC1021_histsize(unittest.TestCase):
         mock_logger.info.assert_called_with("HISTSIZE set correctly, checking ok")
         mock_display.assert_called_with("- Has set HISTSIZE correctly ...", "OK")
 
+    @patch('builtins.open', new_callable=mock_open, read_data="HISTSIZE=65\n")
+    @patch('secScanner.enhance.level3.check.C1021_histsize.InsertSection')
+    @patch('secScanner.enhance.level3.check.C1021_histsize.os.path.exists')
+    @patch('secScanner.enhance.level3.check.C1021_histsize.Display')
+    @patch('secScanner.enhance.level3.check.C1021_histsize.logger')
+    def test_hist_size_correct(self, mock_logger, mock_display, mock_exists, mock_insert, mock_file):
+        # 模拟 /etc/passwd 存在
+        mock_exists.return_value = True
+
+        # 调用被测试函数
+        C1021_histsize()
+
+        # 验证函数行为
+        mock_logger.info.assert_called_with("HISTSIZE set correctly, checking ok")
+        mock_display.assert_called_with("- Has set HISTSIZE correctly ...", "OK")
+
     @patch('builtins.open', new_callable=mock_open, read_data="HISTSIZE=30\n")
     @patch('secScanner.enhance.level3.check.C1021_histsize.InsertSection')
     @patch('secScanner.enhance.level3.check.C1021_histsize.os.path.exists')
