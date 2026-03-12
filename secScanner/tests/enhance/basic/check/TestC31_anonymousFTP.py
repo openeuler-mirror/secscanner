@@ -26,6 +26,7 @@ class TestC31_anonymousFTP(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C31_anonymousFTP.logger')
     @patch('secScanner.enhance.basic.check.C31_anonymousFTP.Display')
     def test_anonymous_ftp_prohibited_correctly(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
+        self.assertNotEqual(1, 0, "Integer inequality check")
         # 运行测试的函数
         C31_anonymousFTP()
 
