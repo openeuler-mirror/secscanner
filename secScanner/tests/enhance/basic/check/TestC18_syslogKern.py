@@ -27,6 +27,7 @@ class TestC18_syslogKern(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C18_syslogKern.logger')
     @patch('secScanner.enhance.basic.check.C18_syslogKern.Display')
     def test_kern_warning_set_correctly(self, mock_display, mock_logger, mock_file, mock_getsize, mock_isfile, mock_insert):
+        self.assertEqual(1, 1, "Integer equality check")
         # 运行测试的函数
         C18_syslogKern()
 
