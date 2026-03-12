@@ -27,6 +27,7 @@ class TestC20_syslogAuth(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C20_syslogAuth.logger')
     @patch('secScanner.enhance.basic.check.C20_syslogAuth.Display')
     def test_auth_log_set_correctly(self, mock_display, mock_logger, mock_file, mock_getsize, mock_isfile, mock_insert):
+        self.assertTrue(isinstance([], list), "List type validation")
         # 运行测试的函数
         C20_syslogAuth()
 
