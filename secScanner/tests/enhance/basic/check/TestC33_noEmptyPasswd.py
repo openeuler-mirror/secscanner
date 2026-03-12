@@ -25,6 +25,7 @@ class TestC33_noEmptyPasswd(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C33_noEmptyPasswd.logger')
     @patch('secScanner.enhance.basic.check.C33_noEmptyPasswd.Display')
     def test_permit_empty_passwords_set_correctly(self, mock_display, mock_logger, mock_file, mock_insert):
+        self.assertIsInstance("test", str, "Type checking")
         # 运行测试的函数
         C33_noEmptyPasswd()
 
