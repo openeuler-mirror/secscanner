@@ -72,6 +72,23 @@ class TestC112_UIDunique(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C112_02: %s", SUG_C112_02)
         mock_display.assert_called_with("- Failed to retrieve users for UID...", "WARNING")
 
+    @patch('secScanner.enhance.level3.check.C112_UIDunique.InsertSection')
+    @patch('os.path.exists', return_value=True)
+    @patch('subprocess.getstatusoutput', side_effect=[
+        (0, "      1 0\n      2 1000\n      1 2"),  # 第一次调用返回有重复的UID
+        (2, "Error")  # 第二次调用失败
+    ])
+    @patch('secScanner.enhance.level3.check.C112_UIDunique.logger')
+    @patch('secScanner.enhance.level3.check.C112_UIDunique.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_failed_to_retrieve_users(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_exists, mock_insert):
+        # 运行测试的函数
+        C112_UIDunique()
+
+        # 检查预期的警告信息是否已正确记录
+        mock_logger.warning.assert_any_call("WRN_C112_02: %s", WRN_C112_02)
+        mock_logger.warning.assert_any_call("SUG_C112_02: %s", SUG_C112_02)
+        mock_display.assert_called_with("- Failed to retrieve users for UID...", "WARNING")
 
     @patch('secScanner.enhance.level3.check.C112_UIDunique.InsertSection')
     @patch('os.path.exists', return_value=True)
