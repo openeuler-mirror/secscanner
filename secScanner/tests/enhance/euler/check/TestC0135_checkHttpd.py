@@ -110,6 +110,17 @@ class TestC0135_checkHttpd(unittest.TestCase):
         args, _ = mock_display.call_args
         self.assertEqual(args[0], "- Check the httpd software is uninstall...")
         self.assertEqual(args[1], "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0135_checkHttpd.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0135_checkHttpd.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0135_checkHttpd.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(2, 'not found'))
+    @patch('secScanner.enhance.euler.check.C0135_checkHttpd.logger')
+    @patch('secScanner.enhance.euler.check.C0135_checkHttpd.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_005_ret2_ok(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        C0135_checkHttpd()
+        mock_display.assert_called_once_with("- Check the httpd software is uninstall...", "OK")
 
 if __name__ == '__main':
     unittest.main()    
