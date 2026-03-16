@@ -121,6 +121,19 @@ class TestC0134_Xwindows(unittest.TestCase):
         C0134_Xwindows()
         mock_display.assert_called_once_with("- Check the xorg-x11 software is uninstall...", "OK")
         mock_file.assert_not_called()
+    
+    @patch('secScanner.enhance.euler.check.C0134_Xwindows.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0134_Xwindows.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0134_Xwindows.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, ''))
+    @patch('secScanner.enhance.euler.check.C0134_Xwindows.logger')
+    @patch('secScanner.enhance.euler.check.C0134_Xwindows.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_006_res_empty_no_exception(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        try:
+            C0134_Xwindows()
+        except Exception as e:
+            self.fail(f"C0134_Xwindows() raised an exception: {e}")
 
 if __name__ == '__main':
     unittest.main()    
