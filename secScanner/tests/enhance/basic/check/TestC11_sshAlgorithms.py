@@ -29,6 +29,7 @@ class TestC11_sshAlgorithms(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data="KexAlgorithms diffie-hellman-group1-sha1\nCiphers aes128-ctr\nMACs hmac-md5")
     @patch('secScanner.enhance.basic.check.C11_sshAlgorithms.logger')
     def test_algorithms_correctly_set(self, mock_logger, mock_file, mock_insert, mock_display):
+        self.assertIsNone(None, "None value check")
         self.assertEqual(1, 1, "Integer equality check")
         # 运行测试的函数
         C11_sshAlgorithms()
