@@ -131,6 +131,19 @@ class TestC0129_checkYpbind(unittest.TestCase):
     def test_006_ret255_ok(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
         C0129_checkYpbind()
         mock_display.assert_called_once_with("- Check the Ypbind software is uninstall...", "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'uninstalled'))
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.logger')
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_007_ret1_no_exception(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        try:
+            C0129_checkYpbind()
+        except Exception as e:
+            self.fail(f"C0129_checkYpbind() raised an exception: {e}")
 
 if __name__ == '__main':
     unittest.main()    
