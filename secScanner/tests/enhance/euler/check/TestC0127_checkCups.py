@@ -130,6 +130,19 @@ class TestC0127_checkCups(unittest.TestCase):
     def test_006_ret255_ok(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
         C0127_checkCups()
         mock_display.assert_called_once_with("- Check the cups software is uninstall...", "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'uninstalled'))
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.logger')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_007_ret1_no_exception(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        try:
+            C0127_checkCups()
+        except Exception as e:
+            self.fail(f"C0127_checkCups() raised an exception: {e}")
 
 if __name__ == '__main':
     unittest.main()   
