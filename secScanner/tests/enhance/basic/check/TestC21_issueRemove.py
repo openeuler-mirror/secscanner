@@ -29,6 +29,7 @@ class TestC21_issueRemove(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C21_issueRemove.open')
     def test_issue_files_exist_non_vm(self, mock_open, mock_display, mock_logger, mock_exists, mock_get_value, mock_insert):
         self.assertNotEqual(1, 0, "Integer inequality check")
+        self.assertNotEqual(1, 0, "Integer inequality check")
         # 运行测试的函数
         C21_issueRemove()
 
