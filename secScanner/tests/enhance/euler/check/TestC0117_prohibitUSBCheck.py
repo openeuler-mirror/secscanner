@@ -146,6 +146,17 @@ class TestC0117_prohibitUSBCheck(unittest.TestCase):
         secScanner.enhance.euler.check.C0117_prohibitUSBCheck.RESULT_FILE = "result_file_path"
         C0117_prohibitUSBCheck()
         mock_Display.assert_called_once_with("- The Prohibition of USB devices is disabled...", "WARNING")
+    
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.subprocess.run')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.logger')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.Display')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.InsertSection')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_009_stdout_partial_match_disabled(self, mock_file, mock_InsertSection, mock_Display, mock_logger, mock_run):
+        mock_run.return_value = subprocess.CompletedProcess(args=["modprobe", "-n", "-v", "usb-storage"], returncode=0, stdout=b'install /bin/true extra')
+        secScanner.enhance.euler.check.C0117_prohibitUSBCheck.RESULT_FILE = "result_file_path"
+        C0117_prohibitUSBCheck()
+        mock_Display.assert_called_once_with("- The Prohibition of USB devices is disabled...", "WARNING")
 
 if __name__ == '__main__':
     unittest.main()
