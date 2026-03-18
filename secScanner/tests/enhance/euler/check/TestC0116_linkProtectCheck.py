@@ -190,6 +190,18 @@ class TestC0116_linkProtectCheck(unittest.TestCase):
         C0116_linkProtectCheck()
         mock_InsertSection.assert_called_once_with("Check whether link file protection is enabled")
         mock_Display.assert_any_call("- Check whether symlinks fileprotection is enabled...", "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.subprocess.run')
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.Display')
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.logger')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_010_symlinks_1_tab_separator(self, mock_file, mock_logger, mock_Display, mock_InsertSection, mock_subprocess):
+        """等号两侧使用制表符，值为 1"""
+        mock_subprocess.return_value.stdout = b'fs.protected_symlinks\t=\t1\n'
+        C0116_linkProtectCheck()
+        mock_InsertSection.assert_called_once_with("Check whether link file protection is enabled")
+        mock_Display.assert_any_call("- Check whether symlinks fileprotection is enabled...", "OK")
             
 if __name__ == '__main__':
     unittest.main()
