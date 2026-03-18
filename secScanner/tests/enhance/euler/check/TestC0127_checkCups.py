@@ -143,6 +143,17 @@ class TestC0127_checkCups(unittest.TestCase):
             C0127_checkCups()
         except Exception as e:
             self.fail(f"C0127_checkCups() raised an exception: {e}")
+        
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'uninstalled'))
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.logger')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_008_ret1_logger_info_exact(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        C0127_checkCups()
+        mock_logger.info.assert_called_once_with("The cups status is: uninstalled")
 
 if __name__ == '__main':
     unittest.main()   
