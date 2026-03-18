@@ -132,6 +132,19 @@ class TestC0135_checkHttpd(unittest.TestCase):
     def test_006_ret255_ok(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
         C0135_checkHttpd()
         mock_display.assert_called_once_with("- Check the httpd software is uninstall...", "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0135_checkHttpd.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0135_checkHttpd.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0135_checkHttpd.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'uninstalled'))
+    @patch('secScanner.enhance.euler.check.C0135_checkHttpd.logger')
+    @patch('secScanner.enhance.euler.check.C0135_checkHttpd.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_007_ret1_no_exception(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        try:
+            C0135_checkHttpd()
+        except Exception as e:
+            self.fail(f"C0135_checkHttpd() raised an exception: {e}")
 
 if __name__ == '__main':
     unittest.main()    
