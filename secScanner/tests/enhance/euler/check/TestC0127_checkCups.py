@@ -154,6 +154,18 @@ class TestC0127_checkCups(unittest.TestCase):
     def test_008_ret1_logger_info_exact(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
         C0127_checkCups()
         mock_logger.info.assert_called_once_with("The cups status is: uninstalled")
+    
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'installed'))
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.logger')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_009_ret0_insert_section_once(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        secScanner.enhance.euler.check.C0127_checkCups.RESULT_FILE = "result_file_path"
+        C0127_checkCups()
+        self.assertEqual(mock_InsertSection.call_count, 1)
 
 if __name__ == '__main':
     unittest.main()   
