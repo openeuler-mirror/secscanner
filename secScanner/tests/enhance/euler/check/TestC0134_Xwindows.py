@@ -145,6 +145,18 @@ class TestC0134_Xwindows(unittest.TestCase):
     def test_007_res_empty_logger_info_exact(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
         C0134_Xwindows()
         mock_logger.info.assert_called_once_with("The xorg-x11 status is: ")
+    
+    @patch('secScanner.enhance.euler.check.C0134_Xwindows.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0134_Xwindows.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0134_Xwindows.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'xorg-x11-server-Xorg'))
+    @patch('secScanner.enhance.euler.check.C0134_Xwindows.logger')
+    @patch('secScanner.enhance.euler.check.C0134_Xwindows.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_008_res_nonempty_insert_section_once(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        secScanner.enhance.euler.check.C0134_Xwindows.RESULT_FILE = "result_file_path"
+        C0134_Xwindows()
+        self.assertEqual(mock_InsertSection.call_count, 1)
 
 if __name__ == '__main':
     unittest.main()    
