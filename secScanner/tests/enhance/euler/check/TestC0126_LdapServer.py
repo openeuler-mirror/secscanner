@@ -132,6 +132,17 @@ class TestC0126_LdapServer(unittest.TestCase):
         C0126_LdapServer()
         mock_display.assert_called_once_with("- Check the openldap-servers software is uninstall...", "OK")
         mock_logger.info.assert_called_once_with("The openldap-servers status is: not installed")
+    
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(2, 'package not found'))
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.logger')
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_007_ret2_ok(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        C0126_LdapServer()
+        mock_display.assert_called_once_with("- Check the openldap-servers software is uninstall...", "OK")
 
 if __name__ == '__main':
     unittest.main()    
