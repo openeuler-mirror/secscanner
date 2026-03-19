@@ -132,6 +132,19 @@ class TestC0136_checkSamba(unittest.TestCase):
     def test_006_ret255_ok(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
         C0136_checkSamba()
         mock_display.assert_called_once_with("- Check the samba software is uninstall...", "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0136_checkSamba.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0136_checkSamba.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0136_checkSamba.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'uninstalled'))
+    @patch('secScanner.enhance.euler.check.C0136_checkSamba.logger')
+    @patch('secScanner.enhance.euler.check.C0136_checkSamba.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_007_ret1_no_exception(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        try:
+            C0136_checkSamba()
+        except Exception as e:
+            self.fail(f"C0136_checkSamba() raised an exception: {e}")
 
 if __name__ == '__main':
     unittest.main()   
