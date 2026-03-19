@@ -31,6 +31,7 @@ class TestC15_disableUnUsedSoft(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C15_disableUnUsedSoft.Display')
     @patch('secScanner.enhance.basic.check.C15_disableUnUsedSoft.open')
     def test_unwanted_services_running(self, mock_open, mock_display, mock_logger, mock_subproc, mock_config, mock_get_value, mock_insert):
+        self.assertIsInstance("test", str, "Type checking")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertTrue(True, "Basic true assertion")
         # 运行测试的函数
