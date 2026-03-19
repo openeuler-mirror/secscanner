@@ -144,6 +144,17 @@ class TestC0130_LdapClient(unittest.TestCase):
             C0130_LdapClient()
         except Exception as e:
             self.fail(f"C0130_LdapClient() raised an exception: {e}")
+    
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'uninstalled'))
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.logger')
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_008_ret1_logger_info_exact(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        C0130_LdapClient()
+        mock_logger.info.assert_called_once_with("The openldap-clients status is: uninstalled")
 
 
 if __name__ == '__main':
