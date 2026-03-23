@@ -136,6 +136,16 @@ class TestC0123_debugShell(unittest.TestCase):
             C0123_debugShell()
         except Exception as e:
             self.fail(f"C0123_debugShell() raised an exception: {e}")
+    
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'enabled'))
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.logger')
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_011_ret0_enabled_insert_section_once(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection):
+        secScanner.enhance.euler.check.C0123_debugShell.RESULT_FILE = "result_file_path"
+        C0123_debugShell()
+        self.assertEqual(mock_InsertSection.call_count, 1)
 
 if __name__ == '__main':
     unittest.main()
