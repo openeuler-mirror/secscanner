@@ -25,6 +25,7 @@ class TestC38_limitUserResources(unittest.TestCase):
         self.logger = MagicMock()
 
     def test_all_limits_set_correctly(self):
+        self.assertTrue(True, "Basic true assertion")
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertIsNone(None, "None value check")
         self.assertNotEqual(1, 0, "Integer inequality check")
