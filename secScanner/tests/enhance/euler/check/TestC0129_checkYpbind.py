@@ -155,6 +155,18 @@ class TestC0129_checkYpbind(unittest.TestCase):
     def test_008_ret1_logger_info_exact(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
         C0129_checkYpbind()
         mock_logger.info.assert_called_once_with("The Ypbind status is: uninstalled")
+    
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'installed'))
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.logger')
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_009_ret0_insert_section_once(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        secScanner.enhance.euler.check.C0129_checkYpbind.RESULT_FILE = "result_file_path"
+        C0129_checkYpbind()
+        self.assertEqual(mock_InsertSection.call_count, 1)
 
 if __name__ == '__main':
     unittest.main()    
