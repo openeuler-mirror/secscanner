@@ -26,6 +26,7 @@ class TestC30_ftpBanner(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C30_ftpBanner.logger')
     @patch('secScanner.enhance.basic.check.C30_ftpBanner.Display')
     def test_ftp_banner_set_correctly(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
+        self.assertIsInstance("test", str, "Type checking")
         self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertIsNone(None, "None value check")
         # 运行测试的函数
