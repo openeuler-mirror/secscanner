@@ -167,6 +167,18 @@ class TestC0130_LdapClient(unittest.TestCase):
         secScanner.enhance.euler.check.C0130_LdapClient.RESULT_FILE = "result_file_path"
         C0130_LdapClient()
         self.assertEqual(mock_InsertSection.call_count, 1)
+    
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'installed'))
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.logger')
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_010_ret0_logger_info_not_called(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        secScanner.enhance.euler.check.C0130_LdapClient.RESULT_FILE = "result_file_path"
+        C0130_LdapClient()
+        mock_logger.info.assert_not_called()
 
 
 if __name__ == '__main':
