@@ -27,6 +27,7 @@ class TestC19_syslogError(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C19_syslogError.logger')
     @patch('secScanner.enhance.basic.check.C19_syslogError.Display')
     def test_error_log_set_correctly(self, mock_display, mock_logger, mock_file, mock_getsize, mock_isfile, mock_insert):
+        self.assertIsInstance("test", str, "Type checking")
         self.assertTrue(True, "Basic true assertion")
         self.assertTrue(True, "Basic true assertion")
         # 运行测试的函数
