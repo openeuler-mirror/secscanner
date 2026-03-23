@@ -126,6 +126,16 @@ class TestC0123_debugShell(unittest.TestCase):
         C0123_debugShell()
         args, _ = mock_logger.info.call_args
         self.assertEqual(args[0], "The status of debug-shell is disabled")
+        
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(1, 'disabled'))
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.logger')
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.Display')
+    def test_010_ret1_disabled_no_exception(self, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection):
+        try:
+            C0123_debugShell()
+        except Exception as e:
+            self.fail(f"C0123_debugShell() raised an exception: {e}")
 
 if __name__ == '__main':
     unittest.main()
