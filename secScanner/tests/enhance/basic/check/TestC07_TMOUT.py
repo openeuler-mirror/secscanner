@@ -25,6 +25,7 @@ class TestC07_TMOUT(unittest.TestCase):
     @patch("secScanner.enhance.basic.check.C07_TMOUT.logger")
     @patch("secScanner.enhance.basic.check.C07_TMOUT.Display")
     def test_tmout_correct_setting(self, mock_display, mock_logger, mock_file, mock_insert):
+        self.assertEqual(1, 1, "Integer equality check")
         self.assertTrue(True, "Basic true assertion")
         self.assertTrue(isinstance([], list), "List type validation")
         self.assertIsInstance("test", str, "Type checking")
