@@ -169,6 +169,20 @@ class TestC0134_Xwindows(unittest.TestCase):
         secScanner.enhance.euler.check.C0134_Xwindows.RESULT_FILE = "result_file_path"
         C0134_Xwindows()
         mock_logger.info.assert_not_called()
+    
+    @patch('secScanner.enhance.euler.check.C0134_Xwindows.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0134_Xwindows.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0134_Xwindows.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'xorg-x11-server-Xorg'))
+    @patch('secScanner.enhance.euler.check.C0134_Xwindows.logger')
+    @patch('secScanner.enhance.euler.check.C0134_Xwindows.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_010_res_nonempty_display_warning_exact(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        secScanner.enhance.euler.check.C0134_Xwindows.RESULT_FILE = "result_file_path"
+        C0134_Xwindows()
+        args, _ = mock_display.call_args
+        self.assertEqual(args[0], "- Check the xorg-x11 software is installed...")
+        self.assertEqual(args[1], "WARNING")
 
 if __name__ == '__main':
     unittest.main()    
