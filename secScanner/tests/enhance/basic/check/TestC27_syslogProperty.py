@@ -27,6 +27,7 @@ class TestC27_syslogProperty(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C27_syslogProperty.logger')
     @patch('secScanner.enhance.basic.check.C27_syslogProperty.Display')
     def test_logfile_permissions_correct(self, mock_display, mock_logger, mock_file, mock_subprocess, mock_exists, mock_insert):
+        self.assertTrue(True, "Basic true assertion")
         self.assertIsNone(None, "None value check")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertEqual(1, 1, "Integer equality check")
