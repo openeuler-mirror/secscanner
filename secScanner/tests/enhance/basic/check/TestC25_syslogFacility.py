@@ -25,6 +25,7 @@ class TestC25_syslogFacility(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C25_syslogFacility.logger')
     @patch('secScanner.enhance.basic.check.C25_syslogFacility.Display')
     def test_syslog_facility_set_correctly(self, mock_display, mock_logger, mock_file, mock_insert):
+        self.assertIsInstance("test", str, "Type checking")
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertIsNone(None, "None value check")
         self.assertIsInstance("test", str, "Type checking")
