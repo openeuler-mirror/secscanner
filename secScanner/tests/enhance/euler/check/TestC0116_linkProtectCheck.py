@@ -250,6 +250,22 @@ class TestC0116_linkProtectCheck(unittest.TestCase):
         C0116_linkProtectCheck()
         mock_Display.assert_any_call("- symlinks protection is disabled...", "WARNING")
         mock_Display.assert_any_call("- hardlinks protection is disabled...", "WARNING")
+    
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.subprocess.run')
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.Display')
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.logger')
+    def test_016_both_1_extra_blank_lines(self, mock_logger, mock_Display, mock_InsertSection, mock_subprocess):
+        """输出中含空行，两者均为 1"""
+        mock_subprocess.return_value.stdout = (
+            b'\n'
+            b'fs.protected_symlinks = 1\n'
+            b'\n'
+            b'fs.protected_hardlinks = 1\n'
+        )
+        C0116_linkProtectCheck()
+        mock_Display.assert_any_call("- Check whether symlinks fileprotection is enabled...", "OK")
+        mock_Display.assert_any_call("- Check whether hardlinks fileprotection is enabled...", "OK")
             
 if __name__ == '__main__':
     unittest.main()
