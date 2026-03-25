@@ -168,6 +168,18 @@ class TestC0136_checkSamba(unittest.TestCase):
         secScanner.enhance.euler.check.C0136_checkSamba.RESULT_FILE = "result_file_path"
         C0136_checkSamba()
         self.assertEqual(mock_InsertSection.call_count, 1)
+    
+    @patch('secScanner.enhance.euler.check.C0136_checkSamba.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0136_checkSamba.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0136_checkSamba.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'installed'))
+    @patch('secScanner.enhance.euler.check.C0136_checkSamba.logger')
+    @patch('secScanner.enhance.euler.check.C0136_checkSamba.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_010_ret0_logger_info_not_called(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        secScanner.enhance.euler.check.C0136_checkSamba.RESULT_FILE = "result_file_path"
+        C0136_checkSamba()
+        mock_logger.info.assert_not_called()
 
 if __name__ == '__main':
     unittest.main()   
