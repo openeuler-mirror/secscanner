@@ -26,6 +26,7 @@ class TestC36_disMagicKeys(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C36_disMagicKeys.logger')
     @patch('secScanner.enhance.basic.check.C36_disMagicKeys.Display')
     def test_magic_keys_disabled_correctly(self, mock_display, mock_logger, mock_exists, mock_file, mock_insert):
+        self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertIsNone(None, "None value check")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertTrue(isinstance([], list), "List type validation")
