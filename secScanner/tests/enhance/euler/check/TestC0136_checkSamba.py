@@ -180,6 +180,20 @@ class TestC0136_checkSamba(unittest.TestCase):
         secScanner.enhance.euler.check.C0136_checkSamba.RESULT_FILE = "result_file_path"
         C0136_checkSamba()
         mock_logger.info.assert_not_called()
+    
+    @patch('secScanner.enhance.euler.check.C0136_checkSamba.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0136_checkSamba.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0136_checkSamba.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'installed'))
+    @patch('secScanner.enhance.euler.check.C0136_checkSamba.logger')
+    @patch('secScanner.enhance.euler.check.C0136_checkSamba.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_011_ret0_display_warning_exact(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        secScanner.enhance.euler.check.C0136_checkSamba.RESULT_FILE = "result_file_path"
+        C0136_checkSamba()
+        args, _ = mock_display.call_args
+        self.assertEqual(args[0], "- Check the samba software is installed...")
+        self.assertEqual(args[1], "WARNING")
 
 if __name__ == '__main':
     unittest.main()   
