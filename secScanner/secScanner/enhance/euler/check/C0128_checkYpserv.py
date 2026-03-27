@@ -23,7 +23,7 @@ def C0128_checkYpserv():
     InsertSection("Check whether the ypserv software is installed in your Linux System ")
     ret,res = subprocess.getstatusoutput('rpm -q ypserv')
     if ret == 0:
-        with open(RESULT_FILE,'a+') as file:
+        with open(RESULT_FILE,'a+', encoding="utf-8") as file:
             file.write("\nC0128\n")
         logger.warning("WRN_C0128: %s", WRN_C0128)
         logger.warning("SUG_C0128: %s", SUG_C0128)
