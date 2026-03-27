@@ -28,7 +28,7 @@ def C09_loginDefs():
     PASS_WARN_AGE_VAL = ''
 
     # search part
-    with open("/etc/login.defs", "r") as file:
+    with open("/etc/login.defs", "r", encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
             if re.match('PASS_MAX_DAYS', line) and (not re.match('#', line)):
