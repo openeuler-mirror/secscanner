@@ -39,7 +39,7 @@ def softck():
                             resultServ += j + ' '
 
     if len(resultServ) > 0:
-        with open(RESULT_FILE, "a") as file:
+        with open(RESULT_FILE, "a", encoding="utf-8") as file:
             file.write("\nC15\n")
         logger.warning("WRN_C15_01: %s", WRN_C15_01)
         logger.warning("SUG_C15: %s", SUG_C15)
