@@ -25,7 +25,7 @@ def C37_Kernelopps():
     InsertSection("check kernel panic on oops set")
     kerneloops_set = 'unset'
     if os.path.exists('/etc/sysctl.conf'):
-        with open("/etc/sysctl.conf", "r") as file:
+        with open("/etc/sysctl.conf", "r", encoding="utf-8") as file:
             lines = file.readlines()
             for line in lines:
                 if re.match('kernel.panic_on_oops', line) and not re.match('^#|^$', line):
