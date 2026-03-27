@@ -35,7 +35,7 @@ def C18_syslogKern():
                     if re.search('kern.warning', line) and re.search('/var/log/', line) and not re.match('#', line):
                         count = count + 1
             if count == 0:
-                with open(RESULT_FILE, "a") as file:
+                with open(RESULT_FILE, "a", encoding="utf-8") as file:
                     file.write("\nC18\n")
                 logger.warning("WRN_C18: %s", WRN_C18)
                 logger.warning("SUG_C18: %s", SUG_C18)
