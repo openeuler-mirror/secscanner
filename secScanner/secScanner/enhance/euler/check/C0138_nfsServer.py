@@ -28,7 +28,7 @@ def C0138_nfsServer():
     else:
         ret,res= subprocess.getstatusoutput('systemctl is-enabled nfs-server')
         if ret == 0:
-            with open(RESULT_FILE,'a+') as file:
+            with open(RESULT_FILE,'a+', encoding="utf-8") as file:
                 file.write("\nC0138\n")
             logger.warning("WRN_C0138: %s", WRN_C0138)
             logger.warning("SUG_C0138: %s", SUG_C0138)
