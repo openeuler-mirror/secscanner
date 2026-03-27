@@ -206,6 +206,18 @@ class TestC0128_checkYpserv(unittest.TestCase):
         C0128_checkYpserv()
         self.assertEqual(mock_logger.warning.call_count, 2)
     
+    @patch('secScanner.enhance.euler.check.C0128_checkYpserv.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0128_checkYpserv.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0128_checkYpserv.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'installed'))
+    @patch('secScanner.enhance.euler.check.C0128_checkYpserv.logger')
+    @patch('secScanner.enhance.euler.check.C0128_checkYpserv.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_013_ret0_file_open_aplus(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        secScanner.enhance.euler.check.C0128_checkYpserv.RESULT_FILE = "result_file_path"
+        C0128_checkYpserv()
+        mock_file.assert_called_with("result_file_path", "a+")
+    
 
 if __name__ == '__main':
     unittest.main()   
