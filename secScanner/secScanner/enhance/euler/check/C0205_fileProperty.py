@@ -40,7 +40,7 @@ def C0205_fileProperty():
                 logger.info(f"{i} is safe, checking ok")
                 Display(f"- Check {i} property...", "OK")
             else:
-                with open(RESULT_FILE, "a") as file:
+                with open(RESULT_FILE, "a", encoding="utf-8") as file:
                     file.write("\nC0205\n")
                 warn_str = "WRN_C0205_" + str(tmp_count)
                 sugs_str = "SUG_C0205_" + str(tmp_count)
