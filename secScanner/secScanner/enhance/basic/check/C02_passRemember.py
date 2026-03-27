@@ -25,7 +25,7 @@ def C02_passRemember():
     InsertSection("check passwd Remember times")
     SET_VAL1 = []
     SET_VAL2 = []
-    with open("/etc/pam.d/password-auth", "r") as file:
+    with open("/etc/pam.d/password-auth", "r", encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
             if re.match('password', line) and re.search('pam_pwhistory.so', line) \
