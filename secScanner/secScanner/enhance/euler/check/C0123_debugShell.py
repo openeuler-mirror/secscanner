@@ -26,7 +26,7 @@ def C0123_debugShell():
         logger.info(f'The status of debug-shell is {res}')
         Display(f"- Check the status of debug-shell is {res}...", "OK")
     else:
-        with open(RESULT_FILE,'a+') as file:
+        with open(RESULT_FILE,'a+', encoding="utf-8") as file:
             file.write("\nC0123\n")
         logger.warning("WRN_C0123: %s", WRN_C0123)
         logger.warning("SUG_C0123: %s", SUG_C0123)
