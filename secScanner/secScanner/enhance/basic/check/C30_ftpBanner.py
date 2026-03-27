@@ -27,7 +27,7 @@ def C30_ftpBanner():
     ftpBanner_set = 'unset'
     
     if os.path.exists('/etc/vsftpd/vsftpd.conf'):
-        with open('/etc/vsftpd/vsftpd.conf', 'r') as file:
+        with open('/etc/vsftpd/vsftpd.conf', 'r', encoding="utf-8") as file:
             lines = file.readlines()
             for line in lines:
                 if re.match('ftpd_banner', line) and not re.match('^#|^$', line):
