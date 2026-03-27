@@ -23,7 +23,7 @@ def C0127_checkCups():
     InsertSection("Check whether the cups software is installed in your Linux System ")
     ret,res = subprocess.getstatusoutput('rpm -q cups')
     if ret == 0:
-        with open(RESULT_FILE,'a+') as file:
+        with open(RESULT_FILE,'a+', encoding="utf-8") as file:
             file.write("\nC0127\n")
         logger.warning("WRN_C0127: %s", WRN_C0127)
         logger.warning("SUG_C0127: %s", SUG_C0127)
