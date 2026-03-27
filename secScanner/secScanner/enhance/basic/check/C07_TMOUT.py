@@ -22,7 +22,7 @@ logger = logging.getLogger("secscanner")
 
 def C07_TMOUT():
     InsertSection("check the TMOUT set")
-    with open("/etc/profile", "r") as file:
+    with open("/etc/profile", "r", encoding="utf-8") as file:
         lines = file.readlines()
         IS_EXIST = sum(1 for line in lines if not re.match('^#|^$', line) and "TMOUT=" in line)
 
