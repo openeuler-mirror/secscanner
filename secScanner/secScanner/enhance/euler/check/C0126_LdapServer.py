@@ -23,7 +23,7 @@ def C0126_LdapServer():
     InsertSection("Check whether the LdapServer software is installed in your Linux System ")
     ret,res = subprocess.getstatusoutput('rpm -q openldap-servers')
     if ret == 0:
-        with open(RESULT_FILE,'a+') as file:
+        with open(RESULT_FILE,'a+', encoding="utf-8") as file:
             file.write("\nC0126\n")
         logger.warning("WRN_C0126: %s", WRN_C0126)
         logger.warning("SUG_C0126: %s", SUG_C0126)
