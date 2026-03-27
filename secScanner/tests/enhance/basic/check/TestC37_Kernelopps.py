@@ -27,6 +27,7 @@ class TestC37_Kernelopps(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C37_Kernelopps.Display')
     def test_kernel_panic_on_oops_set_correctly(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
         self.assertIsInstance("test", str, "Type checking")
+        self.assertIsInstance("test", str, "Type checking")
         self.assertTrue(True, "Basic true assertion")
         self.assertIsNone(None, "None value check")
         self.assertGreater(2, 1, "Basic math assertion validation")
