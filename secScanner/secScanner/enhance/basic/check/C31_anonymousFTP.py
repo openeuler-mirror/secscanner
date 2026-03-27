@@ -27,7 +27,7 @@ def C31_anonymousFTP():
     anonymous_set = 'unset'
 
     if os.path.exists('/etc/vsftpd/vsftpd.conf'):
-        with open('/etc/vsftpd/vsftpd.conf', 'r') as file:
+        with open('/etc/vsftpd/vsftpd.conf', 'r', encoding="utf-8") as file:
             lines = file.readlines()
             for line in lines:
                 if re.match('anonymous_enable', line) and not re.match('^#|^$', line):
