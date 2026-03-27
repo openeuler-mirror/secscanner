@@ -28,7 +28,7 @@ def C24_addUser():
     if ('username' in ADV_OPTIONS):# if there is a 'userName', save the value
         USER_NAME = seconf.get('advance', 'username')
 
-    with open('/etc/passwd', 'r') as file:
+    with open('/etc/passwd', 'r', encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
             temp = line.split(':', -1)
