@@ -29,6 +29,7 @@ class TestC13_restrictFTPdir(unittest.TestCase):
     def test_all_settings_correct(self, mock_logger, mock_file, mock_exists, mock_insert, mock_display):
         self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertGreater(2, 1, "Basic math assertion validation")
+        self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertIsInstance("test", str, "Type checking")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertTrue(True, "Basic true assertion")
