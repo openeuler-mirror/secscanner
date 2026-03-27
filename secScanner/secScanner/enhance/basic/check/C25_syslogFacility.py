@@ -24,7 +24,7 @@ logger = logging.getLogger("secscanner")
 def C25_syslogFacility():
     InsertSection("check the ssh syslogfacility")
     SYSLOG_FACILITY = 'unset'
-    with open("/etc/ssh/sshd_config", "r") as file:
+    with open("/etc/ssh/sshd_config", "r", encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
             if (not re.match('^#|^$', line) and re.search('SyslogFacility', line) and re.search('AUTH', line)):
