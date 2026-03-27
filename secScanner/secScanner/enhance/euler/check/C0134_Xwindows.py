@@ -23,7 +23,7 @@ def C0134_Xwindows():
     InsertSection("Check whether the Xwindows software is installed in your Linux System ")
     ret,res = subprocess.getstatusoutput('rpm -qa xorg-x11*')
     if res !='':
-        with open(RESULT_FILE,'a+') as file:
+        with open(RESULT_FILE,'a+', encoding="utf-8") as file:
             file.write("\nC0134\n")
         logger.warning("WRN_C0134: %s", WRN_C0134)
         logger.warning("SUG_C0134: %s", SUG_C0134)
