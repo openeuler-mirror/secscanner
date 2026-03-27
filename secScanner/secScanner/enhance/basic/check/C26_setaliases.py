@@ -26,7 +26,7 @@ def C26_setaliases():
     set_ls = 'unset'
     set_rm = 'unset'
     if os.path.exists('/root/.bashrc'):
-        with open('/root/.bashrc', 'r') as file:
+        with open('/root/.bashrc', 'r', encoding="utf-8") as file:
             lines = file.readlines()
             for line in lines:
                 if re.match('alias ls', line) and not re.match('^#|^$', line):
