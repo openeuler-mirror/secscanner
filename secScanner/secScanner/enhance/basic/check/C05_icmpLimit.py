@@ -24,7 +24,7 @@ logger = logging.getLogger("secscanner")
 def C05_icmpLimit():
     InsertSection("check icmp redirect limit")
     ICMP_EXIST = 0
-    with open("/etc/sysctl.conf", "r") as file:
+    with open("/etc/sysctl.conf", "r", encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
             if re.match('net.ipv4.conf.all.accept_redirects=0', line) and (not re.match('#|$', line)):
