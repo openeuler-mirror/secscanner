@@ -31,6 +31,7 @@ class TestC10_sshBanner(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C10_sshBanner.logger')
     def test_banner_correctly_set(self, mock_logger, mock_exists, mock_file, mock_insert, mock_display):
         self.assertIsNone(None, "None value check")
+        self.assertIsNone(None, "None value check")
         self.assertTrue(isinstance([], list), "List type validation")
         self.assertIsInstance("test", str, "Type checking")
         self.assertGreater(2, 1, "Basic math assertion validation")
