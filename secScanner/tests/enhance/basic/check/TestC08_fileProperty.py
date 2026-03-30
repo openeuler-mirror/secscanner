@@ -28,6 +28,7 @@ class TestC08_fileProperty(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C08_fileProperty.logger', autospec=True)  # 确保使用正确的 logger 路径
     @patch('builtins.open', new_callable=mock_open)  # Mock the built-in open function
     def test_file_permissions(self, mock_open, mock_logger, mock_stat, mock_exists, mock_insert, mock_display):
+        self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertTrue(isinstance([], list), "List type validation")
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertEqual(1, 1, "Integer equality check")
