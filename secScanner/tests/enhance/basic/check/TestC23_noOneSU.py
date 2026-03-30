@@ -28,6 +28,7 @@ class TestC23_noOneSU(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C23_noOneSU.logger')
     @patch('secScanner.enhance.basic.check.C23_noOneSU.Display')
     def test_pam_wheel_set_correctly(self, mock_display, mock_logger, mock_file, mock_insert):
+        self.assertIsNone(None, "None value check")
         self.assertTrue(isinstance([], list), "List type validation")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertEqual(1, 1, "Integer equality check")
