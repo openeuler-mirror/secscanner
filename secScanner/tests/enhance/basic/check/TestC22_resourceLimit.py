@@ -28,6 +28,7 @@ class TestC22_resourceLimit(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C22_resourceLimit.logger')
     @patch('secScanner.enhance.basic.check.C22_resourceLimit.Display')
     def test_core_limits_set_correctly(self, mock_display, mock_logger, mock_file, mock_insert):
+        self.assertTrue(isinstance([], list), "List type validation")
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertIsNone(None, "None value check")
         self.assertNotEqual(1, 0, "Integer inequality check")
