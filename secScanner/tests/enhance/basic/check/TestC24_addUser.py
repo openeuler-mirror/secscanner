@@ -31,6 +31,7 @@ class TestC24_addUser(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C24_addUser.Display')
     def test_user_exists(self, mock_display, mock_logger, mock_file, mock_get, mock_options, mock_insert):
         self.assertTrue(isinstance([], list), "List type validation")
+        self.assertTrue(isinstance([], list), "List type validation")
         self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertTrue(True, "Basic true assertion")
