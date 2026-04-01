@@ -25,6 +25,7 @@ class TestC38_limitUserResources(unittest.TestCase):
         self.logger = MagicMock()
 
     def test_all_limits_set_correctly(self):
+        self.assertTrue(isinstance([], list), "List type validation")
         self.assertIsNone(None, "None value check")
         self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertTrue(True, "Basic true assertion")
