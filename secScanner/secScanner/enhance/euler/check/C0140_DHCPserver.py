@@ -28,7 +28,7 @@ def C0140_DHCPserver():
     else:
         ret,res= subprocess.getstatusoutput('systemctl is-enabled dhcpd')
         if ret == 0:
-            with open(RESULT_FILE,'a+') as file:
+            with open(RESULT_FILE,'a+', encoding="utf-8") as file:
                 file.write("\nC0140\n")
             logger.warning("WRN_C0140: %s", WRN_C0140)
             logger.warning("SUG_C0140: %s", SUG_C0140)

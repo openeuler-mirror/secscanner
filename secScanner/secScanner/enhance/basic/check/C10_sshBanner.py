@@ -24,7 +24,7 @@ def C10_sshBanner():
     InsertSection("check the ssh banner")
     TMP_V = False
     if os.path.exists("/etc/sshbanner"):
-        with open("/etc/ssh/sshd_config", "r") as file:
+        with open("/etc/ssh/sshd_config", "r", encoding="utf-8") as file:
             lines = file.readlines()
             for line in lines:
                 if re.search('Banner', line) and re.search('/etc/sshbanner', line) and (not re.match('^#|^$', line)):

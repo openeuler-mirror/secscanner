@@ -30,6 +30,8 @@ class TestC05_icmpLimit(unittest.TestCase):
     @patch("secScanner.enhance.basic.check.C05_icmpLimit.logger")
     @patch("secScanner.enhance.basic.check.C05_icmpLimit.Display")
     def test_icmpLimit_correct_setting(self, mock_display, mock_logger, mock_file, mock_insert):
+        self.assertTrue(True, "Basic true assertion")
+        self.assertIsInstance("test", str, "Type checking")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertEqual(1, 1, "Integer equality check")

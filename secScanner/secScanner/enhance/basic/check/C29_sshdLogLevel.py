@@ -25,7 +25,7 @@ logger = logging.getLogger("secscanner")
 def C29_sshdLogLevel():
     InsertSection("check the ssh loglevel")
     LOGLEVEL_SET = 'unset'
-    with open('/etc/ssh/sshd_config', 'r') as file:
+    with open('/etc/ssh/sshd_config', 'r', encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
             if re.match('LogLevel', line) and not re.match('^#|^$', line):

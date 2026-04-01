@@ -24,7 +24,7 @@ logger = logging.getLogger("secscanner")
 def C28_initUserPath():
     InsertSection("check the ALWAYS_SET_PATH set in /etc/login.defs")
     ALWAYS_SET = 'unset'
-    with open('/etc/login.defs', 'r') as file:
+    with open('/etc/login.defs', 'r', encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
             if re.match('ALWAYS_SET_PATH', line) and not re.match('^#|^$', line):

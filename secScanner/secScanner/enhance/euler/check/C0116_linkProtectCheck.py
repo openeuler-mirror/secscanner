@@ -35,7 +35,7 @@ def C0116_linkProtectCheck():
         result_symlinks = subprocess.run(['sysctl', protectFlag], capture_output=True)
         resultStr = result_symlinks.stdout.strip().decode("utf-8")
         if resultStr[-1] == '0':
-            with open(RESULT_FILE, "a") as file:
+            with open(RESULT_FILE, "a", encoding="utf-8") as file:
                 file.write("\nC0116\n")
             logger.warning("WRN_C0116_0%d: %s", (i + 1), warnMessage[i])
             logger.warning("SUG_C0116_0%d: %s", (i + 1), sugMessage[i])

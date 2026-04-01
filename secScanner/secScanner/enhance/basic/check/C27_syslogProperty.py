@@ -26,7 +26,7 @@ def C27_syslogProperty():
     InsertSection("check log file property")
     SYS_LOGFILE = ['/etc/rsyslog.conf']
     if os.path.exists('/etc/rsyslog.conf'):
-        with open('/etc/rsyslog.conf', 'r') as file:
+        with open('/etc/rsyslog.conf', 'r', encoding="utf-8") as file:
             lines = file.readlines()
             for line in lines:
                 if re.search('/var/log', line) and (not re.match('^#|^$', line)):

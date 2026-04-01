@@ -25,7 +25,7 @@ def C23_noOneSU():
     InsertSection("check if permit user can su to root")
     # LINE_NUMBER = 0 # dont need to record line number
     IS_EXIST = 0
-    with open('/etc/pam.d/su', 'r') as file:
+    with open('/etc/pam.d/su', 'r', encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
             if re.search('auth', line) and re.search('pam_wheel.so', line) and re.search('group=wheel', line):

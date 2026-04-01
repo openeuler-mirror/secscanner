@@ -28,7 +28,7 @@ def C0139_RpcServer():
     else:
         ret,res= subprocess.getstatusoutput('systemctl is-enabled rpcbind')
         if ret == 0:
-            with open(RESULT_FILE,'a+') as file:
+            with open(RESULT_FILE,'a+', encoding="utf-8") as file:
                 file.write("\nC0139\n")
             logger.warning("WRN_C0139: %s", WRN_C0139)
             logger.warning("SUG_C0139: %s", SUG_C0139)

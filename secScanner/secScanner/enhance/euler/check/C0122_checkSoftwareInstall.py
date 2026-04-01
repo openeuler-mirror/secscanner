@@ -26,7 +26,7 @@ def C0122_checkSoftwareInstall():
     InsertSection("Check whether the FTP software is installed in your Linux System ")
     ret,res = subprocess.getstatusoutput('rpm -q ftp')
     if ret == 0:
-        with open(RESULT_FILE,'a+') as file:
+        with open(RESULT_FILE,'a+', encoding="utf-8") as file:
             file.write("\nC0122_1\n")
         logger.warning("WRN_C0122_1: %s", WRN_C0122_1)
         logger.warning("SUG_C0122_1: %s", SUG_C0122_1)

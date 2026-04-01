@@ -60,7 +60,7 @@ def C0207_passwdGroupexists():
                 counter += 1
 
         if counter > 0:
-            with open(RESULT_FILE, "a") as file:
+            with open(RESULT_FILE, "a", encoding="utf-8") as file:
                 file.write("\nC0207\n")
             logger.warning(f"WRN_C0207_01: Group for user [{username}] not found")
             logger.warning("SUG_C0207_01: %s", SUG_C0207_01)

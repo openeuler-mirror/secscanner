@@ -25,7 +25,7 @@ def C32_rpfilter():
     InsertSection("check the reverse path filtering")
     all_set = 'unset'
     default_set = 'unset'
-    with open("/etc/sysctl.conf", "r") as file:
+    with open("/etc/sysctl.conf", "r", encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
             if re.match('net.ipv4.conf.all.rp_filter', line) and not re.match('^#|^$', line):

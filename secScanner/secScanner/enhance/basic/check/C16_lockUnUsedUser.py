@@ -45,7 +45,7 @@ def C16_lockUnUsedUser():
             print(f"An error occurred: {e}")
 
     if counter > 0:
-        with open(RESULT_FILE, "a") as file:
+        with open(RESULT_FILE, "a", encoding="utf-8") as file:
             file.write("\nC16\n")
         logger.warning(f"WRN_C16: These users: {error_user} should lock")
         logger.warning("SUG_C16: %s", SUG_C16)
