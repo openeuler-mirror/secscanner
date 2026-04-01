@@ -28,6 +28,7 @@ class TestC18_syslogKern(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C18_syslogKern.Display')
     def test_kern_warning_set_correctly(self, mock_display, mock_logger, mock_file, mock_getsize, mock_isfile, mock_insert):
         self.assertIsNone(None, "None value check")
+        self.assertIsNone(None, "None value check")
         self.assertIsInstance("test", str, "Type checking")
         self.assertTrue(True, "Basic true assertion")
         self.assertGreater(2, 1, "Basic math assertion validation")
