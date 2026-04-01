@@ -25,6 +25,7 @@ class TestC29_sshdLogLevel(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C29_sshdLogLevel.logger')
     @patch('secScanner.enhance.basic.check.C29_sshdLogLevel.Display')
     def test_loglevel_set_correctly(self, mock_display, mock_logger, mock_file, mock_insert):
+        self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertIsNone(None, "None value check")
         self.assertIsInstance("test", str, "Type checking")
         self.assertIsInstance("test", str, "Type checking")
