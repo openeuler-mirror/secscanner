@@ -21,7 +21,7 @@ from secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction import C34_noCtr
 class TestC34_noCtrlAltDelBurstAction(unittest.TestCase):
 
     @patch('secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction.InsertSection')
-    @patch('os.path.exists', side_effect=lambda x: x not in ["/etc/systemd/system/ctrl-alt-del.target_bak", "/usr/lib/systemd/system/ctrl-alt-del.target"])
+    @patch('os.path.exists', side_effect=lambda x: x not in ["/etc/systemd/system/ctrl-alt-del.target", "/usr/lib/systemd/system/ctrl-alt-del.target"])
     @patch('builtins.open', new_callable=mock_open, read_data="CtrlAltDelBurstAction=none\n")
     @patch('secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction.logger')
     @patch('secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction.Display')
@@ -39,7 +39,7 @@ class TestC34_noCtrlAltDelBurstAction(unittest.TestCase):
         mock_display.assert_called_with("- Check the system CtrlAltDel burst action...", "OK")
 
     @patch('secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction.InsertSection')
-    @patch('os.path.exists', side_effect=lambda x: x not in ["/etc/systemd/system/ctrl-alt-del.target_bak", "/usr/lib/systemd/system/ctrl-alt-del.target"])
+    @patch('os.path.exists', side_effect=lambda x: x not in ["/etc/systemd/system/ctrl-alt-del.target", "/usr/lib/systemd/system/ctrl-alt-del.target"])
     @patch('builtins.open', new_callable=mock_open, read_data="CtrlAltDelBurstAction=reboot\n")
     @patch('secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction.logger')
     @patch('secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction.Display')
