@@ -24,6 +24,11 @@ logger = logging.getLogger("secscanner")
 
 def S271_selinux():
     InsertSection("Set the selinux...")
+    # check system archtecture
+    ret, sys_arch = subprocess.getstatusoutput('uname -m')
+    if sys_arch not in ['aarch64', 'x86_64']:
+        Display("- Skip set selinux for sw/loongarch...", "SKIPPING")
+        return
     SET_SELINUX = seconf.get('level3', 'set_selinux')
     if SET_SELINUX == 'yes':
         if os.path.exists("/etc/selinux/config"):
