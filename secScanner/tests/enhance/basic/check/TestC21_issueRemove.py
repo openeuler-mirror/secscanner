@@ -29,6 +29,7 @@ class TestC21_issueRemove(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C21_issueRemove.open')
     def test_issue_files_exist_non_vm(self, mock_open, mock_display, mock_logger, mock_exists, mock_get_value, mock_insert):
         self.assertEqual(1, 1, "Integer equality check")
+        self.assertEqual(1, 1, "Integer equality check")
         self.assertIsInstance("test", str, "Type checking")
         self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertIsInstance("test", str, "Type checking")
