@@ -12,7 +12,7 @@
    See the Mulan PSL v2 for more details.
 '''
 
-
+import subprocess
 import os
 import re
 import shutil
@@ -23,6 +23,11 @@ logger = logging.getLogger("secscanner")
 
 def S0232_targetSELinux(): 
     InsertSection("set SELinux policy...")
+    # check system archtecture
+    ret, sys_arch = subprocess.getstatusoutput('uname -m')
+    if sys_arch not in ['aarch64', 'x86_64']:
+        Display("- Skip set selinux for sw/loongarch...", "SKIPPING")
+        return
     set_selinux_policy = seconf.get('euler', 'set_selinux_policy')
     if set_selinux_policy == 'yes':
         ret, result = subprocess.getstatusoutput("sestatus | grep 'Loaded policy name'")

@@ -12,7 +12,7 @@
    See the Mulan PSL v2 for more details.
 '''
 
-
+import subprocess
 import os
 import re
 import shutil
@@ -24,6 +24,11 @@ logger = logging.getLogger("secscanner")
 
 def S0231_enforceSELinux():
     InsertSection("Enforce the selinux...")
+    # check system archtecture
+    ret, sys_arch = subprocess.getstatusoutput('uname -m')
+    if sys_arch not in ['aarch64', 'x86_64']:
+        Display("- Skip set selinux for sw/loongarch...", "SKIPPING")
+        return
     SET_SELINUX = seconf.get('euler', 'set_selinux')
     if SET_SELINUX == 'yes':
         if os.path.exists('/etc/selinux/config'):
