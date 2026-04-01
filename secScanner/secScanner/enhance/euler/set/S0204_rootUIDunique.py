@@ -26,19 +26,17 @@ def S0204_rootUIDunique():
     rootUID_unique = seconf.get('euler', 'rootUID_unique')
     if rootUID_unique == 'yes':
         if os.path.exists('/etc/passwd'):
-            if not os.path.exists('/etc/passwd_bak'):
-                shutil.copy2('/etc/passwd', '/etc/passwd_bak')
-            add_bak_file('/etc/passwd_bak')
-
             with open('/etc/passwd', 'r') as file:
                 lines = file.readlines()
 
             filtered_lines = []
 
             for line in lines:
-                if line.split(':')[2] != '0' or line.split(':')[0] == 'root':
-                    filtered_lines.append(line)
-
+                try:
+                    if line.split(':')[2] != '0' or line.split(':')[0] == 'root':
+                        filtered_lines.append(line)
+                except Exception:
+                    continue
             with open('/etc/passwd', 'w') as file:
                 file.writelines(filtered_lines)
 
