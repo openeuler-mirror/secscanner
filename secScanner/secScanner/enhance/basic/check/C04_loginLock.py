@@ -25,7 +25,7 @@ from secScanner.commands.check_outprint import *
 def el67_check_deny():
     regex = r'(?<=deny=).[0-9]*'
     DENY = ''
-    with open("/etc/pam.d/system-auth", "r") as file:
+    with open("/etc/pam.d/system-auth", "r", encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
             if re.match('auth', line) and re.search('deny', line) and (not re.match('#', line)):

@@ -25,7 +25,7 @@ def C01_motd():
         logger.info("Has /etc/motd set, checking ok")
         Display("- Has /etc/motd set...",  "OK")
     else:
-        with open(RESULT_FILE, "a") as file:
+        with open(RESULT_FILE, "a", encoding="utf-8") as file:
             file.write("\nC01\n")
         logger.warning("WRN_C01: %s", WRN_C01)
         logger.warning("SUG_C01: %s", SUG_C01)

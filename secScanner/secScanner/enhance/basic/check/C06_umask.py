@@ -23,7 +23,7 @@ logger = logging.getLogger("secscanner")
 def C06_umask():
     InsertSection("check the file umask value ")
     UMASK_VAL = ''
-    with open("/etc/profile", "r") as file:
+    with open("/etc/profile", "r", encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
             if re.search('mask', line) and (not re.match('#', line)):

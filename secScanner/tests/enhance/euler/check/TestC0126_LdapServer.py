@@ -190,6 +190,18 @@ class TestC0126_LdapServer(unittest.TestCase):
         secScanner.enhance.euler.check.C0126_LdapServer.RESULT_FILE = "result_file_path"
         C0126_LdapServer()
         self.assertEqual(mock_InsertSection.call_count, 1)
+    
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'installed'))
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.logger')
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_012_ret0_display_once(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        secScanner.enhance.euler.check.C0126_LdapServer.RESULT_FILE = "result_file_path"
+        C0126_LdapServer()
+        self.assertEqual(mock_display.call_count, 1)
 
 if __name__ == '__main':
     unittest.main()    

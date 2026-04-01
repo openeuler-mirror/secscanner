@@ -31,7 +31,7 @@ def C0119_LdLibraryPath():
     for config_file in config_file_list:
         if os.path.exists(config_file):
             flag = False
-            with open(config_file, "r") as read_file:
+            with open(config_file, "r", encoding="utf-8") as read_file:
                 lines = read_file.readlines()
                 for line in lines:
                     if re.match(r"^export\s+LD_LIBRARY_PATH\s*=\s*.*$", line.strip()):

@@ -33,7 +33,7 @@ def C0124_checkRsync():
             logger.info(f'The status of rsyncd is {res1}')
             Display(f"- Check the status of rsyncd is {res1}...", "OK") 
         else:
-            with open(RESULT_FILE,'a+') as file:
+            with open(RESULT_FILE,'a+', encoding="utf-8") as file:
                 file.write("\nC0124\n")
             logger.warning("WRN_C0124: %s", WRN_C0124)
             logger.warning("SUG_C0124: %s", SUG_C0124)

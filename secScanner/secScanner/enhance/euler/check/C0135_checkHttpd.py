@@ -23,7 +23,7 @@ def C0135_checkHttpd():
     InsertSection("Check whether the httpd software is installed in your Linux System ")
     ret,res = subprocess.getstatusoutput('rpm -q httpd')
     if ret == 0:
-        with open(RESULT_FILE,'a+') as file:
+        with open(RESULT_FILE,'a+', encoding="utf-8") as file:
             file.write("\nC0135\n")
         logger.warning("WRN_C0135: %s", WRN_C0135)
         logger.warning("SUG_C0135: %s", SUG_C0135)

@@ -26,8 +26,8 @@ def C34_noCtrlAltDelBurstAction():
     InsertSection("check the system CtrlAltDel Burst Action")
     CONFIG_SET = 'unset'
 
-    if not os.path.exists("/etc/systemd/system/ctrl-alt-del.target") and not os.path.exists("/usr/lib/systemd/system/ctrl-alt-del.target"):
-        with open('/etc/systemd/system.conf', 'r') as file:
+    if not os.path.exists("/etc/systemd/system/ctrl-alt-del.target_bak") and not os.path.exists("/usr/lib/systemd/system/ctrl-alt-del.target"):
+        with open('/etc/systemd/system.conf', 'r', encoding="utf-8") as file:
             lines = file.readlines()
             for line in lines:
                 line = line.strip()

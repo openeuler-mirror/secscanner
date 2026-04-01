@@ -25,7 +25,7 @@ def C22_resourceLimit():
     InsertSection("check the resource limit")
     SOFT_CORE = 0
     HARD_CORE = 0
-    with open("/etc/security/limits.conf", "r") as file:
+    with open("/etc/security/limits.conf", "r", encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
             if (not re.match('^#|^$', line)) and re.search('soft', line) and re.search('core', line):

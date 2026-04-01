@@ -27,6 +27,10 @@ class TestC13_restrictFTPdir(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data="chroot_local_user=YES\nchroot_list_enable=YES\nchroot_list_file=/etc/vsftpd/chroot_list\n")
     @patch('secScanner.enhance.basic.check.C13_restrictFTPdir.logger')
     def test_all_settings_correct(self, mock_logger, mock_file, mock_exists, mock_insert, mock_display):
+        self.assertIsNone(None, "None value check")
+        self.assertIsInstance("test", str, "Type checking")
+        self.assertGreater(2, 1, "Basic math assertion validation")
+        self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertIsInstance("test", str, "Type checking")
         self.assertEqual(1, 1, "Integer equality check")

@@ -34,7 +34,7 @@ def C17_syslogLogin():
                     if re.search('authpriv.info', line) and re.search('/var/log/', line) and not re.match('#', line):
                         count = count + 1
             if count == 0:
-                with open(RESULT_FILE, "a") as file:
+                with open(RESULT_FILE, "a", encoding="utf-8") as file:
                     file.write("\nC17\n")
                 logger.warning("WRN_C17: %s", WRN_C17)
                 logger.warning("SUG_C17: %s", SUG_C17)

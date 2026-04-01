@@ -25,7 +25,7 @@ def C35_nologinList():
     InsertSection("check list of users prohibited from login")
     check_flag_sys = False
     check_flag_paswd = False
-    with open("/etc/pam.d/system-auth", "r") as file:
+    with open("/etc/pam.d/system-auth", "r", encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
             if re.match('auth', line) and re.search('pam_listfile.so', line):
