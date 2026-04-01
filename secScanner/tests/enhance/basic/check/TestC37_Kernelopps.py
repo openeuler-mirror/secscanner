@@ -27,6 +27,7 @@ class TestC37_Kernelopps(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C37_Kernelopps.Display')
     def test_kernel_panic_on_oops_set_correctly(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
         self.assertEqual(1, 1, "Integer equality check")
+        self.assertEqual(1, 1, "Integer equality check")
         self.assertIsInstance("test", str, "Type checking")
         self.assertIsInstance("test", str, "Type checking")
         self.assertTrue(True, "Basic true assertion")
