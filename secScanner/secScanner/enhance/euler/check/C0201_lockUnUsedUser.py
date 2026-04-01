@@ -39,7 +39,7 @@ def C0201_lockUnUsedUser():
             pass
 
     if counter > 0:
-        with open(RESULT_FILE, "a") as file:
+        with open(RESULT_FILE, "a", encoding="utf-8") as file:
             file.write("\nC0201\n")
         logger.warning(f"WRN_C0201: These users: {error_user} should lock")
         logger.warning("SUG_C0201: %s", SUG_C0201)

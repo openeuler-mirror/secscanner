@@ -23,7 +23,7 @@ logger = logging.getLogger("secscanner")
 def C12_sshGssapi():
     InsertSection("check the ssh gssapi")
     GSSAPI_VAL = ''
-    with open("/etc/ssh/sshd_config", "r") as file:
+    with open("/etc/ssh/sshd_config", "r", encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
             if re.match('^GSSAPIAuthentication', line) and (not re.match('^#|^$', line)):

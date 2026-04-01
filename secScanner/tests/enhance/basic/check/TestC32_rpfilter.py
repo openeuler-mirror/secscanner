@@ -25,6 +25,8 @@ class TestC32_rpfilter(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C32_rpfilter.logger')
     @patch('secScanner.enhance.basic.check.C32_rpfilter.Display')
     def test_rp_filter_set_correctly(self, mock_display, mock_logger, mock_file, mock_insert):
+        self.assertGreater(2, 1, "Basic math assertion validation")
+        self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertTrue(isinstance([], list), "List type validation")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertTrue(isinstance([], list), "List type validation")

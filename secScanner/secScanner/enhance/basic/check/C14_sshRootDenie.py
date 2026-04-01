@@ -28,7 +28,7 @@ def C14_sshRootDenie():
     OS_DISTRO = get_value("OS_DISTRO")
     if OS_DISTRO == '7':
         IS_EXIST = 0
-        with open('/etc/securetty', 'r') as file:
+        with open('/etc/securetty', 'r', encoding="utf-8") as file:
             lines = file.readlines()
             for line in lines:
                 if re.search('pts/', line) and not re.match('^#|^$', line):

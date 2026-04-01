@@ -23,7 +23,7 @@ def C0129_checkYpbind():
     InsertSection("Check whether the Ypbind software is installed in your Linux System ")
     ret,res = subprocess.getstatusoutput('rpm -q ypbind')
     if ret == 0:
-        with open(RESULT_FILE,'a+') as file:
+        with open(RESULT_FILE,'a+', encoding="utf-8") as file:
             file.write("\nC0129\n")
         logger.warning("WRN_C0129: %s", WRN_C0129)
         logger.warning("SUG_C0129: %s", SUG_C0129)

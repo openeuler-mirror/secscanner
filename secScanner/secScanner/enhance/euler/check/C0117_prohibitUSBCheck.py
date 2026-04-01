@@ -34,7 +34,7 @@ def C0117_prohibitUSBCheck():
         logger.info("The prohibition of USB devices is enabled")
         Display("- Check whether the prohibition of USB devices is enabled...", "OK")
     else:
-        with open(RESULT_FILE, "a") as file:
+        with open(RESULT_FILE, "a", encoding="utf-8") as file:
             file.write("\nC0117\n")
         logger.warning("WRN_C0117: %s", warnMessage) 
         logger.warning("SUG_C0117: %s", sugMessage)

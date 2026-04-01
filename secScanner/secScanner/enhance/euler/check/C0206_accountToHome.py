@@ -44,7 +44,7 @@ def C0206_accountToHome():
                 logger.info("Confirm that the account has its own home directory, checking ok")
                 Display("- check if account has its own home directory...", "OK")
             elif count1 > 0 and count2 == 0:
-                with open(RESULT_FILE, "a") as file:
+                with open(RESULT_FILE, "a", encoding="utf-8") as file:
                     file.write("\nC0206\n")
                 logger.warning("WRN_C0206_01: %s", WRN_C0206_01)
                 logger.warning("SUG_C0206_01: %s", SUG_C0206_01)

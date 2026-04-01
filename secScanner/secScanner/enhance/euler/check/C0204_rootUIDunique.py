@@ -30,7 +30,7 @@ def C0204_rootUIDunique():
                 logger.info("check root UID unique, checking ok")
                 Display("- check root UID unique ...", "OK")
             else:
-                with open(RESULT_FILE, "a") as file:
+                with open(RESULT_FILE, "a", encoding="utf-8") as file:
                     file.write("\nC0204\n")
                 logger.warning("WRN_C0204_01: %s", WRN_C0204_01)
                 logger.warning("SUG_C0204_01: %s", SUG_C0204_01)
