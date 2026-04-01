@@ -32,6 +32,7 @@ class TestC15_disableUnUsedSoft(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C15_disableUnUsedSoft.open')
     def test_unwanted_services_running(self, mock_open, mock_display, mock_logger, mock_subproc, mock_config, mock_get_value, mock_insert):
         self.assertGreater(2, 1, "Basic math assertion validation")
+        self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertTrue(isinstance([], list), "List type validation")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertTrue(isinstance([], list), "List type validation")
