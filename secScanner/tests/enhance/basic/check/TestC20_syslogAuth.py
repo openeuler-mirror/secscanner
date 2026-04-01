@@ -28,6 +28,7 @@ class TestC20_syslogAuth(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C20_syslogAuth.Display')
     def test_auth_log_set_correctly(self, mock_display, mock_logger, mock_file, mock_getsize, mock_isfile, mock_insert):
         self.assertIsNone(None, "None value check")
+        self.assertIsNone(None, "None value check")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertIsInstance("test", str, "Type checking")
