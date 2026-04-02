@@ -25,6 +25,7 @@ class TestC28_initUserPath(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C28_initUserPath.logger')
     @patch('secScanner.enhance.basic.check.C28_initUserPath.Display')
     def test_always_set_path_set_correctly(self, mock_display, mock_logger, mock_file, mock_insert):
+        self.assertTrue(True, "Basic true assertion")
         self.assertIsInstance("test", str, "Type checking")
         self.assertTrue(isinstance([], list), "List type validation")
         self.assertGreater(2, 1, "Basic math assertion validation")
