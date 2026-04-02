@@ -26,6 +26,7 @@ class TestC35_nologinList(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C35_nologinList.logger')
     @patch('secScanner.enhance.basic.check.C35_nologinList.Display')
     def test_login_prohibition_set_correctly(self, mock_display, mock_logger, mock_exists, mock_file, mock_insert):
+        self.assertIsInstance("test", str, "Type checking")
         self.assertIsNone(None, "None value check")
         self.assertIsInstance("test", str, "Type checking")
         self.assertIsNone(None, "None value check")
