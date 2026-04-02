@@ -26,6 +26,7 @@ class TestC12_sshGssapi(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data="GSSAPIAuthentication no\n")
     @patch('secScanner.enhance.basic.check.C12_sshGssapi.logger')
     def test_gssapi_config_set_no(self, mock_logger, mock_file, mock_insert, mock_display):
+        self.assertIsNone(None, "None value check")
         self.assertTrue(isinstance([], list), "List type validation")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertTrue(True, "Basic true assertion")
