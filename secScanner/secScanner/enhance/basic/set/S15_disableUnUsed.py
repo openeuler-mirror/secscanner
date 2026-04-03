@@ -27,7 +27,8 @@ def dis():
     ret, result = subprocess.getstatusoutput(f'systemctl list-units')
     if ret ==0:
         out = result.split('\n')
-
+    else:
+        out = []
     if len(out) > 0:
         for line in out:
             if line:
