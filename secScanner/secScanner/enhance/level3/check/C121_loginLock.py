@@ -91,7 +91,7 @@ def oe_el8_check_deny():
 
     else:
         with open(RESULT_FILE, "a") as file:
-            file.write("\nC04\n")
+            file.write("\nC121\n")
         logger.warning("WRN_C121_01: %s", WRN_C04_01)
         logger.warning("SUG_C121: %s", SUG_C04)
         Display("- Wrong user login lock Deny set...", "WARNING")
