@@ -47,7 +47,7 @@ def restore_all(args):
     display_info()
     check_isvirtualmachine()
     AUTO_BASIC_RESTORE = 1 if args.yes else 0
-    AUTO_BASIC_RESTORE = set_value("AUTO_BASIC_RESTORE", AUTO_BASIC_RESTORE)  # auto basic restore
+    set_value("AUTO_BASIC_RESTORE", AUTO_BASIC_RESTORE)  # auto basic restore
     scan_restore_basic_settings()
 
 def fix_level3(args):
