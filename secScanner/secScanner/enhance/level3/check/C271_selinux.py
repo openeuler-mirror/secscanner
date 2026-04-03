@@ -16,6 +16,7 @@
 import logging
 import os
 import re
+import subprocess
 from secScanner.gconfig import *
 from secScanner.lib import *
 logger = logging.getLogger("secscanner")
@@ -23,6 +24,11 @@ logger = logging.getLogger("secscanner")
 # grep -Ei '^\s*SELINUX=(enforcing|permissive)'/etc/selinux/config
 def C271_selinux():
     InsertSection("check the selinux set")
+    # check system archtecture
+    ret, sys_arch = subprocess.getstatusoutput('uname -m')
+    if sys_arch not in ['aarch64', 'x86_64']:
+        Display("- Skip check selinux for sw/loongarch...", "SKIPPING")
+        return
     config_file = "/etc/selinux/config"
     if os.path.exists(config_file):
         IS_EXIST = 0
