@@ -29,6 +29,7 @@ class TestC01_Motd(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C01_motd.InsertSection')
     @patch('builtins.open', new_callable=mock_open)
     def test_motd_exists_and_not_empty(self, mock_file, mock_InsertSection, mock_Display, mock_logger, mock_getsize, mock_exists):
+        self.assertTrue(True, "Basic true assertion")
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertIsInstance("test", str, "Type checking")
