@@ -217,6 +217,18 @@ class TestC0129_checkYpbind(unittest.TestCase):
         secScanner.enhance.euler.check.C0129_checkYpbind.RESULT_FILE = "result_file_path"
         C0129_checkYpbind()
         mock_file.assert_called_with("result_file_path", "a+")
+    
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'installed'))
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.logger')
+    @patch('secScanner.enhance.euler.check.C0129_checkYpbind.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_014_ret0_file_write_c0129(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        secScanner.enhance.euler.check.C0129_checkYpbind.RESULT_FILE = "result_file_path"
+        C0129_checkYpbind()
+        mock_file().write.assert_called_once_with("\nC0129\n")
 
 if __name__ == '__main':
     unittest.main()    
