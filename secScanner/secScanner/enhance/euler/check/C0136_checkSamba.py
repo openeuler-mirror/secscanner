@@ -21,7 +21,7 @@ logger = logging.getLogger("secscanner")
 
 def C0136_checkSamba():
     InsertSection("Check whether the Samba software is installed in your Linux System ")
-    ret,res = subprocess.getstatusoutput('rpm -q samba')
+    ret,res = subprocess.getstatusoutput('rpm -qa | grep samba')
     if ret == 0:
         with open(RESULT_FILE,'a+', encoding="utf-8") as file:
             file.write("\nC0136\n")
@@ -30,4 +30,4 @@ def C0136_checkSamba():
         Display(f"- Check the samba software is installed...", "WARNING")
     else:
         logger.info(f"The samba status is: {res}")
-        Display(f"- Check the samba software is uninstall...", "OK")
+        Display("- Check the samba software is uninstall...", "OK")
