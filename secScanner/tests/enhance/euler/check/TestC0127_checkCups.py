@@ -216,6 +216,18 @@ class TestC0127_checkCups(unittest.TestCase):
         secScanner.enhance.euler.check.C0127_checkCups.RESULT_FILE = "result_file_path"
         C0127_checkCups()
         mock_file.assert_called_with("result_file_path", "a+")
+    
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'installed'))
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.logger')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_014_ret0_file_write_c0127(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        secScanner.enhance.euler.check.C0127_checkCups.RESULT_FILE = "result_file_path"
+        C0127_checkCups()
+        mock_file().write.assert_called_once_with("\nC0127\n")
 
 if __name__ == '__main':
     unittest.main()   
