@@ -296,6 +296,21 @@ class TestC0116_linkProtectCheck(unittest.TestCase):
         C0116_linkProtectCheck()
         mock_Display.assert_any_call("- Check whether symlinks fileprotection is enabled...", "OK")
         mock_Display.assert_any_call("- Check whether hardlinks fileprotection is enabled...", "OK")
+    
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.subprocess.run')
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.Display')
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.logger')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_019_both_0_uppercase_key(self, mock_file, mock_logger, mock_Display, mock_InsertSection, mock_subprocess):
+        """键名大写形式，值为 0"""
+        mock_subprocess.return_value.stdout = (
+            b'FS.PROTECTED_SYMLINKS = 0\n'
+            b'FS.PROTECTED_HARDLINKS = 0\n'
+        )
+        secScanner.enhance.euler.check.C0116_linkProtectCheck.RESULT_FILE = "check_result.relt"
+        C0116_linkProtectCheck()
+        mock_InsertSection.assert_called_once_with("Check whether link file protection is enabled")
             
 if __name__ == '__main__':
     unittest.main()
