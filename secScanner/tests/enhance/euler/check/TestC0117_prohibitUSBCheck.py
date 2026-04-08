@@ -208,6 +208,18 @@ class TestC0117_prohibitUSBCheck(unittest.TestCase):
         secScanner.enhance.euler.check.C0117_prohibitUSBCheck.RESULT_FILE = "result_file_path"
         C0117_prohibitUSBCheck()
         mock_logger.info.assert_not_called()
+    
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.subprocess.run')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.logger')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.Display')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.InsertSection')
+    def test_015_display_ok_not_called_when_disabled(self, mock_InsertSection, mock_Display, mock_logger, mock_run):
+        mock_run.return_value = subprocess.CompletedProcess(args=["modprobe", "-n", "-v", "usb-storage"], returncode=0, stdout=b'')
+        secScanner.enhance.euler.check.C0117_prohibitUSBCheck.RESULT_FILE = "result_file_path"
+        with patch('builtins.open', mock_open()):
+            C0117_prohibitUSBCheck()
+        ok_calls = [c for c in mock_Display.call_args_list if "OK" in c.args]
+        self.assertEqual(len(ok_calls), 0)
 
 if __name__ == '__main__':
     unittest.main()
