@@ -31,6 +31,7 @@ if "OS_VERSION" in show_dict():
     OS_VERSION = get_value("OS_VERSION")
 else:
     OS_VERSION = ""
+LINUX_VERSION = ""
 #following two value is defined but not used, dont need save them in dict
 FIND_BINARIES = ""
 SYSCTL_READKEY = ""
