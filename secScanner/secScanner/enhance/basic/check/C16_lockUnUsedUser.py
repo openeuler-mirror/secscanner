@@ -31,10 +31,10 @@ def C16_lockUnUsedUser():
 
     for i in unuser_user:
         try:
-            output = subprocess.check_output(["grep", "-i", f"^{i}:", "/etc/shadow"])
+            output = subprocess.check_output(["grep", "-i", f"^{i}:", "/etc/passwd"])
             output = output.decode("utf-8").strip()
-            password_field = output.split(':')[1] if ':' in output else None
-            if password_field is not None and not password_field.startswith(('!', '*')):
+            password_field = output.split(':')[-1] if ':' in output else None
+            if password_field is not None and not password_field.startswith(('/sbin/false')):
                 error_user.append(i)
                 counter += 1
         except subprocess.CalledProcessError:
