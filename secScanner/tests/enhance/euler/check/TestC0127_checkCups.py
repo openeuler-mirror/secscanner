@@ -228,6 +228,21 @@ class TestC0127_checkCups(unittest.TestCase):
         secScanner.enhance.euler.check.C0127_checkCups.RESULT_FILE = "result_file_path"
         C0127_checkCups()
         mock_file().write.assert_called_once_with("\nC0127\n")
+    
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'installed'))
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.logger')
+    @patch('secScanner.enhance.euler.check.C0127_checkCups.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_015_ret0_wrn_value_matches_constant(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        secScanner.enhance.euler.check.C0127_checkCups.RESULT_FILE = "result_file_path"
+        C0127_checkCups()
+        calls = mock_logger.warning.call_args_list
+        wrn_call = [c for c in calls if c.args[0] == "WRN_C0127: %s"]
+        self.assertEqual(len(wrn_call), 1)
+        self.assertEqual(wrn_call[0].args[1], WRN_C0127)
 
 if __name__ == '__main':
     unittest.main()   
