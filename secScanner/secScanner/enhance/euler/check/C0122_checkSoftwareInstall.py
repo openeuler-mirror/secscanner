@@ -27,7 +27,7 @@ def C0122_checkSoftwareInstall():
     ret,res = subprocess.getstatusoutput('rpm -q ftp')
     if ret == 0:
         with open(RESULT_FILE,'a+') as file:
-            file.write("\nC0122_1\n")
+            file.write("\nC0122\n")
         logger.warning("WRN_C0122_1: %s", WRN_C0122_1)
         logger.warning("SUG_C0122_1: %s", SUG_C0122_1)
         Display(f"- Check the  FTP software is installed...", "WARNING")
@@ -42,7 +42,7 @@ def C0122_checkSoftwareInstall():
     ret2,res2 = subprocess.getstatusoutput('rpm -q tftp')
     if ret2 == 0:
         with open(RESULT_FILE,'a+') as file:
-            file.write("\nC0122_2\n")
+            file.write("\nC0122\n")
         logger.warning("WRN_C0122_2: %s", WRN_C0122_2)
         logger.warning("SUG_C0122_2: %s", SUG_C0122_2)
         Display(f"- Check the TFTP software is installed...", "WARNING")
@@ -57,7 +57,7 @@ def C0122_checkSoftwareInstall():
     ret3,res3 = subprocess.getstatusoutput('rpm -q telnet')
     if ret3 == 0:
         with open(RESULT_FILE,'a+') as file:
-            file.write("\nC0122_3\n")
+            file.write("\nC0122\n")
         logger.warning("WRN_C0122_3: %s", WRN_C0122_3)
         logger.warning("SUG_C0122_3: %s", SUG_C0122_3)
         Display(f"- Check the Telnet software is installed...", "WARNING")
@@ -72,7 +72,7 @@ def C0122_checkSoftwareInstall():
     ret4,res4 = subprocess.getstatusoutput('rpm -q net-snmp')
     if ret4 == 0:
         with open(RESULT_FILE,'a+') as file:
-            file.write("\nC0122_4\n")
+            file.write("\nC0122\n")
         logger.warning("WRN_C0122_4: %s", WRN_C0122_4)
         logger.warning("SUG_C0122_4: %s", SUG_C0122_4)
         Display(f"- Check the Net-snmpsoftware is installed...", "WARNING")
@@ -87,7 +87,7 @@ def C0122_checkSoftwareInstall():
     ret5,res5 = subprocess.getstatusoutput('rpm -q python2')
     if ret5 == 0:
         with open(RESULT_FILE,'a+') as file:
-            file.write("\nC0122_5\n")
+            file.write("\nC0122\n")
         logger.warning("WRN_C0122_5: %s", WRN_C0122_5)
         logger.warning("SUG_C0122_5: %s", SUG_C0122_5)
         Display(f"- Check the Python2 software is installed...", "WARNING")

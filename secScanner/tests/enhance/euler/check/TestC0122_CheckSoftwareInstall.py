@@ -40,7 +40,7 @@ class TestC0122_CheckSoftwareInstall(unittest.TestCase):
         C0122_checkSoftwareInstall()
 
         # Validate FTP installed
-        mock_open().write.assert_any_call("\nC0122_1\n")
+        mock_open().write.assert_any_call("\nC0122\n")
         mock_logger.warning.assert_any_call("WRN_C0122_1: %s", WRN_C0122_1)
         mock_logger.warning.assert_any_call("SUG_C0122_1: %s", SUG_C0122_1)
         mock_Display.assert_any_call("- Check the  FTP software is installed...", "WARNING")
@@ -64,7 +64,7 @@ class TestC0122_CheckSoftwareInstall(unittest.TestCase):
         C0122_checkSoftwareInstall()
 
         # Validate TFTP installed
-        mock_open().write.assert_any_call("\nC0122_2\n")
+        mock_open().write.assert_any_call("\nC0122\n")
         mock_logger.warning.assert_any_call("WRN_C0122_2: %s", WRN_C0122_2)
         mock_logger.warning.assert_any_call("SUG_C0122_2: %s", SUG_C0122_2)
         mock_Display.assert_any_call("- Check the TFTP software is installed...", "WARNING")
@@ -88,7 +88,7 @@ class TestC0122_CheckSoftwareInstall(unittest.TestCase):
         C0122_checkSoftwareInstall()
 
         # Validate Telnet installed
-        mock_open().write.assert_any_call("\nC0122_3\n")
+        mock_open().write.assert_any_call("\nC0122\n")
         mock_logger.warning.assert_any_call("WRN_C0122_3: %s", WRN_C0122_3)
         mock_logger.warning.assert_any_call("SUG_C0122_3: %s", SUG_C0122_3)
         mock_Display.assert_any_call("- Check the Telnet software is installed...", "WARNING")
@@ -112,7 +112,7 @@ class TestC0122_CheckSoftwareInstall(unittest.TestCase):
         C0122_checkSoftwareInstall()
 
         # Validate Net-snmp installed
-        mock_open().write.assert_any_call("\nC0122_4\n")
+        mock_open().write.assert_any_call("\nC0122\n")
         mock_logger.warning.assert_any_call("WRN_C0122_4: %s", WRN_C0122_4)
         mock_logger.warning.assert_any_call("SUG_C0122_4: %s", SUG_C0122_4)
         mock_Display.assert_any_call("- Check the Net-snmpsoftware is installed...", "WARNING")
@@ -136,7 +136,7 @@ class TestC0122_CheckSoftwareInstall(unittest.TestCase):
         C0122_checkSoftwareInstall()
 
         # Validate Python2 installed
-        mock_open().write.assert_any_call("\nC0122_5\n")
+        mock_open().write.assert_any_call("\nC0122\n")
         mock_logger.warning.assert_any_call("WRN_C0122_5: %s", WRN_C0122_5)
         mock_logger.warning.assert_any_call("SUG_C0122_5: %s", SUG_C0122_5)
         mock_Display.assert_any_call("- Check the Python2 software is installed...", "WARNING")
