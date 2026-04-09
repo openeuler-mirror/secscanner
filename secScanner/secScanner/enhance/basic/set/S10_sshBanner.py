@@ -53,7 +53,7 @@ def S10_sshBanner():
         with open('/etc/ssh/sshd_config', 'r') as read_file:
             lines = read_file.readlines()
             for line in lines:
-                if re.search('Banner', line):
+                if re.match('Banner', line):
                     IS_EXIST = 1
         if IS_EXIST == 0:
             with open('/etc/ssh/sshd_config', 'a') as add_file:
@@ -70,7 +70,7 @@ def S10_sshBanner():
             with open('/etc/ssh/sshd_config', 'r') as read_file:
                 lines = read_file.readlines()
                 for line in lines:
-                    if re.search('banner', line):
+                    if re.match('Banner', line) and re.search('sshbanner', line):
                         TMP_V = 1
             if TMP_V > 0:
                 logger.info("set the sshdbanner successfully")
