@@ -22,35 +22,29 @@ import os
 logger = logging.getLogger("secscanner")
 
 def S0116_linkProtectCheck():
-	'''
-	Funtion: Set the protection of symlinks and hardlinks enabled
-	'''
-	linkTypes = ["symlinks", "hardlinks"]
+    linkTypes = ["symlinks", "hardlinks"]
+    set_link_protection = seconf.get('euler', 'set_link_protection')
+    InsertSection("Enable Protection of symlinks and hardlinks...")
 
-	set_link_protection = seconf.get('euler', 'set_link_protection')
-	InsertSection("Enable Protection of symlinks and hardlinks...")
-
-	if set_link_protection == 'yes':
-		for i in range(len(linkTypes)):
-			linkType = linkTypes[i]
-			protectFlag = "fs.protected_%s" % linkType
-
-			result_symlinks = subprocess.run(['sysctl', protectFlag], capture_output=True)
-			resultStr = result_symlinks.stdout.strip().decode("utf-8")
-			if resultStr[-1] == '0':
-				try:
-					enableCmd = "%s=1" % (protectFlag)
-					set_result = subprocess.run(["sysctl", "-w", enableCmd], capture_output=True)
-				except Exception:
-					os.system('sysctl -w fs.protected_symlinks=1')
-
-				if set_result.returncode == 0:
-					logger.info("Enable the protection of %s, checking ok" % linkType)
-					Display("- Enable the protection of %s..." % linkType, "FINISHED")
-				else:
-					logger.info("Enable the protection of %s failed" % linkType)
-					Display("- Enable the protection of %s..." % linkType, "FAILED")
-			else:
-				Display("- Protection of %s has already been enabled..." % linkType, "SKIPPING")
-	else:
-		Display("- Skip enable the protection of symlinks and hardlinks...", "SKIPPING")
+    if set_link_protection == 'yes':
+        for i in range(len(linkTypes)):
+            linkType = linkTypes[i]
+            protectFlag = "fs.protected_%s" % linkType
+            result_symlinks = subprocess.run(['sysctl', protectFlag], capture_output=True)
+            resultStr = result_symlinks.stdout.strip().decode("utf-8")
+            if resultStr[-1] == '0':
+                try:
+                    enableCmd = "%s=1" % (protectFlag)
+                    set_result = subprocess.run(["sysctl", "-w", enableCmd], capture_output=True)
+                except Exception:
+                    os.system('sysctl -w fs.protected_symlinks=1')
+                    if set_result.returncode == 0:
+                        logger.info("Enable the protection of %s, checking ok" % linkType)
+                        Display("- Enable the protection of %s..." % linkType, "FINISHED")
+                    else:
+                        logger.info("Enable the protection of %s failed" % linkType)
+                        Display("- Enable the protection of %s..." % linkType, "FAILED")
+            else:
+                Display("- Protection of %s has already been enabled..." % linkType, "SKIPPING")
+    else:
+        Display("- Skip enable the protection of symlinks and hardlinks...", "SKIPPING")
