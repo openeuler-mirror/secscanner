@@ -27,22 +27,18 @@ def S252_shadowProperty():
     shadow_property = seconf.get('level3', 'shadow_property')
     if shadow_property == 'yes':
         filepath = '/etc/shadow'
-        filebak = filepath + '_bak'
         if os.path.exists(filepath):
-            if not os.path.exists(filebak):
-                shutil.copy2(filepath, filebak)
-            add_bak_file(filebak)
             # -----------------------------------------------------
             # record original property of file
-            pathlib.Path('/etc/secscanner.d/shadow_property').touch()
-            file_pro = "/etc/secscanner.d/shadow_property"
             ret, result = subprocess.getstatusoutput(f'stat -c %a {filepath}')
             if ret != 0:
                 logger.warning('Command execution failed')
                 Display("- Command execution failed...", "FAILED")
-            if not os.path.exists(filebak):
-                with open(file_pro, 'a') as add_file:
-                    add_file.write(f"{filepath}={result}\n")
+                return
+            pathlib.Path('/etc/secscanner.d/shadow_property').touch()
+            file_pro = "/etc/secscanner.d/shadow_property"
+            with open(file_pro, 'a') as add_file:
+                add_file.write(f"{filepath}={result}\n")
 
             os.chmod(filepath, 0o000)
 
