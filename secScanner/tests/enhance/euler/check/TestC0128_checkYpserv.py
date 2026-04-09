@@ -230,6 +230,20 @@ class TestC0128_checkYpserv(unittest.TestCase):
         C0128_checkYpserv()
         mock_file().write.assert_called_once_with("\nC0128\n")
     
+    @patch('secScanner.enhance.euler.check.C0128_checkYpserv.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0128_checkYpserv.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0128_checkYpserv.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'installed'))
+    @patch('secScanner.enhance.euler.check.C0128_checkYpserv.logger')
+    @patch('secScanner.enhance.euler.check.C0128_checkYpserv.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_015_ret0_wrn_value_matches_constant(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        secScanner.enhance.euler.check.C0128_checkYpserv.RESULT_FILE = "result_file_path"
+        C0128_checkYpserv()
+        calls = mock_logger.warning.call_args_list
+        wrn_call = [c for c in calls if c.args[0] == "WRN_C0128: %s"]
+        self.assertEqual(len(wrn_call), 1)
+        self.assertEqual(wrn_call[0].args[1], WRN_C0128)
 
 if __name__ == '__main':
     unittest.main()   
