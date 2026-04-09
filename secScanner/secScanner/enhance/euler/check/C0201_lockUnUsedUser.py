@@ -30,9 +30,9 @@ def C0201_lockUnUsedUser():
 
     for i in unuser_user:
         try:
-            output = subprocess.check_output(["grep", "-i", f"^{i}:", "/etc/shadow"])
+            output = subprocess.check_output(["grep", "-i", f"^{i}:", "/etc/passwd"])
             output = output.decode("utf-8").strip()
-            if "!*" not in output:
+            if "/sbin/false" not in output:
                 error_user.append(i)
                 counter += 1
         except subprocess.CalledProcessError:
