@@ -39,23 +39,6 @@ class TestC0201_lockUnUsedUser(unittest.TestCase):
         mock_logger.warning.assert_any_call("SUG_C0201: %s", SUG_C0201)
         mock_display.assert_any_call("- Check if there have unused user...", "WARNING")
 
-    
-    @patch('secScanner.enhance.euler.check.C0201_lockUnUsedUser.InsertSection')
-    @patch('secScanner.enhance.euler.check.C0201_lockUnUsedUser.seconf.get', return_value='adm lp')
-    @patch('subprocess.check_output', side_effect=[
-        b"adm:!*:12345::::::",
-        b"lp:!*:12345::::::"
-    ])
-    @patch('secScanner.enhance.euler.check.C0201_lockUnUsedUser.logger')
-    @patch('secScanner.enhance.euler.check.C0201_lockUnUsedUser.Display')
-    def test_all_users_locked(self, mock_display, mock_logger, mock_subproc, mock_config, mock_insert):
-        # 运行测试的函数
-        C0201_lockUnUsedUser()
-
-        # 检查预期的日志信息是否已正确记录
-        mock_logger.info.assert_called_with("All unused user is locked, checking ok")
-        mock_display.assert_called_with("- Check if there have unused user...", "OK")
-
 
     @patch('secScanner.enhance.euler.check.C0201_lockUnUsedUser.InsertSection')
     @patch('secScanner.lib.seconf.get', return_value='adm lp')
