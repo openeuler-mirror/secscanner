@@ -24,15 +24,15 @@ def S0136_checkSamba():
     set_remove_Samba = seconf.get('euler', 'set_remove_Samba')
     InsertSection("Remove the samba in your Linux System...")
     if set_remove_Samba == 'yes':
-        ret,res = subprocess.getstatusoutput('rpm -q samba')
+        ret,res = subprocess.getstatusoutput('rpm -qa | grep samba')
         if ret != 0:
             logger.info(f'The status is:{res}')
             Display("- No package for the samba...", "SKIPPING")
         else:
             try:
-                set_result,_= subprocess.getstatusoutput(' yum remove samba -y')
+                set_result,_= subprocess.getstatusoutput(' yum remove samba* -y')
             except Exception:
-                os.system('dnf remove samba -y')
+                os.system('dnf remove samba* -y')
                 
             if set_result == 0:
                 logger.info("Set remove the samba, checking ok")
