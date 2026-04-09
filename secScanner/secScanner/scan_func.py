@@ -320,20 +320,21 @@ def scan_restore_basic_inline():
             logger.warning(f'No {source_path} bak config file was found')
             Display(f"- Restoring cfg file: {source_path}...", "SKIPPED")
 
-    property_file = ['/etc/secscanner.d/logfile_property', '/etc/secscanner.d/fdproperty_record']
+
+    property_file = os.listdir('/etc/secscanner.d')
 
     for i in property_file:
-        if os.path.isfile(i):
-            with open(i, 'r') as file:
-                restore_file = file.read().splitlines()
-                for j in restore_file:
-                    name = j.split('=')[0]
-                    if os.path.exists(name):
-                        pro_val = j.split('=')[1]
-                        pro_val = int(pro_val, 8)
-                        os.chmod(name, pro_val)
-                    Display(f"- Restoring property of file or dir:{name}...", "FINISHED")
-            os.remove(i)
+        single_property = os.path.join('/etc/secscanner.d', i)
+        if os.path.isfile(single_property):
+            with open(single_property, 'r') as file:
+                restore_file = file.read().splitlines()[0]
+                name = restore_file.split('=')[0]
+                if os.path.exists(name):
+                    pro_val = restore_file.split('=')[1]
+                    pro_val = int(pro_val, 8)
+                    os.chmod(name, pro_val)
+                Display(f"- Restoring property of file or dir:{name}...", "FINISHED")
+            os.remove(single_property)
 
     restore_unused_user()
 
