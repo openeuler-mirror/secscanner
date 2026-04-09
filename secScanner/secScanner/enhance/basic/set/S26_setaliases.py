@@ -47,34 +47,15 @@ def S26_setaliases():
             if not config_rm:
                 with open('/root/.bashrc', 'a') as add_file:
                     add_file.write("alias rm='rm -i'\n")
-            else:
-                with open('/root/.bashrc', 'w') as write_file:
-                    for line in lines:
-                        if re.match('alias rm', line):
-                            write_file.write("alias rm='rm -i'\n")
-                        else:
-                            write_file.write(line)
 
             if not config_ls:
                 with open('/root/.bashrc', 'a') as add_file:
                     add_file.write("alias ls='ls -al'\n")
-            else:
-                with open('/root/.bashrc', 'w') as write_file:
-                    for line in lines:
-                        if re.match('alias ls', line):
-                            write_file.write("alias ls='ls -al'\n")
-                        else:
-                            write_file.write(line)
+
             if not config_userdel:
                 with open('/root/.bashrc', 'a') as add_file:
                     add_file.write("alias userdel='userdel -r'\n")
-            else:
-                with open('/root/.bashrc', 'w') as write_file:
-                    for line in lines:
-                        if re.match('alias userdel', line):
-                            write_file.write("alias userdel='userdel -r'\n")
-                        else:
-                            write_file.write(line)
+
             check_ls = 'unset'
             check_rm = 'unset'
             check_userdel = 'unset'
