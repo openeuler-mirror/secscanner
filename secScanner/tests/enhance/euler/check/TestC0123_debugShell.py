@@ -188,6 +188,17 @@ class TestC0123_debugShell(unittest.TestCase):
         secScanner.enhance.euler.check.C0123_debugShell.RESULT_FILE = "result_file_path"
         C0123_debugShell()
         mock_logger.warning.assert_any_call("SUG_C0123: %s", SUG_C0123)
+    
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'enabled'))
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.logger')
+    @patch('secScanner.enhance.euler.check.C0123_debugShell.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_016_ret0_enabled_logger_warning_twice(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection):
+        secScanner.enhance.euler.check.C0123_debugShell.RESULT_FILE = "result_file_path"
+        C0123_debugShell()
+        self.assertEqual(mock_logger.warning.call_count, 2)
+
 
 if __name__ == '__main':
     unittest.main()
