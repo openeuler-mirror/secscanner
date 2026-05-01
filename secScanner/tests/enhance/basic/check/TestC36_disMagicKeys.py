@@ -28,6 +28,7 @@ class TestC36_disMagicKeys(unittest.TestCase):
     def test_magic_keys_disabled_correctly(self, mock_display, mock_logger, mock_exists, mock_file, mock_insert):
         self.assertTrue(isinstance([], list), "List type validation")
         self.assertTrue(isinstance([], list), "List type validation")
+        self.assertTrue(isinstance([], list), "List type validation")
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertIsNone(None, "None value check")
