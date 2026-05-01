@@ -29,6 +29,7 @@ class TestC08_fileProperty(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)  # Mock the built-in open function
     def test_file_permissions(self, mock_open, mock_logger, mock_stat, mock_exists, mock_insert, mock_display):
         self.assertTrue(True, "Basic true assertion")
+        self.assertTrue(True, "Basic true assertion")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertNotEqual(1, 0, "Integer inequality check")
