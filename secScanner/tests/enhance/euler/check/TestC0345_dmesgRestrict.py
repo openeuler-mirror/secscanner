@@ -28,10 +28,10 @@ class TestC0345_dmesgRestrict(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
     def test_file_not_exists(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件不存在
+        # Mock test setup.
         mock_exists.return_value = False
         config_file = "/etc/sysctl.conf"
-        secScanner.enhance.euler.check.C0345_dmesgRestrict.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0345_dmesgRestrict.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0345_dmesgRestrict()
         mock_InsertSection.assert_any_call("Check set of kernel.dmesg_restrict in sysctl config file")
         mock_logger.warning.assert_any_call(f"WRN_C0345: {config_file} {WRN_no_file}")
@@ -45,7 +45,7 @@ class TestC0345_dmesgRestrict(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data = "kernel.dmesg_restrict=1\n")
     @patch('os.path.exists')
     def test_correct_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
         C0345_dmesgRestrict()
         mock_InsertSection.assert_any_call("Check set of kernel.dmesg_restrict in sysctl config file")
@@ -58,9 +58,9 @@ class TestC0345_dmesgRestrict(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data = "kernel.dmesg_restrict=2\n")
     @patch('os.path.exists')
     def test_incorrect_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0345_dmesgRestrict.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0345_dmesgRestrict.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0345_dmesgRestrict()
         mock_InsertSection.assert_any_call("Check set of kernel.dmesg_restrict in sysctl config file")
         mock_logger.warning.assert_any_call("WRN_C0345: %s", WRN_C0345)
@@ -74,9 +74,9 @@ class TestC0345_dmesgRestrict(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data = "kernel.dmesg_restrict=3\n")
     @patch('os.path.exists')
     def test_incorrect_config_else(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0345_dmesgRestrict.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0345_dmesgRestrict.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0345_dmesgRestrict()
         mock_InsertSection.assert_any_call("Check set of kernel.dmesg_restrict in sysctl config file")
         mock_logger.warning.assert_any_call("WRN_C0345: %s", WRN_C0345)
@@ -90,9 +90,9 @@ class TestC0345_dmesgRestrict(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data = "\n")
     @patch('os.path.exists')
     def test_without_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0345_dmesgRestrict.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0345_dmesgRestrict.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0345_dmesgRestrict()
         mock_InsertSection.assert_any_call("Check set of kernel.dmesg_restrict in sysctl config file")
         mock_logger.warning.assert_any_call("WRN_C0345: %s", WRN_C0345)
