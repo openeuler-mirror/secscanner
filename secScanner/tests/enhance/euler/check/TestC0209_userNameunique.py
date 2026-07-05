@@ -18,7 +18,7 @@ from unittest.mock import patch, mock_open
 from secScanner.lib.textInfo_euler import *
 from secScanner.enhance.euler.check.C0209_userNameunique import C0209_userNameunique
 import secScanner
-# 模拟文件内容
+# Mock test setup.
 passwd_content_duplicate = """root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
@@ -48,10 +48,10 @@ class TestC0209_userNameunique(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0209_userNameunique.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_passwd_file_not_exist(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟 /etc/passwd 文件不存在的情况
+        # Mock test setup.
         mock_exists.return_value = False
-        secScanner.enhance.euler.check.C0209_userNameunique.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0209_userNameunique.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0209_userNameunique()
         mock_InsertSection.assert_called_with("Check if the account is unique")
         mock_logger.warning.assert_any_call("WRN_C0209_02: %s", WRN_C0209_02)
@@ -68,10 +68,10 @@ class TestC0209_userNameunique(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0209_userNameunique.Display')
     @patch('builtins.open', new_callable=mock_open, read_data=passwd_content_duplicate)
     def test_username_unique_duplicate(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟 /etc/passwd 文件存在的情况
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0209_userNameunique.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0209_userNameunique.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0209_userNameunique()
         mock_InsertSection.assert_called_with("Check if the account is unique")
         mock_logger.warning.assert_any_call("WRN_C0209_01: %s", WRN_C0209_01)
@@ -86,10 +86,10 @@ class TestC0209_userNameunique(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0209_userNameunique.Display')
     @patch('builtins.open', new_callable=mock_open, read_data=passwd_content_no_duplicate)
     def test_username_unique_no_duplicate(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟 /etc/passwd 文件存在的情况
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0209_userNameunique.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0209_userNameunique.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0209_userNameunique()
         mock_InsertSection.assert_called_with("Check if the account is unique")
         mock_logger.info.assert_any_call("No duplicate users found in /etc/passwd, checking ok")
