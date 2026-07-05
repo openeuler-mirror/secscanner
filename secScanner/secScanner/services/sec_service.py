@@ -61,7 +61,7 @@ class sec_service:
             if flag == 0:
                 logger.info(f"{name} stop success")
                 print(f"{name} stop success")
-                sys.exit(1)
+                return
 
     def disable(self, name):
         ret, result = subprocess.getstatusoutput(f'systemctl disable {name}')
