@@ -33,10 +33,10 @@ class TestC32_rpfilter(unittest.TestCase):
         self.assertEqual(1, 1, "Integer equality check")
         self.assertTrue(isinstance([], list), "List type validation")
         self.assertNotEqual(1, 0, "Integer inequality check")
-        # 运行测试的函数
+        # Mock test setup.
         C32_rpfilter()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has reverse path filtering set, checking OK")
         mock_display.assert_called_with("- Check the reverse path filtering set...", "OK")
 
@@ -45,10 +45,10 @@ class TestC32_rpfilter(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C32_rpfilter.logger')
     @patch('secScanner.enhance.basic.check.C32_rpfilter.Display')
     def test_rp_filter_set_incorrectly(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C32_rpfilter()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C32_02: %s", WRN_C32_02)
         mock_logger.warning.assert_any_call("SUG_C32: %s", SUG_C32)
         mock_display.assert_called_with("- Wrong reverse path filtering config set...", "WARNING")
@@ -58,10 +58,10 @@ class TestC32_rpfilter(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C32_rpfilter.logger')
     @patch('secScanner.enhance.basic.check.C32_rpfilter.Display')
     def test_no_rp_filter_set(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C32_rpfilter()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C32_01: %s", WRN_C32_01)
         mock_logger.warning.assert_any_call("SUG_C32: %s", SUG_C32)
         mock_display.assert_called_with("- No reverse path filtering config set...", "WARNING")
