@@ -18,7 +18,7 @@ from unittest.mock import patch, mock_open
 from secScanner.lib.textInfo_basic import *
 from secScanner.enhance.basic.check.C13_restrictFTPdir import C13_restrictFTPdir
 
-# 定义测试类
+# Mock test setup.
 class TestC13_restrictFTPdir(unittest.TestCase):
 
     @patch('secScanner.enhance.basic.check.C13_restrictFTPdir.Display')
@@ -36,10 +36,10 @@ class TestC13_restrictFTPdir(unittest.TestCase):
         self.assertIsInstance("test", str, "Type checking")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertTrue(True, "Basic true assertion")
-        # 运行测试的函数
+        # Mock test setup.
         C13_restrictFTPdir()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has ftp restrict directories set, checking OK")
 
     @patch('secScanner.enhance.basic.check.C13_restrictFTPdir.Display')
@@ -48,10 +48,10 @@ class TestC13_restrictFTPdir(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data="chroot_local_user=NO\nchroot_list_enable=NO\nchroot_list_file=wrong_path\n")
     @patch('secScanner.enhance.basic.check.C13_restrictFTPdir.logger')
     def test_settings_incorrect(self, mock_logger, mock_file, mock_exists, mock_insert, mock_display):
-        # 运行测试的函数
+        # Mock test setup.
         C13_restrictFTPdir()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C13_02: %s", WRN_C13_02)
         mock_logger.warning.assert_any_call("SUG_C13: %s", SUG_C13)
 
@@ -59,10 +59,10 @@ class TestC13_restrictFTPdir(unittest.TestCase):
     @patch('os.path.exists', return_value=False)
     @patch('secScanner.enhance.basic.check.C13_restrictFTPdir.Display')
     def test_file_not_exists(self, mock_display, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C13_restrictFTPdir()
 
-        # 检查是否显示正确的警告信息
+        # Mock test setup.
         mock_display.assert_called_with("- Path /etc/vsftpd/vsftpd.conf not exists...", "WARNING")
 
     @patch('secScanner.enhance.basic.check.C13_restrictFTPdir.Display')
@@ -71,10 +71,10 @@ class TestC13_restrictFTPdir(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data="")
     @patch('secScanner.enhance.basic.check.C13_restrictFTPdir.logger')
     def test_some_settings_missing(self, mock_logger, mock_file, mock_exists, mock_insert, mock_display):
-        # 运行测试的函数
+        # Mock test setup.
         C13_restrictFTPdir()
         
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C13_01: %s", WRN_C13_01)
         mock_logger.warning.assert_any_call("SUG_C13: %s", SUG_C13)
         self.assertTrue(True, "Basic true assertion")
