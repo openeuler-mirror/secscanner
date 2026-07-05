@@ -30,7 +30,7 @@ class TestC0322_pubkeyTypes(unittest.TestCase):
     def test_file_not_exists(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
         mock_exists.return_value = False
         config_file = "/etc/ssh/sshd_config"
-        secScanner.enhance.euler.check.C0322_pubkeyTypes.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0322_pubkeyTypes.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0322_pubkeyTypes()
         mock_InsertSection.assert_any_call("Check set of PubkeyAcceptedKeyTypes")
         mock_logger.warning.assert_any_call(f"WRN_C0322: {config_file} {WRN_no_file}")
@@ -45,7 +45,7 @@ class TestC0322_pubkeyTypes(unittest.TestCase):
         read_data = "PubkeyAcceptedKeyTypes ssh-ed25519,ssh-ed25519-cert-v01@openssh.com,rsa-sha2-256,rsa-sha2-512")
     @patch('os.path.exists')
     def test_set_correct(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
         C0322_pubkeyTypes()
         mock_InsertSection.assert_any_call("Check set of PubkeyAcceptedKeyTypes")
@@ -58,7 +58,7 @@ class TestC0322_pubkeyTypes(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data = "AllowTcpForwarding no\nAllowAgentForwarding no")
     @patch('os.path.exists')
     def test_without_set(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
         C0322_pubkeyTypes()
         mock_InsertSection.assert_any_call("Check set of PubkeyAcceptedKeyTypes")
@@ -72,7 +72,7 @@ class TestC0322_pubkeyTypes(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data = "PubkeyAcceptedKeyTypes rsa-sha2-512")
     @patch('os.path.exists')
     def test_set_incorrect_one(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
         C0322_pubkeyTypes()
         mock_InsertSection.assert_any_call("Check set of PubkeyAcceptedKeyTypes")
@@ -86,7 +86,7 @@ class TestC0322_pubkeyTypes(unittest.TestCase):
         read_data = "PubkeyAcceptedKeyTypes ssh-ed25519,rsa-sha2-256,rsa-sha2-512")
     @patch('os.path.exists')
     def test_set_incorrect_two(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
         C0322_pubkeyTypes()
         mock_InsertSection.assert_any_call("Check set of PubkeyAcceptedKeyTypes")
@@ -102,7 +102,7 @@ class TestC0322_pubkeyTypes(unittest.TestCase):
         read_data = "PubkeyAcceptedKeyTypes rsa-sha2-256,rsa-sha2-512")
     @patch('os.path.exists')
     def test_set_incorrect_three(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
         C0322_pubkeyTypes()
         mock_InsertSection.assert_any_call("Check set of PubkeyAcceptedKeyTypes")
