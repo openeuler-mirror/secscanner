@@ -19,10 +19,10 @@ from secScanner.lib.textInfo_level3 import *
 from secScanner.commands.check_outprint import *
 from secScanner.enhance.level3.check.C221_sshRootDenie import C221_sshRootDenie
 
-# 定义测试类
+# Mock test setup.
 class TestC221_sshRootDenie(unittest.TestCase):
     def setUp(self):
-        # 设置模拟函数get_value返回的值
+        # Mock test setup.
         self.os_distro = '7'
 
     @patch('secScanner.enhance.level3.check.C221_sshRootDenie.InsertSection')
@@ -31,10 +31,10 @@ class TestC221_sshRootDenie(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C221_sshRootDenie.Display')
     @patch('secScanner.enhance.level3.check.C221_sshRootDenie.logger')
     def test_securetty_wrong_setting(self, mock_logger, mock_display, mock_file, mock_get_value, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C221_sshRootDenie()
         
-        # 检查预期的警告信息是否已正确显示
+        # Mock test setup.
         mock_display.assert_any_call("- Wrong Telnet Denie set...", "WARNING")
         mock_logger.warning.assert_any_call("WRN_C221_01: %s", WRN_C221_01)
         mock_logger.warning.assert_any_call("SUG_C221: %s", SUG_C221)
@@ -46,10 +46,10 @@ class TestC221_sshRootDenie(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C221_sshRootDenie.Display')
     @patch('secScanner.enhance.level3.check.C221_sshRootDenie.logger')
     def test_securetty_correct_setting(self, mock_logger, mock_display, mock_file, mock_get_value, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C221_sshRootDenie()
 
-        # 检查预期的OK信息是否已正确显示
+        # Mock test setup.
         mock_display.assert_any_call("- Check the telnet deny...", "OK")
         mock_logger.warning.assert_any_call("WRN_C221_01: %s", WRN_C221_01)
         mock_logger.warning.assert_any_call("SUG_C221: %s", SUG_C221)
@@ -61,10 +61,10 @@ class TestC221_sshRootDenie(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C221_sshRootDenie.Display')
     @patch('secScanner.enhance.level3.check.C221_sshRootDenie.logger')
     def test_ssh_config_right_setting(self, mock_logger, mock_display, mock_file, mock_get_value, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C221_sshRootDenie()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_any_call("Has ssh Root denie set, checking OK")
         mock_display.assert_any_call("- Check the ssh Root denie...", "OK")
 
@@ -75,10 +75,10 @@ class TestC221_sshRootDenie(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C221_sshRootDenie.logger')
     @patch('secScanner.enhance.level3.check.C221_sshRootDenie.Display')
     def test_ssh_config_wrong_setting(self, mock_display, mock_logger, mock_file, mock_get_value, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C221_sshRootDenie()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C221_02: %s", WRN_C221_02)
         mock_logger.warning.assert_any_call("SUG_C221: %s", SUG_C221) 
         mock_display.assert_any_call("- Wrong ssh Root denie set...", "WARNING")
