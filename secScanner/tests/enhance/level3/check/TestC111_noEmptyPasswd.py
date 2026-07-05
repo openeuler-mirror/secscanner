@@ -22,56 +22,56 @@ class TestC111_noEmptyPasswd(unittest.TestCase):
     
     @patch('secScanner.enhance.level3.check.C111_noEmptyPasswd.InsertSection')
     @patch('os.path.exists', return_value=True)
-    @patch('subprocess.getstatusoutput', return_value=(0, ""))  # 没有空密码用户
+    @patch('subprocess.getstatusoutput', return_value=(0, ""))  # Mock test setup.
     @patch('secScanner.enhance.level3.check.C111_noEmptyPasswd.logger')
     @patch('secScanner.enhance.level3.check.C111_noEmptyPasswd.Display')
     def test_no_empty_password_users(self, mock_display, mock_logger, mock_subprocess, mock_exists, mock_insert):
-        # 运行测试函数
+        # Mock test setup.
         C111_noEmptyPasswd()
         
-        # 检查预期的日志信息
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has no empty password user, checking OK")
         mock_display.assert_called_with("- Check no empty password user...", "OK")
 
     @patch('secScanner.enhance.level3.check.C111_noEmptyPasswd.InsertSection')
     @patch('os.path.exists', return_value=True)
-    @patch('subprocess.getstatusoutput', return_value=(1, ""))  # 有空密码用户
+    @patch('subprocess.getstatusoutput', return_value=(1, ""))  # Mock test setup.
     @patch('secScanner.enhance.level3.check.C111_noEmptyPasswd.logger')
     @patch('secScanner.enhance.level3.check.C111_noEmptyPasswd.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_empty_password_users_exist(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_exists, mock_insert):
-        # 运行测试函数
+        # Mock test setup.
         C111_noEmptyPasswd()
         
-        # 检查预期的警告信息
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C111_01: %s", WRN_C111_01)
         mock_logger.warning.assert_any_call("SUG_C111_01: %s", SUG_C111_01)
         mock_display.assert_called_with("- There is an empty password user present...", "WARNING")
 
     @patch('secScanner.enhance.level3.check.C111_noEmptyPasswd.InsertSection')
     @patch('os.path.exists', return_value=True)
-    @patch('subprocess.getstatusoutput', return_value=(3, ""))  # 有空密码用户
+    @patch('subprocess.getstatusoutput', return_value=(3, ""))  # Mock test setup.
     @patch('secScanner.enhance.level3.check.C111_noEmptyPasswd.logger')
     @patch('secScanner.enhance.level3.check.C111_noEmptyPasswd.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_empty_password_users_exist(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_exists, mock_insert):
-        # 运行测试函数
+        # Mock test setup.
         C111_noEmptyPasswd()
         
-        # 检查预期的警告信息
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C111_01: %s", WRN_C111_01)
         mock_logger.warning.assert_any_call("SUG_C111_01: %s", SUG_C111_01)
         mock_display.assert_called_with("- There is an empty password user present...", "WARNING")
     @patch('secScanner.enhance.level3.check.C111_noEmptyPasswd.InsertSection')
-    @patch('os.path.exists', return_value=False)  # /etc/shadow 文件不存在
+    @patch('os.path.exists', return_value=False)  # Mock test setup.
     @patch('secScanner.enhance.level3.check.C111_noEmptyPasswd.logger')
     @patch('secScanner.enhance.level3.check.C111_noEmptyPasswd.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_shadow_file_not_exist(self, mock_file, mock_display, mock_logger, mock_exists, mock_insert):
-        # 运行测试函数
+        # Mock test setup.
         C111_noEmptyPasswd()
         
-        # 检查预期的警告信息
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C111_02: %s", WRN_C111_02)
         mock_logger.warning.assert_any_call("SUG_C111_02: %s", SUG_C111_02)
         mock_display.assert_called_with("- file /etc/shadow does not exist...", "WARNING")
