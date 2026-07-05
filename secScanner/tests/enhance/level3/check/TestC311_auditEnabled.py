@@ -25,10 +25,10 @@ class TestC311_auditEnabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C311_auditEnabled.logger')
     @patch('secScanner.enhance.level3.check.C311_auditEnabled.Display')
     def test_audit_service_enabled(self, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C311_auditEnabled()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has right auditd service set, checking ok")
         mock_display.assert_called_with("- Has right auditd service set: enabled...", "OK")
 
@@ -38,10 +38,10 @@ class TestC311_auditEnabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C311_auditEnabled.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_audit_service_disabled(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C311_auditEnabled()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C311: %s", WRN_C311_01)
         mock_logger.warning.assert_any_call("SUG_C311: %s", SUG_C311_01)
         mock_display.assert_called_with("- Wrong auditd service status...", "WARNING")
@@ -52,10 +52,10 @@ class TestC311_auditEnabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C311_auditEnabled.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_audit_service_not_installed(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C311_auditEnabled()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C311: %s", WRN_C311_02)
         mock_logger.warning.assert_any_call("SUG_C311: %s", SUG_C311_02)
         mock_display.assert_called_with("- No auditd service, need to install...", "WARNING")
@@ -65,10 +65,10 @@ class TestC311_auditEnabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C311_auditEnabled.logger')
     @patch('secScanner.enhance.level3.check.C311_auditEnabled.Display')
     def test_audit_service_unexpected_status(self, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C311_auditEnabled()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Unexpected status of auditd")
         mock_display.assert_called_with("- Unexpected status of auditd...", "WARNING")
 
