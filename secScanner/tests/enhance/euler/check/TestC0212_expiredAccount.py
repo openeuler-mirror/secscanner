@@ -29,11 +29,11 @@ class TestC0212_expiredAccount(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data='user1:$6$hash:17597:0:99999:7:::\nuser2:$6$hash:17597:0:99999:7::17000\n')
     @patch('enhance.euler.check.C0212_expiredAccount.datetime')
     def test_expired_account_exists(self, mock_datetime, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟存在过期账户
+        # Mock test setup.
         mock_exists.return_value = True
         mock_datetime.datetime.now.timestamp.return_value = 1730684465
-        secScanner.enhance.euler.check.C0212_expiredAccount.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0212_expiredAccount.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0212_expiredAccount()
         mock_InsertSection.assert_any_call("check for expired account")
         mock_logger.warning.assert_any_call("WRN_C0212_01: %s", WRN_C0212_01)
@@ -49,11 +49,11 @@ class TestC0212_expiredAccount(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data='user1:$6$hash:17597:0:99999:7:::\nuser2:$6$hash:17597:0:99999:7:::\n')
     @patch('enhance.euler.check.C0212_expiredAccount.datetime')
     def test_no_expired_accounts(self, mock_datetime, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟不存在过期账户
+        # Mock test setup.
         mock_exists.return_value = True
         mock_datetime.datetime.now.timestamp.return_value = 1730684465
 
-        # 调用测试函数
+        # Mock test setup.
         C0212_expiredAccount()
         mock_InsertSection.assert_any_call("check for expired account")
         mock_logger.info.assert_any_call('No expired account exists, checking ok')
@@ -67,10 +67,10 @@ class TestC0212_expiredAccount(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0212_expiredAccount.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_shadow_file_not_exists(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟/etc/shadow文件不存在
+        # Mock test setup.
         mock_exists.return_value = False
-        secScanner.enhance.euler.check.C0212_expiredAccount.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0212_expiredAccount.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0212_expiredAccount()
         mock_InsertSection.assert_any_call("check for expired account")
         mock_logger.warning.assert_any_call("WRN_C0212_02: %s", WRN_C0212_02)
