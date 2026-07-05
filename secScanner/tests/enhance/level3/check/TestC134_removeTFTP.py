@@ -20,7 +20,7 @@ from secScanner.enhance.level3.check.C134_removeTFTP import C134_removeTFTP
 
 class TestC134_removeTFTP(unittest.TestCase):
     def setUp(self):
-        # 设置日志记录器
+        # Mock test setup.
         self.logger = MagicMock()
 
     @patch('secScanner.enhance.level3.check.C134_removeTFTP.InsertSection')
@@ -29,10 +29,10 @@ class TestC134_removeTFTP(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C134_removeTFTP.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_tftp_installed(self, mock_file, mock_display, mock_logger, mock_subproc, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C134_removeTFTP()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C134_01: %s", WRN_C134_01)
         mock_logger.warning.assert_any_call("SUG_C134_01: %s", SUG_C134_01)
         mock_display.assert_called_with("- TFTP not removed...", "WARNING")
@@ -42,10 +42,10 @@ class TestC134_removeTFTP(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C134_removeTFTP.logger')
     @patch('secScanner.enhance.level3.check.C134_removeTFTP.Display')
     def test_tftp_not_installed(self, mock_display, mock_logger, mock_subproc, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C134_removeTFTP()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("TFTP not installed, checking ok...")
         mock_display.assert_called_with("- check TFTP not installed...", "OK")
 
@@ -55,10 +55,10 @@ class TestC134_removeTFTP(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C134_removeTFTP.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_command_execution_failed(self, mock_file, mock_display, mock_logger, mock_subproc, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C134_removeTFTP()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C134_02: %s", WRN_C134_02)
         mock_logger.warning.assert_any_call("SUG_C134_02: %s", SUG_C134_02)
         mock_display.assert_called_with("- Query command execution failed...", "WARNING")
@@ -69,10 +69,10 @@ class TestC134_removeTFTP(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C134_removeTFTP.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_command_execution_failed(self, mock_file, mock_display, mock_logger, mock_subproc, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C134_removeTFTP()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C134_02: %s", WRN_C134_02)
         mock_logger.warning.assert_any_call("SUG_C134_02: %s", SUG_C134_02)
         mock_display.assert_called_with("- Query command execution failed...", "WARNING")
