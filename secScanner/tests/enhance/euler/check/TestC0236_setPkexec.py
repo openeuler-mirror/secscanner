@@ -38,9 +38,9 @@ class TestC0236_setPkexec(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0236_setPkexec.Display')
     @patch('builtins.open', new_callable=mock_open, read_data=content_to_write)
     def test_file_exists_and_content(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟文件存在且包含指定内容
+        # Mock test setup.
         mock_exists.return_value = True
-        # 调用测试函数
+        # Mock test setup.
         C0236_setPkexec()
         mock_InsertSection.assert_any_call("check ordinary users cannot use pkexec to configure root privileges set")
         mock_logger.info.assert_any_call("check ordinary users cannot use pkexec to configure root privileges, checking ok")
@@ -52,10 +52,10 @@ class TestC0236_setPkexec(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0236_setPkexec.Display')
     @patch('builtins.open', new_callable=mock_open, read_data=content_no_write)
     def test_file_exists_but_content_missing(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟文件存在但不包含指定内容
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0236_setPkexec.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0236_setPkexec.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0236_setPkexec()
         mock_InsertSection.assert_any_call("check ordinary users cannot use pkexec to configure root privileges set")
         mock_logger.warning.assert_any_call("WRN_C0236_01: %s", WRN_C0236_01)
@@ -69,10 +69,10 @@ class TestC0236_setPkexec(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0236_setPkexec.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_file_not_exists(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        secScanner.enhance.euler.check.C0236_setPkexec.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 模拟文件不存在
+        secScanner.enhance.euler.check.C0236_setPkexec.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         mock_exists.return_value = False
-        # 调用测试函数
+        # Mock test setup.
         C0236_setPkexec()
         mock_InsertSection.assert_any_call("check ordinary users cannot use pkexec to configure root privileges set")
         mock_logger.warning.assert_any_call("WRN_C0236_02: %s", WRN_C0236_02)
