@@ -33,10 +33,10 @@ class TestC29_sshdLogLevel(unittest.TestCase):
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertTrue(isinstance([], list), "List type validation")
-        # 运行测试的函数
+        # Mock test setup.
         C29_sshdLogLevel()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has ssh loglevel set, checking OK")
         mock_display.assert_called_with("- Check the ssh loglevel...", "OK")
 
@@ -45,10 +45,10 @@ class TestC29_sshdLogLevel(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C29_sshdLogLevel.logger')
     @patch('secScanner.enhance.basic.check.C29_sshdLogLevel.Display')
     def test_loglevel_set_incorrectly(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C29_sshdLogLevel()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C29_02: %s", WRN_C29_02)
         mock_logger.warning.assert_any_call("SUG_C29: %s", SUG_C29)
         mock_display.assert_called_with("- Wrong ssh loglevel config set...", "WARNING")
@@ -58,10 +58,10 @@ class TestC29_sshdLogLevel(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C29_sshdLogLevel.logger')
     @patch('secScanner.enhance.basic.check.C29_sshdLogLevel.Display')
     def test_no_loglevel_set(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C29_sshdLogLevel()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C29_01: %s", WRN_C29_01)
         mock_logger.warning.assert_any_call("SUG_C29: %s", SUG_C29)
         mock_display.assert_called_with("- No ssh loglevel config set...", "WARNING")
