@@ -31,15 +31,15 @@ class TestS0212_expiredAccount(unittest.TestCase):
     @patch('secScanner.enhance.euler.set.S0212_expiredAccount.shutil.copy2')
     @patch('secScanner.enhance.euler.set.S0212_expiredAccount.add_bak_file')
     def test_expired_account_exists_and_deluser_success(self, mock_add_bak_file, mock_copy2, mock_seconf_get, mock_datetime, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟配置项以启用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'yes'
-        # 模拟 /etc/shadow 存在，/etc/shadow_bak 不存在
+        # Mock test setup.
         mock_exists.side_effect = [True, False]
-        # 模拟存在过期账户
+        # Mock test setup.
         mock_datetime.datetime.now.timestamp.return_value = 1730684465
-        # 模拟删除user2成功
+        # Mock test setup.
         mock_getstatusoutput.return_value = (0, "")
-        # 调用测试函数
+        # Mock test setup.
         S0212_expiredAccount()
         mock_InsertSection.assert_any_call("Delete expired account")
         mock_copy2.assert_any_call('/etc/shadow', '/etc/shadow_bak')
@@ -58,15 +58,15 @@ class TestS0212_expiredAccount(unittest.TestCase):
     @patch('secScanner.enhance.euler.set.S0212_expiredAccount.shutil.copy2')
     @patch('secScanner.enhance.euler.set.S0212_expiredAccount.add_bak_file')
     def test_expired_account_exists_and_deluser_failed(self, mock_add_bak_file, mock_copy2, mock_seconf_get, mock_datetime, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟配置项以启用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'yes'
-        # 模拟 /etc/shadow 存在，/etc/shadow_bak 不存在
+        # Mock test setup.
         mock_exists.side_effect = [True, False]
-        # 模拟存在过期账户
+        # Mock test setup.
         mock_datetime.datetime.now.timestamp.return_value = 1730684465
-        # 模拟删除user2失败
+        # Mock test setup.
         mock_getstatusoutput.return_value = (1, "")
-        # 调用测试函数
+        # Mock test setup.
         S0212_expiredAccount()
         mock_InsertSection.assert_any_call("Delete expired account")
         mock_copy2.assert_any_call('/etc/shadow', '/etc/shadow_bak')
@@ -85,14 +85,14 @@ class TestS0212_expiredAccount(unittest.TestCase):
     @patch('secScanner.enhance.euler.set.S0212_expiredAccount.shutil.copy2')
     @patch('secScanner.enhance.euler.set.S0212_expiredAccount.add_bak_file')
     def test_no_expired_accounts(self, mock_add_bak_file, mock_copy2, mock_seconf_get, mock_datetime, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟配置项以启用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'yes'
-        # 模拟 /etc/shadow 存在，/etc/shadow_bak 不存在
+        # Mock test setup.
         mock_exists.side_effect = [True, False]
-        # 模拟不存在过期账户
+        # Mock test setup.
         mock_datetime.datetime.now.timestamp.return_value = 1730684465
 
-        # 调用测试函数
+        # Mock test setup.
         S0212_expiredAccount()
         mock_InsertSection.assert_any_call("Delete expired account")
         mock_copy2.assert_any_call('/etc/shadow', '/etc/shadow_bak')
@@ -109,11 +109,11 @@ class TestS0212_expiredAccount(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('secScanner.enhance.euler.set.S0212_expiredAccount.seconf.get')
     def test_shadow_file_not_exists(self, mock_seconf_get, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟配置项以启用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'yes'
-        # 模拟/etc/shadow文件不存在
+        # Mock test setup.
         mock_exists.return_value = False
-        # 调用测试函数
+        # Mock test setup.
         S0212_expiredAccount()
         mock_InsertSection.assert_any_call("Delete expired account")
         mock_logger.warning.assert_any_call("file /etc/shadow dose not exist")
@@ -128,9 +128,9 @@ class TestS0212_expiredAccount(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('secScanner.enhance.euler.set.S0212_expiredAccount.seconf.get')
     def test_seconf_get_no(self, mock_seconf_get, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟配置项以禁用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'no'
-        # 调用测试函数
+        # Mock test setup.
         S0212_expiredAccount()
         mock_InsertSection.assert_any_call("Delete expired account")
         mock_display.assert_any_call("- Skip check for expired account due to config file...", "SKIPPING")
