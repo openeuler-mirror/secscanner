@@ -27,10 +27,10 @@ class TestC0228_warnBanner(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.getsize')
     def test_all_files_exist(self, mock_getsize, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟所有文件都存在且有内容
+        # Mock test setup.
         mock_exists.side_effect = lambda x: True
         mock_getsize.side_effect = lambda x: 100
-        # 调用测试函数
+        # Mock test setup.
         C0228_warnBanner()
 
         mock_InsertSection.assert_any_call("check system warning  banner")
@@ -47,10 +47,10 @@ class TestC0228_warnBanner(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0228_warnBanner.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_all_files_no_exist(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟所有文件都不存在
+        # Mock test setup.
         mock_exists.side_effect = lambda x: False
-        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0228_warnBanner()
 
         mock_InsertSection.assert_any_call("check system warning  banner")
@@ -74,11 +74,11 @@ class TestC0228_warnBanner(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.getsize')
     def test_motd_file_no_exist(self, mock_getsize, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟 /etc/motd 文件不存在
+        # Mock test setup.
         mock_exists.side_effect = lambda x: x in ["/etc/issue", "/etc/issue.net"]
         mock_getsize.side_effect = lambda x : 100 if x in ["/etc/issue", "/etc/issue.net"] else 0
-        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0228_warnBanner()
 
         mock_InsertSection.assert_any_call("check system warning  banner")
@@ -100,11 +100,11 @@ class TestC0228_warnBanner(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.getsize')
     def test_issue_file_no_exist(self, mock_getsize, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟 /etc/issue 文件不存在
+        # Mock test setup.
         mock_exists.side_effect = lambda x: x in ["/etc/motd", "/etc/issue.net"]
         mock_getsize.side_effect = lambda x : 100 if x in ["/etc/motd", "/etc/issue.net"] else 0
-        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0228_warnBanner()
 
         mock_InsertSection.assert_any_call("check system warning  banner")
@@ -126,11 +126,11 @@ class TestC0228_warnBanner(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.getsize')
     def test_issue_net_file_no_exist(self, mock_getsize, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟 /etc/issue.net 文件不存在
+        # Mock test setup.
         mock_exists.side_effect = lambda x: x in ["/etc/motd", "/etc/issue"]
         mock_getsize.side_effect = lambda x : 100 if x in ["/etc/motd", "/etc/issue"] else 0
-        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0228_warnBanner()
 
         mock_InsertSection.assert_any_call("check system warning  banner")
@@ -152,11 +152,11 @@ class TestC0228_warnBanner(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.getsize')
     def test_only_issue_net_file_exist(self, mock_getsize, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟只有/etc/issue.net 文件存在
+        # Mock test setup.
         mock_exists.side_effect = lambda x: x in ["/etc/issue.net"]
         mock_getsize.side_effect = lambda x : 100 if x in ["/etc/issue.net"] else 0
-        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0228_warnBanner()
 
         mock_InsertSection.assert_any_call("check system warning  banner")
@@ -180,11 +180,11 @@ class TestC0228_warnBanner(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.getsize')
     def test_only_issue_file_exist(self, mock_getsize, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟只有/etc/issue 文件存在
+        # Mock test setup.
         mock_exists.side_effect = lambda x: x in ["/etc/issue"]
         mock_getsize.side_effect = lambda x : 100 if x in ["/etc/issue"] else 0
-        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0228_warnBanner()
 
         mock_InsertSection.assert_any_call("check system warning  banner")
@@ -209,11 +209,11 @@ class TestC0228_warnBanner(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.getsize')
     def test_only_motd_file_exist(self, mock_getsize, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟只有/etc/motd 文件存在
+        # Mock test setup.
         mock_exists.side_effect = lambda x: x in ["/etc/motd"]
         mock_getsize.side_effect = lambda x : 100 if x in ["/etc/motd"] else 0
-        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0228_warnBanner.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0228_warnBanner()
 
         mock_InsertSection.assert_any_call("check system warning  banner")
