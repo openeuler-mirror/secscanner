@@ -27,7 +27,7 @@ class TestC0301_uncommonNetwork(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('subprocess.getstatusoutput')
     def test_sctp_and_tipc_disabled(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟 sctp 和 tipc 都被禁用的情况
+        # Mock test setup.
         mock_getstatusoutput.side_effect = [
             (0, "install /bin/true"),  # sctp
             (0, "install /bin/true")   # tipc
@@ -42,13 +42,13 @@ class TestC0301_uncommonNetwork(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('subprocess.getstatusoutput')
     def test_sctp_enabled_and_tipc_disabled(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟 sctp 被启用而 tipc 被禁用的情况
+        # Mock test setup.
         mock_getstatusoutput.side_effect = [
             (0, "insmod /lib/modules/"),  # sctp
             (0, "install /bin/true")     # tipc
         ]
         C0301_uncommonNetwork()
-        secScanner.enhance.euler.check.C0301_uncommonNetwork.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0301_uncommonNetwork.RESULT_FILE = "result_file_path"  # Mock test setup.
         mock_InsertSection.assert_any_call("Check avoid using uncommon network service")
         mock_logger.warning.assert_any_call("WRN_C0301_03: %s", WRN_C0301_03)
         mock_logger.warning.assert_any_call("SUG_C0301_03: %s", SUG_C0301_03)
@@ -61,12 +61,12 @@ class TestC0301_uncommonNetwork(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('subprocess.getstatusoutput')
     def test_sctp_disabled_and_tipc_enabled(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟 sctp 
+        # Mock test setup.
         mock_getstatusoutput.side_effect = [
             (0, "install /bin/true"),  # sctp
             (0, "insmod /lib/modules/")     # tipc
         ]
-        secScanner.enhance.euler.check.C0301_uncommonNetwork.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0301_uncommonNetwork.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0301_uncommonNetwork()
         mock_InsertSection.assert_any_call("Check avoid using uncommon network service")
         mock_logger.warning.assert_any_call("WRN_C0301_02: %s", WRN_C0301_02)
@@ -80,12 +80,12 @@ class TestC0301_uncommonNetwork(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('subprocess.getstatusoutput')
     def test_sctp_and_tipc_enabled(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟 sctp 和 tipc 都被启用的情况
+        # Mock test setup.
         mock_getstatusoutput.side_effect = [
             (0, "insmod /lib/modules/"),  # sctp
             (0, "insmod /lib/modules/")     # tipc
         ]
-        secScanner.enhance.euler.check.C0301_uncommonNetwork.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0301_uncommonNetwork.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0301_uncommonNetwork()
         mock_InsertSection.assert_any_call("Check avoid using uncommon network service")
         mock_logger.warning.assert_any_call("WRN_C0301_01: %s", WRN_C0301_01)
@@ -99,7 +99,7 @@ class TestC0301_uncommonNetwork(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('subprocess.getstatusoutput')
     def test_sctp_chech_error(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟 sctp error
+        # Mock test setup.
         mock_getstatusoutput.side_effect = [
             (1, ""),  # sctp
             (0, "insmod /lib/modules/")     # tipc
@@ -115,7 +115,7 @@ class TestC0301_uncommonNetwork(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('subprocess.getstatusoutput')
     def test_tipc_chech_error(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟 tipc error
+        # Mock test setup.
         mock_getstatusoutput.side_effect = [
             (0, "insmod /lib/modules/"),  # sctp
             (1, "")     # tipc
