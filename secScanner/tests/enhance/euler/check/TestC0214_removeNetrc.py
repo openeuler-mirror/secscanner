@@ -30,13 +30,13 @@ class TestC0214_removeNetrc(unittest.TestCase):
     @patch('os.path.isdir')
     @patch('os.walk')
     def test_with_netrc_file(self, mock_walk, mock_isdir, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟存在.netrc文件
+        # Mock test setup.
         mock_exists.return_value = True
         mock_getstatusoutput.return_value = (0, "user1:x:1000:1000::/home/user1:/bin/bash\nuser2:x:1001:1001::/home/user2:/bin/bash")
         mock_isdir.return_value = True
         mock_walk.return_value = [("/home/user1", [], [".netrc"]), ("/home/user2", [], [])]
-        secScanner.enhance.euler.check.C0214_removeNetrc.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0214_removeNetrc.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0214_removeNetrc()
         mock_InsertSection.assert_any_call("Confirm the existence of the .netrc file in the Home directory")
         mock_logger.warning.assert_any_call("WRN_C0214_01: %s", WRN_C0214_01)
@@ -53,12 +53,12 @@ class TestC0214_removeNetrc(unittest.TestCase):
     @patch('os.path.isdir')
     @patch('os.walk')
     def test_without_netrc_file(self, mock_walk, mock_isdir, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟不存在.netrc文件
+        # Mock test setup.
         mock_exists.return_value = True
         mock_getstatusoutput.return_value = (0, "user1:x:1000:1000::/home/user1:/bin/bash\nuser2:x:1001:1001::/home/user2:/bin/bash")
         mock_isdir.return_value = True
         mock_walk.return_value = [("/home/user1", [], []), ("/home/user2", [], [])]
-        # 调用测试函数
+        # Mock test setup.
         C0214_removeNetrc()
         mock_InsertSection.assert_any_call("Confirm the existence of the .netrc file in the Home directory")
         mock_logger.info.assert_any_call("Confirm the existence of the .netrc file in the Home directory, checking ok")
@@ -71,12 +71,12 @@ class TestC0214_removeNetrc(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0214_removeNetrc.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_fail_obtain_user_home_list(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟 /etc/passwd 文件存在
+        # Mock test setup.
         mock_exists.return_value = True
-        # 模拟读取home目录失败
+        # Mock test setup.
         mock_getstatusoutput.return_value = (1, "")
-        secScanner.enhance.euler.check.C0214_removeNetrc.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0214_removeNetrc.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0214_removeNetrc()
         mock_InsertSection.assert_any_call("Confirm the existence of the .netrc file in the Home directory")
         mock_logger.warning.assert_any_call("WRN_C0214_02: %s", WRN_C0214_02)
@@ -91,10 +91,10 @@ class TestC0214_removeNetrc(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0214_removeNetrc.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_passwd_file_not_exists(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟 /etc/passwd 文件不存在
+        # Mock test setup.
         mock_exists.return_value = False
-        secScanner.enhance.euler.check.C0214_removeNetrc.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0214_removeNetrc.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0214_removeNetrc()
         mock_InsertSection.assert_any_call("Confirm the existence of the .netrc file in the Home directory")
         mock_logger.warning.assert_any_call("WRN_C0214_03: %s", WRN_C0214_03)
