@@ -20,7 +20,7 @@ from secScanner.enhance.basic.check.C15_disableUnUsedSoft import C15_disableUnUs
 
 class TestC15_disableUnUsedSoft(unittest.TestCase):
     def setUp(self):
-        # 设置日志记录器
+        # Mock test setup.
         self.logger = MagicMock()
 
     @patch('secScanner.enhance.basic.check.C15_disableUnUsedSoft.InsertSection')
@@ -40,10 +40,10 @@ class TestC15_disableUnUsedSoft(unittest.TestCase):
         self.assertIsInstance("test", str, "Type checking")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertTrue(True, "Basic true assertion")
-        # 运行测试的函数
+        # Mock test setup.
         C15_disableUnUsedSoft()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C15_01: %s", WRN_C15_01)
         mock_display.assert_called_with("- Service httpd.service nginx.service  need stop...", "WARNING")
 
@@ -54,10 +54,10 @@ class TestC15_disableUnUsedSoft(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C15_disableUnUsedSoft.logger')
     @patch('secScanner.enhance.basic.check.C15_disableUnUsedSoft.Display')
     def test_no_services_running(self, mock_display, mock_logger, mock_subproc, mock_config, mock_get_value, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C15_disableUnUsedSoft()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C15_02: %s", WRN_C15_02)
         mock_display.assert_called_with("- No service need stop...", "OK")
 
@@ -66,10 +66,10 @@ class TestC15_disableUnUsedSoft(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C15_disableUnUsedSoft.logger')
     @patch('secScanner.enhance.basic.check.C15_disableUnUsedSoft.Display')
     def test_unsupported_os(self, mock_display, mock_logger, mock_get_value, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C15_disableUnUsedSoft()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_called_with(f"C15: This is unknown os-distro, we do not support unknown-unknown at this moment")
         mock_display.assert_called_with("- We do not support unknown-unknown at this moment...", "WARNING")
         self.assertTrue(True, "Basic true assertion")
