@@ -27,10 +27,10 @@ class TestC0207_passwdGroupexists(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_file_not_found(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟 /etc/passwd 和 /etc/group 都不存在
+        # Mock test setup.
         mock_exists.side_effect = [False, False]
 
-        # 调用测试函数
+        # Mock test setup.
         C0207_passwdGroupexists()
         mock_InsertSection.assert_called_once_with("check if all groups in /etc/passwd exist")
         mock_logger.warning.assert_any_call("WRN_C0207_02: %s", WRN_C0207_02)
@@ -43,10 +43,10 @@ class TestC0207_passwdGroupexists(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_group_file_not_found(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟 /etc/passwd存在，/etc/group 不存在
+        # Mock test setup.
         mock_exists.side_effect = [True, False]
 
-        # 调用测试函数
+        # Mock test setup.
         C0207_passwdGroupexists()
         mock_InsertSection.assert_called_once_with("check if all groups in /etc/passwd exist")
         mock_logger.warning.assert_any_call("WRN_C0207_02: %s", WRN_C0207_02)
@@ -59,10 +59,10 @@ class TestC0207_passwdGroupexists(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_passwd_file_not_found(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟 /etc/passwd不存在，/etc/group 存在
+        # Mock test setup.
         mock_exists.side_effect = [False, True]
 
-        # 调用测试函数
+        # Mock test setup.
         C0207_passwdGroupexists()
         mock_InsertSection.assert_called_once_with("check if all groups in /etc/passwd exist")
         mock_logger.warning.assert_any_call("WRN_C0207_02: %s", WRN_C0207_02)
@@ -76,11 +76,11 @@ class TestC0207_passwdGroupexists(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('secScanner.enhance.euler.check.C0207_passwdGroupexists.check_group_in_group')
     def test_group_found(self, mock_check_group_in_group, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟 /etc/passwd和/etc/group 都存在
+        # Mock test setup.
         mock_exists.side_effect = [True, True]
-        # 模拟 /etc/passwd 中的组都存在
+        # Mock test setup.
         mock_check_group_in_group.return_value = True
-        # 调用测试函数
+        # Mock test setup.
         C0207_passwdGroupexists()
         mock_InsertSection.assert_called_once_with("check if all groups in /etc/passwd exist")
         mock_logger.info.assert_any_call("All groups in /etc/passwd exist, checking ok")
@@ -97,7 +97,7 @@ class TestC0207_passwdGroupexists(unittest.TestCase):
         mock_exists.side_effect = [True, True]
         mock_get_user_groups_from_passwd.return_value = [("user1", "group1"), ("user2", "group2")]
         mock_check_group_in_group.side_effect = [False, False]
-        # 调用测试函数
+        # Mock test setup.
         C0207_passwdGroupexists()
         username = []
         username.append("user1")
@@ -118,7 +118,7 @@ class TestC0207_passwdGroupexists(unittest.TestCase):
         mock_exists.side_effect = [True, True]
         mock_get_user_groups_from_passwd.return_value = [("user1", "group1"), ("user2", "group2")]
         mock_check_group_in_group.side_effect = [False, True]
-        # 调用测试函数
+        # Mock test setup.
         C0207_passwdGroupexists()
         username = []
         username.append("user1")
@@ -138,7 +138,7 @@ class TestC0207_passwdGroupexists(unittest.TestCase):
         mock_exists.side_effect = [True, True]
         mock_get_user_groups_from_passwd.return_value = [("user1", "group1"), ("user2", "group2")]
         mock_check_group_in_group.side_effect = [True, False]
-        # 调用测试函数
+        # Mock test setup.
         C0207_passwdGroupexists()
         username = []
         username.append("user2")
