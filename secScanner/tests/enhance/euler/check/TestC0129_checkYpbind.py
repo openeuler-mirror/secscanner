@@ -29,17 +29,17 @@ class TestC0129_checkYpbind(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0129_checkYpbind.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_LdapServer_installed(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
-        # 设置模拟返回值
+        # Mock test setup.
         mock_exists.return_value = True
-        mock_getsize.return_value = 10  # 假设文件非空
+        mock_getsize.return_value = 10  # Mock test setup.
         
-        # 调用测试函数
+        # Mock test setup.
         C0129_checkYpbind()
         
         mock_InsertSection.assert_called_once_with("Check whether the Ypbind software is installed in your Linux System ")
         mock_logger.info.assert_called_once_with('The Ypbind status is: uninstalled')
         mock_display.assert_called_with("- Check the Ypbind software is uninstall...", "OK")
-        mock_file.assert_not_called()  # 确保没有写入文件
+        mock_file.assert_not_called()  # Mock test setup.
     
     @patch('secScanner.enhance.euler.check.C0129_checkYpbind.os.path.exists')
     @patch('secScanner.enhance.euler.check.C0129_checkYpbind.os.path.getsize')
@@ -50,19 +50,19 @@ class TestC0129_checkYpbind(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     def test_LdapServer_uninstalled(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
        
-        # 假设的全局变量
-        secScanner.enhance.euler.check.C0129_checkYpbind.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 设置模拟返回值
+        # Mock test setup.
+        secScanner.enhance.euler.check.C0129_checkYpbind.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         mock_exists.return_value = False
-        mock_getsize.return_value = 0  # 文件为空
+        mock_getsize.return_value = 0  # Mock test setup.
         
-        # 调用测试函数
+        # Mock test setup.
         C0129_checkYpbind()
         mock_InsertSection.assert_called_once_with("Check whether the Ypbind software is installed in your Linux System ")
         mock_logger.warning.assert_any_call("WRN_C0129: %s", WRN_C0129)
         mock_logger.warning.assert_any_call("SUG_C0129: %s", SUG_C0129)
         mock_display.assert_called_with('- Check the  Ypbind software is installed...', 'WARNING')        
-        mock_file.assert_any_call("result_file_path", "a+")  # 检查是否尝试写入文件
+        mock_file.assert_any_call("result_file_path", "a+")  # Mock test setup.
 
     @patch('secScanner.enhance.euler.check.C0129_checkYpbind.os.path.exists')
     @patch('secScanner.enhance.euler.check.C0129_checkYpbind.os.path.getsize')
