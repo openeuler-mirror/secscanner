@@ -29,10 +29,10 @@ class TestC0208_UIDunique(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0208_UIDunique.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_passwd_file_not_exist(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟 /etc/passwd 文件不存在的情况
+        # Mock test setup.
         mock_exists.return_value = False
-        secScanner.enhance.euler.check.C0208_UIDunique.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0208_UIDunique.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0208_UIDunique()
         mock_InsertSection.assert_called_with("Check if UID is unique")
         mock_logger.warning.assert_any_call("WRN_C0208_04: %s", WRN_C0208_04)
@@ -49,11 +49,11 @@ class TestC0208_UIDunique(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0208_UIDunique.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_fail_retrieve_uids(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟 /etc/passwd 文件存在的情况
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0208_UIDunique.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0208_UIDunique.RESULT_FILE = "result_file_path"  # Mock test setup.
         mock_getstatusoutput.return_value = (1,'')
-        # 调用测试函数
+        # Mock test setup.
         C0208_UIDunique()
         mock_InsertSection.assert_called_with("Check if UID is unique")
         mock_logger.warning.assert_any_call("WRN_C0208_03: %s", WRN_C0208_03)
@@ -68,12 +68,12 @@ class TestC0208_UIDunique(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0208_UIDunique.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_UIDunique_no_duplicate_uids(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟 /etc/passwd 文件存在的情况
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0208_UIDunique.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 模拟uuid不重复
+        secScanner.enhance.euler.check.C0208_UIDunique.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         mock_getstatusoutput.return_value = (0, "  1 1000\n  1 1001\n 1 1002")
-        # 调用测试函数
+        # Mock test setup.
         C0208_UIDunique()
         mock_InsertSection.assert_called_with("Check if UID is unique")
         mock_logger.info.assert_any_call("Confirm UID uniqueness, checking OK")
@@ -86,13 +86,13 @@ class TestC0208_UIDunique(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0208_UIDunique.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_UIDunique_duplicate_uids(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟 /etc/passwd 文件存在的情况
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0208_UIDunique.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 模拟uuid重复
+        secScanner.enhance.euler.check.C0208_UIDunique.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         mock_getstatusoutput.side_effect = [(0, "  1 1000\n  1 1001\n 2 1002"),
                                             (0,"uuid_duplicate_username")]
-        # 调用测试函数
+        # Mock test setup.
         C0208_UIDunique()
         mock_InsertSection.assert_called_with("Check if UID is unique")
         mock_logger.warning.assert_any_call("WRN_C0208_01: %s", WRN_C0208_01)
