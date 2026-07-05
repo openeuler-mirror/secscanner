@@ -29,10 +29,10 @@ class TestC0210_GIDunique(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0210_GIDunique.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_gid_unique(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟 /etc/group 文件存在且 GID 唯一
+        # Mock test setup.
         mock_exists.return_value = True
         mock_getstatusoutput.return_value = (0, '')
-        # 调用测试函数
+        # Mock test setup.
         C0210_GIDunique()
         mock_InsertSection.assert_called_with("Check if GID is unique")
         mock_logger.info.assert_called_once_with("Confirm GID uniqueness, checking OK")
@@ -45,10 +45,10 @@ class TestC0210_GIDunique(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0210_GIDunique.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_gid_not_unique(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟 /etc/group 文件存在但 GID 不唯一
+        # Mock test setup.
         mock_getstatusoutput.return_value = (0, '1000')
-        secScanner.enhance.euler.check.C0210_GIDunique.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0210_GIDunique.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0210_GIDunique()
         mock_logger.warning.assert_any_call("WRN_C0210_01: %s", WRN_C0210_01)
         mock_logger.warning.assert_any_call("SUG_C0210_01: %s", SUG_C0210_01)
@@ -62,10 +62,10 @@ class TestC0210_GIDunique(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0210_GIDunique.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_failed_to_get_gid(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟 /etc/group 文件存在但无法获取 GID 信息
+        # Mock test setup.
         mock_getstatusoutput.return_value = (1, '')
-        secScanner.enhance.euler.check.C0210_GIDunique.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0210_GIDunique.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0210_GIDunique()
         mock_logger.warning.assert_any_call("WRN_C0210_02: %s", WRN_C0210_02)
         mock_logger.warning.assert_any_call("SUG_C0210_02: %s", SUG_C0210_02)
@@ -79,9 +79,9 @@ class TestC0210_GIDunique(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0210_GIDunique.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_group_file_not_exists(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟 /etc/group 文件不存在
+        # Mock test setup.
         mock_exists.return_value = False
-        # 调用测试函数
+        # Mock test setup.
         C0210_GIDunique()
         mock_InsertSection.assert_called_with("Check if GID is unique")
         mock_logger.warning.assert_any_call("WRN_C0210_03: %s", WRN_C0210_03)
