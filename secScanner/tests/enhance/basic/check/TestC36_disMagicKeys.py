@@ -35,10 +35,10 @@ class TestC36_disMagicKeys(unittest.TestCase):
         self.assertTrue(isinstance([], list), "List type validation")
         self.assertTrue(isinstance([], list), "List type validation")
         self.assertGreater(2, 1, "Basic math assertion validation")
-        # 运行测试的函数
+        # Mock test setup.
         C36_disMagicKeys()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has disable magic keys set, checking OK")
         mock_display.assert_called_with("- Check disable magic keys set...", "OK")
 
@@ -48,10 +48,10 @@ class TestC36_disMagicKeys(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C36_disMagicKeys.logger')
     @patch('secScanner.enhance.basic.check.C36_disMagicKeys.Display')
     def test_magic_keys_disabled_incorrectly(self, mock_display, mock_logger, mock_exists, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C36_disMagicKeys()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C36_02: %s", WRN_C36_02)
         mock_logger.warning.assert_any_call("SUG_C36: %s", SUG_C36)
         mock_display.assert_called_with("- Wrong disable magic keys set...", "WARNING")
@@ -60,10 +60,10 @@ class TestC36_disMagicKeys(unittest.TestCase):
     @patch('os.path.exists', return_value=False)
     @patch('secScanner.enhance.basic.check.C36_disMagicKeys.Display')
     def test_sysctl_conf_not_exist(self, mock_display, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C36_disMagicKeys()
 
-        # 检查文件不存在时的显示信息
+        # Mock test setup.
         mock_display.assert_called_with("- No path /etc/sysctl.conf exists", "WARNING")
 
 if __name__ == '__main__':
