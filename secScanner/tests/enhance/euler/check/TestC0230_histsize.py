@@ -25,7 +25,7 @@ class TestC0230_histsize(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0230_histsize.Display')
     @patch('secScanner.enhance.euler.check.C0230_histsize.InsertSection')
     def test_C0230_histsize_correct(self, mock_InsertSection, mock_display, mock_logger, mock_open):
-        # 调用测试函数
+        # Mock test setup.
         C0230_histsize()
         mock_InsertSection.assert_any_call("check HISTSIZE of /etc/profile")
         mock_logger.info.assert_called_once_with("HISTSIZE set correctly, checking ok")
@@ -37,8 +37,8 @@ class TestC0230_histsize(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0230_histsize.Display')
     @patch('secScanner.enhance.euler.check.C0230_histsize.InsertSection')
     def test_C0230_histsize_too_small(self, mock_InsertSection, mock_display, mock_logger, mock_open):
-        secScanner.enhance.euler.check.C0230_histsize.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0230_histsize.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0230_histsize()
         mock_InsertSection.assert_any_call("check HISTSIZE of /etc/profile")
         mock_logger.warning.assert_any_call("WRN_C0230: %s", WRN_C0230)
@@ -52,8 +52,8 @@ class TestC0230_histsize(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0230_histsize.Display')
     @patch('secScanner.enhance.euler.check.C0230_histsize.InsertSection')
     def test_C0230_histsize_too_large(self, mock_InsertSection, mock_display, mock_logger, mock_open):
-        secScanner.enhance.euler.check.C0230_histsize.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0230_histsize.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0230_histsize()
         mock_InsertSection.assert_any_call("check HISTSIZE of /etc/profile")
         mock_logger.warning.assert_any_call("WRN_C0230: %s", WRN_C0230)
