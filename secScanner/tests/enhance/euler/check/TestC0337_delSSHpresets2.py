@@ -54,7 +54,7 @@ class TestC0337_delSSHpresets2(unittest.TestCase):
     @patch('subprocess.getstatusoutput')
     def test_found_success(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
         mock_getstatusoutput.return_value = (0, '/home/user/known_hosts\n/root/known_hosts')
-        secScanner.enhance.euler.check.C0337_delSSHpresets2.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0337_delSSHpresets2.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0337_delSSHpresets2()
         mock_InsertSection.assert_any_call("Check other ssh presets in /home/ /root/")
         mock_logger.warning.assert_any_call("WRN_C0337: %s", WRN_C0337)
