@@ -54,7 +54,7 @@ class TestC0336_delSSHpresets(unittest.TestCase):
     @patch('subprocess.getstatusoutput')
     def test_found_success(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
         mock_getstatusoutput.return_value = (0, '/home/user/authorized_keys\n/root/authorized_keys')
-        secScanner.enhance.euler.check.C0336_delSSHpresets.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0336_delSSHpresets.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0336_delSSHpresets()
         mock_InsertSection.assert_any_call("Check ssh presets in /home/ /root/")
         mock_logger.warning.assert_any_call("WRN_C0336: %s", WRN_C0336)
