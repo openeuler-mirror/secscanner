@@ -39,7 +39,7 @@ class TestC0302_avoidWireless(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('subprocess.getstatusoutput')
     def test_wireless_disabled(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟无线网络已禁用的情况
+        # Mock test setup.
         mock_getstatusoutput.return_value = (0, "WIFI-HW  WIFI     WWAN-HW  WWAN\nenabled  disabled  enabled  disabled")
         C0302_avoidWireless()
         mock_InsertSection.assert_any_call("Check avoid using wireless network")
@@ -52,9 +52,9 @@ class TestC0302_avoidWireless(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('subprocess.getstatusoutput')
     def test_wireless_enabled(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟无线网络已启用的情况
+        # Mock test setup.
         mock_getstatusoutput.return_value = (0, "WIFI-HW  WIFI     WWAN-HW  WWAN\nenabled  enabled   enabled  enabled")
-        secScanner.enhance.euler.check.C0302_avoidWireless.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0302_avoidWireless.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0302_avoidWireless()
         mock_InsertSection.assert_any_call("Check avoid using wireless network")
         mock_logger.warning.assert_any_call("WRN_C0302: %s", WRN_C0302)
