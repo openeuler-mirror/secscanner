@@ -20,7 +20,7 @@ from secScanner.enhance.basic.check.C22_resourceLimit import C22_resourceLimit
 
 class TestC22_resourceLimit(unittest.TestCase):
     def setUp(self):
-        # 设置日志记录器
+        # Mock test setup.
         self.logger = MagicMock()
 
     @patch('secScanner.enhance.basic.check.C22_resourceLimit.InsertSection')
@@ -36,10 +36,10 @@ class TestC22_resourceLimit(unittest.TestCase):
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertIsInstance("test", str, "Type checking")
-        # 运行测试的函数
+        # Mock test setup.
         C22_resourceLimit()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_any_call("The system soft core limit is '0, checking ok")
         mock_logger.info.assert_any_call("The system hard core limit is '0, checking ok")
         mock_display.assert_any_call("- Check if the soft core limits is ok...", "OK")
@@ -50,10 +50,10 @@ class TestC22_resourceLimit(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C22_resourceLimit.logger')
     @patch('secScanner.enhance.basic.check.C22_resourceLimit.Display')
     def test_core_limits_set_incorrectly(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C22_resourceLimit()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C22_01: %s", WRN_C22_01)
         mock_logger.warning.assert_any_call("WRN_C22_03: %s", WRN_C22_03)
         mock_display.assert_any_call("- Check if the soft core limits is ok...", "WARNING")
@@ -64,10 +64,10 @@ class TestC22_resourceLimit(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C22_resourceLimit.logger')
     @patch('secScanner.enhance.basic.check.C22_resourceLimit.Display')
     def test_no_core_limits_set(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C22_resourceLimit()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C22_02: %s", WRN_C22_02)
         mock_logger.warning.assert_any_call("WRN_C22_04: %s", WRN_C22_04)
         mock_display.assert_any_call("- This system has no soft core limit set...", "WARNING")
