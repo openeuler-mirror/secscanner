@@ -35,10 +35,10 @@ class TestC37_Kernelopps(unittest.TestCase):
         self.assertIsNone(None, "None value check")
         self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertIsInstance("test", str, "Type checking")
-        # 运行测试的函数
+        # Mock test setup.
         C37_Kernelopps()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has kernel panic on oops set set, checking OK")
         mock_display.assert_called_with("- Check kernel panic on oops set set...", "OK")
 
@@ -48,10 +48,10 @@ class TestC37_Kernelopps(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C37_Kernelopps.logger')
     @patch('secScanner.enhance.basic.check.C37_Kernelopps.Display')
     def test_kernel_panic_on_oops_set_incorrectly(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C37_Kernelopps()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C37_02: %s", WRN_C37_02)
         mock_logger.warning.assert_any_call("SUG_C37: %s", SUG_C37)
         mock_display.assert_called_with("- Wrong kernel panic on oops set set...", "WARNING")
@@ -60,10 +60,10 @@ class TestC37_Kernelopps(unittest.TestCase):
     @patch('os.path.exists', return_value=False)
     @patch('secScanner.enhance.basic.check.C37_Kernelopps.Display')
     def test_config_file_does_not_exist(self, mock_display, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C37_Kernelopps()
 
-        # 检查文件不存在时的显示信息
+        # Mock test setup.
         mock_display.assert_called_with("- No path /etc/sysctl.conf exists", "WARNING")
 
 if __name__ == '__main__':
