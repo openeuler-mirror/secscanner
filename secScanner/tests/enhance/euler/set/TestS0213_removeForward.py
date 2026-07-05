@@ -28,9 +28,9 @@ class TestS0213_removeForward(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('secScanner.enhance.euler.set.S0213_removeForward.seconf.get')
     def test_seconf_get_no(self, mock_seconf_get, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟配置项以禁用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'no'
-        # 调用测试函数
+        # Mock test setup.
         S0213_removeForward()
         mock_InsertSection.assert_called_once_with("Remove the .forward file from the home directory")
         mock_display.assert_called_once_with("- Skip Remove the .forward file from the home directory due to config file...", "SKIPPING")
@@ -43,11 +43,11 @@ class TestS0213_removeForward(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('secScanner.enhance.euler.set.S0213_removeForward.seconf.get')
     def test_passwd_file_not_exists(self, mock_seconf_get, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟配置项以启用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'yes'
-        # 模拟/etc/passwd文件不存在
+        # Mock test setup.
         mock_exists.return_value = False
-        # 调用测试函数
+        # Mock test setup.
         S0213_removeForward()
         mock_InsertSection.assert_called_once_with("Remove the .forward file from the home directory")
         mock_logger.warning.assert_called_once_with("file /etc/passwd does not exist")
@@ -61,13 +61,13 @@ class TestS0213_removeForward(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('secScanner.enhance.euler.set.S0213_removeForward.seconf.get')
     def test_fail_obtain_user_home_list(self, mock_seconf_get, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟配置项以启用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'yes'
-        # 模拟/etc/passwd文件存在
+        # Mock test setup.
         mock_exists.return_value = True
-        # 模拟调用系统命令失败
+        # Mock test setup.
         mock_getstatusoutput.return_value = (1, "")
-        # 调用测试函数
+        # Mock test setup.
         S0213_removeForward()
         mock_InsertSection.assert_called_once_with("Remove the .forward file from the home directory")
         mock_logger.warning.assert_called_once_with("Failed to obtain passwd user's home list")
@@ -83,15 +83,15 @@ class TestS0213_removeForward(unittest.TestCase):
     @patch('os.walk')
     @patch('os.path.isdir')
     def test_without_forward_file(self, mock_isdir, mock_walk, mock_seconf_get, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟配置项以启用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'yes'
-        # 模拟/etc/passwd文件存在
+        # Mock test setup.
         mock_exists.return_value = True
         mock_getstatusoutput.return_value = (0, "user1:x:1000:1000::/home/user1:/bin/bash\nuser2:x:1001:1001::/home/user2:/bin/bash")
-        # 模拟不存在.forward文件
+        # Mock test setup.
         mock_isdir.return_value = True
         mock_walk.return_value = [("/home/user1", [], []), ("/home/user2", [], [])]
-        # 调用测试函数
+        # Mock test setup.
         S0213_removeForward()
         mock_InsertSection.assert_called_once_with("Remove the .forward file from the home directory")
         mock_logger.info.assert_called_once_with("The .forward file does not exist in the /home directory")
@@ -108,17 +108,17 @@ class TestS0213_removeForward(unittest.TestCase):
     @patch('os.path.isdir')
     @patch('os.remove')
     def test_with_forward_file_and_del_success(self, mock_remove, mock_isdir, mock_walk, mock_seconf_get, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟配置项以启用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'yes'
-        # 模拟/etc/passwd文件存在
+        # Mock test setup.
         mock_exists.return_value = True
         mock_getstatusoutput.return_value = (0, "user1:x:1000:1000::/home/user1:/bin/bash\nuser2:x:1001:1001::/home/user2:/bin/bash")
-        # 模拟存在.forward文件
+        # Mock test setup.
         mock_isdir.return_value = True
         mock_walk.return_value = [("/home/user1", [], [".forward"]), ("/home/user2", [], [])]
-        # 模拟文件删除成功
+        # Mock test setup.
         mock_remove.return_value = None
-        # 调用测试函数
+        # Mock test setup.
         S0213_removeForward()
         mock_InsertSection.assert_called_once_with("Remove the .forward file from the home directory")
         mock_logger.info.assert_any_call("Successfully deleted file /home/user1/.forward")
@@ -135,18 +135,18 @@ class TestS0213_removeForward(unittest.TestCase):
     @patch('os.path.isdir')
     @patch('os.remove')
     def test_with_forward_file_and_del_fail(self, mock_remove, mock_isdir, mock_walk, mock_seconf_get, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟配置项以启用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'yes'
-        # 模拟/etc/passwd文件存在
+        # Mock test setup.
         mock_exists.return_value = True
         mock_getstatusoutput.return_value = (0, "user1:x:1000:1000::/home/user1:/bin/bash\nuser2:x:1001:1001::/home/user2:/bin/bash")
-        # 模拟存在.forward文件
+        # Mock test setup.
         mock_isdir.return_value = True
         mock_walk.return_value = [("/home/user1", [], [".forward"]), ("/home/user2", [], [])]
         file_path = "/home/user1/.forward"
-        # 模拟文件删除失败
+        # Mock test setup.
         mock_remove.side_effect = FileNotFoundError
-        # 调用测试函数
+        # Mock test setup.
         S0213_removeForward()
         mock_InsertSection.assert_called_once_with("Remove the .forward file from the home directory")
         mock_logger.warning.assert_any_call(f"File {file_path} does not exist")
@@ -163,19 +163,19 @@ class TestS0213_removeForward(unittest.TestCase):
     @patch('os.path.isdir')
     @patch('os.remove')
     def test_with_forward_file_and_del_fail_os(self, mock_remove, mock_isdir, mock_walk, mock_seconf_get, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_exists):
-        # 模拟配置项以启用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'yes'
-        # 模拟/etc/passwd文件存在
+        # Mock test setup.
         mock_exists.return_value = True
         mock_getstatusoutput.return_value = (0, "user1:x:1000:1000::/home/user1:/bin/bash\nuser2:x:1001:1001::/home/user2:/bin/bash")
-        # 模拟存在.forward文件
+        # Mock test setup.
         mock_isdir.return_value = True
         mock_walk.return_value = [("/home/user1", [], [".forward"]), ("/home/user2", [], [])]
-        # 模拟 OSError
+        # mock OSError
         error = OSError()
         error.strerror = "Permission denied"
         mock_remove.side_effect = error
-        # 调用测试函数
+        # Mock test setup.
         S0213_removeForward()
         mock_InsertSection.assert_called_once_with("Remove the .forward file from the home directory")
         mock_logger.warning.assert_any_call("Error deleting file /home/user1/.forward: Permission denied")
