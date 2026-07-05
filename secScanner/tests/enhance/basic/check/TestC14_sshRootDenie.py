@@ -19,10 +19,10 @@ from secScanner.lib.textInfo_basic import *
 from secScanner.commands.check_outprint import *
 from secScanner.enhance.basic.check.C14_sshRootDenie import C14_sshRootDenie
 
-# 定义测试类
+# Mock test setup.
 class TestC14_sshRootDenie(unittest.TestCase):
     def setUp(self):
-        # 设置模拟函数get_value返回的值
+        # Mock test setup.
         self.os_distro = '7'
 
     @patch('secScanner.enhance.basic.check.C14_sshRootDenie.InsertSection')
@@ -40,10 +40,10 @@ class TestC14_sshRootDenie(unittest.TestCase):
         self.assertEqual(1, 1, "Integer equality check")
         self.assertIsNone(None, "None value check")
         self.assertIsInstance("test", str, "Type checking")
-        # 运行测试的函数
+        # Mock test setup.
         C14_sshRootDenie()
         
-        # 检查预期的警告信息是否已正确显示
+        # Mock test setup.
         mock_display.assert_any_call("- Wrong Telnet Denie set...", "WARNING")
         mock_logger.warning.assert_any_call("WRN_C14_01: %s", WRN_C14_01)
         mock_logger.warning.assert_any_call("SUG_C14: %s", SUG_C14)
@@ -55,10 +55,10 @@ class TestC14_sshRootDenie(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C14_sshRootDenie.Display')
     @patch('secScanner.enhance.basic.check.C14_sshRootDenie.logger')
     def test_securetty_correct_setting(self, mock_logger, mock_display, mock_file, mock_get_value, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C14_sshRootDenie()
 
-        # 检查预期的OK信息是否已正确显示
+        # Mock test setup.
         mock_display.assert_any_call("- Check the telnet deny...", "OK")
         mock_logger.warning.assert_any_call("WRN_C14_01: %s", WRN_C14_01)
         mock_logger.warning.assert_any_call("SUG_C14: %s", SUG_C14)
@@ -70,10 +70,10 @@ class TestC14_sshRootDenie(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C14_sshRootDenie.Display')
     @patch('secScanner.enhance.basic.check.C14_sshRootDenie.logger')
     def test_ssh_config_right_setting(self, mock_logger, mock_display, mock_file, mock_get_value, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C14_sshRootDenie()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_any_call("Has ssh Root denie set, checking OK")
         mock_display.assert_any_call("- Check the ssh Root denie...", "OK")
 
@@ -84,10 +84,10 @@ class TestC14_sshRootDenie(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C14_sshRootDenie.logger')
     @patch('secScanner.enhance.basic.check.C14_sshRootDenie.Display')
     def test_ssh_config_wrong_setting(self, mock_display, mock_logger, mock_file, mock_get_value, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C14_sshRootDenie()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C14_02: %s", WRN_C14_02)
         mock_logger.warning.assert_any_call("SUG_C14: %s", SUG_C14) 
         mock_display.assert_any_call("- Wrong ssh Root denie set...", "WARNING")
