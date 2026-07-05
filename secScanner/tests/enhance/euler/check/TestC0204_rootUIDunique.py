@@ -18,7 +18,7 @@ from unittest.mock import patch, mock_open
 import subprocess
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.textInfo_euler import *
-from secScanner.enhance.euler.check.C0204_rootUIDunique import C0204_rootUIDunique  # 替换为实际的模块路径
+from secScanner.enhance.euler.check.C0204_rootUIDunique import C0204_rootUIDunique  # Mock test setup.
 
 class TestC0204_rootUIDunique(unittest.TestCase):
     
@@ -28,13 +28,13 @@ class TestC0204_rootUIDunique(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0204_rootUIDunique.os.path.exists')
     @patch('subprocess.getstatusoutput', return_value = (0, "root"))
     def test_uid_is_root(self, mock_subprocess, mock_exists, mock_InsertSection, mock_Display, mock_file):
-        # 模拟 /etc/passwd 存在
+        # Mock test setup.
         mock_exists.return_value = True
         
-        # 调用被测试函数
+        # Mock test setup.
         C0204_rootUIDunique()
         
-        # 验证函数行为
+        # Mock test setup.
         mock_InsertSection.assert_called_with("Check if root UID is unique")
         mock_Display.assert_called_with("- check root UID unique ...", "OK")
     
@@ -46,13 +46,13 @@ class TestC0204_rootUIDunique(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0204_rootUIDunique.os.path.exists')
     @patch('subprocess.getstatusoutput', return_value = (0, "user1")) 
     def test_uid_is_not_root(self, mock_subprocess, mock_exists, mock_InsertSection, mock_Display, mock_logger, mock_file):
-        # 模拟 /etc/passwd 存在
+        # Mock test setup.
         mock_exists.return_value = True
         
-        # 调用被测试函数
+        # Mock test setup.
         C0204_rootUIDunique()
         
-        # 验证函数行为
+        # Mock test setup.
         mock_InsertSection.assert_called_with("Check if root UID is unique")
         mock_logger.warning.assert_any_call("WRN_C0204_01: %s", WRN_C0204_01)
         mock_logger.warning.assert_any_call("SUG_C0204_01: %s", SUG_C0204_01)
@@ -66,13 +66,13 @@ class TestC0204_rootUIDunique(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0204_rootUIDunique.os.path.exists')
     @patch('subprocess.getstatusoutput', return_value = (1, ""))
     def test_command_fails(self, mock_subprocess, mock_exists, mock_InsertSection, mock_Display, mock_logger, mock_file):
-        # 模拟 /etc/passwd 存在
+        # Mock test setup.
         mock_exists.return_value = True
         
-        # 调用被测试函数
+        # Mock test setup.
         C0204_rootUIDunique()
         
-        # 验证函数行为
+        # Mock test setup.
         mock_InsertSection.assert_called_with("Check if root UID is unique")
         mock_logger.warning.assert_any_call("WRN_C0204_02: %s", WRN_C0204_02)
         mock_logger.warning.assert_any_call("SUG_C0204_02: %s", SUG_C0204_02)
@@ -84,13 +84,13 @@ class TestC0204_rootUIDunique(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0204_rootUIDunique.InsertSection')
     @patch('secScanner.enhance.euler.check.C0204_rootUIDunique.os.path.exists')
     def test_passwd_file_missing(self, mock_exists, mock_InsertSection, mock_Display, mock_logger, mock_file):
-        # 模拟 /etc/passwd 不存在
+        # Mock test setup.
         mock_exists.return_value = False
         
-        # 调用被测试函数
+        # Mock test setup.
         C0204_rootUIDunique()
         
-        # 验证函数行为
+        # Mock test setup.
         mock_InsertSection.assert_called_with("Check if root UID is unique")
         mock_logger.warning.assert_any_call("WRN_C0204_03: %s", WRN_C0204_03)
         mock_logger.warning.assert_any_call("SUG_C0204_03: %s", SUG_C0204_03)
