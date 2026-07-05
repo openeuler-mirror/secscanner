@@ -32,10 +32,10 @@ def set_value(key, value):
 def get_value(key):
     # this function can use key to get value in global dict
     # u can use this function after import
-    try:
-        return _global_dict[key]
-    except:
+    if key not in _global_dict:
         print('there is no ' + key + ' in global dict\r\n')
+        return None
+    return _global_dict[key]
 
 def show_dict():
     # when u need to check if there is a key in global dict or something else
