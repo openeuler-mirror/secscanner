@@ -35,7 +35,7 @@ def S19_syslogError():
             with open('/etc/rsyslog.conf', 'r') as read_file:
                 lines = read_file.readlines()
                 for line in lines:
-                    if re.match('\*\.err', line) and re.search('/var/log', line):
+                    if re.match(r'\*\.err', line) and re.search('/var/log', line):
                         IS_EXIST = 1
             if IS_EXIST == 0:
                 with open('/etc/rsyslog.conf', 'a') as add_file:
