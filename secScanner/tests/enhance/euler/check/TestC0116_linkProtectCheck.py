@@ -20,7 +20,7 @@ import logging
 import secScanner
 from secScanner.lib.function import InsertSection, Display
 from secScanner.lib.textInfo_euler import *
-from secScanner.enhance.euler.check.C0116_linkProtectCheck import C0116_linkProtectCheck  # 替换为实际的模块路径
+from secScanner.enhance.euler.check.C0116_linkProtectCheck import C0116_linkProtectCheck  # Mock test setup.
 
 class TestC0116_linkProtectCheck(unittest.TestCase):
 
@@ -30,16 +30,16 @@ class TestC0116_linkProtectCheck(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.logger')
     @patch('builtins.open', new_callable=mock_open)
     def test_link_protection_disabled(self, mock_file, mock_logger, mock_Display, mock_InsertSection, mock_subprocess):
-        # 设置模拟返回值
+        # Mock test setup.
         mock_subprocess.return_value.stdout = b'fs.protected_symlinks = 0\n'
 
-        # 假设的全局变量
-        secScanner.enhance.euler.check.C0116_linkProtectCheck.RESULT_FILE = "check_result.relt"  # 假设的结果文件路径
+        # Mock test setup.
+        secScanner.enhance.euler.check.C0116_linkProtectCheck.RESULT_FILE = "check_result.relt"  # Mock test setup.
         
-        # 调用测试函数
+        # Mock test setup.
         C0116_linkProtectCheck()
 
-        # 检查期望的调用和行为
+        # Mock test setup.
         mock_InsertSection.assert_called_once_with("Check whether link file protection is enabled")
         linkTypes = ["symlinks", "hardlinks"]
         warnMessage = [WRN_C0116_01, WRN_C0116_02]
@@ -57,13 +57,13 @@ class TestC0116_linkProtectCheck(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.Display')
     @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.logger')
     def test_link_protection_enabled(self, mock_logger, mock_Display, mock_InsertSection, mock_subprocess):
-        # 设置模拟返回值
+        # Mock test setup.
         mock_subprocess.return_value.stdout = b'fs.protected_symlinks = 1\n'
         
-        # 调用测试函数
+        # Mock test setup.
         C0116_linkProtectCheck()
 
-        # 检查期望的调用和行为
+        # Mock test setup.
         mock_InsertSection.assert_called_once_with("Check whether link file protection is enabled")
         linkTypes = ["symlinks", "hardlinks"]
 
