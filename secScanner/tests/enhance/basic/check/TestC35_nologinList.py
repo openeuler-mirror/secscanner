@@ -35,10 +35,10 @@ class TestC35_nologinList(unittest.TestCase):
         self.assertIsInstance("test", str, "Type checking")
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertIsNone(None, "None value check")
-        # 运行测试的函数
+        # Mock test setup.
         C35_nologinList()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has list of users prohibited from login set, checking OK")
         mock_display.assert_called_with("- Check the list of users prohibited from login...", "OK")
 
@@ -48,10 +48,10 @@ class TestC35_nologinList(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C35_nologinList.logger')
     @patch('secScanner.enhance.basic.check.C35_nologinList.Display')
     def test_login_user_deny_file_missing(self, mock_display, mock_logger, mock_exists, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C35_nologinList()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C35_02: %s", WRN_C35_02)
         mock_logger.warning.assert_any_call("SUG_C35: %s", SUG_C35)
         mock_display.assert_called_with("- No path /etc/login.user.deny...", "WARNING")
@@ -63,10 +63,10 @@ class TestC35_nologinList(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C35_nologinList.logger')
     @patch('secScanner.enhance.basic.check.C35_nologinList.Display')
     def test_no_prohibition_config_set(self, mock_display, mock_logger, mock_exists, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C35_nologinList()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C35_01: %s", WRN_C35_01)
         mock_logger.warning.assert_any_call("SUG_C35: %s", SUG_C35)
         mock_display.assert_called_with("- No list of users prohibited from login set...", "WARNING")
