@@ -52,7 +52,7 @@ class TestC0221_loginDefs(unittest.TestCase):
         mock_logger.warning.assert_any_call("WRN_C0221_02: %s", WRN_C0221_02)
         mock_display.assert_any_call("- PASS_MAX_DAYS value is null...", "WARNING")
 
-# 如果是作为脚本运行，自动执行测试
+# Mock test setup.
 if __name__ == '__main__':
     unittest.main()
 
