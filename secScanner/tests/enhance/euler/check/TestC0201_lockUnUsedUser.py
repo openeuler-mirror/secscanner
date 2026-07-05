@@ -31,10 +31,10 @@ class TestC0201_lockUnUsedUser(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0201_lockUnUsedUser.Display')
     @patch('secScanner.enhance.euler.check.C0201_lockUnUsedUser.open')
     def test_some_users_unlocked(self, mock_open, mock_display, mock_logger, mock_subproc, mock_config, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C0201_lockUnUsedUser()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C0201: These users: ['adm', 'lp'] should lock")
         mock_logger.warning.assert_any_call("SUG_C0201: %s", SUG_C0201)
         mock_display.assert_any_call("- Check if there have unused user...", "WARNING")
@@ -49,10 +49,10 @@ class TestC0201_lockUnUsedUser(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0201_lockUnUsedUser.logger')
     @patch('secScanner.enhance.euler.check.C0201_lockUnUsedUser.Display')
     def test_all_users_locked(self, mock_display, mock_logger, mock_subproc, mock_config, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C0201_lockUnUsedUser()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("All unused user is locked, checking ok")
         mock_display.assert_called_with("- Check if there have unused user...", "OK")
 
@@ -63,10 +63,10 @@ class TestC0201_lockUnUsedUser(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0201_lockUnUsedUser.logger')
     @patch('secScanner.enhance.euler.check.C0201_lockUnUsedUser.Display')
     def test_user_not_found(self, mock_display, mock_logger, mock_subproc, mock_config, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C0201_lockUnUsedUser()
 
-        # 检查是否没有发出警告信息
+        # Mock test setup.
         mock_logger.info.assert_called_with("All unused user is locked, checking ok")
         mock_display.assert_called_with("- Check if there have unused user...", "OK")
 
