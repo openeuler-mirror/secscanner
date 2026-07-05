@@ -26,10 +26,10 @@ class TestC0137_DNSserver(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0137_DNSserver.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_bind_not_installed(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection):
-        # 模拟 bind 未安装的情况
+        # Mock test setup.
         mock_getstatusoutput.side_effect = [(1, 'package bind is not installed')]
         
-        # 调用测试函数
+        # Mock test setup.
         C0137_DNSserver()
         
         mock_InsertSection.assert_called_once_with("Check whether the status of DNS server in your Linux System ")
@@ -42,10 +42,10 @@ class TestC0137_DNSserver(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0137_DNSserver.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_bind_installed_disabled(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection):
-        # 模拟 bind 安装并禁用的情况
+        # Mock test setup.
         mock_getstatusoutput.side_effect = [(0, 'package bind is installed'), (1, 'disabled')]
         
-        # 调用测试函数
+        # Mock test setup.
         C0137_DNSserver()
         mock_InsertSection.assert_called_once_with("Check whether the status of DNS server in your Linux System ")
         mock_logger.info.assert_called_with("The DNS-Server status is: disabled")
@@ -57,18 +57,18 @@ class TestC0137_DNSserver(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0137_DNSserver.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_bind_installed_enabled(self, mock_open, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection):
-        # 模拟 bind 安装并启用的情况
+        # Mock test setup.
         mock_getstatusoutput.side_effect = [(0, 'package bind is installed'), (0, 'enabled')]
-        # 假设的全局变量
-        secScanner.enhance.euler.check.C0137_DNSserver.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        # Mock test setup.
+        secScanner.enhance.euler.check.C0137_DNSserver.RESULT_FILE = "result_file_path"  # Mock test setup.
 
-        # 调用测试函数
+        # Mock test setup.
         C0137_DNSserver()
         mock_InsertSection.assert_called_once_with("Check whether the status of DNS server in your Linux System ")
         mock_logger.warning.assert_any_call("WRN_C0137: %s", WRN_C0137)
         mock_logger.warning.assert_any_call("SUG_C0137: %s", SUG_C0137)
         mock_display.assert_called_with("- Check the DNS-Server is enabled...", "WARNING")
-        mock_open.assert_any_call("result_file_path", "a+")  # 检查是否尝试写入文件
+        mock_open.assert_any_call("result_file_path", "a+")  # Mock test setup.
 
 if __name__ == '__main__':
     unittest.main()
