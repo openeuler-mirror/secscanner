@@ -26,13 +26,13 @@ class TestC0117_prohibitUSBCheck(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.Display')
     @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.InsertSection')
     def test_usb_prohibition_enabled(self, mock_InsertSection, mock_Display, mock_logger, mock_run):
-        # 设置模拟返回值
+        # Mock test setup.
         mock_run.return_value = subprocess.CompletedProcess(args=["modprobe", "-n", "-v", "usb-storage"], returncode=0, stdout=b'install /bin/true')
 
-        # 调用测试函数
+        # Mock test setup.
         C0117_prohibitUSBCheck()
 
-        # 检查期望的调用和行为
+        # Mock test setup.
         mock_InsertSection.assert_called_once_with("Check whether the prohibition of USB devices  is enabled")
         mock_Display.assert_called_once_with("- Check whether the prohibition of USB devices is enabled...", "OK")
         mock_logger.info.assert_called_once_with("The prohibition of USB devices is enabled")
@@ -43,21 +43,21 @@ class TestC0117_prohibitUSBCheck(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.InsertSection')
     @patch('builtins.open', new_callable=mock_open)
     def test_usb_prohibition_disabled(self, mock_file, mock_InsertSection, mock_Display, mock_logger, mock_run):
-        # 设置模拟返回值
+        # Mock test setup.
         mock_run.return_value = subprocess.CompletedProcess(args=["modprobe", "-n", "-v", "usb-storage"], returncode=0, stdout=b'')
 
-        # 假设的全局变量
+        # Mock test setup.
         secScanner.enhance.euler.check.C0117_prohibitUSBCheck.RESULT_FILE = "result_file_path"
 
-        # 调用测试函数
+        # Mock test setup.
         C0117_prohibitUSBCheck()
 
-        # 检查期望的调用和行为
+        # Mock test setup.
         mock_InsertSection.assert_called_once_with("Check whether the prohibition of USB devices  is enabled")
         mock_Display.assert_called_once_with("- The Prohibition of USB devices is disabled...", "WARNING")
         mock_logger.warning.assert_any_call("WRN_C0117: %s", WRN_C0117)
         mock_logger.warning.assert_any_call("SUG_C0117: %s", SUG_C0117)
-        mock_file.assert_called_once_with("result_file_path", "a")  # 检查是否尝试写入文件
+        mock_file.assert_called_once_with("result_file_path", "a")  # Mock test setup.
     
     @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.subprocess.run')
     @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.logger')
