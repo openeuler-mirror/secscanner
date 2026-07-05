@@ -21,7 +21,7 @@ from secScanner.enhance.basic.check.C38_limitUserResources import C38_limitUserR
 
 class TestC38_limitUserResources(unittest.TestCase):
     def setUp(self):
-        # 设置日志记录器
+        # Mock test setup.
         self.logger = MagicMock()
 
     def test_all_limits_set_correctly(self):
@@ -34,7 +34,7 @@ class TestC38_limitUserResources(unittest.TestCase):
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertIsNone(None, "None value check")
         self.assertNotEqual(1, 0, "Integer inequality check")
-        # 创建mock_open对象并设置side_effect以根据文件名返回不同内容
+        # Mock test setup.
         m_open = mock_open()
         limits_conf_data = "* soft stack 10240\n* hard stack 20480\n* hard rss 10000\n* hard nproc 200\n* hard maxlogins 10\n"
         pam_data = "session required /lib64/security/pam_limits.so\n"
@@ -46,7 +46,7 @@ class TestC38_limitUserResources(unittest.TestCase):
         
         m_open.side_effect = side_effect
 
-        # 使用patch的side_effect功能模拟open
+        # Mock test setup.
         with patch('builtins.open', m_open), \
              patch('secScanner.enhance.basic.check.C38_limitUserResources.InsertSection') as mock_insert, \
              patch('secScanner.enhance.basic.check.C38_limitUserResources.logger') as mock_logger, \
@@ -58,7 +58,7 @@ class TestC38_limitUserResources(unittest.TestCase):
             mock_display.assert_called_with("- Check if the limit of system resources is ok...", "OK")
 
     def test_missing_some_limits(self):
-        # 创建mock_open对象并设置side_effect以根据文件名返回不同内容
+        # Mock test setup.
         m_open = mock_open()
         limits_conf_data = "* soft stack 10240\n* hard nproc 200\n"
         pam_data = "session required /lib64/security/pam_limits.so\n"
@@ -71,7 +71,7 @@ class TestC38_limitUserResources(unittest.TestCase):
         
         m_open.side_effect = side_effect
 
-        # 使用patch的side_effect功能模拟open
+        # Mock test setup.
         with patch('builtins.open', m_open), \
              patch('secScanner.enhance.basic.check.C38_limitUserResources.InsertSection') as mock_insert, \
              patch('secScanner.enhance.basic.check.C38_limitUserResources.logger') as mock_logger, \
