@@ -35,10 +35,10 @@ class TestC34_noCtrlAltDelBurstAction(unittest.TestCase):
         self.assertTrue(True, "Basic true assertion")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertIsNone(None, "None value check")
-        # 运行测试的函数
+        # Mock test setup.
         C34_noCtrlAltDelBurstAction()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has system CtrlAltDel burst action set, checking OK")
         mock_display.assert_called_with("- Check the system CtrlAltDel burst action...", "OK")
 
@@ -48,10 +48,10 @@ class TestC34_noCtrlAltDelBurstAction(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction.logger')
     @patch('secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction.Display')
     def test_ctrlaltdel_burst_action_set_incorrectly(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C34_noCtrlAltDelBurstAction()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C34_02: %s", WRN_C34_02)
         mock_logger.warning.assert_any_call("SUG_C34: %s", SUG_C34)
         mock_display.assert_called_with("- Wrong system CtrlAltDel burst action config set...", "WARNING")
@@ -62,10 +62,10 @@ class TestC34_noCtrlAltDelBurstAction(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction.logger')
     @patch('secScanner.enhance.basic.check.C34_noCtrlAltDelBurstAction.Display')
     def test_no_ctrlaltdel_burst_action_set(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C34_noCtrlAltDelBurstAction()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C34_01: %s", WRN_C34_01)
         mock_logger.warning.assert_any_call("SUG_C34: %s", SUG_C34)
         mock_display.assert_called_with("- No system CtrlAltDel burst action config set...", "WARNING")
