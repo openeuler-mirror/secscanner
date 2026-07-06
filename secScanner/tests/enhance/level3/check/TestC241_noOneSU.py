@@ -20,7 +20,7 @@ from secScanner.enhance.level3.check.C241_noOneSU import C241_noOneSU
 
 class TestC241_noOneSU(unittest.TestCase):
     def setUp(self):
-        # 设置日志记录器
+        # Mock test setup.
         self.logger = MagicMock()
 
     @patch('secScanner.enhance.level3.check.C241_noOneSU.InsertSection')
@@ -28,10 +28,10 @@ class TestC241_noOneSU(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C241_noOneSU.logger')
     @patch('secScanner.enhance.level3.check.C241_noOneSU.Display')
     def test_pam_wheel_set_correctly(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C241_noOneSU()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("There have pam_wheel set, check OK")
         mock_display.assert_called_with("- Check the pam.d/su setting...", "OK")
 
@@ -40,10 +40,10 @@ class TestC241_noOneSU(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C241_noOneSU.logger')
     @patch('secScanner.enhance.level3.check.C241_noOneSU.Display')
     def test_pam_wheel_not_set(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C241_noOneSU()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C241: %s", WRN_C241)
         mock_display.assert_called_with("- There is no pam_wheel set, check warning", "WARNING")
 
@@ -52,10 +52,10 @@ class TestC241_noOneSU(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C241_noOneSU.logger')
     @patch('secScanner.enhance.level3.check.C241_noOneSU.Display')
     def test_pam_file_empty(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C241_noOneSU()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C241: %s", WRN_C241)
         mock_display.assert_called_with("- There is no pam_wheel set, check warning", "WARNING")
 
