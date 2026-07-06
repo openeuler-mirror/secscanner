@@ -46,13 +46,15 @@ def warning_results():
         json_list = []
         for wrn, sug in itertools.zip_longest(WRNS, SUGS, fillvalue=""):
             #print(f"{RED}- {wrn} {NORMAL}")
+            wrn_html = html.escape(wrn)
+            sug_html = html.escape(sug)
             TMP_COUNT += 1
             baseline_info += f"""
                 <tr style="cursor:pointer; border:solid 1px #ddd;">
                 <td>{TMP_COUNT}</td>
                 <!--   <td>用户权限</td>  -->
-                <td>{wrn}</span></td>
-                <td>{sug}</td>
+                <td>{wrn_html}</td>
+                <td>{sug_html}</td>
                 </tr>
             """
             json_list.append({"num": f"{TMP_COUNT}", "warning": f"{wrn}", "suggestion": f"{sug}"})
