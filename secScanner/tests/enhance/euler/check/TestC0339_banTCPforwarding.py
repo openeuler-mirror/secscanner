@@ -31,8 +31,8 @@ class TestC0339_banTCPforwarding(unittest.TestCase):
     def test_file_not_exists(self, mock_exists, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
         config_file = "/etc/ssh/sshd_config"
         mock_exists.return_value = False
-        secScanner.enhance.euler.check.C0339_banTCPforwarding.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0339_banTCPforwarding.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0339_banTCPforwarding()
         mock_InsertSection.assert_any_call("Check set of AllowTcpForwarding in sshd config file")
         mock_logger.warning.assert_any_call(f"WRN_C0339: {config_file} {WRN_no_file}")
@@ -49,7 +49,7 @@ class TestC0339_banTCPforwarding(unittest.TestCase):
     def test_set_correct(self, mock_exists, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
         mock_exists.return_value = True
         mock_getstatusoutput.side_effect = [(0, "AllowTcpForwarding no"), (1, "")]
-        # 调用测试函数
+        # Mock test setup.
         C0339_banTCPforwarding()
         mock_InsertSection.assert_any_call("Check set of AllowTcpForwarding in sshd config file")
         mock_logger.info.assert_any_call("Check set of AllowTcpForwarding in sshd config file")
@@ -65,7 +65,7 @@ class TestC0339_banTCPforwarding(unittest.TestCase):
     def test_set_incorrect(self, mock_exists, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
         mock_exists.return_value = True
         mock_getstatusoutput.side_effect = [(1, ""), (0, "AllowTcpForwarding yes")]
-        secScanner.enhance.euler.check.C0339_banTCPforwarding.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0339_banTCPforwarding.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0339_banTCPforwarding()
         mock_InsertSection.assert_any_call("Check set of AllowTcpForwarding in sshd config file")
         mock_logger.warning.assert_any_call("WRN_C0339: %s", WRN_C0339)
