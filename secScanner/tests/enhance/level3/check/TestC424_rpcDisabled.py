@@ -25,10 +25,10 @@ class TestC424_rpcDisabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C424_rpcDisabled.logger')
     @patch('secScanner.enhance.level3.check.C424_rpcDisabled.Display')
     def test_rpc_service_disabled(self, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C424_rpcDisabled()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has right rpcbind service set, checking ok")
         mock_display.assert_called_with("- Has right rpcbind service set: disabled...", "OK")
 
@@ -37,10 +37,10 @@ class TestC424_rpcDisabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C424_rpcDisabled.logger')
     @patch('secScanner.enhance.level3.check.C424_rpcDisabled.Display')
     def test_rpc_service_masked(self, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C424_rpcDisabled()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has right rpcbind service set, checking ok")
         mock_display.assert_called_with("- Has right rpcbind service set: masked...", "OK")
 
@@ -49,10 +49,10 @@ class TestC424_rpcDisabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C424_rpcDisabled.logger')
     @patch('secScanner.enhance.level3.check.C424_rpcDisabled.Display')
     def test_rpc_service_not_exist(self, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C424_rpcDisabled()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("No rpcbind service, checking ok")
         mock_display.assert_called_with("- No rpcbind service, checking ok...", "OK")
 
@@ -62,10 +62,10 @@ class TestC424_rpcDisabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C424_rpcDisabled.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_rpc_service_enabled(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C424_rpcDisabled()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C424: %s", WRN_C424)
         mock_logger.warning.assert_any_call("SUG_C424: %s", SUG_C424)
         mock_display.assert_called_with("- Wrong rpcbind service status...", "WARNING")
@@ -75,10 +75,10 @@ class TestC424_rpcDisabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C424_rpcDisabled.logger')
     @patch('secScanner.enhance.level3.check.C424_rpcDisabled.Display')
     def test_rpc_service_unknown_status(self, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C424_rpcDisabled()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Unexpected status of rpcbind")
         mock_display.assert_called_with("- Unexpected status of rpcbind...", "WARNING")
 
