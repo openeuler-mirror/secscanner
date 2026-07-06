@@ -18,14 +18,15 @@ logger = logging.getLogger('secscanner')
 
 def get_ip_login_counts():
     # Execute the last command and obtain the output
-    last_output = subprocess.check_output("last", shell=True)
+    result = subprocess.run(["last"], check=True, capture_output=True, text=True, errors="replace")
+    last_output = result.stdout
 
     # Using regular expressions to match IP addresses
     ip_pattern = re.compile(r'^([0-9]{1,3}\.){3}[0-9]{1,3}$')
 
     # Initialize counter
     ip_counts = Counter()
-    lines = last_output.decode('utf-8').strip().split('\n')
+    lines = last_output.strip().split('\n')
 
     for line in lines:
         fields = line.split()
