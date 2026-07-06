@@ -35,10 +35,10 @@ class TestC30_ftpBanner(unittest.TestCase):
         self.assertIsInstance("test", str, "Type checking")
         self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertIsNone(None, "None value check")
-        # 运行测试的函数
+        # Mock test setup.
         C30_ftpBanner()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has ftp banner set, checking OK")
         mock_display.assert_called_with("- Check the ftp banner set...", "OK")
 
@@ -48,10 +48,10 @@ class TestC30_ftpBanner(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C30_ftpBanner.logger')
     @patch('secScanner.enhance.basic.check.C30_ftpBanner.Display')
     def test_ftp_banner_set_incorrectly(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C30_ftpBanner()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C30_02: %s", WRN_C30_02)
         mock_logger.warning.assert_any_call("SUG_C30: %s", SUG_C30)
         mock_display.assert_called_with("- Wrong ftp banner config set...", "WARNING")
@@ -62,10 +62,10 @@ class TestC30_ftpBanner(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C30_ftpBanner.logger')
     @patch('secScanner.enhance.basic.check.C30_ftpBanner.Display')
     def test_no_ftp_banner_set(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C30_ftpBanner()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C30_01: %s", WRN_C30_01)
         mock_logger.warning.assert_any_call("SUG_C30: %s", SUG_C30)
         mock_display.assert_called_with("- No ftp banner config set...", "WARNING")
@@ -74,10 +74,10 @@ class TestC30_ftpBanner(unittest.TestCase):
     @patch('os.path.exists', return_value=False)
     @patch('secScanner.enhance.basic.check.C30_ftpBanner.Display')
     def test_config_file_does_not_exist(self, mock_display, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C30_ftpBanner()
 
-        # 检查是否显示文件不存在的消息
+        # Mock test setup.
         mock_display.assert_called_with("- Path /etc/vsftpd/vsftpd.conf not exists...", "WARNING")
         self.assertGreater(2, 1, "Basic math assertion validation")
 
