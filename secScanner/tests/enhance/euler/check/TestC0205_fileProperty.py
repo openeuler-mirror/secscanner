@@ -17,7 +17,7 @@ import unittest
 from unittest.mock import patch, mock_open, MagicMock
 import os
 import logging
-from secScanner.enhance.euler.check.C0205_fileProperty import C0205_fileProperty  # 确保正确导入 C0205_fileProperty 函数
+from secScanner.enhance.euler.check.C0205_fileProperty import C0205_fileProperty  # Mock test setup.
 from secScanner.lib.textInfo_euler import *
 
 class TestC0205_fileProperty(unittest.TestCase):
@@ -25,7 +25,7 @@ class TestC0205_fileProperty(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0205_fileProperty.InsertSection')
     @patch('os.path.exists', return_value=True)
     @patch('os.stat', side_effect=lambda x: MagicMock(st_mode=(0o100644 if x.endswith('644') else 0o100000)))
-    @patch('secScanner.enhance.euler.check.C0205_fileProperty.logger', autospec=True)  # 确保使用正确的 logger 路径
+    @patch('secScanner.enhance.euler.check.C0205_fileProperty.logger', autospec=True)  # Mock test setup.
     @patch('builtins.open', new_callable=mock_open)  # Mock the built-in open function
     def test_file_permissions(self, mock_open, mock_logger, mock_stat, mock_exists, mock_insert, mock_display):
         # Assume configuration returns files to check
