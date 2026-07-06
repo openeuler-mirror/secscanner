@@ -27,8 +27,8 @@ class TestC0238_denyRootLocalaccess(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     def test_file_not_exist(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
         mock_exists.return_value = False
-        secScanner.enhance.euler.check.C0238_denyRootLocalaccess.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0238_denyRootLocalaccess.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0238_denyRootLocalaccess()
         mock_InsertSection.assert_any_call("check prevent root users from accessing the system locally")
         mock_logger.warning.assert_any_call("WRN_C0238_02: %s", WRN_C0238_02)
@@ -43,13 +43,13 @@ class TestC0238_denyRootLocalaccess(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     def test_pam_module_exists_but_tty1_not_denied(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0238_denyRootLocalaccess.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 模拟文件内容
+        secScanner.enhance.euler.check.C0238_denyRootLocalaccess.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         mock_open.return_value.__enter__.return_value.readlines.return_value = [
             "auth required pam_access.so\n",
             "#-:root:tty1\n"
         ]
-        # 调用测试函数
+        # Mock test setup.
         C0238_denyRootLocalaccess()
         mock_InsertSection.assert_any_call("check prevent root users from accessing the system locally")
         mock_logger.warning.assert_any_call("WRN_C0238_01: %s", WRN_C0238_01)
@@ -64,13 +64,13 @@ class TestC0238_denyRootLocalaccess(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     def test_pam_module_exists_and_tty1_exists(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0238_denyRootLocalaccess.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 模拟文件内容
+        secScanner.enhance.euler.check.C0238_denyRootLocalaccess.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         mock_open.return_value.__enter__.return_value.readlines.return_value = [
             "auth required pam_access.so\n",
             "-:root:tty1\n"
         ]
-        # 调用测试函数
+        # Mock test setup.
         C0238_denyRootLocalaccess()
         mock_InsertSection.assert_any_call("check prevent root users from accessing the system locally")
         mock_logger.info.assert_any_call("check prevent root users from accessing the system locally, checking ok")
