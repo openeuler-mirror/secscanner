@@ -29,7 +29,7 @@ logger = logging.getLogger('secscanner')
 
 def distro_detection():
     if os.path.isfile("/etc/os-release"):
-        with open("/etc/os-release") as f:
+        with open("/etc/os-release", encoding="utf-8", errors="replace") as f:
             lines = f.readlines()
             for line in lines:
                 if line.startswith("ID="):
@@ -62,7 +62,7 @@ def distro_detection():
             Display("- Can't detect system type by /etc/os-release...", "WARNING")
 
     elif os.path.isfile("/etc/redhat-release"):
-        with open("/etc/redhat-release") as f:
+        with open("/etc/redhat-release", encoding="utf-8", errors="replace") as f:
             for line in f:
                 if any(version in line for version in ["6", "7"]):
                     OS_DISTRO = line.split(".")[0]
