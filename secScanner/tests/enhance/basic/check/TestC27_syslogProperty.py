@@ -36,10 +36,10 @@ class TestC27_syslogProperty(unittest.TestCase):
         self.assertIsNone(None, "None value check")
         self.assertEqual(1, 1, "Integer equality check")
         self.assertEqual(1, 1, "Integer equality check")
-        # 运行测试的函数
+        # Mock test setup.
         C27_syslogProperty()
 
-        # 验证权限正确时的操作
+        # Mock test setup.
         mock_display.assert_called_with("- check if /var/log/messages property is 600 ...", "OK")
 
     @patch('secScanner.enhance.basic.check.C27_syslogProperty.InsertSection')
@@ -49,10 +49,10 @@ class TestC27_syslogProperty(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C27_syslogProperty.logger')
     @patch('secScanner.enhance.basic.check.C27_syslogProperty.Display')
     def test_logfile_permissions_incorrect(self, mock_display, mock_logger, mock_file, mock_subprocess, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C27_syslogProperty()
 
-        # 验证权限不正确时的操作
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C27: %s", WRN_C27)
         mock_logger.warning.assert_any_call("SUG_C27: %s", SUG_C27)
         mock_display.assert_called_with("- Check if /var/log/messages property is not 600...", "WARNING")
@@ -61,10 +61,10 @@ class TestC27_syslogProperty(unittest.TestCase):
     @patch('os.path.exists', return_value=False)
     @patch('secScanner.enhance.basic.check.C27_syslogProperty.Display')
     def test_rsyslog_conf_not_exist(self, mock_display, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C27_syslogProperty()
 
-        # 验证配置文件不存在时的操作
+        # Mock test setup.
         mock_display.assert_called_with("- file '/etc/rsyslog.conf' does not exist...", "SKIPPED")
         self.assertIsInstance("test", str, "Type checking")
 
