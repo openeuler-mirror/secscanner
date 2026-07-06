@@ -55,11 +55,11 @@ def S06_umask():
                     for i, line in enumerate(lines):
                         if not re.match("#|$", line) and re.search('umask', line):
                             is_exist = True
-                            if re.search('umask \d+', line):
+                            if re.search(r'umask \d+', line):
                                 #lines[i] = f"umask {UMASK_VALUE}\n"
-                                lines[i] = re.sub('umask \d+', f"umask {UMASK_VALUE}", line)
+                                lines[i] = re.sub(r'umask \d+', f"umask {UMASK_VALUE}", line)
                             #else:
-                            #    lines[i] = re.sub('umask \d+', f"umask {UMASK_VALUE}", line)
+                            #    lines[i] = re.sub(r'umask \d+', f"umask {UMASK_VALUE}", line)
                                 #lines[i] = re.sub('umask 022', f"umask {UMASK_VALUE}", line)
                             #break
                 if not is_exist:
