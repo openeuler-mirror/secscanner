@@ -271,7 +271,7 @@ def scrapy_CVRF_index():
     if response.status_code < 200 or response.status_code > 299:
         print("ret code no in [200,300)")
         exit(1)
-    index_list = response.text.strip().strip('\r').split('\n')
+    index_list = [line for line in response.text.splitlines() if line.strip()]
     if 0 == len(index_list):
         print(" failed to get cvrf list")
         exit(1)
