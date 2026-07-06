@@ -25,10 +25,10 @@ class TestC0222_noEmptyPasswd(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0222_noEmptyPasswd.logger')
     @patch('secScanner.enhance.euler.check.C0222_noEmptyPasswd.Display')
     def test_permit_empty_passwords_set_correctly(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C0222_noEmptyPasswd()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has ssh PermitEmptyPasswords set, checking OK")
         mock_display.assert_called_with("- Check the ssh PermitEmptyPasswords...", "OK")
 
@@ -37,10 +37,10 @@ class TestC0222_noEmptyPasswd(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0222_noEmptyPasswd.logger')
     @patch('secScanner.enhance.euler.check.C0222_noEmptyPasswd.Display')
     def test_permit_empty_passwords_set_incorrectly(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C0222_noEmptyPasswd()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C0222_02: %s", WRN_C0222_02)
         mock_logger.warning.assert_any_call("SUG_C0222_02: %s", SUG_C0222_02)
         mock_display.assert_called_with("- Wrong ssh PermitEmptyPasswords config set...", "WARNING")
@@ -50,10 +50,10 @@ class TestC0222_noEmptyPasswd(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0222_noEmptyPasswd.logger')
     @patch('secScanner.enhance.euler.check.C0222_noEmptyPasswd.Display')
     def test_no_permit_empty_passwords_set(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C0222_noEmptyPasswd()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C0222_01: %s", WRN_C0222_01)
         mock_logger.warning.assert_any_call("SUG_C0222_01: %s", SUG_C0222_01)
         mock_display.assert_called_with("- No ssh PermitEmptyPasswords config set...", "WARNING")
