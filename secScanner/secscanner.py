@@ -13,6 +13,7 @@
    See the Mulan PSL v2 for more details.
 '''
 import platform
+import sys
 
 from secScanner import gconfig
 gconfig.g_init()
@@ -22,8 +23,8 @@ def check_python_version():
     python_version = platform.python_version().split('.')[0]
     if python_version == "3":
         return
-    else:
-        print('Invalid python version requested: %s' % python_version)
+    print('Invalid python version requested: %s' % python_version)
+    sys.exit(1)
 
 if __name__ == "__main__":
     check_python_version()
