@@ -29,8 +29,8 @@ class TestC0231_enforceSELinux(unittest.TestCase):
     def test_config_file_not_exists(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
         config_file = "/etc/selinux/config"
         mock_exists.return_value = False
-        secScanner.enhance.euler.check.C0231_enforceSELinux.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0231_enforceSELinux.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0231_enforceSELinux()
         mock_InsertSection.assert_called_with("check the selinux set")
         mock_logger.warning.assert_any_call(f"WRN_C0231: {config_file} {WRN_no_file}")
@@ -45,8 +45,8 @@ class TestC0231_enforceSELinux(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data="SELINUX=disabled")
     def test_selinux_disabled(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0231_enforceSELinux.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0231_enforceSELinux.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0231_enforceSELinux()
         mock_InsertSection.assert_called_with("check the selinux set")
         mock_logger.warning.assert_any_call("WRN_C0231: %s", WRN_C0231)
@@ -61,7 +61,7 @@ class TestC0231_enforceSELinux(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data="SELINUX=enforcing")
     def test_selinux_enforcing(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
         mock_exists.return_value = True
-        # 调用测试函数
+        # Mock test setup.
         C0231_enforceSELinux()
         mock_InsertSection.assert_called_with("check the selinux set")
         mock_logger.info.assert_any_call("Has right selinux set, checking ok")
@@ -74,7 +74,7 @@ class TestC0231_enforceSELinux(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data="SELINUX=permissive")
     def test_selinux_permissive(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
         mock_exists.return_value = True
-        # 调用测试函数
+        # Mock test setup.
         C0231_enforceSELinux()
         mock_InsertSection.assert_called_with("check the selinux set")
         mock_logger.info.assert_any_call("Has right selinux set, checking ok")
