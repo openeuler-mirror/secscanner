@@ -110,11 +110,19 @@ def scan_check_sys(baseline):
             s_num = int(match.group(1))
             numbers.append(s_num)
     
+    if not numbers:
+        logger.error("No check items found under %s", path)
+        return
+
+    if not numbers:
+        logger.error("No rootkit check items found under %s", path)
+        return
+
     for i in CHECK_ITEMS:
         match = re.search(pattern, i)
         if match:
             s_num = int(match.group(1))
-            if min(numbers) <= s_num <= max(numbers) and os.path.isfile(i): # 范围验证
+            if min(numbers) <= s_num <= max(numbers) and os.path.isfile(i):
                 module_name = os.path.splitext(os.path.basename(i))[0]
                 module_path = os.path.dirname(i)
                 sys.path.append(module_path)
@@ -167,7 +175,7 @@ def scan_check_rootkit():
         match = re.search(pattern, i)
         if match:
             s_num = int(match.group(1))
-            if min(numbers) <= s_num <= max(numbers) and os.path.isfile(i):  # 范围验证
+            if min(numbers) <= s_num <= max(numbers) and os.path.isfile(i):
                 module_name = os.path.splitext(os.path.basename(i))[0]
                 module_path = os.path.dirname(i)
                 sys.path.append(module_path)
@@ -224,8 +232,8 @@ def scan_fix_sys(baseline):
                                 module = __import__(module_name)
                                 getattr(module, module_name)()
                                 break
-                            except:
-                                pass
+                            except Exception as e:
+                                logger.error("Failed to run fix module %s: %s", module_name, e)
 
             open(RESULT_FILE, 'w').close()
             os.remove(RESULT_FILE)
@@ -236,6 +244,10 @@ def scan_fix_sys(baseline):
             if match:
                 s_num = int(match.group(1))
                 numbers.append(s_num)
+
+        if not numbers:
+            logger.error("No fix items found under %s", path)
+            return
 
         for iFix in CHECK_SET:
             match = re.search(pattern, iFix)
