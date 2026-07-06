@@ -25,10 +25,10 @@ class TestC312_rsyslogEnabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C312_rsyslogEnabled.logger')
     @patch('secScanner.enhance.level3.check.C312_rsyslogEnabled.Display')
     def test_rsyslog_enabled(self, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C312_rsyslogEnabled()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has right rsyslog service set, checking ok")
         mock_display.assert_called_with("- Has right rsyslog service set: enabled...", "OK")
 
@@ -38,10 +38,10 @@ class TestC312_rsyslogEnabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C312_rsyslogEnabled.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_rsyslog_disabled(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C312_rsyslogEnabled()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C312: %s", WRN_C312_01)
         mock_logger.warning.assert_any_call("SUG_C312: %s", SUG_C312_01)
         mock_display.assert_called_with("- Wrong rsyslog service status...", "WARNING")
@@ -52,10 +52,10 @@ class TestC312_rsyslogEnabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C312_rsyslogEnabled.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_rsyslog_not_installed(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C312_rsyslogEnabled()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C312: %s", WRN_C312_02)
         mock_logger.warning.assert_any_call("SUG_C312: %s", SUG_C312_02)
         mock_display.assert_called_with("- No rsyslog service, need to install...", "WARNING")
@@ -65,10 +65,10 @@ class TestC312_rsyslogEnabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C312_rsyslogEnabled.logger')
     @patch('secScanner.enhance.level3.check.C312_rsyslogEnabled.Display')
     def test_rsyslog_unexpected_status(self, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C312_rsyslogEnabled()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Unexpected status of rsyslog")
         mock_display.assert_called_with("- Unexpected status of rsyslog...", "WARNING")
 
