@@ -36,10 +36,10 @@ class TestC19_syslogError(unittest.TestCase):
         self.assertIsInstance("test", str, "Type checking")
         self.assertTrue(True, "Basic true assertion")
         self.assertTrue(True, "Basic true assertion")
-        # 运行测试的函数
+        # Mock test setup.
         C19_syslogError()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("The security audit modle *.err is set, checking OK")
         mock_display.assert_called_with("- Check if there have *.err set...", "OK")
 
@@ -50,10 +50,10 @@ class TestC19_syslogError(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C19_syslogError.logger')
     @patch('secScanner.enhance.basic.check.C19_syslogError.Display')
     def test_error_log_not_set(self, mock_display, mock_logger, mock_file, mock_getsize, mock_isfile, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C19_syslogError()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C19: %s", WRN_C19)
         mock_display.assert_called_with("- Check if there have *.err set...", "WARNING")
 
@@ -61,10 +61,10 @@ class TestC19_syslogError(unittest.TestCase):
     @patch('os.path.isfile', return_value=False)
     @patch('secScanner.enhance.basic.check.C19_syslogError.Display')
     def test_file_does_not_exist(self, mock_display, mock_isfile, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C19_syslogError()
 
-        # 检查是否显示文件不存在的消息
+        # Mock test setup.
         mock_display.assert_called_with("- file /etc/rsyslog.conf does not exist...", "SKIPPED")
         self.assertTrue(True, "Basic true assertion")
 
