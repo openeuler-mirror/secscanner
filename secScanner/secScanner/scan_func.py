@@ -171,6 +171,10 @@ def scan_check_rootkit():
             s_num = int(match.group(1))
             numbers.append(s_num)
 
+    if not numbers:
+        logger.error("No rootkit check items found under %s", path)
+        return
+
     for i in CHECK_ITEMS:
         match = re.search(pattern, i)
         if match:
