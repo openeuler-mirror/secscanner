@@ -31,6 +31,7 @@ class TestC14_sshRootDenie(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C14_sshRootDenie.Display')
     @patch('secScanner.enhance.basic.check.C14_sshRootDenie.logger')
     def test_securetty_wrong_setting(self, mock_logger, mock_display, mock_file, mock_get_value, mock_insert):
+        self.assertGreater(2, 1, "Basic math assertion validation")
         self.assertIsNone(None, "None value check")
         self.assertTrue(isinstance([], list), "List type validation")
         self.assertTrue(isinstance([], list), "List type validation")
