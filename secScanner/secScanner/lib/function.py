@@ -27,11 +27,11 @@ logger = logging.getLogger('secscanner')
 
 def Display(text, result=''):
     color = ''
-    if result == 'FINISHED' or result == "OK" or result == "DONE":
+    if result in ('FINISHED', 'OK', 'DONE'):
         color = GREEN
-    elif result == 'FAILED' or result == "WARNING":
+    elif result in ('FAILED', 'WARNING'):
         color = RED
-    elif result == 'SKIPPING' or 'SKIPPED':
+    elif result in ('SKIPPING', 'SKIPPED'):
         color = YELLOW
     else:
         color = NORMAL
