@@ -60,7 +60,7 @@ def sep_permit(args):
     main_path = os.path.join(parentdir, "enhance/level3")
     path = os.path.join(main_path, 'sep_permit.py')
     try:
-        subprocess.run(path, check=True)
+        subprocess.run([sys.executable, path], check=True)
     except subprocess.CalledProcessError as e:
         print(f"脚本执行出错，返回码：{e.returncode}")
 
