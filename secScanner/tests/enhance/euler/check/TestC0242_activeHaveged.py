@@ -28,8 +28,8 @@ class TestC0242_activeHaveged(unittest.TestCase):
     @patch('subprocess.getstatusoutput')
     def test_fail_obtain_installation_status(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
         mock_getstatusoutput.return_value = (1, '')
-        secScanner.enhance.euler.check.C0242_activeHaveged.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0242_activeHaveged.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0242_activeHaveged()
         mock_InsertSection.assert_any_call("Check if the haveged service is running")
         mock_logger.warning.assert_any_call("WRN_C0242_04: %s", WRN_C0242_04)
@@ -45,8 +45,8 @@ class TestC0242_activeHaveged(unittest.TestCase):
     @patch('subprocess.getstatusoutput')
     def test_haveged_not_installed(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
         mock_getstatusoutput.return_value = (0, '')
-        secScanner.enhance.euler.check.C0242_activeHaveged.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0242_activeHaveged.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0242_activeHaveged()
         mock_InsertSection.assert_any_call("Check if the haveged service is running")
         mock_logger.warning.assert_any_call("WRN_C0242_03: %s", WRN_C0242_03)
@@ -62,7 +62,7 @@ class TestC0242_activeHaveged(unittest.TestCase):
     @patch('subprocess.getstatusoutput')
     def test_haveged_install_and_service_active(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
         mock_getstatusoutput.side_effect = [(0, 'haveged-1.0.0-1.el8.x86_64'),(0, 'active')]
-        # 调用测试函数
+        # Mock test setup.
         C0242_activeHaveged()
         mock_InsertSection.assert_any_call("Check if the haveged service is running")
         mock_logger.info.assert_any_call("service haveged already active, checking ok")
@@ -76,8 +76,8 @@ class TestC0242_activeHaveged(unittest.TestCase):
     @patch('subprocess.getstatusoutput')
     def test_haveged_install_and_service_inactive(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
         mock_getstatusoutput.side_effect = [(0, 'haveged-1.0.0-1.el8.x86_64'),(0, 'inactive')]
-        secScanner.enhance.euler.check.C0242_activeHaveged.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0242_activeHaveged.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0242_activeHaveged()
         mock_InsertSection.assert_any_call("Check if the haveged service is running")
         mock_logger.warning.assert_any_call("WRN_C0242_01: %s", WRN_C0242_01)
@@ -93,8 +93,8 @@ class TestC0242_activeHaveged(unittest.TestCase):
     @patch('subprocess.getstatusoutput')
     def test_fail_obtain_active_state(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
         mock_getstatusoutput.side_effect = [(0, 'haveged-1.0.0-1.el8.x86_64'),(1, '')]
-        secScanner.enhance.euler.check.C0242_activeHaveged.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0242_activeHaveged.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0242_activeHaveged()
         mock_InsertSection.assert_any_call("Check if the haveged service is running")
         mock_logger.warning.assert_any_call("WRN_C0242_02: %s", WRN_C0242_02)
