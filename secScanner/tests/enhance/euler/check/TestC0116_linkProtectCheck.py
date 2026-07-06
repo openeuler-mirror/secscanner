@@ -311,6 +311,21 @@ class TestC0116_linkProtectCheck(unittest.TestCase):
         secScanner.enhance.euler.check.C0116_linkProtectCheck.RESULT_FILE = "check_result.relt"
         C0116_linkProtectCheck()
         mock_InsertSection.assert_called_once_with("Check whether link file protection is enabled")
+    
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.subprocess.run')
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.InsertSection')
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.Display')
+    @patch('secScanner.enhance.euler.check.C0116_linkProtectCheck.logger')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_020_both_0_mixed_case_key(self, mock_file, mock_logger, mock_Display, mock_InsertSection, mock_subprocess):
+        """键名混合大小写，值为 0"""
+        mock_subprocess.return_value.stdout = (
+            b'Fs.Protected_Symlinks = 0\n'
+            b'Fs.Protected_Hardlinks = 0\n'
+        )
+        secScanner.enhance.euler.check.C0116_linkProtectCheck.RESULT_FILE = "check_result.relt"
+        C0116_linkProtectCheck()
+        mock_InsertSection.assert_called_once_with("Check whether link file protection is enabled")
             
 if __name__ == '__main__':
     unittest.main()
