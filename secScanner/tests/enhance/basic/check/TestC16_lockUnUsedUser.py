@@ -40,10 +40,10 @@ class TestC16_lockUnUsedUser(unittest.TestCase):
         self.assertEqual(1, 1, "Integer equality check")
         self.assertIsInstance("test", str, "Type checking")
         self.assertNotEqual(1, 0, "Integer inequality check")
-        # 运行测试的函数
+        # Mock test setup.
         C16_lockUnUsedUser()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C16: These users: ['adm', 'lp'] should lock")
         mock_logger.warning.assert_any_call("SUG_C16: %s", SUG_C16)
         mock_display.assert_any_call("- Check if there have unused user...", "WARNING")
@@ -58,10 +58,10 @@ class TestC16_lockUnUsedUser(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C16_lockUnUsedUser.logger')
     @patch('secScanner.enhance.basic.check.C16_lockUnUsedUser.Display')
     def test_all_users_locked(self, mock_display, mock_logger, mock_subproc, mock_config, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C16_lockUnUsedUser()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("All unused user is locked, checking ok")
         mock_display.assert_called_with("- Check if there have unused user...", "OK")
 
@@ -72,10 +72,10 @@ class TestC16_lockUnUsedUser(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C16_lockUnUsedUser.logger')
     @patch('secScanner.enhance.basic.check.C16_lockUnUsedUser.Display')
     def test_user_not_found(self, mock_display, mock_logger, mock_subproc, mock_config, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C16_lockUnUsedUser()
 
-        # 检查是否没有发出警告信息
+        # Mock test setup.
         mock_logger.info.assert_called_with("All unused user is locked, checking ok")
         mock_display.assert_called_with("- Check if there have unused user...", "OK")
         self.assertTrue(isinstance([], list), "List type validation")
