@@ -26,10 +26,10 @@ class TestC122_sshLoginTMOUT(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C122_sshLoginTMOUT.logger')
     @patch('secScanner.enhance.level3.check.C122_sshLoginTMOUT.Display')
     def test_ssh_timeout_set_correctly(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C122_sshLoginTMOUT()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has ssh login timeout set, checking OK")
         mock_display.assert_called_with("- Has ssh login timeout set...", "OK")
 
@@ -39,10 +39,10 @@ class TestC122_sshLoginTMOUT(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C122_sshLoginTMOUT.logger')
     @patch('secScanner.enhance.level3.check.C122_sshLoginTMOUT.Display')
     def test_ssh_timeout_set_incorrectly(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C122_sshLoginTMOUT()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C122_01: %s", WRN_C122_01)
         mock_logger.warning.assert_any_call("SUG_C122_01: %s", SUG_C122_01)
         mock_display.assert_called_with("- Wrong ssh login timeout set...", "WARNING")
@@ -53,10 +53,10 @@ class TestC122_sshLoginTMOUT(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C122_sshLoginTMOUT.logger')
     @patch('secScanner.enhance.level3.check.C122_sshLoginTMOUT.Display')
     def test_ssh_timeout_set_incorrectly(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C122_sshLoginTMOUT()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C122_01: %s", WRN_C122_01)
         mock_logger.warning.assert_any_call("SUG_C122_01: %s", SUG_C122_01)
         mock_display.assert_called_with("- Wrong ssh login timeout set...", "WARNING")
@@ -67,10 +67,10 @@ class TestC122_sshLoginTMOUT(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C122_sshLoginTMOUT.logger')
     @patch('secScanner.enhance.level3.check.C122_sshLoginTMOUT.Display')
     def test_no_ssh_timeout_set(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C122_sshLoginTMOUT()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C122_02: %s", WRN_C122_02)
         mock_logger.warning.assert_any_call("SUG_C122_01: %s", SUG_C122_01)
         mock_display.assert_called_with("- No ssh login timeout set...", "WARNING")
@@ -81,10 +81,10 @@ class TestC122_sshLoginTMOUT(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C122_sshLoginTMOUT.logger')
     @patch('secScanner.enhance.level3.check.C122_sshLoginTMOUT.Display')
     def test_partial_ssh_timeout_set(self, mock_display, mock_logger, mock_file, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C122_sshLoginTMOUT()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C122_03: %s", WRN_C122_03)
         mock_logger.warning.assert_any_call("SUG_C122_01: %s", SUG_C122_01)
         mock_display.assert_called_with("- SSH login connection timeout configuration issue...", "WARNING")
@@ -94,10 +94,10 @@ class TestC122_sshLoginTMOUT(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C122_sshLoginTMOUT.logger')
     @patch('secScanner.enhance.level3.check.C122_sshLoginTMOUT.Display')
     def test_config_file_not_exist(self, mock_display, mock_logger, mock_exists, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C122_sshLoginTMOUT()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C122_04: %s", WRN_C122_04)
         mock_logger.warning.assert_any_call("SUG_C122_02: %s", SUG_C122_02)
         mock_display.assert_called_with("- file /etc/ssh/sshd_config does not exist...", "WARNING")
