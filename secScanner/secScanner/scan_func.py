@@ -307,7 +307,7 @@ def scan_restore_basic_inline():
     BAK_FILES = []
     # read history bak names, save in list
     dir = os.path.dirname(os.path.abspath(__file__))
-    with open(f'{dir}/lib/bak.py', "r") as read_file:
+    with open(f'{dir}/lib/bak.py', "r", encoding="utf-8", errors="replace") as read_file:
         lines = read_file.readlines()
         for line in lines:
             if 'bak' in line and line.strip('\n') not in BAK_FILES:
@@ -315,7 +315,7 @@ def scan_restore_basic_inline():
             else:
                 continue
     # clear bak.py file
-    with open(f'{dir}/lib/bak.py', "w") as write_file:
+    with open(f'{dir}/lib/bak.py', "w", encoding="utf-8") as write_file:
         write_file.write('')
     for i in BAK_FILES:
         dest_path = i
