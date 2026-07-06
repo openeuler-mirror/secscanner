@@ -34,10 +34,10 @@ class TestC25_syslogFacility(unittest.TestCase):
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertIsNone(None, "None value check")
         self.assertIsInstance("test", str, "Type checking")
-        # 运行测试的函数
+        # Mock test setup.
         C25_syslogFacility()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has ssh syslogfacility set, checking ok")
         mock_display.assert_called_with("- Check the ssh syslogfacility...", "OK")
 
@@ -46,10 +46,10 @@ class TestC25_syslogFacility(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C25_syslogFacility.logger')
     @patch('secScanner.enhance.basic.check.C25_syslogFacility.Display')
     def test_syslog_facility_set_incorrectly(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C25_syslogFacility()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C25_02: %s", WRN_C25_02)
         mock_logger.warning.assert_any_call("SUG_C25: %s", SUG_C25)
         mock_display.assert_called_with("- Wrong ssh syslogfacility config set...", "WARNING")
@@ -59,10 +59,10 @@ class TestC25_syslogFacility(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C25_syslogFacility.logger')
     @patch('secScanner.enhance.basic.check.C25_syslogFacility.Display')
     def test_syslog_facility_not_set(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C25_syslogFacility()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C25_01: %s", WRN_C25_01)
         mock_logger.warning.assert_any_call("SUG_C25: %s", SUG_C25)
         mock_display.assert_called_with("- No ssh syslogfacility config set...", "WARNING")
