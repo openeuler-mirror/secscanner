@@ -28,10 +28,10 @@ class TestC0320_sshAuthentication(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
     def test_file_not_exists(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件不存在
+        # Mock test setup.
         mock_exists.return_value = False
         config_file = "/etc/ssh/sshd_config"
-        secScanner.enhance.euler.check.C0320_sshAuthentication.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0320_sshAuthentication.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0320_sshAuthentication()
         mock_InsertSection.assert_any_call("Check config of ssh authentication")
         mock_logger.warning.assert_any_call(f"WRN_C0320: {config_file} {WRN_no_file}")
@@ -45,7 +45,7 @@ class TestC0320_sshAuthentication(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data = "IgnoreRhosts yes\nHostbasedAuthentication no\nPasswordAuthentication yes\n")
     @patch('os.path.exists')
     def test_correct_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
         C0320_sshAuthentication()
         mock_InsertSection.assert_any_call("Check config of ssh authentication")
@@ -58,9 +58,9 @@ class TestC0320_sshAuthentication(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data = "IgnoreRhosts no\nHostbasedAuthentication no\nPasswordAuthentication yes\n")
     @patch('os.path.exists')
     def test_ignoreRhosts_wrong_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0320_sshAuthentication.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0320_sshAuthentication.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0320_sshAuthentication()
         mock_InsertSection.assert_any_call("Check config of ssh authentication")
         mock_logger.warning.assert_any_call("WRN_C0320: %s", WRN_C0320)
@@ -74,9 +74,9 @@ class TestC0320_sshAuthentication(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data = "IgnoreRhosts yes\nHostbasedAuthentication yes\nPasswordAuthentication yes\n")
     @patch('os.path.exists')
     def test_other_wrong_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0320_sshAuthentication.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0320_sshAuthentication.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0320_sshAuthentication()
         mock_InsertSection.assert_any_call("Check config of ssh authentication")
         mock_logger.warning.assert_any_call("WRN_C0320: %s", WRN_C0320)
@@ -90,9 +90,9 @@ class TestC0320_sshAuthentication(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data = "IgnoreRhosts yes\nHostbasedAuthentication no\nPasswordAuthentication no\n")
     @patch('os.path.exists')
     def test_pwda_wrong_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0320_sshAuthentication.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0320_sshAuthentication.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0320_sshAuthentication()
         mock_InsertSection.assert_any_call("Check config of ssh authentication")
         mock_logger.warning.assert_any_call("WRN_C0320: %s", WRN_C0320)
@@ -106,9 +106,9 @@ class TestC0320_sshAuthentication(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data = "IgnoreRhosts yes\nHostbasedAuthentication no\nChallengeResponseAuthentication no\n")
     @patch('os.path.exists')
     def test_cra_wrong_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0320_sshAuthentication.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0320_sshAuthentication.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0320_sshAuthentication()
         mock_InsertSection.assert_any_call("Check config of ssh authentication")
         mock_logger.warning.assert_any_call("WRN_C0320: %s", WRN_C0320)
@@ -122,9 +122,9 @@ class TestC0320_sshAuthentication(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data = "IgnoreRhosts yes\nHostbasedAuthentication no\nPubkeyAuthentication no\n")
     @patch('os.path.exists')
     def test_pa_wrong_config(self, mock_exists, mock_open, mock_display, mock_logger, mock_InsertSection):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0320_sshAuthentication.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0320_sshAuthentication.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0320_sshAuthentication()
         mock_InsertSection.assert_any_call("Check config of ssh authentication")
         mock_logger.warning.assert_any_call("WRN_C0320: %s", WRN_C0320)
