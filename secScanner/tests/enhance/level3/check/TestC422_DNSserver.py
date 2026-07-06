@@ -26,10 +26,10 @@ class TestC422_DNSserver(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C422_DNSserver.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_dns_server_enabled(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C422_DNSserver()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C422: %s", WRN_C422)
         mock_logger.warning.assert_any_call("SUG_C422: %s", SUG_C422)
         mock_display.assert_called_with("- Check the DNS-Server is enabled ...", "WARNING")
@@ -39,10 +39,10 @@ class TestC422_DNSserver(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C422_DNSserver.logger')
     @patch('secScanner.enhance.level3.check.C422_DNSserver.Display')
     def test_dns_server_disabled(self, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C422_DNSserver()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("The DNS-Server status is: disabled")
         mock_display.assert_called_with("- Check the DNS-Server is disabled...", "OK")
 
