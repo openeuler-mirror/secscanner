@@ -230,6 +230,15 @@ class TestC0117_prohibitUSBCheck(unittest.TestCase):
         C0117_prohibitUSBCheck()
         warning_calls = [c for c in mock_Display.call_args_list if "WARNING" in c.args]
         self.assertEqual(len(warning_calls), 0)
+    
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.subprocess.run')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.logger')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.Display')
+    @patch('secScanner.enhance.euler.check.C0117_prohibitUSBCheck.InsertSection')
+    def test_017_subprocess_called_once_enabled(self, mock_InsertSection, mock_Display, mock_logger, mock_run):
+        mock_run.return_value = subprocess.CompletedProcess(args=["modprobe", "-n", "-v", "usb-storage"], returncode=0, stdout=b'install /bin/true')
+        C0117_prohibitUSBCheck()
+        self.assertEqual(mock_run.call_count, 1)
 
 if __name__ == '__main__':
     unittest.main()
