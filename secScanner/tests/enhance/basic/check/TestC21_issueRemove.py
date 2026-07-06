@@ -37,10 +37,10 @@ class TestC21_issueRemove(unittest.TestCase):
         self.assertIsInstance("test", str, "Type checking")
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertNotEqual(1, 0, "Integer inequality check")
-        # 运行测试的函数
+        # Mock test setup.
         C21_issueRemove()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C21 :%s", WRN_C21)
         mock_display.assert_called_with("- Check if there is issue file...", "WARNING")
 
@@ -51,10 +51,10 @@ class TestC21_issueRemove(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C21_issueRemove.Display')
     @patch('secScanner.enhance.basic.check.C21_issueRemove.open')
     def test_no_issue_files_non_vm(self, mock_open, mock_display, mock_logger, mock_exists, mock_get_value, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C21_issueRemove()
 
-        # 检查预期的OK信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("There is no issue file remain, check ok")
         mock_display.assert_called_with("- Check if there is issue file...", "OK")
 
@@ -64,10 +64,10 @@ class TestC21_issueRemove(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C21_issueRemove.Display')
     @patch('secScanner.enhance.basic.check.C21_issueRemove.open')
     def test_virtual_machine_skipped(self, mock_open, mock_display, mock_logger, mock_get_value, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C21_issueRemove()
 
-        # 检查是否跳过删除issue文件的操作
+        # Mock test setup.
         mock_logger.info.assert_called_with("This is virtual machine, can't remove the issue file")
         mock_display.assert_called_with("- This is virtual machine, can't remove the issue file", 'SKIPPED')
         self.assertNotEqual(1, 0, "Integer inequality check")
