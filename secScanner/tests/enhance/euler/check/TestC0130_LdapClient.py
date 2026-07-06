@@ -244,6 +244,21 @@ class TestC0130_LdapClient(unittest.TestCase):
         wrn_call = [c for c in calls if c.args[0] == "WRN_C0130: %s"]
         self.assertEqual(len(wrn_call), 1)
         self.assertEqual(wrn_call[0].args[1], WRN_C0130)
+    
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'installed'))
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.logger')
+    @patch('secScanner.enhance.euler.check.C0130_LdapClient.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_016_ret0_sug_value_matches_constant(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        secScanner.enhance.euler.check.C0130_LdapClient.RESULT_FILE = "result_file_path"
+        C0130_LdapClient()
+        calls = mock_logger.warning.call_args_list
+        sug_call = [c for c in calls if c.args[0] == "SUG_C0130: %s"]
+        self.assertEqual(len(sug_call), 1)
+        self.assertEqual(sug_call[0].args[1], SUG_C0130)
 
 if __name__ == '__main':
     unittest.main()    
