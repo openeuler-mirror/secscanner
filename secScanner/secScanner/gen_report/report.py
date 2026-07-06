@@ -2,6 +2,7 @@ import logging
 import subprocess
 import re
 import os
+import html
 import shutil
 import itertools
 import secScanner.gen_report.gen_html_report as gen_report
@@ -183,11 +184,11 @@ def cve_result():
         max_cve = 1000
     for i in range(len(cve_list)):
         if i + 1 <= max_cve:
-            vulne_info += f"  <tr style=\"cursor:pointer; border:solid 1px \#ddd;\">"
+            vulne_info += f"  <tr style=\"cursor:pointer; border:solid 1px #ddd;\">"
             vulne_info += f"    <td>{i+1}</td>\n"
-            vulne_info += f"    <td>{cve_list[i][0]}</td>\n"
-            vulne_info += f"    <td>{cve_list[i][1]}</td>\n"
-            vulne_info += f"    <td>{cve_list[i][2]}</td>\n"
+            vulne_info += f"    <td>{html.escape(str(cve_list[i][0]))}</td>\n"
+            vulne_info += f"    <td>{html.escape(str(cve_list[i][1]))}</td>\n"
+            vulne_info += f"    <td>{html.escape(str(cve_list[i][2]))}</td>\n"
             vulne_info += f"    <td>{cve_list[i][3]}</td>\n"
             vulne_info += f"    <td>{cve_list[i][4]}</td>\n"
             vulne_info += f"    <td>{cve_list[i][5]}</td>\n"
