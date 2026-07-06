@@ -66,7 +66,7 @@ class TestC0303_startFirewalld(unittest.TestCase):
             (0, "active"),
             (3, "inactive")
         ]
-        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0303_startFirewalld()
         mock_InsertSection.assert_any_call("Check if firewalld is launched")
         mock_logger.warning.assert_any_call("WRN_C0303_01: %s", WRN_C0303_01)
@@ -85,7 +85,7 @@ class TestC0303_startFirewalld(unittest.TestCase):
             (3, "inactive"),
             (0, "active")
         ]
-        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0303_startFirewalld()
         mock_InsertSection.assert_any_call("Check if firewalld is launched")
         mock_logger.warning.assert_any_call("WRN_C0303_01: %s", WRN_C0303_01)
@@ -103,7 +103,7 @@ class TestC0303_startFirewalld(unittest.TestCase):
             (0, "active"),
             (0, "active")
         ]
-        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0303_startFirewalld()
         mock_InsertSection.assert_any_call("Check if firewalld is launched")
         mock_logger.warning.assert_any_call("WRN_C0303_02: %s", WRN_C0303_02)
@@ -122,7 +122,7 @@ class TestC0303_startFirewalld(unittest.TestCase):
             (3, "inactive"),
             (0, "active")
         ]
-        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0303_startFirewalld()
         mock_InsertSection.assert_any_call("Check if firewalld is launched")
         mock_logger.warning.assert_any_call("WRN_C0303_02: %s", WRN_C0303_02)
@@ -142,7 +142,7 @@ class TestC0303_startFirewalld(unittest.TestCase):
             (0, "active"),
             (3, "inactive")
         ]
-        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0303_startFirewalld()
         mock_InsertSection.assert_any_call("Check if firewalld is launched")
         mock_logger.warning.assert_any_call("WRN_C0303_02: %s", WRN_C0303_02)
@@ -161,7 +161,7 @@ class TestC0303_startFirewalld(unittest.TestCase):
             (3, "inactive"),
             (3, "inactive")
         ]
-        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0303_startFirewalld.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0303_startFirewalld()
         mock_InsertSection.assert_any_call("Check if firewalld is launched")
         mock_logger.warning.assert_any_call("WRN_C0303_02: %s", WRN_C0303_02)
