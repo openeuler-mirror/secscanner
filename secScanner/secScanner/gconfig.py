@@ -111,7 +111,7 @@ def load_config(configfile):
         print("%s config file not found!" % configfile)
         exit(1)
     # reload config from configfile
-    config.read(configfile)
+    config.read(configfile, encoding="utf-8")
 
     return config
 
