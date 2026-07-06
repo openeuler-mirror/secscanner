@@ -263,6 +263,9 @@ def scan_command():
             parser.error('The "servicename" is required when using service commands.')
 
 
+    if args.quiet:
+        quiet_output(args)
+
     find_profile()
 
     if hasattr(args, 'func'):
