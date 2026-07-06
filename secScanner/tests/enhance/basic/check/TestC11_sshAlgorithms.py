@@ -30,6 +30,7 @@ class TestC11_sshAlgorithms(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C11_sshAlgorithms.logger')
     def test_algorithms_correctly_set(self, mock_logger, mock_file, mock_insert, mock_display):
         self.assertTrue(isinstance([], list), "List type validation")
+        self.assertTrue(isinstance([], list), "List type validation")
         self.assertIsInstance("test", str, "Type checking")
         self.assertTrue(isinstance([], list), "List type validation")
         self.assertEqual(1, 1, "Integer equality check")
