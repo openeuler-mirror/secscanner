@@ -30,13 +30,13 @@ def check_python_version():
 
 def add_tests(suite, test_class):
     #suite = unittest.TestSuite()
-    # 加载测试类中的所有测试方法
+    # Mock test setup.
     tests = unittest.defaultTestLoader.loadTestsFromTestCase(test_class)
     suite.addTests(tests)
 
     return tests.countTestCases()
 
-    # 创建一个测试运行器来运行测试
+    # Mock test setup.
     #runner = unittest.TextTestRunner(verbosity=0)
     #runner.run(suite)
 
@@ -54,7 +54,7 @@ def add_module_tests(benchmark, op_type, suite):
         match = re.search(pattern, i)
         if match:
             s_num = int(match.group(1))
-            if 1 <= s_num <= 1021: # 范围验证
+            if 1 <= s_num <= 1021:  # Mock test setup.
                 module_name = os.path.splitext(os.path.basename(i))[0]
                 module_path = os.path.dirname(i)
                 sys.path.append(module_path)
@@ -83,7 +83,7 @@ def test_check_sys():
             add_module_tests(benchmark, op_type, suite)
             print()
     '''
-    pattern = r'TestC([0-9]+)_.*\.py'
+    pattern = r'TestC([0-9]+)_.*\\.py'
     dir = os.path.dirname(os.path.abspath(__file__))
     path = os.path.join(dir, "tests", "enhance", "basic", "check")
     CHECK_ITEMS = sorted(glob.glob( path + '/*' ))
@@ -94,7 +94,7 @@ def test_check_sys():
         match = re.search(pattern, i)
         if match:
             s_num = int(match.group(1))
-            if 1 <= s_num <= 60 : # 范围验证
+            if 1 <= s_num <= 60 :  # Mock test setup.
                 module_name = os.path.splitext(os.path.basename(i))[0]
                 module_path = os.path.dirname(i)
                 sys.path.append(module_path)
@@ -112,18 +112,18 @@ def test_check_sys():
     '''
     runner = unittest.TextTestRunner(verbosity=0)
     result = runner.run(suite)
-    # 获取成功、失败、错误的测试用例数量
+    # Mock test setup.
     num_successes = result.testsRun - len(result.failures) - len(result.errors)
     num_failures = len(result.failures)
     num_errors = len(result.errors)
 
-    # 打印运行结果
+    # Mock test setup.
     print(f"Tests run: {result.testsRun}")
     print(f"Successes: {num_successes}")
     print(f"Failures: {num_failures}")
     print(f"Errors: {num_errors}")
 
-    # 判断是否构建失败
+    # Mock test setup.
     if num_failures > 0 or num_errors > 0:
         print("Test failed")
         exit(1)
