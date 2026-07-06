@@ -26,10 +26,10 @@ class TestC413_checkYpbind(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C413_checkYpbind.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_ypbind_installed(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C413_checkYpbind()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C413: %s", WRN_C413)
         mock_logger.warning.assert_any_call("SUG_C413: %s", SUG_C413)
         mock_display.assert_called_with("- Check the  Ypbind software is installed...", "WARNING")
@@ -39,10 +39,10 @@ class TestC413_checkYpbind(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C413_checkYpbind.logger')
     @patch('secScanner.enhance.level3.check.C413_checkYpbind.Display')
     def test_ypbind_not_installed(self, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C413_checkYpbind()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("The Ypbind status is: package ypbind is not installed")
         mock_display.assert_called_with("- Check the Ypbind software is uninstall...", "OK")
 
