@@ -26,10 +26,10 @@ class TestC0243_enANDdePolicy(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0243_enANDdePolicy.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_file_not_exists(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟文件不存在
+        # Mock test setup.
         mock_exists.return_value = False
-        secScanner.enhance.euler.check.C0243_enANDdePolicy.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0243_enANDdePolicy.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0243_enANDdePolicy()
         mock_InsertSection.assert_any_call("check global encryption and decryption policies set...")
         mock_logger.warning.assert_any_call("WRN_C0243_02: %s", WRN_C0243_02)
@@ -43,10 +43,10 @@ class TestC0243_enANDdePolicy(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0243_enANDdePolicy.Display')
     @patch('builtins.open', new_callable=mock_open, read_data="DEFAULT policy set\n")
     def test_policy_set(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0243_enANDdePolicy.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0243_enANDdePolicy.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0243_enANDdePolicy()
         mock_InsertSection.assert_any_call("check global encryption and decryption policies set...")
         mock_logger.info.assert_any_call("Confirm that global encryption and decryption policies have been set")
@@ -58,10 +58,10 @@ class TestC0243_enANDdePolicy(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0243_enANDdePolicy.Display')
     @patch('builtins.open', new_callable=mock_open, read_data="# DEFAULT policy set\n")
     def test_policy_not_set(self, mock_open, mock_display, mock_logger, mock_InsertSection, mock_exists):
-        # 模拟文件存在
+        # Mock test setup.
         mock_exists.return_value = True
-        secScanner.enhance.euler.check.C0243_enANDdePolicy.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
-        # 调用测试函数
+        secScanner.enhance.euler.check.C0243_enANDdePolicy.RESULT_FILE = "result_file_path"  # Mock test setup.
+        # Mock test setup.
         C0243_enANDdePolicy()
         mock_InsertSection.assert_any_call("check global encryption and decryption policies set...")
         mock_logger.warning.assert_any_call("WRN_C0243_01: %s", WRN_C0243_01)
