@@ -30,7 +30,7 @@ def gen_html_report():
     html_rootkit_content = get_value("html_rootkit_content")
     TOTAL_INFECTED = get_value("TOTAL_INFECTED")
 
-    with open(f"{LOGDIR}/{HTML_REPORT_DIRNAME}/index.html", "w") as f:
+    with open(f"{LOGDIR}/{HTML_REPORT_DIRNAME}/index.html", "w", encoding="utf-8") as f:
         f.write(f'''
     <!DOCTYPE html>
     <html>
