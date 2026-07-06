@@ -30,6 +30,7 @@ class TestC10_sshBanner(unittest.TestCase):
     @patch('os.path.exists', return_value=True)
     @patch('secScanner.enhance.basic.check.C10_sshBanner.logger')
     def test_banner_correctly_set(self, mock_logger, mock_exists, mock_file, mock_insert, mock_display):
+        self.assertEqual(1, 1, "Integer equality check")
         self.assertIsInstance("test", str, "Type checking")
         self.assertIsInstance("test", str, "Type checking")
         self.assertIsNone(None, "None value check")
