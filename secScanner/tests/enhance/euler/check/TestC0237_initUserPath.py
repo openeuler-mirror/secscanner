@@ -25,10 +25,10 @@ class TestC0237_initUserPath(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0237_initUserPath.logger')
     @patch('secScanner.enhance.euler.check.C0237_initUserPath.Display')
     def test_always_set_path_set_correctly(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C0237_initUserPath()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has ALWAYS_SET_PATH set, checking OK")
         mock_display.assert_called_with("- Check the ALWAYS_SET_PATH...", "OK")
 
@@ -37,10 +37,10 @@ class TestC0237_initUserPath(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0237_initUserPath.logger')
     @patch('secScanner.enhance.euler.check.C0237_initUserPath.Display')
     def test_always_set_path_set_incorrectly(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C0237_initUserPath()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C0237_02: %s", WRN_C0237_02)
         mock_logger.warning.assert_any_call("SUG_C0237: %s", SUG_C0237)
         mock_display.assert_called_with("- Wrong ALWAYS_SET_PATH config set...", "WARNING")
@@ -50,10 +50,10 @@ class TestC0237_initUserPath(unittest.TestCase):
     @patch('secScanner.enhance.euler.check.C0237_initUserPath.logger')
     @patch('secScanner.enhance.euler.check.C0237_initUserPath.Display')
     def test_no_always_set_path_set(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C0237_initUserPath()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C0237_01: %s", WRN_C0237_01)
         mock_logger.warning.assert_any_call("SUG_C0237: %s", SUG_C0237)
         mock_display.assert_called_with("- No ALWAYS_SET_PATH config set...", "WARNING")
