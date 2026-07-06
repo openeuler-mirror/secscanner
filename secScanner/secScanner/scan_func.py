@@ -114,10 +114,6 @@ def scan_check_sys(baseline):
         logger.error("No check items found under %s", path)
         return
 
-    if not numbers:
-        logger.error("No rootkit check items found under %s", path)
-        return
-
     for i in CHECK_ITEMS:
         match = re.search(pattern, i)
         if match:
