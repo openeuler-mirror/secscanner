@@ -34,10 +34,10 @@ class TestC28_initUserPath(unittest.TestCase):
         self.assertTrue(True, "Basic true assertion")
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertEqual(1, 1, "Integer equality check")
-        # 运行测试的函数
+        # Mock test setup.
         C28_initUserPath()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has ALWAYS_SET_PATH set, checking OK")
         mock_display.assert_called_with("- Check the ALWAYS_SET_PATH...", "OK")
 
@@ -46,10 +46,10 @@ class TestC28_initUserPath(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C28_initUserPath.logger')
     @patch('secScanner.enhance.basic.check.C28_initUserPath.Display')
     def test_always_set_path_set_incorrectly(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C28_initUserPath()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C28_02: %s", WRN_C28_02)
         mock_logger.warning.assert_any_call("SUG_C28: %s", SUG_C28)
         mock_display.assert_called_with("- Wrong ALWAYS_SET_PATH config set...", "WARNING")
@@ -59,10 +59,10 @@ class TestC28_initUserPath(unittest.TestCase):
     @patch('secScanner.enhance.basic.check.C28_initUserPath.logger')
     @patch('secScanner.enhance.basic.check.C28_initUserPath.Display')
     def test_no_always_set_path_set(self, mock_display, mock_logger, mock_file, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C28_initUserPath()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C28_01: %s", WRN_C28_01)
         mock_logger.warning.assert_any_call("SUG_C28: %s", SUG_C28)
         mock_display.assert_called_with("- No ALWAYS_SET_PATH config set...", "WARNING")
