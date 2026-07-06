@@ -5,8 +5,10 @@ import psutil
 
 def get_ip_address():
     hostname = socket.gethostname()
-    ip_address = socket.gethostbyname(hostname)
-    return ip_address
+    try:
+        return socket.gethostbyname(hostname)
+    except socket.gaierror:
+        return ""
 from secScanner.gconfig import *
 def gen_html_report():
     HTML_REPORT_DIRNAME = get_value("HTML_REPORT_DIRNAME")
