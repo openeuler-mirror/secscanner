@@ -228,6 +228,18 @@ class TestC0126_LdapServer(unittest.TestCase):
         args, _ = mock_display.call_args
         self.assertEqual(args[0], "- Check the openldap-servers software is installed...")
         self.assertEqual(args[1], "WARNING")
+    
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.os.path.exists')
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.os.path.getsize')
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.InsertSection')
+    @patch('subprocess.getstatusoutput', return_value=(0, 'installed'))
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.logger')
+    @patch('secScanner.enhance.euler.check.C0126_LdapServer.Display')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_015_ret0_sug_c0126_logged(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
+        secScanner.enhance.euler.check.C0126_LdapServer.RESULT_FILE = "result_file_path"
+        C0126_LdapServer()
+        mock_logger.warning.assert_any_call("SUG_C0126: %s", SUG_C0126)
 
 if __name__ == '__main':
     unittest.main()    
