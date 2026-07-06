@@ -243,7 +243,7 @@ def scan_command():
     args = parser.parse_args()
 
 
-    if args.command == None:
+    if args.command is None:
         parser.error('Command line parameters not provided. Please use - h or -- help to view help information.')
 
     if args.command == 'fix' and args.mode is None:
