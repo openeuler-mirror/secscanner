@@ -25,10 +25,10 @@ class TestC423_dhcpDisabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C423_dhcpDisabled.logger')
     @patch('secScanner.enhance.level3.check.C423_dhcpDisabled.Display')
     def test_dhcp_disabled(self, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C423_dhcpDisabled()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has right dhcp service set, checking ok")
         mock_display.assert_called_with("- Has right dhcp service set: disabled...", "OK")
 
@@ -37,10 +37,10 @@ class TestC423_dhcpDisabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C423_dhcpDisabled.logger')
     @patch('secScanner.enhance.level3.check.C423_dhcpDisabled.Display')
     def test_dhcp_not_exist(self, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C423_dhcpDisabled()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("No dhcp service, checking ok")
         mock_display.assert_called_with("- No dhcp service, checking ok...", "OK")
 
@@ -50,10 +50,10 @@ class TestC423_dhcpDisabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C423_dhcpDisabled.Display')
     @patch('builtins.open', new_callable=mock_open)
     def test_dhcp_enabled(self, mock_file, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C423_dhcpDisabled()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C423: %s", WRN_C423)
         mock_logger.warning.assert_any_call("SUG_C423: %s", SUG_C423)
         mock_display.assert_called_with("- Wrong dhcp service status...", "WARNING")
@@ -63,10 +63,10 @@ class TestC423_dhcpDisabled(unittest.TestCase):
     @patch('secScanner.enhance.level3.check.C423_dhcpDisabled.logger')
     @patch('secScanner.enhance.level3.check.C423_dhcpDisabled.Display')
     def test_dhcp_unexpected_status(self, mock_display, mock_logger, mock_subprocess, mock_insert):
-        # 运行测试的函数
+        # Mock test setup.
         C423_dhcpDisabled()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Unexpected status of dhcpd")
         mock_display.assert_called_with("- Unexpected status of dhcpd...", "WARNING")
 
