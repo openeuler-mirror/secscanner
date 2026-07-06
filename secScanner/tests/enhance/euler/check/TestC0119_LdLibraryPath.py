@@ -30,10 +30,10 @@ class TestC0119_LdLibraryPath(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data='export LD_LIBRARY_PATH=/home/')
     def test_LdLibraryPat_value_set(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
         
-        # 设置模拟返回值
-        mock_exists.side_effect = [True, True, True]  # 所有文件存在
+        # Mock test setup.
+        mock_exists.side_effect = [True, True, True]  # Mock test setup.
         
-        # 调用测试函数
+        # Mock test setup.
         C0119_LdLibraryPath()
         mock_InsertSection.assert_called_once_with("Check the value of LD_LIBRARY_PATH in your Linux System ")
         mock_logger.info.assert_any_call("Check set of LD_LIBRARY_PATH in /etc/profile file")
@@ -48,10 +48,10 @@ class TestC0119_LdLibraryPath(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data='')
     def test_LdLibraryPat_value_not_set(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
         
-        # 设置模拟返回值
-        mock_exists.side_effect = [True, True, True]  # 所有文件存在
+        # Mock test setup.
+        mock_exists.side_effect = [True, True, True]  # Mock test setup.
         
-        # 调用测试函数
+        # Mock test setup.
         C0119_LdLibraryPath()
         mock_InsertSection.assert_called_once_with("Check the value of LD_LIBRARY_PATH in your Linux System ")
         mock_logger.warning.assert_any_call("WRN_C0119: %s", WRN_C0119)
@@ -69,10 +69,10 @@ class TestC0119_LdLibraryPath(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data='')
     def test_file_not_exist(self, mock_file, mock_display, mock_logger, mock_getstatusoutput, mock_InsertSection, mock_getsize, mock_exists):
         
-        # 设置模拟返回值
-        mock_exists.side_effect = [False, False, False]  # 所有文件不存在
+        # Mock test setup.
+        mock_exists.side_effect = [False, False, False]  # Mock test setup.
         
-        # 调用测试函数
+        # Mock test setup.
         C0119_LdLibraryPath()
         mock_InsertSection.assert_called_once_with("Check the value of LD_LIBRARY_PATH in your Linux System ")
         mock_logger.warning.assert_any_call(f"WRN_C0119: /etc/profile {WRN_no_file}")
