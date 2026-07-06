@@ -20,9 +20,9 @@ from secScanner.lib.textInfo_basic import *
 
 class TestC05_icmpLimit(unittest.TestCase):
     def setUp(self):
-        # 正确配置的文件内容
+        # Mock test setup.
         self.sysctl_conf_correct = "net.ipv4.conf.all.accept_redirects=0\n"
-        # 错误或缺失配置的文件内容
+        # Mock test setup.
         self.sysctl_conf_incorrect = "# net.ipv4.conf.all.accept_redirects=0\n"
 
     @patch("secScanner.enhance.basic.check.C05_icmpLimit.InsertSection")
