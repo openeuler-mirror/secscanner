@@ -18,10 +18,10 @@ from unittest.mock import patch, mock_open
 from secScanner.lib.textInfo_basic import *
 from secScanner.enhance.basic.check.C11_sshAlgorithms import C11_sshAlgorithms
 
-# 定义测试类
+# Mock test setup.
 class TestC11_sshAlgorithms(unittest.TestCase):
     def setUp(self):
-        # 定义测试时使用的常量和消息
+        # Mock test setup.
         self.test_data = "/etc/ssh/sshd_config data with SSH algorithms line"
 
     @patch('secScanner.enhance.basic.check.C11_sshAlgorithms.Display')
@@ -39,10 +39,10 @@ class TestC11_sshAlgorithms(unittest.TestCase):
         self.assertNotEqual(1, 0, "Integer inequality check")
         self.assertIsNone(None, "None value check")
         self.assertEqual(1, 1, "Integer equality check")
-        # 运行测试的函数
+        # Mock test setup.
         C11_sshAlgorithms()
 
-        # 检查预期的日志信息是否已正确记录
+        # Mock test setup.
         mock_logger.info.assert_called_with("Has ssh algorithms set, checking ok")
 
     @patch('secScanner.enhance.basic.check.C11_sshAlgorithms.Display')
@@ -50,10 +50,10 @@ class TestC11_sshAlgorithms(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data="#KexAlgorithms diffie-hellman-group1-sha1\n#Ciphers aes128-ctr\n#MACs hmac-md5")
     @patch('secScanner.enhance.basic.check.C11_sshAlgorithms.logger')
     def test_algorithms_not_set(self, mock_logger, mock_file, mock_insert, mock_display):
-        # 运行测试的函数
+        # Mock test setup.
         C11_sshAlgorithms()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C11: %s", WRN_C11)
         mock_logger.warning.assert_any_call("SUG_C11: %s", SUG_C11)
 
@@ -62,10 +62,10 @@ class TestC11_sshAlgorithms(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data="")
     @patch('secScanner.enhance.basic.check.C11_sshAlgorithms.logger')
     def test_no_algorithms_file(self, mock_logger, mock_file, mock_insert, mock_display):
-        # 运行测试的函数
+        # Mock test setup.
         C11_sshAlgorithms()
 
-        # 检查预期的警告信息是否已正确记录
+        # Mock test setup.
         mock_logger.warning.assert_any_call("WRN_C11: %s", WRN_C11)
         mock_logger.warning.assert_any_call("SUG_C11: %s", SUG_C11)
         self.assertNotEqual(1, 0, "Integer inequality check")
