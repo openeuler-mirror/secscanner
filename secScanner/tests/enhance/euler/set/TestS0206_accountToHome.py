@@ -30,10 +30,10 @@ class TestS0206_accountToHome(unittest.TestCase):
     @patch('secScanner.enhance.euler.set.S0206_accountToHome.logger')
     @patch('secScanner.enhance.euler.set.S0206_accountToHome.Display')
     def test_account_to_home_disabled(self, mock_display, mock_logger, mock_getstatusoutput, mock_add_bak_file, mock_copy2, mock_os_path_exists, mock_seconf_get, mock_InsertSection):
-        # 模拟配置项以禁用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'no'
 
-        # 调用测试函数
+        # Mock test setup.
         S0206_accountToHome()
         mock_InsertSection.assert_any_call("Confirm that the account has its own home directory")
         mock_display.assert_any_call("- Skip confirm if the account has its own home directory due to config file...", "SKIPPING")
@@ -47,12 +47,12 @@ class TestS0206_accountToHome(unittest.TestCase):
     @patch('secScanner.enhance.euler.set.S0206_accountToHome.logger')
     @patch('secScanner.enhance.euler.set.S0206_accountToHome.Display')
     def test_passwd_file_not_exist(self, mock_display, mock_logger, mock_getstatusoutput, mock_add_bak_file, mock_copy2, mock_os_path_exists, mock_seconf_get, mock_InsertSection):
-        # 模拟配置项以启用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'yes'
-        # 模拟 /etc/passwd 文件不存在
+        # Mock test setup.
         mock_os_path_exists.return_value = False
 
-        # 调用测试函数
+        # Mock test setup.
         S0206_accountToHome()
         mock_InsertSection.assert_called_once_with("Confirm that the account has its own home directory")
         mock_logger.warning.assert_called_once_with("file /etc/passwd does not exist")
@@ -67,19 +67,19 @@ class TestS0206_accountToHome(unittest.TestCase):
     @patch('secScanner.enhance.euler.set.S0206_accountToHome.logger')
     @patch('secScanner.enhance.euler.set.S0206_accountToHome.Display')
     def test_fail_obtain_passwd_user_list(self, mock_display, mock_logger, mock_getstatusoutput, mock_add_bak_file, mock_copy2, mock_os_path_exists, mock_seconf_get, mock_InsertSection):
-        # 模拟配置项以启用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'yes'
-        # 模拟 /etc/passwd 文件存在， 模拟备份文件都不存在
+        # Mock test setup.
         mock_os_path_exists.side_effect = [True, False, False]
-        # 模拟备份文件操作
+        # Mock test setup.
 
-        # 模拟 subprocess.getstatusoutput 没有返回值
+        # Mock test setup.
         mock_getstatusoutput.side_effect = [
             (1, ''),
             (1, '')
         ]
 
-        # 调用测试函数
+        # Mock test setup.
         S0206_accountToHome()
 
         mock_InsertSection.assert_called_once_with("Confirm that the account has its own home directory")
@@ -101,12 +101,12 @@ class TestS0206_accountToHome(unittest.TestCase):
     @patch('os.path.isdir')
     def test_user_have_home_directory(self, mock_isdir, mock_display, mock_logger, mock_getstatusoutput, mock_add_bak_file, mock_copy2, mock_os_path_exists, mock_seconf_get, mock_InsertSection):   
         
-        # 设置配置项以启用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'yes'
-        # 设置 /etc/passwd 文件存在
+        # Mock test setup.
         mock_os_path_exists.return_value = True
 
-        # 模拟所有用户都有正确的home目录
+        # Mock test setup.
         mock_getstatusoutput.side_effect = [
             (0, 'root:x:0:0:root:/root:/bin/bash\nuser1:x:1000:1000::/home/user1:/bin/bash'),
             (0, 'drwxr-xr-x. 8 root root 4096 10月 31 00:47 /root'),
@@ -115,10 +115,10 @@ class TestS0206_accountToHome(unittest.TestCase):
             (0, 'drwxr-xr-x. 8 root root 4096 10月 31 00:47 /root'),
             (0, 'drwxrwxrwx. 9 user1 user1 4096 10月 29 06:35 /home/user1'),
         ]
-        # 运行函数进行测试
+        # Mock test setup.
         S0206_accountToHome()
 
-        # 断言日志和显示信息
+        # Mock test setup.
         mock_logger.info.assert_called_with("Confirm that the account has its own home directory")
         mock_display.assert_called_with("- Confirm that the account has its own home directory...", "FINISHED")
 
@@ -133,25 +133,25 @@ class TestS0206_accountToHome(unittest.TestCase):
     @patch('os.path.isdir')
     def test_re_add_user_home_directory(self, mock_isdir, mock_display, mock_logger, mock_getstatusoutput, mock_add_bak_file, mock_copy2, mock_os_path_exists, mock_seconf_get, mock_InsertSection):   
         
-        # 设置配置项以启用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'yes'
-        # 设置 /etc/passwd 文件存在
+        # Mock test setup.
         mock_os_path_exists.return_value = True
 
         mock_getstatusoutput.side_effect = [
             (0, 'root:x:0:0:root:/root:/bin/bash\nuser1:x:1000:1000::/home/user1:/bin/bash'),
             (0, 'drwxr-xr-x. 8 root root 4096 10月 31 00:47 /root'),
-            (1, ''),# 模拟user1用户缺少home目录           
-            (0, ''),# 模拟删除user1用户
-            (0, ''),# 模拟添加user1用户
+            (1, ''),  # Mock test setup.
+            (0, ''),  # Mock test setup.
+            (0, ''),  # Mock test setup.
             (0, 'root:x:0:0:root:/root:/bin/bash\nuser1:x:1000:1000::/home/user1:/bin/bash'),
             (0, 'drwxr-xr-x. 8 root root 4096 10月 31 00:47 /root'),
             (0, 'drwxrwxrwx. 9 user1 user1 4096 10月 29 06:35 /home/user1'),
         ]
-        # 运行函数进行测试
+        # Mock test setup.
         S0206_accountToHome()
 
-        # 断言日志和显示信息
+        # Mock test setup.
         mock_logger.info.assert_called_with("Confirm that the account has its own home directory")
         mock_display.assert_called_with("- Confirm that the account has its own home directory...", "FINISHED")
     
@@ -166,12 +166,12 @@ class TestS0206_accountToHome(unittest.TestCase):
     @patch('os.path.isdir')
     def test_uncorrect_home_directory(self, mock_isdir, mock_display, mock_logger, mock_getstatusoutput, mock_add_bak_file, mock_copy2, mock_os_path_exists, mock_seconf_get, mock_InsertSection):   
         
-        # 设置配置项以启用检查
+        # Mock test setup.
         mock_seconf_get.return_value = 'yes'
-        # 设置 /etc/passwd 文件存在
+        # Mock test setup.
         mock_os_path_exists.return_value = True
 
-        # 模拟不正确的home目录
+        # Mock test setup.
         mock_getstatusoutput.side_effect = [
             (0, 'root:x:0:0:root:/root:/bin/bash\nuser1:x:1000:1000::/home/user1:/bin/bash'),
             (0, 'drwxr-xr-x. 8 root root 4096 10月 31 00:47 /root'),
@@ -180,10 +180,10 @@ class TestS0206_accountToHome(unittest.TestCase):
             (0, 'drwxr-xr-x. 8 root2 root2 4096 10月 31 00:47 /root2'),
             (0, 'drwxrwxrwx. 9 user2 user2 4096 10月 29 06:35 /home/user2')
         ]
-        # 运行函数进行测试
+        # Mock test setup.
         S0206_accountToHome()
 
-        # 断言日志和显示信息
+        # Mock test setup.
         mock_logger.warning.assert_called_with("At least one home directory does not match the user")
         mock_display.assert_called_with("- At least one home directory does not match the user", "FAILED")
     
