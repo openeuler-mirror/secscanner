@@ -29,7 +29,7 @@ class TestC0338_deprecatedSSHDopt(unittest.TestCase):
     @patch('subprocess.getstatusoutput')
     def test_cmd_fail(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
         mock_getstatusoutput.return_value = (1, "")
-        secScanner.enhance.euler.check.C0338_deprecatedSSHDopt.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0338_deprecatedSSHDopt.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0338_deprecatedSSHDopt()
         mock_InsertSection.assert_any_call("Check deprecated sshd options in sshd config file")
         mock_logger.warning.assert_any_call("WRN_C0338_02: %s", WRN_C0338_02)
@@ -57,7 +57,7 @@ class TestC0338_deprecatedSSHDopt(unittest.TestCase):
     @patch('subprocess.getstatusoutput')
     def test_found_success(self, mock_getstatusoutput, mock_open, mock_display, mock_logger, mock_InsertSection):
         mock_getstatusoutput.return_value = (0, "Deprecated option")
-        secScanner.enhance.euler.check.C0338_deprecatedSSHDopt.RESULT_FILE = "result_file_path"  # 假设的结果文件路径
+        secScanner.enhance.euler.check.C0338_deprecatedSSHDopt.RESULT_FILE = "result_file_path"  # Mock test setup.
         C0338_deprecatedSSHDopt()
         mock_InsertSection.assert_any_call("Check deprecated sshd options in sshd config file")
         mock_logger.warning.assert_any_call("WRN_C0338_01: %s", WRN_C0338_01)
