@@ -27,7 +27,7 @@ def warning_results():
         baseline_info = ""
         data = ""
         #json_data = []
-        with open(LOGFILE, "r") as file:
+        with open(LOGFILE, "r", encoding="utf-8", errors="replace") as file:
             lines = file.readlines()
 
         for line in lines:
@@ -106,7 +106,7 @@ def rootkit_result():
     rootkit_info = ""
     html_rootkit_content = ""
 
-    with open(LOGFILE, 'r') as file:
+    with open(LOGFILE, 'r', encoding='utf-8', errors='replace') as file:
         lines = file.readlines()
 
         infected_count = 0
