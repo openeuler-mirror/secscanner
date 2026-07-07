@@ -1,0 +1,2 @@
+openEuler-SA-2024-0001.xml
+openEuler-SA-2024-0002.xml
