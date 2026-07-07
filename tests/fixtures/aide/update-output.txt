@@ -1,0 +1,1 @@
+New AIDE database written to /var/lib/aide/aide.db.new.gz
