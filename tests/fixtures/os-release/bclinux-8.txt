@@ -1,0 +1,3 @@
+ID=bclinux
+VERSION_ID="8"
+PRETTY_NAME="BCLinux 8"
