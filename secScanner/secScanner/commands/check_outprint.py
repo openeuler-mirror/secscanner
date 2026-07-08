@@ -117,7 +117,7 @@ def display_info():
     if subprocess.call('test -f /etc/os-release', shell=True) == 0:
         try:
             output = subprocess.check_output('cat /etc/os-release | grep -Eiw \'^PRETTY_NAME\'', shell=True)
-            pretty_name = output.decode('utf-8').split('"')[1]
+            pretty_name = output.decode('utf-8', errors='replace').split('"')[1]
             OS_VERSION = pretty_name
             set_value("OS_VERSION", OS_VERSION)
         except Exception as e:
