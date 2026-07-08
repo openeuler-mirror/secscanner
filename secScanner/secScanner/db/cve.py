@@ -6,7 +6,7 @@ from sqlalchemy import Integer
 import requests
 
 def parse_cvss_vector(cvss_vector, metric=None):
-    if 'AV' not in cvss_vector:
+    if not cvss_vector or 'AV' not in cvss_vector:
         return 'None'
     # 定义字段名称和值的映射关系
     metric_names = {
@@ -37,7 +37,9 @@ def parse_cvss_vector(cvss_vector, metric=None):
     results = []       # 存储完整可读文本
 
     for part in parts:
-        m, v = part.split(":")
+        if ":" not in part:
+            continue
+        m, v = part.split(":", 1)
         name = metric_names.get(m, m)
         mapping = value_mapping.get(m, {})
         # 处理所有 L 统一为 Low
