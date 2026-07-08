@@ -250,14 +250,23 @@ def IsVirtualMachine():
 
     return ISVIRTUALMACHINE, VMTYPE, VMFULLTYPE
 
-def IsRunning(process_name):  # PSBINARY is not defined
+def IsRunning(process_name):
     running = 0
     PSOPTIONS = ""
     PSBINARY = "ps"
     SHELL_IS_BUSYBOX = get_value("SHELL_IS_BUSYBOX")
     if SHELL_IS_BUSYBOX == "0":
         PSOPTIONS = "ax"
-    find = subprocess.getoutput(f"{PSBINARY} {PSOPTIONS} | egrep '( |/){process_name}' | grep -v 'grep'")
+    cmd = [PSBINARY]
+    if PSOPTIONS:
+        cmd.append(PSOPTIONS)
+    try:
+        output = subprocess.check_output(cmd, stderr=subprocess.DEVNULL, text=True)
+    except (OSError, subprocess.CalledProcessError):
+        output = ""
+
+    pattern = re.compile(r'(?:\s|/)' + re.escape(process_name) + r'(?:\s|$)')
+    find = "\n".join(line for line in output.splitlines() if pattern.search(line))
     if find != "":
         running = 1
         logger.info(f"IsRunning: process '{process_name}' found ({find})")
