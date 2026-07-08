@@ -64,8 +64,8 @@ class sec_service:
                 return
 
     def disable(self, name):
-        ret, result = subprocess.getstatusoutput(f'systemctl disable {name}')
-        if ret != 0:
+        result = subprocess.run(["systemctl", "disable", name], capture_output=True, text=True)
+        if result.returncode != 0:
             print(f"{name} disable failed")
             logger.error(f"{name} disable failed")
             sys.exit(1)
