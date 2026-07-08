@@ -60,7 +60,7 @@ def scrapy_CSAF_index():
         except Exception as e:
             print(f"scrapy from {api_url} error: {str(e)}!")
             if try_index == try_time - 1:
-                print("try [%d] times failed! exit.")
+                print("try [%d] times failed! exit." % try_time)
                 exit(1)
             print(" try again [%d/%d] " % (try_index + 1, try_time))
             continue
