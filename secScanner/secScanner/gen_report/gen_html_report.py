@@ -15,7 +15,7 @@ def gen_html_report():
     HOSTNAME = get_value("HOSTNAME")
     MY_IP = get_ip_address()
     users = psutil.users()
-    USER = users[0].name
+    USER = users[0].name if users else ""
     OS_KERNELVERSION_FULL = get_value("OS_KERNELVERSION_FULL")
     OS_ID = get_value("OS_ID")
     OS_DISTRO = get_value("OS_DISTRO")
