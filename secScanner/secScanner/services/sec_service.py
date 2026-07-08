@@ -17,9 +17,8 @@ logger = logging.getLogger('secscanner')
 
 class sec_service:
     def reload(self):
-        cmd = 'systemctl daemon-reload'
-        ret, result = subprocess.getstatusoutput(cmd)
-        if ret !=0:
+        result = subprocess.run(["systemctl", "daemon-reload"], capture_output=True, text=True)
+        if result.returncode != 0:
             logger.error("systemd service reload failed")
             sys.exit(1)
 
