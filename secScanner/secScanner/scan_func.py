@@ -23,6 +23,7 @@ import glob
 import ast
 import shutil
 import getpass
+import pwd
 import sys
 import gen_report.report as report
 from datetime import datetime
@@ -297,13 +298,14 @@ def scan_fix_sys(baseline):
 def restore_unused_user():
     unused_users = gconfig.seconf.get('basic', 'unused_user_value').split()
     for user in unused_users:
-        ret, result = subprocess.getstatusoutput(f'grep {user} /etc/passwd')
-        if ret != 0:
-            logger.warning('Command execution failed')
-        else:
-            ret, out = subprocess.getstatusoutput(f'usermod -U -s /sbin/nologin {user}')
-            if ret == 0:
-                Display(f"- Restoring unused {user}...", "FINISHED")
+        try:
+            pwd.getpwnam(user)
+        except KeyError:
+            logger.warning('User %s does not exist', user)
+            continue
+        result = subprocess.run(["usermod", "-U", "-s", "/sbin/nologin", user], capture_output=True, text=True)
+        if result.returncode == 0:
+            Display(f"- Restoring unused {user}...", "FINISHED")
 
 # restore the basic settings
 def scan_restore_basic_inline():
