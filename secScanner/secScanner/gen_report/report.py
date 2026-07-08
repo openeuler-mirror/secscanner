@@ -57,8 +57,8 @@ def warning_results():
             """
             json_list.append({"num": f"{TMP_COUNT}", "warning": f"{wrn}", "suggestion": f"{sug}"})
         json_result["enhancement"] = json_list
-        with open('/var/log/secScanner/output_enhancement.json', 'w') as file:
-            file.write(json.dumps(json_result))
+        with open('/var/log/secScanner/output_enhancement.json', 'w', encoding='utf-8') as file:
+            file.write(json.dumps(json_result, ensure_ascii=False))
 
 
         set_value("baseline_info", baseline_info)
