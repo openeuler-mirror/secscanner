@@ -39,21 +39,21 @@ logger = logging.getLogger('secscanner')
 #RESULT_FILE = os.path.join(LOGDIR, "check_result.relt")
 
 def restart_service(service_name):
-    cmd = 'systemctl restart ' + service_name
-    ret, result = subprocess.getstatusoutput(cmd)
-    if ret != 0:
-        logger.error(f"systemd service restart failed —— {result}")
-        print(result)
+    result = subprocess.run(["systemctl", "restart", service_name], capture_output=True, text=True)
+    if result.returncode != 0:
+        output = result.stderr.strip() or result.stdout.strip()
+        logger.error(f"systemd service restart failed: {output}")
+        print(output)
         sys.exit(1)
     else:
         print(f"\n{GREEN} Finish restart {service_name}{NORMAL}")
 
 def start_service(service_name):
-    cmd = 'systemctl start ' + service_name
-    ret, result = subprocess.getstatusoutput(cmd)
-    if ret != 0:
-        logger.error(f"systemd service start failed —— {result}")
-        print(result)
+    result = subprocess.run(["systemctl", "start", service_name], capture_output=True, text=True)
+    if result.returncode != 0:
+        output = result.stderr.strip() or result.stdout.strip()
+        logger.error(f"systemd service start failed: {output}")
+        print(output)
         sys.exit(1)
     else:
         print(f"\n{GREEN} Finish start {service_name}{NORMAL}")
