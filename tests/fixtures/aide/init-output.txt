@@ -1,0 +1,1 @@
+AIDE initialized database at /var/lib/aide/aide.db.new.gz
