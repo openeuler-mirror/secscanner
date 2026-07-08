@@ -28,6 +28,8 @@ from datetime import datetime
 logger = logging.getLogger('secscanner')
 
 def distro_detection():
+    OS_ID = ""
+    OS_DISTRO = ""
     if os.path.isfile("/etc/os-release"):
         with open("/etc/os-release") as f:
             lines = f.readlines()
