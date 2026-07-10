@@ -33,10 +33,11 @@ def emit(value: str) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("paths", nargs="+", help="Input files or directories")
+    parser.add_argument("--mode", choices=["log_levels", "ids", "sugs", "cve", "module_sort", "list_prefix_C", "list_prefix_S", "list_prefix_R", "non_empty", "duplicates", "ini_sections", "ini_keys", "kv_json", "rpm_names", "rpm_arch", "state_summary", "path_check", "json_keys", "json_count", "html_title", "html_links", "md_headings", "md_links", "branch_check", "ext_summary", "py_imports", "py_functions", "py_classes", "shebang", "trailing", "tabs", "long_lines", "utf8", "csv_cols", "unit_timer", "unit_service", "audit_keys", "ssh_options", "sysctl_keys", "passwd_users", "group_names", "shadow_empty", "login_defs", "shell_users", "home_prefix", "severity", "advisory", "dates", "hostnames", "ipv4"], default=None, help="Override the extraction mode")
     parser.add_argument("--limit", type=int, default=100, help="Line length limit")
     parser.add_argument("--shell", default="nologin", help="Shell suffix for shell user filtering")
     args = parser.parse_args()
-    mode = "shebang"
+    mode = args.mode or "shebang"
     counter = collections.Counter()
 
     if mode.startswith("list_prefix_"):
