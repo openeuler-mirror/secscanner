@@ -39,9 +39,10 @@ def python_files(paths):
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("paths", nargs="+", help="Files or directories to audit")
+    parser.add_argument("--mode", choices=["baseline_map", "module_names", "test_names", "asset_ext", "config_required", "service_sections", "timer_sections", "license_header", "coding_cookie", "main_guard", "import_star", "shell_command", "systemctl", "rpm_command", "yum_dnf", "hardcoded_path", "logger_calls", "display_calls", "gconfig_keys", "result_codes", "security_ids", "placeholders", "html_charset", "json_valid", "xml_valid", "db_files", "empty_files", "large_files", "executable", "readme_headings", "manpage_sections", "spec_fields", "requirements", "dependency_imports", "non_ascii_comments", "doc_links", "relative_links", "images", "css", "js"], default=None, help="Override the audit mode")
     parser.add_argument("--limit", type=int, default=1048576, help="Size limit for large file checks")
     args = parser.parse_args()
-    mode = "license_header"
+    mode = args.mode or "license_header"
 
     if mode == "baseline_map":
         for root in args.paths:
