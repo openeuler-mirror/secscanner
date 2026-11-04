@@ -556,5 +556,15 @@ SUG_C0345 = ("确保dmesg访问权限配置正确")
 SUG_C0346 = ("确保正确配置内核参数kptr_restrict")
 SUG_C0364 = ("确保正确配置内核参数sysrq")
 SUG_C0365 = ("确保正确配置内核参数yama.ptrace_scope")
+WRN_C01101_01 = "There are files or directories without owner in your Linux System, need change"
+
+WRN_C01101_02 = "There are files or directories without group in your Linux System, need change"
+
+SUG_C01101_01 = ("Please confirm these files or directories are useless and delete them, or change the owner to an existing user:"
+              "</br>rm test -rf or chown test1:test1 test")
+
+SUG_C01101_02 = ("Please confirm these files or directories are useless and delete them, or change the group to an existing group:"
+              "</br>rm test -rf or chown test1:test1 test")
+
 WRN_no_file = "does not exist in the system"
 SUG_no_file = "does not exist in the system, check if this system is running normally"
