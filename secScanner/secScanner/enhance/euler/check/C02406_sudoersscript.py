@@ -1,0 +1,70 @@
+# -*- coding: utf-8 -*-
+
+'''
+   Copyright (c) 2023. China Mobile(SuZhou)Software Technology Co.,Ltd. All rights reserved.
+   secScanner is licensed under Mulan PSL v2.
+   You can use this software according to the terms and conditions of the Mulan PSL v2.
+   You may obtain a copy of Mulan PSL v2 at:
+            http://license.coscl.org.cn/MulanPSL2
+   THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
+   EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
+   MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   See the Mulan PSL v2 for more details.
+'''
+
+
+import logging
+import os
+import re
+from secScanner.gconfig import *
+from secScanner.lib import *
+logger = logging.getLogger("secscanner")
+
+def C02406_sudoersscript():
+    '''
+    Function: check that the scripts in sudoers are not writable by low privilege users
+    '''
+    InsertSection("check that the scripts in sudoers are not writable by low privilege users")
+    if os.path.exists('/etc/sudoers'):
+        bad_scripts = []
+        with open('/etc/sudoers', 'r') as file:
+            lines = file.readlines()
+            for line in lines:
+                if not re.match(r'\s*#', line) and re.search(r'\(root\)|\(ALL', line):
+                    fields = line.split()
+                    cmd_index = -1
+                    for index, field in enumerate(fields):
+                        if '(' in field:
+                            cmd_index = index
+                            break
+                    if cmd_index < 0:
+                        continue
+                    cmd_str = ' '.join(fields[cmd_index+1:]).replace('NOPASSWD:', '')
+                    for item in cmd_str.split(','):
+                        item = item.strip()
+                        if not item:
+                            continue
+                        cmd_path = item.split()[0].strip('"')
+                        if not cmd_path.startswith('/'):
+                            continue
+                        if os.path.exists(cmd_path):
+                            stat_info = os.stat(cmd_path)
+                            if (stat_info.st_mode & 0o022) or (stat_info.st_mode & 0o200 and stat_info.st_uid != 0):
+                                if cmd_path not in bad_scripts:
+                                    bad_scripts.append(cmd_path)
+        if bad_scripts:
+            with open(RESULT_FILE, "a", encoding="utf-8") as file:
+                file.write("\nC02406\n")
+            logger.warning("WRN_C02406_01: %s", WRN_C02406_01)
+            logger.warning("SUG_C02406_01: %s", SUG_C02406_01)
+            Display(f"- Scripts {','.join(bad_scripts)} are writable by low privilege users...", "WARNING")
+        else:
+            logger.info("no script in sudoers is writable by low privilege users, checking ok")
+            Display("- No script in sudoers is writable by low privilege users...", "OK")
+    else:
+        with open(RESULT_FILE, "a", encoding="utf-8") as file:
+            file.write("\nC02406\n")
+        logger.warning("WRN_C02406: /etc/sudoers %s", WRN_no_file)
+        logger.warning("SUG_C02406: /etc/sudoers %s", SUG_no_file)
+        Display("- Config file: /etc/sudoers not found...", "SKIPPING")
+
