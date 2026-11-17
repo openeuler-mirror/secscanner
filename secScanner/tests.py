@@ -54,7 +54,7 @@ def add_module_tests(benchmark, op_type, suite):
         match = re.search(pattern, i)
         if match:
             s_num = int(match.group(1))
-            if 1 <= s_num <= 1021:  # Mock test setup.
+            if 1 <= s_num <= 99999:
                 module_name = os.path.splitext(os.path.basename(i))[0]
                 module_path = os.path.dirname(i)
                 sys.path.append(module_path)

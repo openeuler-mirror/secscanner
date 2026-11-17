@@ -46,7 +46,7 @@ class TestC0116_linkProtectCheck(unittest.TestCase):
         sugMessage = [SUG_C0116_01, SUG_C0116_02]
         for i in range(len(linkTypes)):
             linkType = linkTypes[i]
-            mock_file.assert_called_with("check_result.relt", "a")
+            mock_file.assert_called_with("check_result.relt", "a", encoding="utf-8")
             mock_logger.warning.assert_any_call("WRN_C0116_0%d: %s", (i + 1), warnMessage[i])
             mock_logger.warning.assert_any_call("SUG_C0116_0%d: %s", (i + 1), sugMessage[i])
             mock_Display.assert_any_call("- %s protection is disabled..." % linkType, "WARNING")
